@@ -111,7 +111,7 @@ erDiagram
     Vote 0+--1 Election: ""
     Vote 0+--1 Candidate: ""
 
-    Candidate 0+--1+ Election: ""
+    Candidate 0+--1 Election: ""
 
     Transaction 0+--1 User: ""
     Transaction 0+--1 Subscription: ""
