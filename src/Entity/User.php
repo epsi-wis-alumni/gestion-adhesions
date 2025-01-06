@@ -58,7 +58,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Transaction>
      */
-    #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'user2')]
+    #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'user')]
     private Collection $transactions;
 
     public function __construct()
@@ -237,7 +237,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->transactions->contains($transaction)) {
             $this->transactions->add($transaction);
-            $transaction->setUser2($this);
+            $transaction->setUser($this);
         }
 
         return $this;
@@ -247,8 +247,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->transactions->removeElement($transaction)) {
             // set the owning side to null (unless already changed)
-            if ($transaction->getUser2() === $this) {
-                $transaction->setUser2(null);
+            if ($transaction->getUser() === $this) {
+                $transaction->setUser(null);
             }
         }
 

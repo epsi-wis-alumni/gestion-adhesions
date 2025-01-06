@@ -27,7 +27,7 @@ class Transaction
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'transactions')]
-    private ?User $user2 = null;
+    private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     private ?Subscription $subscription = null;
@@ -85,14 +85,14 @@ class Transaction
         return $this;
     }
 
-    public function getUser2(): ?User
+    public function getUser(): ?User
     {
-        return $this->user2;
+        return $this->user;
     }
 
-    public function setUser2(?User $user2): static
+    public function setUser(?User $user): static
     {
-        $this->user2 = $user2;
+        $this->user = $user;
 
         return $this;
     }
