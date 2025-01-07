@@ -57,11 +57,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $githubId = null;
 
-    // /**
-    //  * @var Collection<int, Transaction>
-    //  */
-    // #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'user')]
-    // private Collection $transactions;
+    /**
+     * @var Collection<int, Transaction>
+     */
+    #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'user')]
+    private Collection $transactions;
     
     /**
      * @var Collection<int, Election>
@@ -92,6 +92,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'user')]
     private Collection $transactions;
+
+    #[ORM\OneToOne(inversedBy: 'user2332', cascade: ['persist', 'remove'])]
+    private ?Membership $approuvedBy = null;
 
     public function __construct()
     {
@@ -262,35 +265,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    // /**
-    //  * @return Collection<int, Transaction>
-    //  */
-    // public function getTransactions(): Collection
-    // {
-    //     return $this->transactions;
-    // }
+    /**
+     * @return Collection<int, Transaction>
+     */
+    public function getTransactions(): Collection
+    {
+        return $this->transactions;
+    }
 
-    // public function addTransaction(Transaction $transaction): static
-    // {
-    //     if (!$this->transactions->contains($transaction)) {
-    //         $this->transactions->add($transaction);
-    //         $transaction->setUser($this);
-    //     }
+    public function addTransaction(Transaction $transaction): static
+    {
+        if (!$this->transactions->contains($transaction)) {
+            $this->transactions->add($transaction);
+            $transaction->setUser($this);
+        }
 
-    //     return $this;
-    // }
+        return $this;
+    }
 
-    // public function removeTransaction(Transaction $transaction): static
-    // {
-    //     if ($this->transactions->removeElement($transaction)) {
-    //         // set the owning side to null (unless already changed)
-    //         if ($transaction->getUser() === $this) {
-    //             $transaction->setUser(null);
-    //         }
-    //     }
+    public function removeTransaction(Transaction $transaction): static
+    {
+        if ($this->transactions->removeElement($transaction)) {
+            // set the owning side to null (unless already changed)
+            if ($transaction->getUser() === $this) {
+                $transaction->setUser(null);
+            }
+        }
 
-    //     return $this;
-    // }
+        return $this;
+    }
 
     /**
      * @return Collection<int, Election>
@@ -438,6 +441,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $newsletter->setCreatedBy(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getApprouvedBy(): ?Membership
+    {
+        return $this->approuvedBy;
+    }
+
+    public function setApprouvedBy(?Membership $approuvedBy): static
+    {
+        $this->approuvedBy = $approuvedBy;
 
         return $this;
     }
