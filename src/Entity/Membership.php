@@ -14,10 +14,10 @@ class Membership
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $firstName = null;
+    private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $lastName = null;
+    private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
@@ -37,35 +37,34 @@ class Membership
     #[ORM\Column]
     private ?int $status = null;
 
-    #[ORM\ManyToOne(inversedBy: 'memberships')]
-    private ?User $approuvedBy = null;
-
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?User $account = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?User $approuvedBy = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getFirstName(): ?string
+    public function getFirstname(): ?string
     {
-        return $this->firstName;
+        return $this->firstname;
     }
 
-    public function setFirstName(string $firstName): static
+    public function setFirstname(string $firstname): static
     {
-        $this->firstName = $firstName;
+        $this->firstname = $firstname;
 
         return $this;
     }
 
-    public function getLastName(): ?string
+    public function getLastname(): ?string
     {
-        return $this->lastName;
+        return $this->lastname;
     }
 
-    public function setLastName(string $lastName): static
     public function setLastname(string $lastname): static
     {
         $this->lastname = $lastname;
