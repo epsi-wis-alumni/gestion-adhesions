@@ -66,8 +66,9 @@ class Membership
     }
 
     public function setLastName(string $lastName): static
+    public function setLastname(string $lastname): static
     {
-        $this->lastName = $lastName;
+        $this->lastname = $lastname;
 
         return $this;
     }
@@ -144,18 +145,6 @@ class Membership
         return $this;
     }
 
-    public function getApprouvedBy(): ?User
-    {
-        return $this->approuvedBy;
-    }
-
-    public function setApprouvedBy(?User $approuvedBy): static
-    {
-        $this->approuvedBy = $approuvedBy;
-
-        return $this;
-    }
-
     public function getAccount(): ?User
     {
         return $this->account;
@@ -164,6 +153,18 @@ class Membership
     public function setAccount(?User $account): static
     {
         $this->account = $account;
+
+        return $this;
+    }
+
+    public function getApprouvedBy(): ?User
+    {
+        return $this->approuvedBy;
+    }
+
+    public function setApprouvedBy(?User $approuvedBy): static
+    {
+        $this->approuvedBy = $approuvedBy;
 
         return $this;
     }

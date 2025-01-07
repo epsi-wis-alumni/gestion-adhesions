@@ -57,11 +57,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $githubId = null;
 
-    /**
-     * @var Collection<int, Transaction>
-     */
-    #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'user')]
-    private Collection $transactions;
+    // /**
+    //  * @var Collection<int, Transaction>
+    //  */
+    // #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'user')]
+    // private Collection $transactions;
     
     /**
      * @var Collection<int, Election>
@@ -88,12 +88,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $newsletters;
 
     /**
-     * @var Collection<int, Membership>
-     */
-    #[ORM\OneToMany(targetEntity: Membership::class, mappedBy: 'approuvedBy')]
-    private Collection $memberships;
-
-    /**
      * @var Collection<int, Transaction>
      */
     #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'user')]
@@ -107,7 +101,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->votes = new ArrayCollection();
         $this->transactions = new ArrayCollection();
         $this->newsletters = new ArrayCollection();
-        $this->memberships = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -269,35 +262,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Transaction>
-     */
-    public function getTransactions(): Collection
-    {
-        return $this->transactions;
-    }
+    // /**
+    //  * @return Collection<int, Transaction>
+    //  */
+    // public function getTransactions(): Collection
+    // {
+    //     return $this->transactions;
+    // }
 
-    public function addTransaction(Transaction $transaction): static
-    {
-        if (!$this->transactions->contains($transaction)) {
-            $this->transactions->add($transaction);
-            $transaction->setUser($this);
-        }
+    // public function addTransaction(Transaction $transaction): static
+    // {
+    //     if (!$this->transactions->contains($transaction)) {
+    //         $this->transactions->add($transaction);
+    //         $transaction->setUser($this);
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function removeTransaction(Transaction $transaction): static
-    {
-        if ($this->transactions->removeElement($transaction)) {
-            // set the owning side to null (unless already changed)
-            if ($transaction->getUser() === $this) {
-                $transaction->setUser(null);
-            }
-        }
+    // public function removeTransaction(Transaction $transaction): static
+    // {
+    //     if ($this->transactions->removeElement($transaction)) {
+    //         // set the owning side to null (unless already changed)
+    //         if ($transaction->getUser() === $this) {
+    //             $transaction->setUser(null);
+    //         }
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     /**
      * @return Collection<int, Election>
@@ -443,36 +436,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($newsletter->getCreatedBy() === $this) {
                 $newsletter->setCreatedBy(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Membership>
-     */
-    public function getMemberships(): Collection
-    {
-        return $this->memberships;
-    }
-
-    public function addMembership(Membership $membership): static
-    {
-        if (!$this->memberships->contains($membership)) {
-            $this->memberships->add($membership);
-            $membership->setApprouvedBy($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMembership(Membership $membership): static
-    {
-        if ($this->memberships->removeElement($membership)) {
-            // set the owning side to null (unless already changed)
-            if ($membership->getApprouvedBy() === $this) {
-                $membership->setApprouvedBy(null);
             }
         }
 
