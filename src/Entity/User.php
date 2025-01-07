@@ -96,6 +96,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->elections = new ArrayCollection();
         $this->candidates = new ArrayCollection();
         $this->votes = new ArrayCollection();
+        $this->transactions = new ArrayCollection();
         $this->newsletters = new ArrayCollection();
         $this->memberships = new ArrayCollection();
     }
@@ -343,6 +344,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($vote->getVoter() === $this) {
                 $vote->setVoter(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transaction>
+     */
+    public function getTransactions(): Collection
+    {
+        return $this->transactions;
+    }
+
+    public function addTransaction(Transaction $transaction): static
+    {
+        if (!$this->transactions->contains($transaction)) {
+            $this->transactions->add($transaction);
+            $transaction->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransaction(Transaction $transaction): static
+    {
+        if ($this->transactions->removeElement($transaction)) {
+            // set the owning side to null (unless already changed)
+            if ($transaction->getUser() === $this) {
+                $transaction->setUser(null);
             }
         }
 
