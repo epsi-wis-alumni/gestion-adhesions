@@ -41,7 +41,7 @@ class Membership
     private ?User $account = null;
 
     #[ORM\OneToOne(mappedBy: 'approuvedBy', cascade: ['persist', 'remove'])]
-    private ?User $user2332 = null;
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -156,24 +156,24 @@ class Membership
         return $this;
     }
 
-    public function getUser2332(): ?User
+    public function getUser(): ?User
     {
-        return $this->user2332;
+        return $this->user;
     }
 
-    public function setUser2332(?User $user2332): static
+    public function setUser(?User $user): static
     {
         // unset the owning side of the relation if necessary
-        if ($user2332 === null && $this->user2332 !== null) {
-            $this->user2332->setApprouvedBy(null);
+        if ($user === null && $this->user !== null) {
+            $this->user->setApprouvedBy(null);
         }
 
         // set the owning side of the relation if necessary
-        if ($user2332 !== null && $user2332->getApprouvedBy() !== $this) {
-            $user2332->setApprouvedBy($this);
+        if ($user !== null && $user->getApprouvedBy() !== $this) {
+            $user->setApprouvedBy($this);
         }
 
-        $this->user2332 = $user2332;
+        $this->user = $user;
 
         return $this;
     }
