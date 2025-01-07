@@ -1,0 +1,23 @@
+hwi_oauth_redirect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.php"
+    prefix:   /connect
+
+hwi_oauth_connect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/connect.php"
+    prefix:   /connect
+
+hwi_oauth_login:
+    resource: "@HWIOAuthBundle/Resources/config/routing/login.php"
+    prefix:   /login
+
+github_login:
+    path: /login/check-github
+
+google_login:
+    path: /login/check-google
+
+linkedin_login:
+    path: /login/check-linkedin
+
+azure_login:
+    path: /login/check-azure

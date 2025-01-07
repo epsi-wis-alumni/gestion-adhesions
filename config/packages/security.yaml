@@ -16,6 +16,18 @@ security:
         main:
             lazy: true
             provider: app_user_provider
+            oauth:
+                resource_owners:
+                    github:          "/login/check-github"
+                    google:             "/login/check-google"
+                    linkedin: "/login/check-linkedin"
+                    azure:           "/login/check-azure"
+                login_path:   /login
+                use_forward:  false
+                failure_path: /login
+
+                oauth_user_provider:
+                    service: hwi_oauth.user.provider.entity
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -26,6 +38,10 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        - { path: ^/home, roles: PUBLIC_ACCESS }
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/connect, roles: PUBLIC_ACCESS }
+        - { path: ^/, roles: ROLE_USER } // force login
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
