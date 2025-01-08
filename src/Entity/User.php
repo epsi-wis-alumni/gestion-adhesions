@@ -6,13 +6,15 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
+use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, OAuthAwareUserProviderInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -90,6 +92,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Membership $approuvedBy = null;
 
+    #[ORM\Column(length: 500, nullable: true)]
+    private ?string $avatar = null;
+
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
@@ -98,6 +103,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->votes = new ArrayCollection();
         $this->transactions = new ArrayCollection();
         $this->newsletters = new ArrayCollection();
+    }
+
+    public function loadUserByOAuthUserResponse(UserResponseInterface $response): UserInterface {
+        $this->setEmail($response->getEmail());
+        $this->setFirstname($response->getFirstName());
+        $this->setLastname($response->getLastName());
+        $this->setAvatar($response->getProfilePicture());
+        $this->setGoogleId($response->getUserIdentifier());
+
+        return $this;
     }
 
     public function getId(): ?int
@@ -417,6 +432,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setApprouvedBy(?Membership $approuvedBy): static
     {
         $this->approuvedBy = $approuvedBy;
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): static
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }
