@@ -10,8 +10,8 @@ hwi_oauth:
                refresh_on_expire: true
         google:
             type:                google
-            client_id:           <google_client_id>
-            client_secret:       <google_client_secret>
+            client_id:           '%env(GOOGLE_CLIENT_ID)%'
+            client_secret:       '%env(GOOGLE_CLIENT_SECRET)%'
             scope:               "email profile"
             options:
                csrf: true
