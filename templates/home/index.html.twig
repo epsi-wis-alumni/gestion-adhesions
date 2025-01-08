@@ -19,6 +19,15 @@
 
     <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}">
     <span>Login with Google</span>
+
+        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'github' }) }}">
+    <span>Login with github</span>
+
+        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'azure' }) }}">
+    <span>Login with azure</span>
+
+        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'linkedin' }) }}">
+    <span class="btn btn-primary">Login with linkedin</span>
 </a>
 </div>
 {% endblock %}

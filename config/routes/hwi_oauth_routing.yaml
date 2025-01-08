@@ -8,7 +8,7 @@ hwi_oauth_connect:
 
 hwi_oauth_login:
     resource: "@HWIOAuthBundle/Resources/config/routing/login.php"
-    prefix:   /login
+    prefix:   /login-oauth
 
 github_login:
     path: /login/check-github
