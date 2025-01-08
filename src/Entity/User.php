@@ -87,13 +87,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Newsletter::class, mappedBy: 'createdBy')]
     private Collection $newsletters;
 
-    /**
-     * @var Collection<int, Transaction>
-     */
-    #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'user')]
-    private Collection $transactions;
-
-    #[ORM\OneToOne(inversedBy: 'user2332', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Membership $approuvedBy = null;
 
     public function __construct()
@@ -379,36 +373,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($vote->getVoter() === $this) {
                 $vote->setVoter(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Transaction>
-     */
-    public function getTransactions(): Collection
-    {
-        return $this->transactions;
-    }
-
-    public function addTransaction(Transaction $transaction): static
-    {
-        if (!$this->transactions->contains($transaction)) {
-            $this->transactions->add($transaction);
-            $transaction->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTransaction(Transaction $transaction): static
-    {
-        if ($this->transactions->removeElement($transaction)) {
-            // set the owning side to null (unless already changed)
-            if ($transaction->getUser() === $this) {
-                $transaction->setUser(null);
             }
         }
 
