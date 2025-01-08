@@ -23,7 +23,7 @@ security:
                     linkedin: "/login/check-linkedin"
                     azure:           "/login/check-azure"
                 login_path:   /login
-                use_forward:  false
+                use_forward:  true
                 failure_path: /login
 
                 oauth_user_provider:

@@ -25,10 +25,10 @@ services:
         arguments:
             $class: App\Entity\User
             $properties:
-                'github': 'github'
-                'google': 'google'
-                'linkedin': 'linkedin'
-                'azure': 'azure'
+                'github': 'githubId'
+                'google': 'googleId'
+                'linkedin': 'linkedinId'
+                'azure': 'microsoftId'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
