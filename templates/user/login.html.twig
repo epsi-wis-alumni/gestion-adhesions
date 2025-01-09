@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+
+{% block body %}
+
+    {% include "user/_form.html.twig" %}
+
+    <button type="submit" form="login-information-form" class="btn btn-primary">{{ button_label| default('Save') }}</button>
+    <a href="{{ path('app_home') }}">Home</a>
+
+{% endblock %}

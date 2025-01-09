@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+
+{% block body %}
+
+<div class="users container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>email</th>
+                <th>password</th>
+                <th>lastname</th>
+                <th>firstname</th>
+                <th>company</th>
+                <th>job_title</th>
+                <th>action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.password }}</td>
+                <td>{{ user.lastname }}</td>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.company }}</td>
+                <td>{{ user.jobTitle }}</td>
+                <td><a href="{{ path('app_user_update', { 'id': user.id }) }}">Edit</a></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">Aucun untilisateur</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
