@@ -32,9 +32,9 @@
               <div id="g_id_onload" data-client_id="{{ app.request.server.get('GOOGLE_CLIENT_ID') }}" data-login_uri="{{ path('google_login', [], true) }}" data-auto_prompt="false"></div>
               <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left"></div>
               {% if app.request.pathInfo == '/register' %}
-                <a class="text-dark text-decoration-none mt-2 d-block" href="/login">Déjà un compte ? Se connecter</a>
+                <a class="text-dark text-decoration-none mt-2 d-block" href="/login">Pas de compte ? S'inscrire</a>
               {% else %}
-                <a class="text-dark text-decoration-none mt-2 d-block" href="/register">Pas de compte ? S'inscrire</a>
+                <a class="text-dark text-decoration-none mt-2 d-block" href="/register">Déjà un compte ? Se connecter</a>
               {% endif %}
             </div>
           </div>
