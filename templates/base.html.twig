@@ -14,6 +14,65 @@
         {% endblock %}
     </head>
     <body>
+        <header>
+            <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                <div class="container-fluid">
+                    {# ----- Logo ----- #}
+                    <a class="navbar-brand" href="#">
+                        <img class="logo-navbar" src="{{ asset('images/navbar/alumni.png') }}" alt="Logo alumni">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        {# ----- Bouton de gauche ----- #}
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/">Accueil</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/elections">Elections</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/join">Adhérer</a>
+                            </li>
+                        </ul>
+                        {# ----- Bouton de droite ----- #}
+                        {% if app.user is not null %}
+                        <ul class="d-flex m-0 list-unstyled">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="/my-account" role="button" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        Mon compte
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item" href="/my-account/profil">Profil</a></li>
+                                        <li><a class="dropdown-item" href="/my-account/settings">Paramètres</a></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li><a class="dropdown-item" href="/logout">Déconnexion</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        {% else %}
+                            <ul class="navbar-nav mb-2 mb-lg-0 list-unstyled">
+                                <li class="nav-item">
+                                    <a href="/login" class="btn btn-outline-primary me-2">Connexion</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/register" class="btn btn-primary">Inscription</a>
+                                </li>
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </nav>
+        </header>
+
         {% block body %}{% endblock %}
+        
     </body>
 </html>
