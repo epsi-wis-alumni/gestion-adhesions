@@ -8,12 +8,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-class User implements UserInterface, OAuthAwareUserProviderInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -29,14 +30,19 @@ class User implements UserInterface, OAuthAwareUserProviderInterface
     #[ORM\Column]
     private array $roles = [];
 
-    #[ORM\Column(length: 255, nullable: true)]
+    /**
+     * @var string The hashed password
+     */
+    #[ORM\Column(nullable: true)]
+    private ?string $password = null;
+
+    private ?string $plainPassword = null;
+
+    #[ORM\Column(length: 255)]
     private ?string $firstname = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $lastname = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $username = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $company = null;
@@ -99,12 +105,17 @@ class User implements UserInterface, OAuthAwareUserProviderInterface
         $this->newsletters = new ArrayCollection();
     }
 
-    public function loadUserByOAuthUserResponse(UserResponseInterface $response): UserInterface {
+    public function loadUserByOAuthUserResponse(UserResponseInterface $response, string $resourceOwnerName): UserInterface {
         $this->setEmail($response->getEmail());
         $this->setFirstname($response->getFirstName());
         $this->setLastname($response->getLastName());
         $this->setAvatar($response->getProfilePicture());
-        $this->setGoogleId($response->getUserIdentifier());
+
+        match ($resourceOwnerName) {
+            'google' => $this->setGoogleId($response->getUserIdentifier()),
+            'azure' => $this->setMicrosoftId($response->getUserIdentifier()),
+            'github' => $this->setGithubId($response->getUserIdentifier()),
+        };
 
         return $this;
     }
@@ -161,6 +172,21 @@ class User implements UserInterface, OAuthAwareUserProviderInterface
     }
 
     /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): static
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
      * @see UserInterface
      */
     public function eraseCredentials(): void
@@ -192,19 +218,6 @@ class User implements UserInterface, OAuthAwareUserProviderInterface
 
         return $this;
     }
-
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(string $username): static
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
 
     public function getCompany(): ?string
     {
