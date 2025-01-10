@@ -1,40 +1,38 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-  <style>
-    .example-wrapper {
-      margin: 1em auto;
-      max-width: 800px;
-      width: 95%;
-      font: 18px/1.5 sans-serif;
-    }
-    .example-wrapper code {
-      background: #f5f5f5;
-      padding: 2px 6px;
-    }
-  </style>
+  <div class="container my-auto py-5">
+    <div class="mx-auto" style="max-width: 24rem;">
+      <div class="card">
+        <div class="card-body">
+          <h1 class="card-title mb-4 text-center">
+            EPSI WIS Alumni
+          </h1>
 
-  <script src="https://accounts.google.com/gsi/client" async></script> {# SSO Google #}
-
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header bg-secondary text-white text-center">
-            {% if app.request.pathInfo == '/register' %}
-              <h4>Enregistrez-vous</h4>
-            {% else %}
-              <h4>Inscrivez-vous</h4>
-            {% endif %}
+          <div class="d-flex align-items-center justify-content-center mb-3 column-gap-2 text-center">
+            <hr style="width: 3rem;">
+            Se connecter avec
+            <hr style="width: 3rem;">
           </div>
-          <div class="card-body">
-            <div class="text-center">
-              <a href="{{ path('hwi_oauth_service_redirect', { service: 'google' }) }}" class="btn btn-light">Google</a>
-              {% if app.request.pathInfo == '/register' %}
-                <a class="text-dark text-decoration-none mt-2 d-block" href="/login">Pas de compte ? S'inscrire</a>
-              {% else %}
-                <a class="text-dark text-decoration-none mt-2 d-block" href="/register">Déjà un compte ? Se connecter</a>
-              {% endif %}
+
+          <div class="text-center">
+            <div class="d-flex flex-column row-gap-2 mb-3">
+              <a href="{{ path('hwi_oauth_service_redirect', { service: 'google' }) }}" class="btn btn-light border">
+                <img src="/assets/img/google.png" alt="Google icon" class="d-inline-block align-text-top" style="height: 1em;">
+                Google
+              </a>
+              <a href="{{ path('hwi_oauth_service_redirect', { service: 'azure' }) }}" class="btn btn-light border">
+                <img src="/assets/img/microsoft.png" alt="Microsoft icon" class="d-inline-block align-text-top" style="height: 1em;">
+                Microsoft
+              </a>
+              <a href="{{ path('hwi_oauth_service_redirect', { service: 'github' }) }}" class="btn btn-dark">
+                <i class="fa-brands fa-github fa-fw"></i>
+                GitHub
+              </a>
+              <a href="{{ path('hwi_oauth_service_redirect', { service: 'linkedin' }) }}" class="btn btn-primary">
+                <i class="fa-brands fa-linkedin fa-fw"></i>
+                LinkedIn
+              </a>
             </div>
           </div>
         </div>

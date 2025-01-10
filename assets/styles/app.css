@@ -1,0 +1,12 @@
+html, body {
+    min-height: 100dvh;
+}
+
+body, main {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
