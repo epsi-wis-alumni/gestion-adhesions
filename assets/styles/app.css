@@ -11,8 +11,6 @@ main {
     flex: 1;
 }
 
-.navbar {
-    .logo-navbar {
-        height: 2rem;
-    }
+#main-navbar-logo {
+    height: 2rem;
 }
