@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  <div class="container my-auto py-5">
+    <div class="mx-auto" style="max-width: 24rem;">
+      <div class="card">
+        <div class="card-body">
+          <h1 class="card-title h3 mb-3 text-center">
+            EPSI WIS Alumni
+          </h1>
+
+          <div class="d-flex align-items-center justify-content-center mb-3 column-gap-2 text-center">
+            <hr style="width: 3rem;">
+            Se connecter avec
+            <hr style="width: 3rem;">
+          </div>
+
+          <div class="text-center">
+            <div class="d-flex flex-column row-gap-2">
+              <a href="{{ path('hwi_oauth_service_redirect', { service: 'google' }) }}" class="btn btn-light border d-flex align-items-center justify-content-center gap-2">
+                <img src="{{ asset('images/google.png') }}" alt="Google icon" class="d-inline-block" style="height: 1.25rem;">
+                Google
+              </a>
+              <a href="{{ path('hwi_oauth_service_redirect', { service: 'azure' }) }}" class="btn btn-light border d-flex align-items-center justify-content-center gap-2">
+                <img src="{{ asset('images/microsoft.png') }}" alt="Microsoft icon" class="d-inline-block" style="height: 1.25rem;">
+                Microsoft
+              </a>
+              <a href="{{ path('hwi_oauth_service_redirect', { service: 'github' }) }}" class="btn btn-dark d-flex align-items-center justify-content-center gap-2">
+                <i class="fa-brands fa-github fa-fw fa-lg"></i>
+                GitHub
+              </a>
+              <a href="{{ path('hwi_oauth_service_redirect', { service: 'linkedin' }) }}" class="btn btn-primary d-flex align-items-center justify-content-center gap-2">
+                <i class="fa-brands fa-linkedin fa-fw fa-lg"></i>
+                LinkedIn
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

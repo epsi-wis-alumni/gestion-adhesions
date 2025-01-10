@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form, { attr: { id: 'login-information-form', class: 'container mt-4' }}) }}
+        <div class="row mb-3">
+            <div class="col-sm-6">
+                {{ form_row(form.company, { 'attr': { 'class': 'form-control'} }) }}
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-12">
+                {{ form_row(form.jobTitle, { 'attr': { 'class': 'form-control'} }) }}
+            </div>
+        </div>
+    {{ form_end(form) }}
+
+    <button type="submit" form="login-information-form" class="btn btn-primary">{{ button_label | default('Save') }}</button>
+    <a href="{{ path('app_user_index') }}">Liste des users</a>
+
+{% endblock %}

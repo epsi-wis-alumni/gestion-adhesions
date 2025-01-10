@@ -1,9 +1,16 @@
-body {
-    background-color: skyblue;
+html, body {
+    min-height: 100dvh;
+}
 
-    .navbar {
-        .logo-navbar {
-            height: 2rem;
-        }
-    }
+body, main {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+#main-navbar-logo {
+    height: 2rem;
 }
