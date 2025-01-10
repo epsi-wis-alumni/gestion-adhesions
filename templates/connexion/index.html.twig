@@ -18,11 +18,11 @@
           <div class="text-center">
             <div class="d-flex flex-column row-gap-2 mb-3">
               <a href="{{ path('hwi_oauth_service_redirect', { service: 'google' }) }}" class="btn btn-light border">
-                <img src="/assets/img/google.png" alt="Google icon" class="d-inline-block align-text-top" style="height: 1em;">
+                <img src="{{ asset('images/google.png') }}" alt="Google icon" class="d-inline-block align-text-top" style="height: 1em;">
                 Google
               </a>
               <a href="{{ path('hwi_oauth_service_redirect', { service: 'azure' }) }}" class="btn btn-light border">
-                <img src="/assets/img/microsoft.png" alt="Microsoft icon" class="d-inline-block align-text-top" style="height: 1em;">
+                <img src="{{ asset('images/microsoft.png') }}" alt="Microsoft icon" class="d-inline-block align-text-top" style="height: 1em;">
                 Microsoft
               </a>
               <a href="{{ path('hwi_oauth_service_redirect', { service: 'github' }) }}" class="btn btn-dark">
