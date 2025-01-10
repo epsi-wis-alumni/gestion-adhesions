@@ -1,8 +1,4 @@
 hwi_oauth:
-    connect:
-        account_connector: App\Security\OAuthConnector
-        registration_form: App\Form\RegistrationFormType
-        registration_form_handler: App\Security\FormHandler
     resource_owners:
         github:
             type:                github
