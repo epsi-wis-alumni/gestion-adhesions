@@ -18,21 +18,11 @@ class LoginInformationFormType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('roles', ChoiceType::class, [
-                'choices' => [
-                    'Admin' => 'ROLE_ADMIN',
-                    'User' => 'ROLE_USER',
-                    'Manager' => 'ROLE_MANAGER',
-                ],
-                'multiple' => true,
-                'expanded' => true,
-            ])
-            ->add('password')
             ->add('firstname')
             ->add('lastname')
+            ->add('username')
             ->add('company')
-            ->add('jobTitle')
-            ->add('avatar');
+            ->add('jobTitle');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
