@@ -10,3 +10,9 @@ body, main {
 main {
     flex: 1;
 }
+
+.navbar {
+    .logo-navbar {
+        height: 2rem;
+    }
+}
