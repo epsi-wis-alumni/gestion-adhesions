@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-class User implements UserInterface, PasswordAuthenticatedUserInterface, OAuthAwareUserProviderInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -33,7 +33,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, OAuthAw
     /**
      * @var string The hashed password
      */
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?string $password = null;
 
     private ?string $plainPassword = null;
@@ -105,12 +105,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, OAuthAw
         $this->newsletters = new ArrayCollection();
     }
 
-    public function loadUserByOAuthUserResponse(UserResponseInterface $response): UserInterface {
+    public function loadUserByOAuthUserResponse(UserResponseInterface $response, string $resourceOwnerName): UserInterface {
         $this->setEmail($response->getEmail());
         $this->setFirstname($response->getFirstName());
         $this->setLastname($response->getLastName());
         $this->setAvatar($response->getProfilePicture());
-        $this->setGoogleId($response->getUserIdentifier());
+
+        match ($resourceOwnerName) {
+            'google' => $this->setGoogleId($response->getUserIdentifier()),
+            'azure' => $this->setMicrosoftId($response->getUserIdentifier()),
+            'github' => $this->setGithubId($response->getUserIdentifier()),
+        };
 
         return $this;
     }

@@ -21,7 +21,7 @@ services:
             - '../src/Kernel.php'
 
     hwi_oauth.user.provider.entity:
-        class: HWI\Bundle\OAuthBundle\Security\Core\User\EntityUserProvider
+        class: App\Security\EntityUserProvider
         arguments:
             $class: App\Entity\User
             $properties:
