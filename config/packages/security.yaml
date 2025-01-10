@@ -30,6 +30,9 @@ security:
                 oauth_user_provider:
                     service: hwi_oauth.user.provider.entity
 
+            logout:
+                path: /logout
+
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
