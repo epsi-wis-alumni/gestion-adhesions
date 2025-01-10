@@ -178,7 +178,7 @@ class User implements UserInterface
         return $this->firstname;
     }
 
-    public function setFirstname(string $firstname): static
+    public function setFirstname(?string $firstname): static
     {
         $this->firstname = $firstname;
 
@@ -190,7 +190,7 @@ class User implements UserInterface
         return $this->lastname;
     }
 
-    public function setLastname(string $lastname): static
+    public function setLastname(?string $lastname): static
     {
         $this->lastname = $lastname;
 
@@ -202,7 +202,7 @@ class User implements UserInterface
         return $this->username;
     }
 
-    public function setUsername(string $username): static
+    public function setUsername(?string $username): static
     {
         $this->username = $username;
 
