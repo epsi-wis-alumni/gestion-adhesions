@@ -1,3 +1,9 @@
 body {
     background-color: skyblue;
+
+    .navbar {
+        .logo-navbar {
+            height: 2rem;
+        }
+    }
 }
