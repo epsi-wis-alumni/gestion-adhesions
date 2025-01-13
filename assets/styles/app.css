@@ -16,5 +16,5 @@ main {
 }
 
 #main-footer-logo {
-    height: 1.5rem;
+    max-height: 24px;
 }
