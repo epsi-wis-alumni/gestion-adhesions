@@ -4,9 +4,8 @@
       {# ----- Logo ----- #}
       <a class="navbar-brand" href="{{ path('app_home') }}"><img id="main-navbar-logo" src="{{ asset('images/navbar/alumni.png') }}" alt="Logo alumni" /></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-      
+
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        
         {# ----- Bouton de gauche ----- #}
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
@@ -36,7 +35,11 @@
                   <hr class="dropdown-divider" />
                 </li>
                 <li>
-                  <a class="dropdown-item" href="/logout">Déconnexion</a>
+                  <a class="dropdown-item" href="/logout">
+                    Déconnexion
+
+                    <i class="fa-solid fa-arrow-right-from-bracket ms-3"></i>
+                  </a>
                 </li>
               </ul>
             </li>
