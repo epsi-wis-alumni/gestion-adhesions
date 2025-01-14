@@ -26,7 +26,9 @@ class AdminUserController extends AbstractController
     #[Route('/update/{id}', name: 'app_admin_user_update', methods: ['POST', 'GET'])]
     public function update(Request $request, EntityManagerInterface $entityManager, User $user): Response
     {
-        $form = $this->createForm(AdminUserUpdateType::class, $user);
+        $form = $this->createForm(AdminUserUpdateType::class, $user, [
+            'attr' => ['id' => 'admin_user_update_form']
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
