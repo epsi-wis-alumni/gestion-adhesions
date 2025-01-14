@@ -20,5 +20,15 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    hwi_oauth.user.provider.entity:
+        class: App\Security\EntityUserProvider
+        arguments:
+            $class: App\Entity\User
+            $properties:
+                'github': 'githubId'
+                'google': 'googleId'
+                'linkedin': 'linkedinId'
+                'azure': 'microsoftId'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

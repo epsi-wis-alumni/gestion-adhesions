@@ -1,0 +1,34 @@
+hwi_oauth:
+    resource_owners:
+        github:
+            type:                github
+            client_id:           '%env(GITHUB_CLIENT_ID)%'
+            client_secret:       '%env(GITHUB_CLIENT_SECRET)%'
+            scope:               'user:email,public_repo'
+            options:
+               csrf: true
+               refresh_on_expire: true
+        google:
+            type:                google
+            client_id:           '%env(GOOGLE_CLIENT_ID)%'
+            client_secret:       '%env(GOOGLE_CLIENT_SECRET)%'
+            scope:               "email profile"
+            options:
+               csrf: true
+               refresh_on_expire: true
+        linkedin:
+            type:           linkedin
+            client_id:      <client_id>
+            client_secret:  <client_secret>
+            scope:          <scope>
+            options:
+               csrf: true
+               refresh_on_expire: true
+        azure:
+            type:          azure
+            client_id:     <client_id>
+            client_secret: <client_secret>
+            options:
+                application: common
+                csrf: true
+                refresh_on_expire: true

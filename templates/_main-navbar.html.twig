@@ -1,0 +1,57 @@
+<header>
+  <nav class="navbar navbar-expand-lg bg-body border-bottom">
+    <div class="container">
+      {# ----- Logo ----- #}
+      <a class="navbar-brand" href="{{ path('app_home') }}"><img id="main-navbar-logo" src="{{ asset('images/navbar/alumni.png') }}" alt="Logo alumni" /></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        {# ----- Bouton de gauche ----- #}
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Accueil</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/elections">Elections</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/join">Adhérer</a>
+          </li>
+        </ul>
+
+        {# ----- Bouton de droite ----- #}
+        {% if is_granted('ROLE_USER') %}
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="/my-account" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mon compte</a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                  <a class="dropdown-item" href="/my-account/profil">Profil</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/my-account/settings">Paramètres</a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{{ path('app_logout') }}">
+                    Déconnexion
+
+                    <i class="fa-solid fa-arrow-right-from-bracket ms-3"></i>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        {% else %}
+          <ul class="navbar-nav mb-2 mb-lg-0 list-unstyled">
+            <li class="nav-item">
+              <a href="/login" class="nav-link">Connexion</a>
+            </li>
+          </ul>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+</header>

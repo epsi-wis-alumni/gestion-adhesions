@@ -1,3 +1,28 @@
-body {
-    background-color: skyblue;
+html, body {
+    min-height: 100dvh;
+}
+
+body, main {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+#main-navbar-logo {
+    height: 2rem;
+}
+
+#main-footer-logo {
+    max-height: 1.5rem;
+}
+
+.table-responsive th {
+    border-top-width: 0;
+}
+
+.table-responsive tr:last-child td {
+    border-bottom-width: 0;
 }

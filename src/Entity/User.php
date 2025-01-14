@@ -6,13 +6,14 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+#[ORM\HasLifecycleCallbacks]
+class User implements UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -28,17 +29,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private array $roles = [];
 
-    /**
-     * @var string The hashed password
-     */
-    #[ORM\Column]
-    private ?string $password = null;
-
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $firstname = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $lastname = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $username = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $company = null;
@@ -55,6 +53,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $githubId = null;
 
+    /**
+     * @var Collection<int, Transaction>
+     */
+    #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'user')]
+    private Collection $transactions;
+    
     /**
      * @var Collection<int, Election>
      */
@@ -73,11 +77,73 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Vote::class, mappedBy: 'voter')]
     private Collection $votes;
 
+    /**
+     * @var Collection<int, Newsletter>
+     */
+    #[ORM\OneToMany(targetEntity: Newsletter::class, mappedBy: 'createdBy')]
+    private Collection $newsletters;
+
+    #[ORM\Column(length: 500, nullable: true)]
+    private ?string $avatar = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'approvedUsers')]
+    private ?self $approvedBy = null;
+
+    /**
+     * @var Collection<int, self>
+     */
+    #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'approvedBy')]
+    private Collection $approvedUsers;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $approvedAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $rejectedAt = null;
+
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'rejectedUsers')]
+    private ?self $rejectedBy = null;
+
+    /**
+     * @var Collection<int, self>
+     */
+    #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'rejectedBy')]
+    private Collection $rejectedUsers;
+
     public function __construct()
     {
+        $this->transactions = new ArrayCollection();
         $this->elections = new ArrayCollection();
         $this->candidates = new ArrayCollection();
         $this->votes = new ArrayCollection();
+        $this->transactions = new ArrayCollection();
+        $this->newsletters = new ArrayCollection();
+        $this->approvedUsers = new ArrayCollection();
+        $this->rejectedUsers = new ArrayCollection();
+    }
+
+    public function loadUserByOAuthUserResponse(UserResponseInterface $response, string $resourceOwnerName): UserInterface {
+        $this->setEmail($response->getEmail());
+        $this->setFirstname($response->getFirstName());
+        $this->setLastname($response->getLastName());
+        $this->setAvatar($response->getProfilePicture());
+
+        match ($resourceOwnerName) {
+            'google' => $this->setGoogleId($response->getUserIdentifier()),
+            'azure' => $this->setMicrosoftId($response->getUserIdentifier()),
+            'github' => $this->setGithubId($response->getUserIdentifier()),
+        };
+
+        return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function onPrePersist(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -132,21 +198,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @see PasswordAuthenticatedUserInterface
-     */
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): static
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
      * @see UserInterface
      */
     public function eraseCredentials(): void
@@ -160,7 +211,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->firstname;
     }
 
-    public function setFirstname(string $firstname): static
+    public function setFirstname(?string $firstname): static
     {
         $this->firstname = $firstname;
 
@@ -172,9 +223,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->lastname;
     }
 
-    public function setLastname(string $lastname): static
+    public function setLastname(?string $lastname): static
     {
         $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(?string $username): static
+    {
+        $this->username = $username;
 
         return $this;
     }
@@ -235,6 +298,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setGithubId(?string $githubId): static
     {
         $this->githubId = $githubId;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transaction>
+     */
+    public function getTransactions(): Collection
+    {
+        return $this->transactions;
+    }
+
+    public function addTransaction(Transaction $transaction): static
+    {
+        if (!$this->transactions->contains($transaction)) {
+            $this->transactions->add($transaction);
+            $transaction->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransaction(Transaction $transaction): static
+    {
+        if ($this->transactions->removeElement($transaction)) {
+            // set the owning side to null (unless already changed)
+            if ($transaction->getUser() === $this) {
+                $transaction->setUser(null);
+            }
+        }
 
         return $this;
     }
@@ -323,6 +416,168 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($vote->getVoter() === $this) {
                 $vote->setVoter(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Newsletter>
+     */
+    public function getNewsletters(): Collection
+    {
+        return $this->newsletters;
+    }
+
+    public function addNewsletter(Newsletter $newsletter): static
+    {
+        if (!$this->newsletters->contains($newsletter)) {
+            $this->newsletters->add($newsletter);
+            $newsletter->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNewsletter(Newsletter $newsletter): static
+    {
+        if ($this->newsletters->removeElement($newsletter)) {
+            // set the owning side to null (unless already changed)
+            if ($newsletter->getCreatedBy() === $this) {
+                $newsletter->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): static
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getApprovedBy(): ?self
+    {
+        return $this->approvedBy;
+    }
+
+    public function setApprovedBy(?self $approvedBy): static
+    {
+        $this->approvedBy = $approvedBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getApprovedUsers(): Collection
+    {
+        return $this->approvedUsers;
+    }
+
+    public function addApprovedUser(self $approvedUser): static
+    {
+        if (!$this->approvedUsers->contains($approvedUser)) {
+            $this->approvedUsers->add($approvedUser);
+            $approvedUser->setApprovedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApprovedUser(self $approvedUser): static
+    {
+        if ($this->approvedUsers->removeElement($approvedUser)) {
+            // set the owning side to null (unless already changed)
+            if ($approvedUser->getApprovedBy() === $this) {
+                $approvedUser->setApprovedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getApprovedAt(): ?\DateTimeImmutable
+    {
+        return $this->approvedAt;
+    }
+
+    public function setApprovedAt(?\DateTimeImmutable $approvedAt): static
+    {
+        $this->approvedAt = $approvedAt;
+
+        return $this;
+    }
+
+    public function getRejectedAt(): ?\DateTimeImmutable
+    {
+        return $this->rejectedAt;
+    }
+
+    public function setRejectedAt(?\DateTimeImmutable $rejectedAt): static
+    {
+        $this->rejectedAt = $rejectedAt;
+
+        return $this;
+    }
+
+    public function getRejectedBy(): ?self
+    {
+        return $this->rejectedBy;
+    }
+
+    public function setRejectedBy(?self $rejectedBy): static
+    {
+        $this->rejectedBy = $rejectedBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getRejectedUsers(): Collection
+    {
+        return $this->rejectedUsers;
+    }
+
+    public function addRejectedUser(self $rejectedUser): static
+    {
+        if (!$this->rejectedUsers->contains($rejectedUser)) {
+            $this->rejectedUsers->add($rejectedUser);
+            $rejectedUser->setRejectedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRejectedUser(self $rejectedUser): static
+    {
+        if ($this->rejectedUsers->removeElement($rejectedUser)) {
+            // set the owning side to null (unless already changed)
+            if ($rejectedUser->getRejectedBy() === $this) {
+                $rejectedUser->setRejectedBy(null);
             }
         }
 
