@@ -1,69 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier un utilisateur{% endblock %}
+{% block title %}
+  Modifier un utilisateur
+{% endblock %}
+{% form_theme form 'bootstrap_5_layout.html.twig' %}
 
 {% block body %}
-<div class="container mt-5">
-    <h1 class="text-center mb-4">Modifier un utilisateur</h1>
-
-    {{ form_start(form, { attr: { id: 'admin_user_update_form', class: 'needs-validation', novalidate: 'novalidate' }}) }}
-    <div class="row g-3">
-        <div class="col-md-12">
-            {{ form_row(form.email, { 'attr': { 'class': 'form-control', 'placeholder': 'Email' } }) }}
-        </div>
-        <div class="col-md-4">
-            {{ form_row(form.firstname, { 'attr': { 'class': 'form-control', 'placeholder': 'Prénom' } }) }}
-        </div>
-        <div class="col-md-4">
-            {{ form_row(form.lastname, { 'attr': { 'class': 'form-control', 'placeholder': 'Nom de famille' } }) }}
-        </div>
-        <div class="col-md-4">
-            {{ form_row(form.username, { 'attr': { 'class': 'form-control', 'placeholder': 'Nom d\'utilisateur' } }) }}
-        </div>
-
-        <div class="col-md-6">
-            {{ form_row(form.company, { 'attr': { 'class': 'form-control', 'placeholder': 'Société' } }) }}
-        </div>
-        <div class="col-md-6">
-            {{ form_row(form.jobTitle, { 'attr': { 'class': 'form-control', 'placeholder': 'Poste' } }) }}
-        </div>
-
-        <div class="col-md-12">
-            <div class="form-group">
-                <label for="{{ form.roles.vars.id }}">{{ field_label(form.roles) }}</label>
-
-                {% for label, value in field_choices(form.roles) %}
-                    <div class="form-check">
-                        <input type="checkbox" 
-                            name="{{ form.roles.vars.full_name }}[]"
-                            value="{{ value }}"
-                            class="form-check-input"
-                            id="role_{{ value }}"
-                            {% if value in form.roles.vars.value %}checked{% endif %} />
-                        <label class="form-check-label" for="role_{{ value }}">{{ label }}</label>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-
-        <div class="col-md-12">
-            {{ form_row(form.avatar, { 'attr': { 'class': 'form-control', 'placeholder': 'URL de l\'avatar' } }) }}
-        </div>
-        <div class="col-md-4">
-            {{ form_row(form.googleId, { 'attr': { 'class': 'form-control', 'placeholder': 'ID Google' } }) }}
-        </div>
-        <div class="col-md-4">
-            {{ form_row(form.microsoftId, { 'attr': { 'class': 'form-control', 'placeholder': 'ID Microsoft' } }) }}
-        </div>
-        <div class="col-md-4">
-            {{ form_row(form.githubId, { 'attr': { 'class': 'form-control', 'placeholder': 'ID GitHub' } }) }}
-        </div>
-    </div>
-
-    <div class="mt-4 d-flex justify-content-between">
-        <button type="submit" form="admin_user_update_form" class="btn btn-primary">{{ button_label | default('Enregistrer') }}</button>
-        <a href="{{ path('app_admin_user_index') }}" class="btn btn-secondary">Retour à la liste des utilisateurs</a>
-    </div>
-    {{ form_end(form) }}
-</div>
+  <div class="container">{{ form(form) }}</div>
 {% endblock %}
