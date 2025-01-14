@@ -67,4 +67,15 @@ class AdminUserController extends AbstractController
             'controller_name' => 'AdminMembershipController',
         ]);
     }
+
+    #[Route('/{id}/reject',name: 'app_admin_user_reject', methods: ['GET'])]
+    public function reject(EntityManagerInterface $entityManager, #[CurrentUser()] User $currentUser, User $user, UserManager $userManager): Response
+    {
+            $userManager->reject(who: $user, by: $currentUser);
+            $entityManager->flush();
+
+            return $this->render('admin/membership/index.html.twig', [
+                'controller_name' => 'AdminMembershipController',
+            ]);
+    }
 }
