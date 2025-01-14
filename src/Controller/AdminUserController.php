@@ -5,11 +5,14 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\AdminUserUpdateType;
 use App\Repository\UserRepository;
+use App\Service\UserManager;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 #[Route('/admin/user')]
 class AdminUserController extends AbstractController
@@ -52,5 +55,16 @@ class AdminUserController extends AbstractController
         }
         
         return $this->redirectToRoute('app_admin_user_index');
+    }
+
+    #[Route('/{id}/approve',name: 'app_admin_user_approve', methods: ['GET'])]
+    public function approve(EntityManagerInterface $entityManager, #[CurrentUser()] User $currentUser, User $user, UserManager $userManager): Response
+    {
+        $userManager->approve(who: $user, by: $currentUser);
+        $entityManager->flush();
+
+        return $this->render('admin/membership/index.html.twig', [
+            'controller_name' => 'AdminMembershipController',
+        ]);
     }
 }
