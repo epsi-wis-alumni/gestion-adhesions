@@ -16,7 +16,7 @@ class AdminUserController extends AbstractController
 {
 
     #[Route(name: 'app_admin_user_index', methods: ['GET'])]
-    public function admin_user_index(UserRepository $userRepository): Response
+    public function index(UserRepository $userRepository): Response
     {
         return $this->render('admin/user/index.html.twig', [
             'users' => $userRepository->findAll(),
@@ -43,8 +43,8 @@ class AdminUserController extends AbstractController
         ]);
     }
 
-    public function admin_user_delete(Request $request, EntityManagerInterface $entityManager, User $user): Response
     #[Route('/{id}/delete', name: 'app_admin_user_delete', methods: ['POST'])]
+    public function delete(Request $request, EntityManagerInterface $entityManager, User $user): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager->remove($user);
