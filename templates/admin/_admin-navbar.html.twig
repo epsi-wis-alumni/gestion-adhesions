@@ -1,0 +1,26 @@
+<ul class="nav nav-tabs" style="
+  margin-bottom: -1px;
+  --bs-nav-tabs-link-active-bg: rgba(var(--bs-tertiary-bg-rgb),var(--bs-bg-opacity))!important;
+  --bs-nav-tabs-link-active-border-color: var(--bs-border-color) var(--bs-border-color) var(--bs-tertiary-bg);
+">
+  <li class="nav-item">
+    <a href="#" class="nav-link">
+      <i class="fa-solid fa-clipboard"></i>
+      Adhésions
+    </a>
+  </li>
+
+  {% set is_active = app.request.attributes.get('_route') starts with 'app_admin_user' %}
+  <li class="nav-item">
+    <a href="{{ path('app_admin_user_index') }}" class="nav-link {{ is_active ? 'active' }}">
+      <i class="fa-solid fa-user"></i>
+      Utilisateurs
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="#" class="nav-link">
+      <i class="fa-solid fa-check-to-slot"></i>
+      Élections
+    </a>
+  </li>
+</ul>
