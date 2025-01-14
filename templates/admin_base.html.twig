@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  <div class="bg-body-secondary border-bottom pt-5">
+    <div class="container">
+      {% include "admin/_admin-navbar.html.twig" %}
+    </div>
+  </div>
+
+  <div class="container">
+    {% block admin_content %}{% endblock %}
+  </div>
+{% endblock %}
