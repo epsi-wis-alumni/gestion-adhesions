@@ -18,3 +18,11 @@ main {
 #main-footer-logo {
     max-height: 24px;
 }
+
+.table-responsive th {
+    border-top-width: 0;
+}
+
+.table-responsive tr:last-child td {
+    border-bottom-width: 0;
+}
