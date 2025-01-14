@@ -47,13 +47,9 @@ security:
         ROLE_ADMIN: ROLE_USER
 
     access_control:
-        # - { path: ^/home, roles: PUBLIC_ACCESS }
-        # - { path: ^/login, roles: PUBLIC_ACCESS }
-        # - { path: ^/login-oauth, roles: PUBLIC_ACCESS }
-        # - { path: ^/register, roles: PUBLIC_ACCESS }
-        # - { path: ^/, roles: ROLE_USER } // force login
-        # # - { path: ^/admin, roles: ROLE_ADMIN }
-        # # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/, roles: ROLE_USER } # catch-all
 
 when@test:
     security:
