@@ -3,8 +3,9 @@
   --bs-nav-tabs-link-active-bg: rgba(var(--bs-tertiary-bg-rgb),var(--bs-bg-opacity))!important;
   --bs-nav-tabs-link-active-border-color: var(--bs-border-color) var(--bs-border-color) var(--bs-tertiary-bg);
 ">
+  {% set is_active = app.request.attributes.get('_route') starts with 'app_admin_membership' %}
   <li class="nav-item">
-    <a href="#" class="nav-link">
+    <a href="{{ path('app_admin_membership_index') }}" class="nav-link {{ is_active ? 'active' }}">
       <i class="fa-solid fa-clipboard"></i>
       Adhésions
     </a>
