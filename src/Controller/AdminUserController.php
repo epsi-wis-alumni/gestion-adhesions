@@ -23,7 +23,7 @@ class AdminUserController extends AbstractController
         ]);
     }
 
-    #[Route('/update/{id}', name: 'app_admin_user_update', methods: ['POST', 'GET'])]
+    #[Route('/{id}/update', name: 'app_admin_user_update', methods: ['POST', 'GET'])]
     public function update(Request $request, EntityManagerInterface $entityManager, User $user): Response
     {
         $form = $this->createForm(AdminUserUpdateType::class, $user, [
@@ -43,8 +43,8 @@ class AdminUserController extends AbstractController
         ]);
     }
 
-    #[Route('/delete/{id}', name: 'app_admin_user_delete', methods: ['POST'])]
     public function admin_user_delete(Request $request, EntityManagerInterface $entityManager, User $user): Response
+    #[Route('/{id}/delete', name: 'app_admin_user_delete', methods: ['POST'])]
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager->remove($user);
