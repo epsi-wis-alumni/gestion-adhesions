@@ -38,7 +38,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function findPending(): array
     {
         return $this->createQueryBuilder('u')
-            ->andWhere('u.approuvedBy IS NULL')
+            ->andWhere('u.approvedAt IS NULL')
+            ->andWhere('u.rejectAt IS NULL')
             ->orderBy('u.id', 'ASC')
             ->getQuery()
             ->getResult();
