@@ -11,9 +11,9 @@
         <thead class="table-bordered">
           <tr>
             <th>id</th>
-            <th>email</th>
             <th>lastname</th>
             <th>firstname</th>
+            <th>email</th>
             <th>company</th>
             <th>job_title</th>
             <th>action</th>
@@ -23,9 +23,9 @@
           {% for user in users %}
             <tr>
               <td>{{ user.id }}</td>
-              <td>{{ user.email }}</td>
               <td>{{ user.lastname }}</td>
               <td>{{ user.firstname }}</td>
+              <td>{{ user.email }}</td>
               <td>{{ user.company }}</td>
               <td>{{ user.jobTitle }}</td>
               <td class="d-flex justify-content-center align-items-center gap-1">
