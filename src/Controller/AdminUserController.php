@@ -63,8 +63,8 @@ class AdminUserController extends AbstractController
         $userManager->approve(who: $user, by: $currentUser);
         $entityManager->flush();
 
-        return $this->render('admin/membership/index.html.twig', [
-            'controller_name' => 'AdminMembershipController',
+        return $this->render('admin/user/index.html.twig', [
+            'controller_name' => 'AdminUserController',
         ]);
     }
 
@@ -74,8 +74,8 @@ class AdminUserController extends AbstractController
             $userManager->reject(who: $user, by: $currentUser);
             $entityManager->flush();
 
-            return $this->render('admin/membership/index.html.twig', [
-                'controller_name' => 'AdminMembershipController',
+            return $this->render('admin/user/index.html.twig', [
+                'controller_name' => 'AdminUserController',
             ]);
     }
 }
