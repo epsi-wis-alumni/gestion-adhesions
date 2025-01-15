@@ -584,4 +584,34 @@ class User implements UserInterface
 
         return $this;
     }
+
+    public function getStatus(): MembershipStatus
+    {
+        if ($this->getRejectedAt()){
+            return MembershipStatus::Rejected;
+        }
+        if ($this->getApprovedAt()){
+            return MembershipStatus::Approved;
+        }
+
+        return MembershipStatus::Pending;
+    }
+
+    public function getStatusColor(): string
+    {
+        return match ($this->getStatus()) {
+            MembershipStatus::Approved => 'success',
+            MembershipStatus::Rejected => 'danger',
+            MembershipStatus::Pending => 'warning',
+        };
+    }
+
+    public function getStatusLabel(): string
+    {
+        return match ($this->getStatus()) {
+            MembershipStatus::Approved => 'Approuvé',
+            MembershipStatus::Rejected => 'Rejeté',
+            MembershipStatus::Pending => 'En attente',
+        };
+    }
 }
