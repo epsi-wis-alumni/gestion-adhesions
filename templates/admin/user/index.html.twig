@@ -1,6 +1,8 @@
 {% extends 'admin_base.html.twig' %}
 
-{% block title %}Gestions Utilisateurs{% endblock %}
+{% block title %}
+  Gestions Utilisateurs
+{% endblock %}
 
 {% block admin_content %}
   <div class="my-5">
@@ -27,8 +29,26 @@
               <td>{{ user.company }}</td>
               <td>{{ user.jobTitle }}</td>
               <td class="d-flex justify-content-center align-items-center gap-1">
-                <a class="btn btn-primary" href="{{ path('app_admin_user_edit', { 'id': user.id }) }}">Modifier</a>
-                {% include "admin/user/_delete.html.twig" %}
+                <a class="btn btn-primary" href="{{ path('app_admin_user_edit', { id: user.id }) }}"><i class="fa-duotone fa-regular fa-pen-to-square"></i>Modifier</a>
+                {% include 'admin/user/_delete.html.twig' %}
+
+                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                  <a class="btn btn-primary" href="{{ path('app_admin_user_approve', { id: user.id }) }}">
+                    <i class="fa-duotone fa-regular fa-check fa-swap-opacity"></i>
+                    Accepter
+                  </a>
+                  <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a class="dropdown-item" href="{{ path('app_admin_user_reject', { id: user.id }) }}">
+                          <i class="fa-duotone fa-regular fa-xmark fa-swap-opacity fa-fw"></i>
+                          Rejeter
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </td>
             </tr>
           {% else %}
