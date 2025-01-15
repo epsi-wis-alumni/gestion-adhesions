@@ -26,11 +26,11 @@ class AdminUserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/update', name: 'app_admin_user_update', methods: ['POST', 'GET'])]
-    public function update(Request $request, EntityManagerInterface $entityManager, User $user): Response
+    #[Route('/{id}/edit', name: 'app_admin_user_edit', methods: ['POST', 'GET'])]
+    public function edit(Request $request, EntityManagerInterface $entityManager, User $user): Response
     {
         $form = $this->createForm(AdminUserUpdateType::class, $user, [
-            'attr' => ['id' => 'admin_user_update_form']
+            'attr' => ['id' => 'admin_user_edit_form']
         ]);
         $form->handleRequest($request);
 
@@ -40,7 +40,7 @@ class AdminUserController extends AbstractController
             return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('admin/user/update.html.twig', [
+        return $this->render('admin/user/edit.html.twig', [
             'user'=> $user,
             'form' => $form,
         ]);

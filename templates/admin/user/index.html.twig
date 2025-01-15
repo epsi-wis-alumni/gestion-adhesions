@@ -27,7 +27,7 @@
               <td>{{ user.company }}</td>
               <td>{{ user.jobTitle }}</td>
               <td class="d-flex justify-content-center align-items-center gap-1">
-                <a class="btn btn-primary" href="{{ path('app_admin_user_update', { 'id': user.id }) }}">Modifier</a>
+                <a class="btn btn-primary" href="{{ path('app_admin_user_edit', { 'id': user.id }) }}">Modifier</a>
                 {% include "admin/user/_delete.html.twig" %}
               </td>
             </tr>
