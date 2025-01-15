@@ -16,6 +16,8 @@
             <th>email</th>
             <th>company</th>
             <th>job_title</th>
+            <th>createdAt</th>
+            <th>status</th>
             <th>action</th>
           </tr>
         </thead>
@@ -28,8 +30,15 @@
               <td>{{ user.email }}</td>
               <td>{{ user.company }}</td>
               <td>{{ user.jobTitle }}</td>
-              <td class="d-flex justify-content-center align-items-center gap-1">
-                <a class="btn btn-primary" href="{{ path('app_admin_user_edit', { id: user.id }) }}"><i class="fa-duotone fa-regular fa-pen-to-square"></i>Modifier</a>
+              <td>{{ user.createdAt|date('d-m-Y') }}</td>
+              <td>
+                <span class="badge text-bg-{{ user.statusColor}}">{{ user.statusLabel }}</span>
+              </td>
+              <td class="d-flex align-items-center gap-1">
+                <a class="btn btn-primary" href="{{ path('app_admin_user_edit', { id: user.id }) }}">
+                  <i class="fa-duotone fa-regular fa-pen-to-square"></i>
+                    Modifier
+                </a>
                 {% include 'admin/user/_delete.html.twig' %}
 
                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
