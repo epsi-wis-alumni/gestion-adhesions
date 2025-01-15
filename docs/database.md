@@ -7,26 +7,18 @@ erDiagram
         string email
         string password
         array roles
-        string company "Nom de l'école pour un étudiant"
-        string jobTitle
-        Membership membership
         string microsoftToken
         string googleToken
         string githubToken
-    }
-
-    Membership {
-        int id
-        string firstname
-        string lastname
-        string email
-        string company
+        string company "Nom de l'école pour un étudiant"
         string jobTitle
         datetime createdAt
-        datetime approvedAt
-        int status
+        
         User approvedBy
-        User account
+        datetime approvedAt
+        
+        User rejectedBy
+        datetime rejectedAt
     }
 
     Subscription {
@@ -92,11 +84,6 @@ erDiagram
         Candidate candidate
         datetime votedAt
     }
-    
-
-
-    User 1--0+ Membership: "Accept memberships"
-    User 1--1 Membership: "Adhere"
     
     Settings 1--1 User: "Set"
     
