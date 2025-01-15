@@ -3,10 +3,17 @@
 namespace App\Service;
 
 use App\Entity\User;
+use App\Repository\UserRepository;
 use DateTimeImmutable;
 
 final class UserManager
 {
+
+    // public function __construct(private User $user)
+    // {
+       
+    // }
+
     public function approve(User $who, User $by): void
     {
         $who

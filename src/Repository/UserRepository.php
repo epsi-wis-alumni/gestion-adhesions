@@ -45,6 +45,31 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getResult();
     }
 
+    // public function isRejected(int $id): bool
+    // {
+    //     $result = $this->createQueryBuilder('u')
+    //         ->andWhere('u.id = :id')
+    //         ->andWhere('u.rejectAt IS NOT NULL')
+    //         ->setParameter('id', $id)
+    //         ->getQuery()
+    //         ->getOneOrNullResult();
+
+    //     return $result !== null;
+    // }
+
+    // public function isApproved(int $id): bool
+    // {
+    //     $result = $this->createQueryBuilder('u')
+    //         ->andWhere('u.id = :id')
+    //         ->andWhere('u.approvedAt IS NULL')
+    //         ->setParameter('id', $id)
+    //         ->getQuery()
+    //         ->getOneOrNullResult();
+
+    //     return $result !== null;
+    // }
+
+
     //    public function findOneBySomeField($value): ?User
     //    {
     //        return $this->createQueryBuilder('u')
