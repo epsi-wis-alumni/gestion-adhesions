@@ -50,7 +50,7 @@ security:
 
     access_control:
         - { path: ^/(login|connect), roles: PUBLIC_ACCESS }
-        - { path: ^/(complete-profile|$), roles: ROLE_USER }
+        - { path: ^/(complete-profile|$|profile), roles: ROLE_USER }
         - { path: ^/contribute, roles: ROLE_APPROVED }
         - { path: ^/admin, roles: ROLE_ADMIN }
 
