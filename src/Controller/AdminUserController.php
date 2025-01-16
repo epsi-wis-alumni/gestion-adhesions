@@ -16,7 +16,6 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 #[Route('/admin/user')]
 class AdminUserController extends AbstractController
 {
-
     #[Route(name: 'app_admin_user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository, Request $request): Response
     {
@@ -49,7 +48,7 @@ class AdminUserController extends AbstractController
         }
 
         return $this->render('admin/user/edit.html.twig', [
-            'user'=> $user,
+            'user' => $user,
             'form' => $form,
         ]);
     }
@@ -59,13 +58,13 @@ class AdminUserController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager->remove($user);
-            $entityManager->flush();    
+            $entityManager->flush();
         }
-        
+
         return $this->redirectToRoute('app_admin_user_index');
     }
 
-    #[Route('/{id}/approve',name: 'app_admin_user_approve', methods: ['GET'])]
+    #[Route('/{id}/approve', name: 'app_admin_user_approve', methods: ['GET'])]
     public function approve(EntityManagerInterface $entityManager, #[CurrentUser()] User $currentUser, User $user, UserManager $userManager): Response
     {
         $userManager->approve(who: $user, by: $currentUser);
@@ -74,12 +73,12 @@ class AdminUserController extends AbstractController
         return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}/reject',name: 'app_admin_user_reject', methods: ['GET'])]
+    #[Route('/{id}/reject', name: 'app_admin_user_reject', methods: ['GET'])]
     public function reject(EntityManagerInterface $entityManager, #[CurrentUser()] User $currentUser, User $user, UserManager $userManager): Response
     {
-            $userManager->reject(who: $user, by: $currentUser);
-            $entityManager->flush();
+        $userManager->reject(who: $user, by: $currentUser);
+        $entityManager->flush();
 
-            return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
     }
 }

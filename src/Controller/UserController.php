@@ -25,7 +25,7 @@ final class UserController extends AbstractController
     #[Route('/login', name: 'app_user_login', methods: ['POST', 'GET'])]
     public function login(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $user = New User();
+        $user = new User();
         $form = $this->createForm(LoginInformationFormType::class, $user);
         $form->handleRequest($request);
 
@@ -37,7 +37,7 @@ final class UserController extends AbstractController
         }
 
         return $this->render('user/login.html.twig', [
-            'user'=> $user,
+            'user' => $user,
             'form' => $form,
         ]);
     }
@@ -55,7 +55,7 @@ final class UserController extends AbstractController
         }
 
         return $this->render('user/update.html.twig', [
-            'user'=> $user,
+            'user' => $user,
             'form' => $form,
         ]);
     }
@@ -65,7 +65,7 @@ final class UserController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager->remove($user);
-            $entityManager->flush();    
+            $entityManager->flush();
         }
 
         return $this->redirectToRoute('app_user_index');

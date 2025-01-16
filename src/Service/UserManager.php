@@ -8,10 +8,9 @@ use DateTimeImmutable;
 
 final class UserManager
 {
-
     // public function __construct(private User $user)
     // {
-       
+
     // }
 
     public function approve(User $who, User $by): void
@@ -23,8 +22,8 @@ final class UserManager
             ->setApprovedAt(new DateTimeImmutable())
         ;
     }
-    
-    
+
+
     public function reject(User $who, User $by): void
     {
         $who
