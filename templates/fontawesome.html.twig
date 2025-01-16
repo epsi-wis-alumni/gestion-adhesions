@@ -1,0 +1,13 @@
+{% macro icon(name, family = 'duotone', weight = 'regular', fixed_width = false, swap_opacity = false) %}
+    {% set classes = ['fa-'~family, 'fa-'~weight, 'fa-'~name] %}
+    
+    {% if fixed_width %}
+        {% set classes = classes|merge(['fa-fw']) %}
+    {% endif %}
+    
+    {% if swap_opacity %}
+        {% set classes = classes|merge(['fa-swap-opacity']) %}
+    {% endif %}
+    
+    <i class="{{ classes|join(' ') }}"></i>
+{% endmacro %}
