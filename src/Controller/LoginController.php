@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
+
 
 class LoginController extends AbstractController
 {
@@ -18,7 +20,7 @@ class LoginController extends AbstractController
         return $this->render('login/index.html.twig');
     }
 
-    #[Route(name: 'app_login_complete', methods: ['GET', 'POST'])]
+    #[Route('/complete-profile',name: 'app_complete_profile', methods: ['GET', 'POST'])]
     public function complete(Request $request, #[CurrentUser()] User $currentUser, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(LoginInformationFormType::class, $currentUser);
@@ -30,7 +32,7 @@ class LoginController extends AbstractController
             return $this->redirectToRoute('app_register', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('login_information/index.html.twig', [
+        return $this->render('login/complete.html.twig', [
             'user' => $currentUser,
             'form' => $form,
         ]);
