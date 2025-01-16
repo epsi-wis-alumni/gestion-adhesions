@@ -28,7 +28,7 @@ class AdminUserController extends AbstractController
                 page: $page,
                 perPage: $perPage,
             ),
-            'pages' => $userCount / $perPage,
+            'pages' => ceil($userCount / $perPage),
             'page' => $page,
         ]);
     }
