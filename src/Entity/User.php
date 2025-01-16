@@ -200,7 +200,7 @@ class User implements UserInterface
      */
     public function setRoles(array $roles): static
     {
-        $this->roles = $roles;
+        $this->roles = array_unique($roles);
 
         return $this;
     }
