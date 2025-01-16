@@ -66,7 +66,7 @@ class User implements UserInterface
      */
     #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'user')]
     private Collection $transactions;
-    
+
     /**
      * @var Collection<int, Election>
      */
@@ -133,7 +133,8 @@ class User implements UserInterface
         $this->rejectedUsers = new ArrayCollection();
     }
 
-    public function loadUserByOAuthUserResponse(UserResponseInterface $response, string $resourceOwnerName): UserInterface {
+    public function loadUserByOAuthUserResponse(UserResponseInterface $response, string $resourceOwnerName): UserInterface
+    {
         $this->setEmail($response->getEmail());
         $this->setFirstname($response->getFirstName());
         $this->setLastname($response->getLastName());
@@ -594,10 +595,10 @@ class User implements UserInterface
 
     public function getStatus(): MembershipStatus
     {
-        if ($this->getRejectedAt()){
+        if ($this->getRejectedAt()) {
             return MembershipStatus::Rejected;
         }
-        if ($this->getApprovedAt()){
+        if ($this->getApprovedAt()) {
             return MembershipStatus::Approved;
         }
 
