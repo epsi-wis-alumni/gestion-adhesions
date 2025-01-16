@@ -35,19 +35,18 @@
                 <span class="badge text-bg-{{ user.statusColor}}">{{ user.statusLabel }}</span>
               </td>
               <td class="d-flex align-items-center gap-1">
-                <a class="btn btn-primary" href="{{ path('app_admin_user_edit', { id: user.id }) }}">
+                <a class="link-primary" href="{{ path('app_admin_user_edit', { id: user.id }) }}">
                   <i class="fa-duotone fa-regular fa-pen-to-square"></i>
-                    Modifier
                 </a>
                 {% include 'admin/user/_delete.html.twig' %}
 
                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                  <a class="btn btn-primary" href="{{ path('app_admin_user_approve', { id: user.id }) }}">
+                  <a class="btn btn-sm btn-primary" href="{{ path('app_admin_user_approve', { id: user.id }) }}">
                     <i class="fa-duotone fa-regular fa-check fa-swap-opacity"></i>
                     Accepter
                   </a>
                   <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                    <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></button>
                     <ul class="dropdown-menu">
                       <li>
                         <a class="dropdown-item" href="{{ path('app_admin_user_reject', { id: user.id }) }}">
