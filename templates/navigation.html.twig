@@ -1,0 +1,49 @@
+{% macro paginator(page_count, current_page, route_name) %}
+  {% import "fontawesome.html.twig" as fa %}
+  
+  {% set first_icon = fa.icon('chevrons-left', 'duotone', 'regular', false, true) %}
+  {% set prev_icon = fa.icon('chevron-left', 'duotone', 'regular', false, true) %}
+  {% set next_icon = fa.icon('chevron-right', 'duotone', 'regular', false, true) %}
+  {% set last_icon = fa.icon('chevrons-right', 'duotone', 'regular', false, true) %}
+  {% set prev_page = current_page - 1 %}
+  {% set next_page = current_page + 1 %}
+
+  <nav aria-label="Pagination">
+    <ul class="pagination flex-wrap">
+      {{ _self.page_item(first_icon, path(route_name, { page: 1 }), prev_page < 1) }}
+      {{ _self.page_item(prev_icon, path(route_name, { page: prev_page }), prev_page < 1) }}
+
+      {% if page_count <= 5 %}
+        {% for page in 1..page_count %}
+          {{ _self.page_item(page, path(route_name, { page: page }), false, page == current_page) }}
+        {% endfor %}
+      {% else %}
+        {% for page in max(current_page - 2, 1)..min(current_page + 2, page_count) %}
+          {{ _self.page_item(page, path(route_name, { page: page }), false, page == current_page) }}
+        {% endfor %}
+      {% endif %}
+      
+
+      {{ _self.page_item(next_icon, path(route_name, { page: next_page }), next_page > page_count) }}
+      {{ _self.page_item(last_icon, path(route_name, { page: page_count }), next_page > page_count) }}
+    </ul>
+  </nav>
+{% endmacro %}
+
+{% macro page_item(label, path, disabled = false, is_active = false) %}
+  {% set classes = ['page-item'] %}
+  
+  {% if disabled %}
+    {% set classes = classes|merge(['disabled']) %}
+  {% endif %}
+  
+  {% if is_active %}
+    {% set classes = classes|merge(['active']) %}
+  {% endif %}
+  
+  <li class="{{ classes|join(' ') }}" {% if is_active %} aria-current="page"{% endif %}>
+    <a href="{{ is_active ? '#' : path }}" class="page-link">
+      {{ label|raw }}
+    </a>
+  </li>
+{% endmacro %}
