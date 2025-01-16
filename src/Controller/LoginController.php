@@ -17,8 +17,8 @@ class LoginController extends AbstractController
     {
         return $this->render('login/index.html.twig');
     }
-    
-    #[Route( name: 'app_login_complete', methods: ['GET', 'POST'])]
+
+    #[Route(name: 'app_login_complete', methods: ['GET', 'POST'])]
     public function complete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(LoginInformationFormType::class, $user);
