@@ -1,5 +1,6 @@
 {% extends 'admin_base.html.twig' %}
 {% import "navigation.html.twig" as nav %}
+{% import "fontawesome.html.twig" as fa %}
 
 {% block title %}
   Gestions Utilisateurs
@@ -8,6 +9,16 @@
 {% block admin_content %}
   <div class="my-5">
     <div class="row">
+      <div class="col-auto ms-auto">
+        <form action="" method="get">
+          <div class="input-group">
+            <input type="text" name="search" id="search" class="form-control" placeholder="Rechercher...">
+            <button type="submit" class="btn btn-outline-primary">
+              {{ fa.icon('magnifying-glass') }}
+            </button>
+          </div>
+        </form>
+      </div>
       <div class="col-auto">
         {{ nav.paginator(pages, page, 'app_admin_user_index') }}
       </div>
