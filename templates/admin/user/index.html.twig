@@ -12,7 +12,14 @@
       <div class="col-auto ms-auto">
         <form action="" method="get">
           <div class="input-group">
-            <input type="text" name="search" id="search" class="form-control" placeholder="Rechercher...">
+            <input
+              type="text"
+              name="search"
+              id="search"
+              class="form-control"
+              placeholder="Rechercher..."
+              value="{{ app.request.get('search') }}"
+            >
             <button type="submit" class="btn btn-outline-primary">
               {{ fa.icon('magnifying-glass') }}
             </button>

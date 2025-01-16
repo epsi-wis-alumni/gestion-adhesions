@@ -24,9 +24,10 @@ class AdminUserController extends AbstractController
         $page = $request->get('page', 1);
 
         return $this->render('admin/user/index.html.twig', [
-            'users' => $userRepository->findAllPaginated(
+            'users' => $userRepository->findBySearchPaginated(
                 page: $page,
                 perPage: $perPage,
+                search: $request->get('search'),
             ),
             'pages' => ceil($userCount / $perPage),
             'page' => $page,

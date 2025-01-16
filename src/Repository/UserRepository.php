@@ -3,6 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Repository\Trait\OrderableTrait;
+use App\Repository\Trait\PaginableTrait;
+use App\Repository\Trait\SearchableTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -11,6 +14,12 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class UserRepository extends ServiceEntityRepository
 {
+    use PaginableTrait;
+    use OrderableTrait;
+    use SearchableTrait;
+
+    public const SEARCH_FIELDS = ['firstname', 'lastname', 'email', 'company', 'jobTitle'];
+    
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
@@ -32,16 +41,15 @@ class UserRepository extends ServiceEntityRepository
     /**
     * @return User[] Returns an array of User objects
     */
-    public function findAllPaginated(int $page = 1, int $perPage = 50, array $orderBy = []): array
+    public function findBySearchPaginated(int $page = 1, int $perPage = 50, array $orderBy = [], ?string $search = null): array
     {
         $qb = $this->createQueryBuilder('u');
-        $qb
-            ->setMaxResults($perPage)
-            ->setFirstResult(($page - 1) * $perPage)
-        ;
+        
+        $this->paginate($qb, $page, $perPage);
+        $this->orderBy($qb, $orderBy);
 
-        foreach ($orderBy as $sort => $order) {
-            $qb->orderBy($sort, $order);
+        if ($search) {
+            $this->search($qb, $search, self::SEARCH_FIELDS);
         }
 
         return $qb->getQuery()->getResult();
