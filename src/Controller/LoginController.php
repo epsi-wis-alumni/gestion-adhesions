@@ -19,9 +19,9 @@ class LoginController extends AbstractController
     }
 
     #[Route(name: 'app_login_complete', methods: ['GET', 'POST'])]
-    public function complete(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    public function complete(Request $request, #[CurrentUser()] User $currentUser, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(LoginInformationFormType::class, $user);
+        $form = $this->createForm(LoginInformationFormType::class, $currentUser);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -31,7 +31,7 @@ class LoginController extends AbstractController
         }
 
         return $this->render('login_information/index.html.twig', [
-            'user' => $user,
+            'user' => $currentUser,
             'form' => $form,
         ]);
     }
