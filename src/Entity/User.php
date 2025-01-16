@@ -16,6 +16,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\HasLifecycleCallbacks]
 class User implements UserInterface
 {
+
+    /* Roles */
+    public const ROLE_USER = 'ROLE_USER';
+    public const ROLE_APPROVED = 'ROLE_APPROVED';
+    public const ROLE_MEMBER = 'ROLE_MEMBER';
+    public const ROLE_ADMIN = 'ROLE_ADMIN';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
