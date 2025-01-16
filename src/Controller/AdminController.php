@@ -12,9 +12,7 @@ class AdminController extends AbstractController
     #[Route(name: 'app_admin_index', methods: ['GET'])]
     public function index(): Response
     {
-        return $this->render('admin/index.html.twig', [
-            'controller_name' => 'AdminController',
-        ]);
+        return $this->redirectToRoute('app_admin_user_index');
     }
 
 }
