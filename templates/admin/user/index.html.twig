@@ -36,7 +36,6 @@
           <tr>
             <th>id</th>
             <th>Nom</th>
-            <th>Prénom</th>
             <th>Adresse email</th>
             <th>Entreprise</th>
             <th>Poste</th>
@@ -49,8 +48,7 @@
           {% for user in users %}
             <tr>
               <td>{{ user.id }}</td>
-              <td>{{ user.lastname }}</td>
-              <td>{{ user.firstname }}</td>
+              <td>{{ user.displayName }}</td>
               <td>{{ user.email }}</td>
               <td>{{ user.company }}</td>
               <td>{{ user.jobTitle }}</td>

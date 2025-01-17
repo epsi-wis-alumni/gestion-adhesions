@@ -244,6 +244,17 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getDisplayName(bool $reverse = false): string
+    {
+        $names = [strtoupper($this->getLastname()), $this->getFirstname()];
+
+        if ($reverse) {
+            $names = array_reverse($names);
+        }
+
+        return join(' ', $names);
+    }
+
     public function getUsername(): ?string
     {
         return $this->username;
