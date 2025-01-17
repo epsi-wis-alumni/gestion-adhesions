@@ -9,7 +9,7 @@
   {% set next_page = current_page + 1 %}
 
   <nav aria-label="Pagination">
-    <ul class="pagination flex-wrap">
+    <ul class="pagination flex-wrap mb-0">
       {{ _self.page_item(first_icon, path(route_name, { page: 1 }), prev_page < 1) }}
       {{ _self.page_item(prev_icon, path(route_name, { page: prev_page }), prev_page < 1) }}
 
