@@ -32,3 +32,21 @@ main {
     --bs-nav-tabs-link-active-bg: rgba(var(--bs-tertiary-bg-rgb),var(--bs-bg-opacity))!important;
     --bs-nav-tabs-link-active-border-color: var(--bs-border-color) var(--bs-border-color) var(--bs-tertiary-bg);
 }
+
+.avatar {
+    --size: 2.5rem;
+    width: var(--size);
+    height: var(--size);
+}
+
+.avatar-sm {
+    --size: 1.5rem;
+}
+
+.avatar-md {
+    --size: 2.5rem;
+}
+
+.avatar-lg {
+    --size: 4rem;
+}
