@@ -24,3 +24,4 @@
 /assets/vendor/
 ###< symfony/asset-mapper ###
 .DS_Store
+.php-cs-fixer.cache

@@ -1,53 +1,92 @@
 {% extends 'admin_base.html.twig' %}
+{% import "macros/navigation.html.twig" as nav %}
+{% import "macros/fontawesome.html.twig" as fa %}
+{% import "macros/image.html.twig" as image %}
+
+{% set page_title = 'Liste des utilisateurs' %}
 
 {% block title %}
-  Gestions Utilisateurs
+  {{ page_title }}
 {% endblock %}
 
 {% block admin_content %}
   <div class="my-5">
-    <div class="table-responsive border rounded">
+    <div class="row gap-2 justify-content-end align-items-end mb-3">
+      <div class="col-auto me-auto">
+        <h2 class="h4 mb-0">
+          {{ page_title }}
+          <small><span class="badge text-bg-secondary rounded-pill">{{ user_count }}</span></small>
+        </h2>
+      </div>
+      
+      <div class="col-auto">
+        <form action="" method="get">
+          <div class="input-group">
+            <input
+              type="text"
+              name="search"
+              id="search"
+              class="form-control"
+              placeholder="Rechercher..."
+              value="{{ app.request.get('search') }}"
+            >
+            <button type="submit" class="btn btn-outline-primary">
+              {{ fa.icon('magnifying-glass') }}
+            </button>
+          </div>
+        </form>
+      </div>
+      
+      <div class="col-auto">
+        {{ nav.paginator(pages, page, 'app_admin_user_index') }}
+      </div>
+    </div>
+    <div class="table-responsive text-nowrap border rounded">
       <table class="table table-striped mb-0">
         <thead class="table-bordered">
           <tr>
             <th>id</th>
-            <th>lastname</th>
-            <th>firstname</th>
-            <th>email</th>
-            <th>company</th>
-            <th>job_title</th>
-            <th>createdAt</th>
-            <th>status</th>
-            <th>action</th>
+            <th>Nom</th>
+            <th>Adresse email</th>
+            <th>Entreprise</th>
+            <th>Poste</th>
+            <th>Inscription</th>
+            <th>Status</th>
+            <th>Actions</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="align-middle">
           {% for user in users %}
             <tr>
-              <td>{{ user.id }}</td>
-              <td>{{ user.lastname }}</td>
-              <td>{{ user.firstname }}</td>
+              <td class="d-flex gap-2">
+                <span>{{ user.id }}</span>
+                {{ image.avatar(
+                  path: user.avatar,
+                  alt: 'Photo de profil de ' ~ user.displayName,
+                  size: 'sm',
+                ) }}
+              </td>
+              <td>{{ user.displayName }}</td>
               <td>{{ user.email }}</td>
               <td>{{ user.company }}</td>
               <td>{{ user.jobTitle }}</td>
-              <td>{{ user.createdAt|date('d-m-Y') }}</td>
+              <td>{{ user.createdAt|date('d/m/Y') }}</td>
               <td>
                 <span class="badge text-bg-{{ user.statusColor}}">{{ user.statusLabel }}</span>
               </td>
               <td class="d-flex align-items-center gap-1">
-                <a class="btn btn-primary" href="{{ path('app_admin_user_edit', { id: user.id }) }}">
+                <a class="link-primary" href="{{ path('app_admin_user_edit', { id: user.id }) }}">
                   <i class="fa-duotone fa-regular fa-pen-to-square"></i>
-                    Modifier
                 </a>
                 {% include 'admin/user/_delete.html.twig' %}
 
                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                  <a class="btn btn-primary" href="{{ path('app_admin_user_approve', { id: user.id }) }}">
+                  <a class="btn btn-sm btn-primary" href="{{ path('app_admin_user_approve', { id: user.id }) }}">
                     <i class="fa-duotone fa-regular fa-check fa-swap-opacity"></i>
                     Accepter
                   </a>
                   <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                    <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></button>
                     <ul class="dropdown-menu">
                       <li>
                         <a class="dropdown-item" href="{{ path('app_admin_user_reject', { id: user.id }) }}">
@@ -62,7 +101,7 @@
             </tr>
           {% else %}
             <tr>
-              <td colspan="7" class="text-center">Aucun utilisateur</td>
+              <td colspan="9" class="text-center">Aucun utilisateur</td>
             </tr>
           {% endfor %}
         </tbody>
