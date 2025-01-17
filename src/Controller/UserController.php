@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\LoginInformationFormType;
+use App\Form\CompleteProfileType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,7 +26,7 @@ final class UserController extends AbstractController
     public function login(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
-        $form = $this->createForm(LoginInformationFormType::class, $user);
+        $form = $this->createForm(CompleteProfileType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -45,7 +45,7 @@ final class UserController extends AbstractController
     #[Route('/update/{id}', name: 'app_user_update', methods: ['POST', 'GET'])]
     public function update(Request $request, EntityManagerInterface $entityManager, User $user): Response
     {
-        $form = $this->createForm(LoginInformationFormType::class, $user);
+        $form = $this->createForm(CompleteProfileType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -16,6 +16,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\HasLifecycleCallbacks]
 class User implements UserInterface
 {
+    public const ROLE_USER = 'ROLE_USER';
+    public const ROLE_APPROVED = 'ROLE_APPROVED';
+    public const ROLE_MEMBER = 'ROLE_MEMBER';
+    public const ROLE_ADMIN = 'ROLE_ADMIN';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -194,7 +199,7 @@ class User implements UserInterface
      */
     public function setRoles(array $roles): static
     {
-        $this->roles = $roles;
+        $this->roles = array_unique($roles);
 
         return $this;
     }
@@ -615,4 +620,9 @@ class User implements UserInterface
             MembershipStatus::Pending => 'En attente',
         };
     }
+    
+    public function hasCompleteInfo():bool
+    {
+        return !!$this->getCompany() && !!$this->getJobTitle();
+    } 
 }

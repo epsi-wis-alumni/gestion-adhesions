@@ -69,6 +69,7 @@ class AdminUserController extends AbstractController
     public function approve(EntityManagerInterface $entityManager, #[CurrentUser()] User $currentUser, User $user, UserManager $userManager): Response
     {
         $userManager->approve(who: $user, by: $currentUser);
+        $userManager->addRole(to: $user, role: $user::ROLE_APPROVED);
         $entityManager->flush();
 
         return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
