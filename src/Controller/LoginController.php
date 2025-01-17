@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\LoginInformationFormType;
+use App\Form\CompleteProfileType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +23,9 @@ class LoginController extends AbstractController
     #[Route('/complete-profile',name: 'app_complete_profile', methods: ['GET', 'POST'])]
     public function complete(Request $request, #[CurrentUser()] User $currentUser, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(LoginInformationFormType::class, $currentUser);
+        $form = $this->createForm(CompleteProfileType::class, $currentUser, [
+            'attr' => ['id' => 'login-information-form']
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
