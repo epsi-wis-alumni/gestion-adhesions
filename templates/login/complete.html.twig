@@ -1,29 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello LoginInformationController!{% endblock %}
+{% block title %}
+  Informations complémentaires
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="container">
-    {{ form_start(form, { attr: { id: 'login-information-form', class: 'container mt-4' }}) }}
-    <div class="row mb-3">
-        <div class="col-sm-6">
-            {{ form_row(form.company, { 'attr': { 'class': 'form-control'} }) }}
+  <div class="container">
+    <div class="mx-auto" style="max-width: 24rem;">
+      {{ form_start(form) }}
+      {{ form_row(form.email) }}
+      <div class="row">
+        <div class="col-md-6">
+          {{ form_row(form.firstname) }}
         </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col-sm-12">
-            {{ form_row(form.jobTitle, { 'attr': { 'class': 'form-control'} }) }}
+        <div class="col-md-6">
+          {{ form_row(form.lastname) }}
         </div>
+      </div>
+      {{ form_row(form.company) }}
+      {{ form_row(form.jobTitle) }}
+      {{ form_row(form.save) }}
+      {{ form_end(form) }}
     </div>
-{{ form_end(form) }}
-
-    <button type="submit" form="login-information-form" class="btn btn-primary">{{ button_label| default('Save') }}</button>
-    <a href="{{ path('app_home') }}">Home</a>
-
-</div>
+  </div>
 {% endblock %}

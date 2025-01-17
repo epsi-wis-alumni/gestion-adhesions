@@ -16,6 +16,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\HasLifecycleCallbacks]
 class User implements UserInterface
 {
+    public const ROLE_USER = 'ROLE_USER';
+    public const ROLE_APPROVED = 'ROLE_APPROVED';
+    public const ROLE_MEMBER = 'ROLE_MEMBER';
+    public const ROLE_ADMIN = 'ROLE_ADMIN';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -59,7 +64,7 @@ class User implements UserInterface
      */
     #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'user')]
     private Collection $transactions;
-    
+
     /**
      * @var Collection<int, Election>
      */
@@ -126,7 +131,8 @@ class User implements UserInterface
         $this->rejectedUsers = new ArrayCollection();
     }
 
-    public function loadUserByOAuthUserResponse(UserResponseInterface $response, string $resourceOwnerName): UserInterface {
+    public function loadUserByOAuthUserResponse(UserResponseInterface $response, string $resourceOwnerName): UserInterface
+    {
         $this->setEmail($response->getEmail());
         $this->setFirstname($response->getFirstName());
         $this->setLastname($response->getLastName());
@@ -193,7 +199,7 @@ class User implements UserInterface
      */
     public function setRoles(array $roles): static
     {
-        $this->roles = $roles;
+        $this->roles = array_unique($roles);
 
         return $this;
     }
@@ -587,10 +593,10 @@ class User implements UserInterface
 
     public function getStatus(): MembershipStatus
     {
-        if ($this->getRejectedAt()){
+        if ($this->getRejectedAt()) {
             return MembershipStatus::Rejected;
         }
-        if ($this->getApprovedAt()){
+        if ($this->getApprovedAt()) {
             return MembershipStatus::Approved;
         }
 
@@ -614,4 +620,9 @@ class User implements UserInterface
             MembershipStatus::Pending => 'En attente',
         };
     }
+    
+    public function hasCompleteInfo():bool
+    {
+        return !!$this->getCompany() && !!$this->getJobTitle();
+    } 
 }

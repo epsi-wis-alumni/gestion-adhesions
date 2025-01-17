@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\LoginInformationFormType;
+use App\Form\CompleteProfileType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,8 +25,8 @@ final class UserController extends AbstractController
     #[Route('/login', name: 'app_user_login', methods: ['POST', 'GET'])]
     public function login(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $user = New User();
-        $form = $this->createForm(LoginInformationFormType::class, $user);
+        $user = new User();
+        $form = $this->createForm(CompleteProfileType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -37,7 +37,7 @@ final class UserController extends AbstractController
         }
 
         return $this->render('user/login.html.twig', [
-            'user'=> $user,
+            'user' => $user,
             'form' => $form,
         ]);
     }
@@ -45,7 +45,7 @@ final class UserController extends AbstractController
     #[Route('/update/{id}', name: 'app_user_update', methods: ['POST', 'GET'])]
     public function update(Request $request, EntityManagerInterface $entityManager, User $user): Response
     {
-        $form = $this->createForm(LoginInformationFormType::class, $user);
+        $form = $this->createForm(CompleteProfileType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -55,7 +55,7 @@ final class UserController extends AbstractController
         }
 
         return $this->render('user/update.html.twig', [
-            'user'=> $user,
+            'user' => $user,
             'form' => $form,
         ]);
     }
@@ -65,7 +65,7 @@ final class UserController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager->remove($user);
-            $entityManager->flush();    
+            $entityManager->flush();
         }
 
         return $this->redirectToRoute('app_user_index');
