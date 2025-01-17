@@ -47,3 +47,19 @@
     </a>
   </li>
 {% endmacro %}
+
+{% macro nav_item(label, path, icon, check_path) %}
+  {% set is_active = _context.app.request.attributes.get('_route') starts with check_path %}
+  {% set classes = ['nav-link'] %}
+
+  {% if is_active %}
+    {% set classes = classes|merge(['active']) %}
+  {% endif %}
+  
+  <li class="nav-item">
+    <a href="{{ path }}" class="{{ classes|join(' ') }}"{% if is_active %} aria-current="page"{% endif %}>
+      {{ icon }}
+      {{ label }}
+    </a>
+  </li>
+{% endmacro %}
