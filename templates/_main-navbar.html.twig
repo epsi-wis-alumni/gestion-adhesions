@@ -1,5 +1,6 @@
 {% import "macros/dropdown.html.twig" as dropdown %}
 {% import "macros/fontawesome.html.twig" as fa %}
+{% import "macros/image.html.twig" as image %}
 {% import "macros/navigation.html.twig" as navigation %}
 
 <header>
@@ -33,7 +34,9 @@
         {% if is_granted('ROLE_USER') %}
           <ul class="navbar-nav">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="/my-account" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mon compte</a>
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ image.avatar(app.user.avatar, size: 'sm') }}
+              </a>
               <ul class="dropdown-menu dropdown-menu-end">
                 {{ dropdown.header('Mon compte') }}
 

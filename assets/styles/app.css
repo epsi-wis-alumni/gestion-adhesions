@@ -27,6 +27,12 @@ main {
     border-bottom-width: 0;
 }
 
+.table-responsive .dropdown,
+.table-responsive .btn-group,
+.table-responsive .btn-group-vertical {
+    position: static;
+}
+
 .nav-tabs {
     --bs-nav-tabs-link-hover-border-color: var(--bs-border-color);
     --bs-nav-tabs-link-active-bg: rgba(var(--bs-tertiary-bg-rgb),var(--bs-bg-opacity))!important;
@@ -34,7 +40,7 @@ main {
 }
 
 .avatar {
-    --size: 2.5rem;
+    --size: 2rem;
     width: var(--size);
     height: var(--size);
 }
@@ -43,10 +49,10 @@ main {
     --size: 1.5rem;
 }
 
-.avatar-md {
-    --size: 2.5rem;
-}
-
 .avatar-lg {
     --size: 4rem;
+}
+
+.dropdown-menu {
+    box-shadow: var(--bs-box-shadow);
 }
