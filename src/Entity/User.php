@@ -68,13 +68,13 @@ class User implements UserInterface
     /**
      * @var Collection<int, Election>
      */
-    #[ORM\OneToMany(targetEntity: Election::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Election::class, mappedBy: 'createdBy')]
     private Collection $elections;
 
     /**
      * @var Collection<int, Candidate>
      */
-    #[ORM\OneToMany(targetEntity: Candidate::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Candidate::class, mappedBy: 'candidate')]
     private Collection $candidates;
 
     /**
@@ -87,7 +87,13 @@ class User implements UserInterface
      * @var Collection<int, Newsletter>
      */
     #[ORM\OneToMany(targetEntity: Newsletter::class, mappedBy: 'createdBy')]
-    private Collection $newsletters;
+    private Collection $createdNewsletters;
+
+    /**
+     * @var Collection<int, Newsletter>
+     */
+    #[ORM\OneToMany(targetEntity: Newsletter::class, mappedBy: 'sentBy')]
+    private Collection $sentNewsletters;
 
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $avatar = null;
@@ -126,7 +132,8 @@ class User implements UserInterface
         $this->candidates = new ArrayCollection();
         $this->votes = new ArrayCollection();
         $this->transactions = new ArrayCollection();
-        $this->newsletters = new ArrayCollection();
+        $this->createdNewsletters = new ArrayCollection();
+        $this->sentNewsletters = new ArrayCollection();
         $this->approvedUsers = new ArrayCollection();
         $this->rejectedUsers = new ArrayCollection();
     }
@@ -432,27 +439,57 @@ class User implements UserInterface
     /**
      * @return Collection<int, Newsletter>
      */
-    public function getNewsletters(): Collection
+    public function getCreatedNewsletters(): Collection
     {
-        return $this->newsletters;
+        return $this->createdNewsletters;
     }
 
-    public function addNewsletter(Newsletter $newsletter): static
+    public function addCreatedNewsletter(Newsletter $newsletter): static
     {
-        if (!$this->newsletters->contains($newsletter)) {
-            $this->newsletters->add($newsletter);
+        if (!$this->createdNewsletters->contains($newsletter)) {
+            $this->createdNewsletters->add($newsletter);
             $newsletter->setCreatedBy($this);
         }
 
         return $this;
     }
 
-    public function removeNewsletter(Newsletter $newsletter): static
+    public function removeCreatedNewsletter(Newsletter $newsletter): static
     {
-        if ($this->newsletters->removeElement($newsletter)) {
+        if ($this->createdNewsletters->removeElement($newsletter)) {
             // set the owning side to null (unless already changed)
             if ($newsletter->getCreatedBy() === $this) {
                 $newsletter->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Newsletter>
+     */
+    public function getSentNewsletters(): Collection
+    {
+        return $this->sentNewsletters;
+    }
+
+    public function addSentNewsletter(Newsletter $newsletter): static
+    {
+        if (!$this->sentNewsletters->contains($newsletter)) {
+            $this->sentNewsletters->add($newsletter);
+            $newsletter->setSentBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSentNewsletter(Newsletter $newsletter): static
+    {
+        if ($this->sentNewsletters->removeElement($newsletter)) {
+            // set the owning side to null (unless already changed)
+            if ($newsletter->getSentBy() === $this) {
+                $newsletter->setSentBy(null);
             }
         }
 
