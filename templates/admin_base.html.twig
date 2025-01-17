@@ -1,8 +1,13 @@
 {% extends 'base.html.twig' %}
+{% import "macros/fontawesome.html.twig" as fa %}
 
 {% block body %}
-  <div class="bg-body-secondary border-bottom pt-5">
+  <div class="bg-body-secondary border-bottom">
     <div class="container">
+      <h1 class="my-3">
+        {{ fa.icon('crown', additional_classes: ['text-warning']) }}
+        Administration
+      </h1>
       {% include "admin/_admin-navbar.html.twig" %}
     </div>
   </div>
