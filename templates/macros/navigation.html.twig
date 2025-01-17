@@ -1,5 +1,5 @@
 {% macro paginator(page_count, current_page, route_name) %}
-  {% import "fontawesome.html.twig" as fa %}
+  {% import "macros/fontawesome.html.twig" as fa %}
   
   {% set first_icon = fa.icon('chevrons-left', 'duotone', 'regular', false, true) %}
   {% set prev_icon = fa.icon('chevron-left', 'duotone', 'regular', false, true) %}
