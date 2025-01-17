@@ -14,11 +14,8 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(#[CurrentUser()] User $currentUser): Response
     {
-        if ($currentUser) {
-            $roles = $currentUser->getRoles();
-            if (in_array('ROLE_USER', $roles) && !in_array('ROLE_APPROVED', $roles)) {
-                return $this->redirectToRoute('app_complete_profile');
-            }
+        if (!$currentUser->hasCompleteInfo()) {
+            return $this->redirectToRoute('app_complete_profile', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('home/index.html.twig', [
