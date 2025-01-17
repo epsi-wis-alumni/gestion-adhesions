@@ -52,3 +52,7 @@ main {
 .avatar-lg {
     --size: 4rem;
 }
+
+.dropdown-menu {
+    box-shadow: var(--bs-box-shadow);
+}
