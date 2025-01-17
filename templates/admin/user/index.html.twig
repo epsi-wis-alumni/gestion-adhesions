@@ -47,7 +47,14 @@
         <tbody class="align-middle">
           {% for user in users %}
             <tr>
-              <td>{{ user.id }}</td>
+              <td class="d-flex gap-2">
+                <span>{{ user.id }}</span>
+                {{ image.avatar(
+                  path: user.avatar,
+                  alt: 'Photo de profil de ' ~ user.displayName,
+                  size: 'sm',
+                ) }}
+              </td>
               <td>{{ user.displayName }}</td>
               <td>{{ user.email }}</td>
               <td>{{ user.company }}</td>
