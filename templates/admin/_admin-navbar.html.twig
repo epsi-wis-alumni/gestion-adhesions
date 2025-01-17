@@ -10,8 +10,9 @@
       Utilisateurs
     </a>
   </li>
+  {% set is_active = app.request.attributes.get('_route') starts with 'app_admin_election' %}
   <li class="nav-item">
-    <a href="#" class="nav-link">
+    <a href="{{ path('app_admin_election_index') }}" class="nav-link {{ is_active ? 'active' }}">
       <i class="fa-solid fa-check-to-slot"></i>
       Élections
     </a>
