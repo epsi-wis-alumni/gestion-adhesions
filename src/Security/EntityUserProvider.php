@@ -134,7 +134,7 @@ final class EntityUserProvider implements UserProviderInterface, OAuthAwareUserP
         /** @var User */
         $user = new $this->class();
         $user->loadUserByOAuthUserResponse($response, $resourceOwnerName);
-        
+
         $this->em->persist($user);
         $this->em->flush();
 
