@@ -13,6 +13,13 @@ final class UserManager
     // {
 
     // }
+    public function delete(User $by, User $who, DateTimeImmutable $when = new DateTimeImmutable()): void
+    {
+        $who
+            ->setDeletedBy($by)
+            ->setDeletedAt($when)
+        ;
+    }
 
     public function approve(User $who, User $by): void
     {
