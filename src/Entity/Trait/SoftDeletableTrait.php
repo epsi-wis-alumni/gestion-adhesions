@@ -5,7 +5,7 @@ namespace App\Entity\Trait;
 use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
-trait SoftDeletedTrait
+trait SoftDeletableTrait
 {
     #[ORM\Column(length: 255, nullable: true)]
     private ?\DateTimeImmutable $deletedAt = null;
@@ -25,12 +25,10 @@ trait SoftDeletedTrait
         return $this;
     }
 
-    public function getDeletedBy(): ?self
     {
         return $this->deletedBy;
     }
 
-    public function setDeletedBy(?self $deletedBy): static
     {
         $this->deletedBy = $deletedBy;
 
