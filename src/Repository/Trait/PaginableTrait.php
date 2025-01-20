@@ -4,7 +4,7 @@ namespace App\Repository\Trait;
 
 use Doctrine\ORM\QueryBuilder;
 
-Trait PaginableTrait
+trait PaginableTrait
 {
     public function paginate(
         QueryBuilder $qb, 

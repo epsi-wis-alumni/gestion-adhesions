@@ -31,6 +31,9 @@ class Candidate
     #[ORM\OneToMany(targetEntity: Vote::class, mappedBy: 'candidate')]
     private Collection $votes;
 
+    #[ORM\Column(length: 255)]
+    private ?string $presentation = null;
+
     public function __construct()
     {
         $this->votes = new ArrayCollection();
@@ -103,6 +106,18 @@ class Candidate
                 $vote->setCandidate(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPresentation(): ?string
+    {
+        return $this->presentation;
+    }
+
+    public function setPresentation(string $presentation): static
+    {
+        $this->presentation = $presentation;
 
         return $this;
     }
