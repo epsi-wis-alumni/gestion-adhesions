@@ -52,6 +52,8 @@ class UserRepository extends ServiceEntityRepository
             $this->search($qb, $search, self::SEARCH_FIELDS);
         }
 
+        $qb->andWhere('u.deletedAt IS NULL');
+
         return $qb->getQuery()->getResult();
     }
 }
