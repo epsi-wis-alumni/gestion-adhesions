@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\SoftDeletedTrait;
 use App\Enum\MembershipStatus;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -16,6 +17,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\HasLifecycleCallbacks]
 class User implements UserInterface
 {
+    use SoftDeletedTrait;
     public const ROLE_USER = 'ROLE_USER';
     public const ROLE_APPROVED = 'ROLE_APPROVED';
     public const ROLE_MEMBER = 'ROLE_MEMBER';
