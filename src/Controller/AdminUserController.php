@@ -56,10 +56,10 @@ class AdminUserController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_admin_user_delete', methods: ['POST'])]
-    public function delete(Request $request, EntityManagerInterface $entityManager, User $user): Response
+    public function delete(Request $request, #[CurrentUser()] User $currentUser, EntityManagerInterface $entityManager, User $user, UserManager $userManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($user);
+            $userManager->delete(who: $user, by: $currentUser);
             $entityManager->flush();
         }
 
