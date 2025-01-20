@@ -34,7 +34,6 @@ class LoginController extends AbstractController
         }
 
         return $this->render('login/complete.html.twig', [
-            'user' => $currentUser,
             'form' => $form,
         ]);
     }
