@@ -371,7 +371,7 @@ class User implements UserInterface
     {
         if (!$this->elections->contains($election)) {
             $this->elections->add($election);
-            $election->setUser($this);
+            $election->setCreatedBy($this);
         }
 
         return $this;
@@ -381,8 +381,8 @@ class User implements UserInterface
     {
         if ($this->elections->removeElement($election)) {
             // set the owning side to null (unless already changed)
-            if ($election->getUser() === $this) {
-                $election->setUser(null);
+            if ($election->getCreatedBy() === $this) {
+                $election->setCreatedBy(null);
             }
         }
 
