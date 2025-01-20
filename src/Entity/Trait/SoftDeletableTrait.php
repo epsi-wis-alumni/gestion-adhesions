@@ -25,10 +25,12 @@ trait SoftDeletableTrait
         return $this;
     }
 
+    public function getDeletedBy(): ?User
     {
         return $this->deletedBy;
     }
 
+    public function setDeletedBy(?User $deletedBy): static
     {
         $this->deletedBy = $deletedBy;
 
