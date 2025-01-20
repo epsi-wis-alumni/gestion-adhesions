@@ -54,7 +54,7 @@ security:
         - { path: ^/contribute, roles: ROLE_APPROVED }
         - { path: ^/admin, roles: ROLE_ADMIN }
 
-        - { path: ^/, roles: ROLE_MEMBRE } # catch-all
+        - { path: ^/, roles: ROLE_MEMBER } # catch-all
 
 when@test:
     security:
