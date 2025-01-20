@@ -1,61 +1,102 @@
+{% import "macros/dropdown.html.twig" as dropdown %}
+{% import "macros/fontawesome.html.twig" as fa %}
+{% import "macros/image.html.twig" as image %}
+{% import "macros/navigation.html.twig" as navigation %}
+
 <header>
   <nav class="navbar navbar-expand-lg bg-body border-bottom">
     <div class="container">
       {# ----- Logo ----- #}
-      <a class="navbar-brand" href="{{ path('app_home') }}"><img id="main-navbar-logo" src="{{ asset('images/navbar/alumni.png') }}" alt="Logo alumni" /></a>
+      <a class="navbar-brand me-5" href="{{ path('app_home') }}"><img id="main-navbar-logo" src="{{ asset('images/navbar/alumni.png') }}" alt="Logo alumni" /></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         {# ----- Bouton de gauche ----- #}
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_home')}}">Accueil</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Elections</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Adhérer</a>
-          </li>
+          {% if is_granted('ROLE_APPROVED') %}
+            {{ navigation.nav_item(
+              label: 'Élections',
+              path: '#',
+              icon: fa.icon('check-to-slot', size: 'lg'),
+              check_path: '#',
+            ) }}
+
+            {{ navigation.nav_item(
+              label: 'Évènements',
+              path: path('app_election_index'),
+              icon: fa.icon('calendar-star', size: 'lg'),
+              check_path: 'app_election',
+            ) }}
+          {% endif %}
         </ul>
 
         {# ----- Bouton de droite ----- #}
         {% if is_granted('ROLE_USER') %}
           <ul class="navbar-nav">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="/my-account" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mon compte</a>
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ image.avatar(app.user.avatar, size: 'sm') }}
+              </a>
               <ul class="dropdown-menu dropdown-menu-end">
-                <li>
-                  <a class="dropdown-item" href="#">Profil</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">Paramètres</a>
-                </li>
-                <li>
-                  <hr class="dropdown-divider" />
-                </li>
+                {{ dropdown.header('Mon compte') }}
+
+                {{ dropdown.item(
+                  label: 'Profil',
+                  path: '#',
+                  icon: fa.icon('user', fixed_width: true),
+                ) }}
+                
+                {{ dropdown.item(
+                  label: 'Paramètres',
+                  path: '#',
+                  icon: fa.icon('cog', fixed_width: true),
+                ) }}
+
                 {% if is_granted('ROLE_ADMIN') %}
                   <li>
-                    <a class="dropdown-item" href="{{ path('app_admin_index') }}">Admin</a>
+                    <hr class="dropdown-divider" />
                   </li>
+                  
+                  {{ dropdown.header('Administration') }}
+                
+                  {{ dropdown.item(
+                    label: 'Utilisateurs',
+                    path: path('app_admin_user_index'),
+                    icon: fa.icon('users', fixed_width: true),
+                  ) }}
+                
+                  {{ dropdown.item(
+                    label: 'Élections',
+                    path: '#',
+                    icon: fa.icon('check-to-slot', fixed_width: true),
+                  ) }}
+                
+                  {{ dropdown.item(
+                    label: 'Évènements',
+                    path: '#',
+                    icon: fa.icon('calendar-star', fixed_width: true),
+                  ) }}
                 {% endif %}
+                
                 <li>
                   <hr class="dropdown-divider" />
                 </li>
-                <li>
-                  <a class="dropdown-item" href="{{ path('app_logout') }}">
-                    Déconnexion
+                
+                {{ dropdown.header('Actions') }}
 
-                    <i class="fa-solid fa-arrow-right-from-bracket ms-3"></i>
-                  </a>
-                </li>
+                {{ dropdown.item(
+                  label: 'Déconnexion',
+                  path: path('app_logout'),
+                  icon: fa.icon('right-from-bracket', fixed_width: true),
+                  destructive: true,
+                ) }}
               </ul>
             </li>
           </ul>
         {% else %}
           <ul class="navbar-nav mb-2 mb-lg-0 list-unstyled">
             <li class="nav-item">
-              <a href="{{ path('app_login')}}" class="nav-link">Connexion</a>
+              <a href="{{ path('app_login') }}" class="nav-link">Connexion</a>
             </li>
           </ul>
         {% endif %}

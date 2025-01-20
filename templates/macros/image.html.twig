@@ -1,0 +1,6 @@
+{% macro avatar(path, alt, size = 'md', additional_classes = []) %}
+    {%- set classes = ['avatar', 'avatar-' ~ size, 'rounded-pill', 'border'] -%}
+    {%- set classes = classes|merge(additional_classes) -%}
+
+    <img src="{{ path }}" alt="{{ alt }}" class="{{ classes|join(' ') }}">
+{% endmacro %}

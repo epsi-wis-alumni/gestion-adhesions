@@ -22,14 +22,14 @@ class Newsletter
     #[ORM\Column(length: 255)]
     private ?string $cta = null;
 
-    #[ORM\ManyToOne(inversedBy: 'newsletters')]
+    #[ORM\ManyToOne(inversedBy: 'createdNewsletters')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $createdBy = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'newsletters')]
+    #[ORM\ManyToOne(inversedBy: 'sentNewsletters')]
     private ?User $sentBy = null;
 
     #[ORM\Column]

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Elections
+{% endblock %}
+
+{% block body %}
+  <div class="table-responsive border rounded my-5">
+    <table class="table table-striped mb-0">
+      <thead class="table-bordered">
+        <tr>
+          <th>JobTitle</th>
+          <th>CreatedAt</th>
+          <th>VoteStartAt</th>
+          <th>VoteEndAt</th>
+          <th>actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for election in elections %}
+          <tr>
+            <td>{{ election.jobTitle }}</td>
+            <td>{{ election.createdAt ? election.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            <td>{{ election.voteStartAt ? election.voteStartAt|date('Y-m-d H:i:s') : '' }}</td>
+            <td>{{ election.voteEndAt ? election.voteEndAt|date('Y-m-d H:i:s') : '' }}</td>
+            <td class="d-flex align-items-center gap-1">
+              <a class="btn" href="{{ path('app_candidate', { id: election.id }) }}">
+                <i class="fa-duotone fa-regular fa-user-plus"></i>
+                Candidater
+              </a>
+              <a class="btn" href="#"><i class="fa-duotone fa-regular fa-circle-info"></i></a>
+            </td>
+          </tr>
+        {% else %}
+          <tr>
+            <td colspan="3">Aucune Élection</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
