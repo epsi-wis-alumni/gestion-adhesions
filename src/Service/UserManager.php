@@ -47,9 +47,6 @@ final class UserManager
 
     public function removeRole(User $to, string $role ):void
     {
-        if (!str_starts_with($role,'ROLE_')){
-            throw new LogicException('A role must start with "ROLE_", but '+ $role +' given.');
-        }
         $to->setRoles(array_diff($to->getRoles(), [$role]));
     }
 }
