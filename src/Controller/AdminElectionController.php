@@ -28,12 +28,11 @@ final class AdminElectionController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, #[CurrentUser()] User $currentUser): Response
     {
         $election = new Election();
-        $election->setCreatedAt(new \DateTimeImmutable());
-        $election->setCreatedBy($currentUser);
         $form = $this->createForm(AdminElectionType::class, $election);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $election->setCreatedBy($currentUser);
             $entityManager->persist($election);
             $entityManager->flush();
 
