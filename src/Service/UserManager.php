@@ -37,9 +37,9 @@ final class UserManager
         ;
     }
 
-    public function addRole(User $to, string $role ):void
+    public function addRole(User $to, string $role): void
     {
-        if (!str_starts_with($role,'ROLE_')){
+        if (!str_starts_with($role, 'ROLE_')) {
             throw new LogicException('A role must start with "ROLE_", but "'. $role .'" given.');
         }
         $roles = $to->getRoles();
@@ -47,7 +47,7 @@ final class UserManager
         $to->setRoles($roles);
     }
 
-    public function removeRole(User $to, string $role ):void
+    public function removeRole(User $to, string $role): void
     {
         $to->setRoles(array_diff($to->getRoles(), [$role]));
     }
