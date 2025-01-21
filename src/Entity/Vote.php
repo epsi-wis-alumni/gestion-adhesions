@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\VoteRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: VoteRepository::class)]
@@ -24,6 +25,11 @@ class Vote
 
     #[ORM\ManyToOne(inversedBy: 'votes')]
     private ?Candidate $candidate = null;
+
+    public function __construct()
+    {
+        $this->setVotedAt(new DateTimeImmutable());
+    }
 
     public function getId(): ?int
     {
