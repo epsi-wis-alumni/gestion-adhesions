@@ -41,7 +41,7 @@ class AdminUserController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_admin_user_edit', methods: ['POST', 'GET'])]
-    public function edit(Request $request, EntityManagerInterface $entityManager, User $user): Response
+    public function edit(Request $request, EntityManagerInterface $entityManager, User $user, UserManager $userManager): Response
     {
         $form = $this->createForm(AdminUserUpdateType::class, $user, [
             'attr' => ['id' => 'admin_user_edit_form']
@@ -49,6 +49,8 @@ class AdminUserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $form->get('isAdmin')->getData() ? $userManager->addRole($user, User::ROLE_ADMIN) : $userManager->removeRole($user, User::ROLE_ADMIN);
+            
             $entityManager->flush();
 
             return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
