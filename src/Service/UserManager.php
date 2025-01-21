@@ -9,10 +9,6 @@ use LogicException;
 
 final class UserManager
 {
-    // public function __construct(private User $user)
-    // {
-
-    // }
     public function delete(User $by, User $who, DateTimeImmutable $when = new DateTimeImmutable()): void
     {
         $who
@@ -30,7 +26,6 @@ final class UserManager
             ->setApprovedAt(new DateTimeImmutable())
         ;
     }
-
 
     public function reject(User $who, User $by): void
     {
