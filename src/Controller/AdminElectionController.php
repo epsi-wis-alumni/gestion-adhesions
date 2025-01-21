@@ -25,8 +25,12 @@ final class AdminElectionController extends AbstractController
     }
 
     #[Route('/new', name: 'app_admin_election_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, #[CurrentUser()] User $currentUser): Response
-    {
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        #[CurrentUser()] User $currentUser
+    ): Response {
+        
         $election = new Election();
         $form = $this->createForm(AdminElectionType::class, $election);
         $form->handleRequest($request);

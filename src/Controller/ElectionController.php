@@ -34,6 +34,5 @@ class ElectionController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('app_election_index', [], Response::HTTP_SEE_OTHER);
-        
     }
 }
