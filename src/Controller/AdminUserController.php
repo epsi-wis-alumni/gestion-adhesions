@@ -21,6 +21,10 @@ class AdminUserController extends AbstractController
     {
         $perPage = $request->get('perPage', 50);
         $page = $request->get('page', 1);
+        $totalUserCount = count($userRepository->findBySearchPaginated(
+            page: $page,
+            perPage: $perPage,
+        ));
         $users = $userRepository->findBySearchPaginated(
             page: $page,
             perPage: $perPage,
@@ -32,7 +36,7 @@ class AdminUserController extends AbstractController
             'users' => $users,
             'pages' => ceil($userCount / $perPage),
             'page' => $page,
-            'user_count' => $userCount,
+            'user_count' => $request->get('search') ? count($users) . "/" . $totalUserCount : $totalUserCount,
         ]);
     }
 
