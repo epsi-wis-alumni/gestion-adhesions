@@ -11,11 +11,11 @@ use DateTimeImmutable;
 final class ElectionManager
 {
 
-    public function candidate(User $who, Candidate $what, Election $for): void
+    public function candidate(User $user, Candidate $candidate, Election $election): void
     {
-        $what
-            ->setElection($for)
-            ->setCandidate($who)
+        $candidate
+            ->setCandidate($user)
+            ->setElection($election)
         ;
     }
 }

@@ -29,7 +29,7 @@ class ElectionController extends AbstractController
     public function candidate(EntityManagerInterface $entityManager,#[CurrentUser()] User $currentUser,ElectionManager $electionManager, Election $election): Response
     {
         $candidate = new Candidate();
-        $electionManager->candidate(who: $currentUser,what: $candidate,for: $election);
+        $electionManager->candidate(user: $currentUser,candidate: $candidate,election: $election);
         $entityManager->persist($candidate);
         $entityManager->flush();
 
