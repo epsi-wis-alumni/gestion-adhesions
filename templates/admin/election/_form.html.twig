@@ -1,7 +1,22 @@
-    {{ form_start(form) }}
-    {{ form_row(form.jobTitle) }}
-    <div class="row">
-      <div class="col-md-6">{{ form_row(form.voteStartAt) }}</div>
-      <div class="col-md-6">{{ form_row(form.voteEndAt) }}</div>
+{% import "macros/fontawesome.html.twig" as fa %}
+
+{{ form_start(form) }}
+  {{ form_row(form.jobTitle) }}
+  
+  <div class="row">
+    <div class="col-md-6">
+      {{ form_row(form.voteStartAt) }}
     </div>
-    {{ form_end(form) }}
+    
+    <div class="col-md-6">
+      {{ form_row(form.voteEndAt) }}
+    </div>
+  </div>
+
+  <div class="text-end">
+    <button type="submit" class="btn btn-primary">
+      {{ fa.icon('save') }}
+      Enregistrer
+    </button>
+  </div>
+{{ form_end(form) }}

@@ -29,11 +29,6 @@ class AdminElectionType extends AbstractType
                 'row_attr' => ['class' => 'mb-3'],
                 'label' => 'Date de fin',
             ])
-            ->add('save', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-primary'],
-                'row_attr' => ['class' => 'mb-3'],
-                'label' => 'Enregistrer',
-            ])
         ;
     }
 
