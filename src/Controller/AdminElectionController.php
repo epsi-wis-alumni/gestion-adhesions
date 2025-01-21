@@ -25,15 +25,18 @@ final class AdminElectionController extends AbstractController
     }
 
     #[Route('/new', name: 'app_admin_election_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, #[CurrentUser()] User $currentUser): Response
-    {
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        #[CurrentUser()] User $currentUser
+    ): Response {
+        
         $election = new Election();
-        $election->setCreatedAt(new \DateTimeImmutable());
-        $election->setCreatedBy($currentUser);
         $form = $this->createForm(AdminElectionType::class, $election);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $election->setCreatedBy($currentUser);
             $entityManager->persist($election);
             $entityManager->flush();
 

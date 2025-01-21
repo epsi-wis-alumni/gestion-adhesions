@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+{% import 'macros/image.html.twig' as image %}
+{% import 'macros/fontawesome.html.twig' as fa %}
+
+{% block title %}
+  Election {{ election.id }}
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="table-responsive border rounded my-5">
+      <table class="table table-striped mb-0">
+        <tbody>
+          <tr>
+            <th>Id</th>
+            <td>{{ election.id }}</td>
+          </tr>
+          <tr>
+            <th>JobTitle</th>
+            <td>{{ election.jobTitle }}</td>
+          </tr>
+          <tr>
+            <th>CreatedAt</th>
+            <td>{{ election.createdAt ? election.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+          </tr>
+          <tr>
+            <th>CreatedBy</th>
+            <td>{{ election.createdBy.id }}</td>
+          </tr>
+          <tr>
+            <th>VoteStartAt</th>
+            <td>{{ election.voteStartAt ? election.voteStartAt|date('Y-m-d H:i:s') : '' }}</td>
+          </tr>
+          <tr>
+            <th class="border border-end-0">VoteEndAt</th>
+            <td>{{ election.voteEndAt ? election.voteEndAt|date('Y-m-d H:i:s') : '' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="h1 text-center">Candidats</div>
+
+    <div class="table-responsive border rounded my-5">
+      <table class="table table-striped mb-0">
+        <thead class="table-bordered">
+          <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for candidate in candidates %}
+            <tr>
+              <td>{{ candidate.candidate.firstname }}</td>
+              <td>{{ candidate.candidate.lastname }}</td>
+              <td class="d-flex align-items-center gap-1">
+                <a class="link-primary" href="#">{{ fa.icon('circle-info') }}</a>
+                <a class="link-primary" href="{{ path('app_vote', { election_id: election.id, candidate_id: candidate.id }) }}">{{ fa.icon('check-to-slot') }}</a>
+              </td>
+            </tr>
+          {% else %}
+            <tr>
+              <td colspan="3">Aucun candidats</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="d-flex gap-1">
+      <a class="btn btn-secondary" href="{{ path('app_election_index') }}">back to list</a>
+    </div>
+  </div>
+{% endblock %}

@@ -22,16 +22,10 @@ class AdminElectionType extends AbstractType
                 'label' => 'Poste',
             ])
             ->add('voteStartAt', null, [
-                'attr' => [
-                    'class' => 'form-control',
-                ],
                 'row_attr' => ['class' => 'mb-3'],
                 'label' => 'Date de début',
             ])
             ->add('voteEndAt', null, [
-                'attr' => [
-                    'class' => 'form-control',
-                ],
                 'row_attr' => ['class' => 'mb-3'],
                 'label' => 'Date de fin',
             ])

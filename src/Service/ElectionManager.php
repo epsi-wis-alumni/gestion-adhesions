@@ -5,8 +5,7 @@ namespace App\Service;
 use App\Entity\Candidate;
 use App\Entity\Election;
 use App\Entity\User;
-use App\Repository\UserRepository;
-use DateTimeImmutable;
+use App\Entity\Vote;
 
 final class ElectionManager
 {
@@ -14,6 +13,15 @@ final class ElectionManager
     {
         $candidate
             ->setCandidate($user)
+            ->setElection($election)
+        ;
+    }
+
+    public function vote(User $user, Vote $vote, Candidate $candidate, Election $election): void
+    {
+        $vote
+            ->setVoter($user)
+            ->setCandidate($candidate)
             ->setElection($election)
         ;
     }

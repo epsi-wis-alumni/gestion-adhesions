@@ -26,10 +26,10 @@
             <td>{{ election.voteStartAt ? election.voteStartAt|date('Y-m-d H:i:s') : '' }}</td>
             <td>{{ election.voteEndAt ? election.voteEndAt|date('Y-m-d H:i:s') : '' }}</td>
             <td class="d-flex align-items-center gap-1">
-              <a class="btn" href="{{ path('app_admin_election_edit', { id: election.id }) }}">
+              <a class="link-primary" href="{{ path('app_admin_election_edit', { id: election.id }) }}">
                 <i class="fa-duotone fa-regular fa-pen-to-square"></i>
               </a>
-              <a class="btn" href="{{ path('app_admin_election_show', { id: election.id }) }}">
+              <a class="link-primary" href="{{ path('app_admin_election_show', { id: election.id }) }}">
                <i class="fa-duotone fa-regular fa-circle-info"></i>
               </a>
               {% include 'admin/election/_delete.html.twig' %}
