@@ -16,7 +16,6 @@ final class ElectionManager
         $what
             ->setElection($for)
             ->setCandidate($who)
-            ->setCandidatedAt(new DateTimeImmutable())
         ;
     }
 }

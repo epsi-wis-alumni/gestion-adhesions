@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CandidateRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -37,6 +38,7 @@ class Candidate
     public function __construct()
     {
         $this->votes = new ArrayCollection();
+        $this->setCandidatedAt(new DateTimeImmutable());
     }
 
     public function getId(): ?int
