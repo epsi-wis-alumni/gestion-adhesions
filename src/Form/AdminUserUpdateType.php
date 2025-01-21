@@ -91,7 +91,7 @@ class AdminUserUpdateType extends AbstractType
                 ],
                 'label' => 'Administrateur',
                 'label_attr' => [
-                    'class' => 'form-check-label',
+                    'class' => 'checkbox-switch',
                 ],
                 'mapped' => false,
                 'required' => false,
