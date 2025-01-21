@@ -1,47 +1,60 @@
 {% extends 'admin_base.html.twig' %}
+{% import "macros/fontawesome.html.twig" as fa %}
 
 {% block title %}
   Election index
 {% endblock %}
 
+{% set date_format = 'd/m/Y H:i' %}
+
 {% block admin_content %}
-  <div class="table-responsive border rounded my-5">
-    <table class="table table-striped mb-0">
-      <thead class="table-bordered">
-        <tr>
-          <th>Id</th>
-          <th>JobTitle</th>
-          <th>CreatedAt</th>
-          <th>VoteStartAt</th>
-          <th>VoteEndAt</th>
-          <th>actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for election in elections %}
+  <div class="my-5">
+    <div class="row gap-2 mb-3">
+      <div class="col-auto ms-auto">
+        <a href="{{ path('app_admin_election_new') }}" class="btn btn-primary">
+          {{ fa.icon('plus', swap_opacity: true) }}
+          Nouvelle élection
+        </a>
+      </div>
+    </div>
+
+    <div class="table-responsive border rounded">
+      <table class="table table-striped mb-0">
+        <thead class="table-bordered">
           <tr>
-            <td>{{ election.id }}</td>
-            <td>{{ election.jobTitle }}</td>
-            <td>{{ election.createdAt ? election.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            <td>{{ election.voteStartAt ? election.voteStartAt|date('Y-m-d H:i:s') : '' }}</td>
-            <td>{{ election.voteEndAt ? election.voteEndAt|date('Y-m-d H:i:s') : '' }}</td>
-            <td class="d-flex align-items-center gap-1">
-              <a class="link-primary" href="{{ path('app_admin_election_edit', { id: election.id }) }}">
-                <i class="fa-duotone fa-regular fa-pen-to-square"></i>
-              </a>
-              <a class="link-primary" href="{{ path('app_admin_election_show', { id: election.id }) }}">
-               <i class="fa-duotone fa-regular fa-circle-info"></i>
-              </a>
-              {% include 'admin/election/_delete.html.twig' %}
-            </td>
+            <th>Id</th>
+            <th>Poste</th>
+            <th>Création</th>
+            <th>Début vote</th>
+            <th>Fin vote</th>
+            <th>Actions</th>
           </tr>
-        {% else %}
-          <tr>
-            <td colspan="6">Aucune Élection</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {% for election in elections %}
+            <tr>
+              <td>{{ election.id }}</td>
+              <td>{{ election.jobTitle }}</td>
+              <td>{{ election.createdAt ? election.createdAt|date(date_format) : '' }}</td>
+              <td>{{ election.voteStartAt ? election.voteStartAt|date(date_format) : '' }}</td>
+              <td>{{ election.voteEndAt ? election.voteEndAt|date(date_format) : '' }}</td>
+              <td class="d-flex align-items-center gap-2">
+                <a class="link-primary" href="{{ path('app_admin_election_edit', { id: election.id }) }}">
+                  <i class="fa-duotone fa-regular fa-pen-to-square"></i>
+                </a>
+                <a class="link-primary" href="{{ path('app_admin_election_show', { id: election.id }) }}">
+                <i class="fa-duotone fa-regular fa-circle-info"></i>
+                </a>
+                {% include 'admin/election/_delete.html.twig' %}
+              </td>
+            </tr>
+          {% else %}
+            <tr>
+              <td colspan="6">Aucune Élection</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
-  <a href="{{ path('app_admin_election_new') }}" class="btn btn-primary">Create new</a>
 {% endblock %}
