@@ -9,8 +9,12 @@
 
 {% block admin_content %}
   <div class="my-5">
-    <div class="row gap-2 mb-3">
-      <div class="col-auto ms-auto">
+    <div class="row align-items-end gap-2 mb-3">
+      <div class="col-auto me-auto">
+        <h2 class="h4 mb-0">Liste des élections</h2>
+      </div>
+
+      <div class="col-auto">
         <a href="{{ path('app_admin_election_new') }}" class="btn btn-primary">
           {{ fa.icon('plus', swap_opacity: true) }}
           Nouvelle élection
