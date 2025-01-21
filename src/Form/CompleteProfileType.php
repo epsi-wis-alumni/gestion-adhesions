@@ -18,14 +18,14 @@ class CompleteProfileType extends AbstractType
                     'class' => 'form-control',
                     'placeholder' => 'Ex : jeanmarc@contact.com',
                 ],
-                'row_attr' => ['class' => 'mb-3'], 
+                'row_attr' => ['class' => 'mb-3'],
             ])
             ->add('firstname', null, [
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Ex : Jean-Marc',
                 ],
-                'row_attr' => ['class' => 'mb-3'], 
+                'row_attr' => ['class' => 'mb-3'],
                 'label' => 'Prénom'
             ])
             ->add('lastname', null, [
@@ -33,7 +33,7 @@ class CompleteProfileType extends AbstractType
                     'class' => 'form-control',
                     'placeholder' => 'Ex : Dupont',
                 ],
-                'row_attr' => ['class' => 'mb-3'], 
+                'row_attr' => ['class' => 'mb-3'],
                 'label' => 'Nom',
             ])
             ->add('company', null, [
@@ -41,7 +41,7 @@ class CompleteProfileType extends AbstractType
                     'class' => 'form-control',
                     'placeholder' => 'Ex : EPSI-WIS Alumni',
                 ],
-                'row_attr' => ['class' => 'mb-3'], 
+                'row_attr' => ['class' => 'mb-3'],
                 'label' => 'Entreprise',
             ])
             ->add('jobTitle', null, [
@@ -49,12 +49,12 @@ class CompleteProfileType extends AbstractType
                     'class' => 'form-control',
                     'placeholder' => 'Ex : Data Scientist',
                 ],
-                'row_attr' => ['class' => 'mb-3'], 
+                'row_attr' => ['class' => 'mb-3'],
                 'label' => 'Poste',
             ])
             ->add('save', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-primary'], 
-                'row_attr' => ['class' => 'mb-3'], 
+                'attr' => ['class' => 'btn btn-primary'],
+                'row_attr' => ['class' => 'mb-3'],
                 'label' => 'Enregistrer',
             ]);
     }

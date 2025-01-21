@@ -9,7 +9,6 @@ use App\Entity\Vote;
 
 final class ElectionManager
 {
-
     public function candidate(User $user, Candidate $candidate, Election $election): void
     {
         $candidate

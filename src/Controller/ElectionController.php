@@ -20,7 +20,6 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 #[Route('/election')]
 class ElectionController extends AbstractController
 {
-
     #[Route(name: 'app_election_index', methods: ['GET'])]
     public function index(ElectionRepository $electionRepository): Response
     {

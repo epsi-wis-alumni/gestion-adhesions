@@ -35,9 +35,5 @@ trait SoftDeletableTrait
         $this->deletedBy = $deletedBy;
 
         return $this;
-    } 
+    }
 }
-
-
-
-

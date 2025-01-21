@@ -19,7 +19,7 @@ class UserRepository extends ServiceEntityRepository
     use SearchableTrait;
 
     public const SEARCH_FIELDS = ['firstname', 'lastname', 'email', 'company', 'jobTitle'];
-    
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
@@ -44,7 +44,7 @@ class UserRepository extends ServiceEntityRepository
     public function findBySearchPaginated(int $page = 1, int $perPage = 50, array $orderBy = [], ?string $search = null): array
     {
         $qb = $this->createQueryBuilder('u');
-        
+
         $this->paginate($qb, $page, $perPage);
         $this->orderBy($qb, $orderBy);
 

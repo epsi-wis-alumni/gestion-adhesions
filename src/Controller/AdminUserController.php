@@ -19,19 +19,24 @@ class AdminUserController extends AbstractController
     #[Route(name: 'app_admin_user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository, Request $request): Response
     {
-        $userCount = $userRepository->count();
         $perPage = $request->get('perPage', 50);
         $page = $request->get('page', 1);
+        $totalUserCount = count($userRepository->findBySearchPaginated(
+            page: $page,
+            perPage: $perPage,
+        ));
+        $users = $userRepository->findBySearchPaginated(
+            page: $page,
+            perPage: $perPage,
+            search: $request->get('search'),
+        );
+        $userCount = count($users);
 
         return $this->render('admin/user/index.html.twig', [
-            'users' => $userRepository->findBySearchPaginated(
-                page: $page,
-                perPage: $perPage,
-                search: $request->get('search'),
-            ),
+            'users' => $users,
             'pages' => ceil($userCount / $perPage),
             'page' => $page,
-            'user_count' => $userCount,
+            'user_count' => $request->get('search') ? count($users) . "/" . $totalUserCount : $totalUserCount,
         ]);
     }
 
@@ -45,7 +50,7 @@ class AdminUserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $form->get('isAdmin')->getData() ? $userManager->addRole($user, User::ROLE_ADMIN) : $userManager->removeRole($user, User::ROLE_ADMIN);
-            
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
