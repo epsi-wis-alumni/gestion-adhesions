@@ -401,7 +401,7 @@ class User implements UserInterface
     {
         if (!$this->candidates->contains($candidate)) {
             $this->candidates->add($candidate);
-            $candidate->setUser($this);
+            $candidate->setCandidate($this);
         }
 
         return $this;
@@ -411,8 +411,8 @@ class User implements UserInterface
     {
         if ($this->candidates->removeElement($candidate)) {
             // set the owning side to null (unless already changed)
-            if ($candidate->getUser() === $this) {
-                $candidate->setUser(null);
+            if ($candidate->getCandidate() === $this) {
+                $candidate->setCandidate(null);
             }
         }
 
