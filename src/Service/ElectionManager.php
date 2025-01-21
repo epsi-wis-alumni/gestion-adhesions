@@ -11,11 +11,6 @@ use DateTimeImmutable;
 final class ElectionManager
 {
 
-    // public function __construct(private User $user)
-    // {
-
-    // }
-
     public function candidate(User $who, Candidate $what, Election $for): void
     {
         $what
