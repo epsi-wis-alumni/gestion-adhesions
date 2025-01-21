@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Candidature
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="mx-auto" style="max-width: 24rem;">
+      {{ form_start(form) }}
+      {{ form_row(form.presentation) }}
+      {{ form_end(form) }}
+    </div>
+  </div>
+{% endblock %}
