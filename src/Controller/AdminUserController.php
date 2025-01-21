@@ -19,16 +19,17 @@ class AdminUserController extends AbstractController
     #[Route(name: 'app_admin_user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository, Request $request): Response
     {
-        $userCount = $userRepository->count();
         $perPage = $request->get('perPage', 50);
         $page = $request->get('page', 1);
+        $users = $userRepository->findBySearchPaginated(
+            page: $page,
+            perPage: $perPage,
+            search: $request->get('search'),
+        );
+        $userCount = count($users);
 
         return $this->render('admin/user/index.html.twig', [
-            'users' => $userRepository->findBySearchPaginated(
-                page: $page,
-                perPage: $perPage,
-                search: $request->get('search'),
-            ),
+            'users' => $users,
             'pages' => ceil($userCount / $perPage),
             'page' => $page,
             'user_count' => $userCount,
