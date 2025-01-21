@@ -670,9 +670,9 @@ class User implements UserInterface
             MembershipStatus::Pending => 'En attente',
         };
     }
-    
-    public function hasCompleteInfo():bool
+
+    public function hasCompleteInfo(): bool
     {
         return !!$this->getCompany() && !!$this->getJobTitle();
-    } 
+    }
 }

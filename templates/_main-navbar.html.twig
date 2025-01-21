@@ -16,9 +16,9 @@
           {% if is_granted('ROLE_APPROVED') %}
             {{ navigation.nav_item(
               label: 'Élections',
-              path: '#',
+              path: path('app_election_index'),
               icon: fa.icon('check-to-slot', size: 'lg'),
-              check_path: '#',
+              check_path: 'app_election',
             ) }}
 
             {{ navigation.nav_item(

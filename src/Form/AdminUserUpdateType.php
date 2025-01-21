@@ -17,7 +17,7 @@ class AdminUserUpdateType extends AbstractType
     {
         $builder
             ->add('email', TextType::class, [
-                'attr'=> [
+                'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Ex : jeanmarc@contact.com',
                 ],
@@ -27,7 +27,7 @@ class AdminUserUpdateType extends AbstractType
                 'label' => 'Email',
             ])
             ->add('firstname', TextType::class, [
-                'attr'=> [
+                'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Ex : Jean-Marc',
                 ],
@@ -38,7 +38,7 @@ class AdminUserUpdateType extends AbstractType
                 'required' => false,
             ])
             ->add('lastname', TextType::class, [
-                'attr'=> [
+                'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Ex : Dupont',
                 ],
@@ -49,7 +49,7 @@ class AdminUserUpdateType extends AbstractType
                 'required' => false,
             ])
             ->add('username', TextType::class, [
-                'attr'=> [
+                'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Ex : JM Dupont',
                 ],
@@ -60,7 +60,7 @@ class AdminUserUpdateType extends AbstractType
                 'required' => false,
             ])
             ->add('company', TextType::class, [
-                'attr'=> [
+                'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Ex : EPSI-WIS Alumni',
                 ],
@@ -71,7 +71,7 @@ class AdminUserUpdateType extends AbstractType
                 'required' => false,
             ])
             ->add('jobTitle', TextType::class, [
-                'attr'=> [
+                'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Ex : Secrétaire',
                 ],
@@ -82,7 +82,7 @@ class AdminUserUpdateType extends AbstractType
                 'required' => false,
             ])
             ->add('isAdmin', CheckboxType::class, [
-                'attr'=> [
+                'attr' => [
                     'class' => 'form-check-input',
                     'placeholder' => 'Ex : 12345678',
                 ],

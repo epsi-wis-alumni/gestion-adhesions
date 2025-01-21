@@ -1,0 +1,47 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}
+  Election index
+{% endblock %}
+
+{% block admin_content %}
+  <div class="table-responsive border rounded my-5">
+    <table class="table table-striped mb-0">
+      <thead class="table-bordered">
+        <tr>
+          <th>Id</th>
+          <th>JobTitle</th>
+          <th>CreatedAt</th>
+          <th>VoteStartAt</th>
+          <th>VoteEndAt</th>
+          <th>actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for election in elections %}
+          <tr>
+            <td>{{ election.id }}</td>
+            <td>{{ election.jobTitle }}</td>
+            <td>{{ election.createdAt ? election.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            <td>{{ election.voteStartAt ? election.voteStartAt|date('Y-m-d H:i:s') : '' }}</td>
+            <td>{{ election.voteEndAt ? election.voteEndAt|date('Y-m-d H:i:s') : '' }}</td>
+            <td class="d-flex align-items-center gap-1">
+              <a class="btn" href="{{ path('app_admin_election_edit', { id: election.id }) }}">
+                <i class="fa-duotone fa-regular fa-pen-to-square"></i>
+              </a>
+              <a class="btn" href="{{ path('app_admin_election_show', { id: election.id }) }}">
+               <i class="fa-duotone fa-regular fa-circle-info"></i>
+              </a>
+              {% include 'admin/election/_delete.html.twig' %}
+            </td>
+          </tr>
+        {% else %}
+          <tr>
+            <td colspan="6">Aucune Élection</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <a href="{{ path('app_admin_election_new') }}" class="btn btn-primary">Create new</a>
+{% endblock %}

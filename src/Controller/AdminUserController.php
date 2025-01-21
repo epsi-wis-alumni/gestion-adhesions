@@ -50,7 +50,7 @@ class AdminUserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $form->get('isAdmin')->getData() ? $userManager->addRole($user, User::ROLE_ADMIN) : $userManager->removeRole($user, User::ROLE_ADMIN);
-            
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);

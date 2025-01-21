@@ -1,0 +1,45 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}
+  Election {{ election.id }}
+{% endblock %}
+
+{% block admin_content %}
+  <div class="table-responsive border rounded my-5">
+    <table class="table table-striped mb-0">
+      <tbody>
+        <tr>
+          <th>Id</th>
+          <td>{{ election.id }}</td>
+        </tr>
+        <tr>
+          <th>JobTitle</th>
+          <td>{{ election.jobTitle }}</td>
+        </tr>
+        <tr>
+          <th>CreatedAt</th>
+          <td>{{ election.createdAt ? election.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+          <th>CreatedBy</th>
+          <td>{{ election.createdBy.id }}</td>
+        </tr>
+        <tr>
+          <th>VoteStartAt</th>
+          <td>{{ election.voteStartAt ? election.voteStartAt|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+          <th>VoteEndAt</th>
+          <td>{{ election.voteEndAt ? election.voteEndAt|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="d-flex gap-1">
+    <a class="btn btn-secondary" href="{{ path('app_admin_election_index') }}">back to list</a>
+
+    <a class="btn btn-primary" href="{{ path('app_admin_election_edit', { id: election.id }) }}">edit</a>
+
+    {{ include('admin/election/_delete.html.twig') }}
+  </div>
+{% endblock %}
