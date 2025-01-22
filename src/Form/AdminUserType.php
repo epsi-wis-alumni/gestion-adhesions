@@ -16,7 +16,6 @@ class AdminUserType extends AbstractType
         $builder
             ->add('email', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control',
                     'placeholder' => 'Adresse email',
                 ],
                 'row_attr' => [
@@ -26,7 +25,6 @@ class AdminUserType extends AbstractType
             ])
             ->add('firstname', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control',
                     'placeholder' => 'Prénom',
                 ],
                 'row_attr' => [
@@ -37,7 +35,6 @@ class AdminUserType extends AbstractType
             ])
             ->add('lastname', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control',
                     'placeholder' => 'Nom',
                 ],
                 'row_attr' => [
@@ -48,7 +45,6 @@ class AdminUserType extends AbstractType
             ])
             ->add('company', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control',
                     'placeholder' => 'Entreprise',
                 ],
                 'row_attr' => [
@@ -59,7 +55,6 @@ class AdminUserType extends AbstractType
             ])
             ->add('jobTitle', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control',
                     'placeholder' => 'Poste occupé',
                 ],
                 'row_attr' => [
