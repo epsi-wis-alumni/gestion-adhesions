@@ -7,8 +7,11 @@ use App\Entity\Election;
 use App\Entity\User;
 use App\Entity\Vote;
 use App\Form\CandidateType;
+use App\Repository\CandidateRepository;
 use App\Repository\ElectionRepository;
+use App\Repository\VoteRepository;
 use App\Service\ElectionManager;
+use ArrayObject;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,6 +36,11 @@ class ElectionController extends AbstractController
     #[Route('/close', name: 'app_election_close', methods: ['GET'])]
     public function close(ElectionRepository $electionRepository): Response
     {
+        return $this->render('election/index.html.twig', [
+            'isClose' => true,
+            'elections' => $electionRepository->findClosed(),
+        ]);
+    }
 
     #[Route('/{id}/show', name: 'app_election_show', methods: ['GET'])]
     public function show(
