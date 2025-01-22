@@ -17,7 +17,7 @@ class AdminUserType extends AbstractType
             ->add('email', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Ex : jeanmarc@contact.com',
+                    'placeholder' => 'Adresse email',
                 ],
                 'row_attr' => [
                     'class' => 'mb-3',
@@ -27,7 +27,7 @@ class AdminUserType extends AbstractType
             ->add('firstname', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Ex : Jean-Marc',
+                    'placeholder' => 'Prénom',
                 ],
                 'row_attr' => [
                     'class' => 'mb-3',
@@ -38,7 +38,7 @@ class AdminUserType extends AbstractType
             ->add('lastname', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Ex : Dupont',
+                    'placeholder' => 'Nom',
                 ],
                 'row_attr' => [
                     'class' => 'mb-3',
@@ -49,7 +49,7 @@ class AdminUserType extends AbstractType
             ->add('company', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Ex : EPSI-WIS Alumni',
+                    'placeholder' => 'Entreprise',
                 ],
                 'row_attr' => [
                     'class' => 'mb-3',
@@ -60,18 +60,17 @@ class AdminUserType extends AbstractType
             ->add('jobTitle', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Ex : Secrétaire',
+                    'placeholder' => 'Poste occupé',
                 ],
                 'row_attr' => [
                     'class' => 'mb-3',
                 ],
-                'label' => 'Poste',
+                'label' => 'Poste occupé',
                 'required' => false,
             ])
             ->add('isAdmin', CheckboxType::class, [
                 'attr' => [
                     'class' => 'form-check-input',
-                    'placeholder' => 'Ex : 12345678',
                 ],
                 'row_attr' => [
                     'class' => 'mb-3 form-check form-switch ps-3',
