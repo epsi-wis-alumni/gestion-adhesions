@@ -30,6 +30,24 @@ class VoteRepository extends ServiceEntityRepository
             ->getOneOrNullResult() ? true : false;;
     }
 
+    /**
+     * @return int Returns number of vote for a candidate
+     */
+    public function getNbVote(int $candidateId, int $electionId): int
+    {
+        return $this->createQueryBuilder('v')
+            ->select('COUNT(v.id) as NB')   
+            ->leftJoin('v.candidate', 'c')
+            ->leftJoin('v.election', 'e')
+            ->andWhere('c.id = :candidateId')
+            ->andWhere('e.id = :electionId')
+            ->setParameter('candidateId', $candidateId)
+            ->setParameter('electionId', $electionId)
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
+
     //    public function findOneBySomeField($value): ?Vote
     //    {
     //        return $this->createQueryBuilder('v')
