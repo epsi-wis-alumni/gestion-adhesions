@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ElectionRepository;
+use App\Repository\VoteRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -174,5 +175,15 @@ class Election
         }
 
         return $this;
+    }
+
+    public function getResult($candidates, int $electionId, VoteRepository $voteRepository): array
+    {
+        $result = [];
+        foreach ($candidates as $candidate) {
+            $userId = $candidate->getCandidate()->getId();
+            $result[$userId] = $voteRepository->getNbVote($userId, $electionId);
+        }
+        return $result;
     }
 }
