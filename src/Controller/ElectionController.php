@@ -23,7 +23,9 @@ class ElectionController extends AbstractController
     #[Route(name: 'app_election_index', methods: ['GET'])]
     public function open(ElectionRepository $electionRepository): Response
     {
+        
         return $this->render('election/index.html.twig', [
+            'isClose' => false,
             'elections' => $electionRepository->findOpened(),
         ]);
     }
