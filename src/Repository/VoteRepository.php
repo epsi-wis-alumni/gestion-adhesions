@@ -16,20 +16,19 @@ class VoteRepository extends ServiceEntityRepository
         parent::__construct($registry, Vote::class);
     }
 
-    //    /**
-    //     * @return Vote[] Returns an array of Vote objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('v')
-    //            ->andWhere('v.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('v.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * @return boolean Returns a boolean
+     */
+    public function hasVoted($user, $election): bool
+    {
+        return $this->createQueryBuilder('v')
+            ->andWhere('v.voter = :user')
+            ->andWhere('v.election = :election')
+            ->setParameter('user', $user)
+            ->setParameter('election', $election)
+            ->getQuery()
+            ->getOneOrNullResult() ? true : false;;
+    }
 
     //    public function findOneBySomeField($value): ?Vote
     //    {
