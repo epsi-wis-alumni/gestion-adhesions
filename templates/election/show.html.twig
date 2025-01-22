@@ -12,34 +12,30 @@
       <table class="table table-striped mb-0">
         <tbody>
           <tr>
-            <th>Id</th>
-            <td>{{ election.id }}</td>
-          </tr>
-          <tr>
             <th>JobTitle</th>
             <td>{{ election.jobTitle }}</td>
           </tr>
           <tr>
             <th>CreatedAt</th>
-            <td>{{ election.createdAt ? election.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            <td>{{ election.createdAt ? election.createdAt|date('d-m-Y') : '' }}</td>
           </tr>
           <tr>
             <th>CreatedBy</th>
-            <td>{{ election.createdBy.id }}</td>
+            <td>{{ election.createdBy.firstname }} {{ election.createdBy.lastname }}</td>
           </tr>
           <tr>
             <th>VoteStartAt</th>
-            <td>{{ election.voteStartAt ? election.voteStartAt|date('Y-m-d H:i:s') : '' }}</td>
+            <td>{{ election.voteStartAt ? election.voteStartAt|date('d-m-Y') : '' }}</td>
           </tr>
           <tr>
             <th class="border border-end-0">VoteEndAt</th>
-            <td>{{ election.voteEndAt ? election.voteEndAt|date('Y-m-d H:i:s') : '' }}</td>
+            <td>{{ election.voteEndAt ? election.voteEndAt|date('d-m-Y') : '' }}</td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <div class="h1 text-center">Candidats</div>
+    <div class="h2 text-center">Candidats</div>
 
     <div class="table-responsive border rounded my-5">
       <table class="table table-striped mb-0">
@@ -48,6 +44,9 @@
             <th>Nom</th>
             <th>Prénom</th>
             <th>Actions</th>
+            {% if isClosed %}
+              <th>Pourcentage de votes sur {{ totalNbVote }} votes</th>
+            {% endif %}
           </tr>
         </thead>
         <tbody>
@@ -57,8 +56,23 @@
               <td>{{ candidate.candidate.lastname }}</td>
               <td class="d-flex align-items-center gap-1">
                 <a class="link-primary" href="#">{{ fa.icon('circle-info') }}</a>
-                <a class="link-primary" href="{{ path('app_vote', { election_id: election.id, candidate_id: candidate.id }) }}">{{ fa.icon('check-to-slot') }}</a>
+                  <a
+                  {% if isClosed %}
+                    class="link-secondary"
+                    href="#">
+                  {% else %} 
+                    class="link-primary" 
+                    href="{{ path('app_vote', { election_id: election.id, candidate_id: candidate.id }) }}">
+                  {% endif %} 
+                  {{ fa.icon('check-to-slot') }}</a>
               </td>
+              {% if isClosed %}
+                {% if candidate.candidate.id in winners %}
+                  <td class="text-success">{{ (result[candidate.candidate.id] / totalNbVote * 100)|round(2) }}%</td>
+                {% else %}
+                <td>{{ (result[candidate.candidate.id] / totalNbVote * 100)|round(2)  }}%</td>
+                {% endif %}
+              {% endif %}
             </tr>
           {% else %}
             <tr>
