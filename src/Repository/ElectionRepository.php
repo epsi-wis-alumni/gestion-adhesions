@@ -44,6 +44,21 @@ class ElectionRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    /**
+     * @return bool Returns an bool
+     */
+    public function isClosed($id): bool
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.id = :id')
+            ->andWhere('e.voteEndAt < :now')
+            ->setParameter('id', $id)
+            ->setParameter('now', new \DateTimeImmutable())
+            ->getQuery()
+            ->getOneOrNullResult() ? true : false;;
+    }
+
     //    public function findOneBySomeField($value): ?Election
     //    {
     //        return $this->createQueryBuilder('e')
