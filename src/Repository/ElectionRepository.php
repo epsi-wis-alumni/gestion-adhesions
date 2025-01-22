@@ -16,20 +16,20 @@ class ElectionRepository extends ServiceEntityRepository
         parent::__construct($registry, Election::class);
     }
 
-    //    /**
-    //     * @return Election[] Returns an array of Election objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('e')
-    //            ->andWhere('e.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('e.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * @return Election[] Returns an array of Election objects
+     */
+    public function findOpened(): array
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.voteStartAt <= :now')
+            ->andWhere('e.voteEndAt >= :now')
+            ->setParameter('now', new \DateTimeImmutable())
+            ->orderBy('e.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
     //    public function findOneBySomeField($value): ?Election
     //    {

@@ -24,7 +24,7 @@ class ElectionController extends AbstractController
     public function index(ElectionRepository $electionRepository): Response
     {
         return $this->render('election/index.html.twig', [
-            'elections' => $electionRepository->findAll(),
+            'elections' => $electionRepository->findOpened(),
         ]);
     }
 
