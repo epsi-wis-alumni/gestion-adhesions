@@ -21,15 +21,15 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 class ElectionController extends AbstractController
 {
     #[Route(name: 'app_election_index', methods: ['GET'])]
-    public function index(ElectionRepository $electionRepository): Response
+    public function open(ElectionRepository $electionRepository): Response
     {
         return $this->render('election/index.html.twig', [
             'elections' => $electionRepository->findOpened(),
         ]);
     }
 
-    #[Route('/{id}/show', name: 'app_election_show', methods: ['GET'])]
-    public function show(Election $election): Response
+    #[Route('/close', name: 'app_election_close', methods: ['GET'])]
+    public function close(ElectionRepository $electionRepository): Response
     {
         return $this->render('election/show.html.twig', [
             'election' => $election,
