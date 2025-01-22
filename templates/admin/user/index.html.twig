@@ -69,7 +69,7 @@
                   ) }}
                 </div>
               </td>
-              <td>{{ user.displayName }}</td>
+              <td>{{ user.displayName }}{{ user.hasRole('ROLE_ADMIN') ? fa.icon('crown', additional_classes: ['text-warning']) : '' }}</td>
               <td>{{ user.email }}</td>
               <td>{{ user.company }}</td>
               <td>{{ user.jobTitle }}</td>
