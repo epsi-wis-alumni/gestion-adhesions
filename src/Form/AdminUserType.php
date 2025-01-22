@@ -69,12 +69,6 @@ class AdminUserType extends AbstractType
                 'required' => false,
             ])
             ->add('isAdmin', CheckboxType::class, [
-                'attr' => [
-                    'class' => 'form-check-input',
-                ],
-                'row_attr' => [
-                    'class' => 'mb-3 form-check form-switch ps-3',
-                ],
                 'label' => 'Administrateur',
                 'label_attr' => [
                     'class' => 'checkbox-switch',
