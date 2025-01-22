@@ -31,6 +31,19 @@ class ElectionRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+     * @return Election[] Returns an array of Election objects
+     */
+    public function findClosed(): array
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.voteEndAt < :now')
+            ->setParameter('now', new \DateTimeImmutable())
+            ->orderBy('e.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     //    public function findOneBySomeField($value): ?Election
     //    {
     //        return $this->createQueryBuilder('e')
