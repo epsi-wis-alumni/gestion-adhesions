@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Newsletter{% endblock %}
+
+{% block body %}
+    <h1>Newsletter</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ newsletter.id }}</td>
+            </tr>
+            <tr>
+                <th>Objet</th>
+                <td>{{ newsletter.objet }}</td>
+            </tr>
+            <tr>
+                <th>Body</th>
+                <td>{{ newsletter.body }}</td>
+            </tr>
+            <tr>
+                <th>Cta</th>
+                <td>{{ newsletter.cta }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ newsletter.createdAt ? newsletter.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>SendAt</th>
+                <td>{{ newsletter.sendAt ? newsletter.sendAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_newsletter_index') }}">back to list</a>
+
+    <a href="{{ path('app_admin_newsletter_edit', {'id': newsletter.id}) }}">edit</a>
+
+    {{ include('admin_newsletter/_delete_form.html.twig') }}
+{% endblock %}
