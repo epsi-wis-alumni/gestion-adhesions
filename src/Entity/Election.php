@@ -186,4 +186,10 @@ class Election
         }
         return $result;
     }
+
+    public function getWinners(array $result): array
+    {
+        $maxValue = max($result);
+        return array_keys($result, $maxValue);
+    }
 }
