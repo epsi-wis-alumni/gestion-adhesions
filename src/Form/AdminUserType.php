@@ -48,17 +48,6 @@ class AdminUserType extends AbstractType
                 'label' => 'Nom',
                 'required' => false,
             ])
-            ->add('username', TextType::class, [
-                'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Ex : JM Dupont',
-                ],
-                'row_attr' => [
-                    'class' => 'mb-3',
-                ],
-                'label' => 'Surnom',
-                'required' => false,
-            ])
             ->add('company', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
