@@ -1,0 +1,47 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}
+  Newsletter index
+{% endblock %}
+
+{% block admin_content %}
+  <h1>Newsletter index</h1>
+
+  {% include "admin/newsletter/markdown.html.twig" %}
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Objet</th>
+        <th>Body</th>
+        <th>Cta</th>
+        <th>CreatedAt</th>
+        <th>SendAt</th>
+        <th>actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for newsletter in newsletters %}
+        <tr>
+          <td>{{ newsletter.id }}</td>
+          <td>{{ newsletter.objet }}</td>
+          <td>{{ newsletter.body }}</td>
+          <td>{{ newsletter.cta }}</td>
+          <td>{{ newsletter.createdAt ? newsletter.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+          <td>{{ newsletter.sendAt ? newsletter.sendAt|date('Y-m-d H:i:s') : '' }}</td>
+          <td>
+            <a href="{{ path('app_admin_newsletter_show', { id: newsletter.id }) }}">show</a>
+            <a href="{{ path('app_admin_newsletter_edit', { id: newsletter.id }) }}">edit</a>
+          </td>
+        </tr>
+      {% else %}
+        <tr>
+          <td colspan="7">no records found</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <a href="{{ path('app_admin_newsletter_new') }}">Create new</a>
+{% endblock %}

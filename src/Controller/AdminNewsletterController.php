@@ -17,7 +17,7 @@ final class AdminNewsletterController extends AbstractController
     #[Route(name: 'app_admin_newsletter_index', methods: ['GET'])]
     public function index(NewsletterRepository $newsletterRepository): Response
     {
-        return $this->render('admin_newsletter/index.html.twig', [
+        return $this->render('admin/newsletter/index.html.twig', [
             'newsletters' => $newsletterRepository->findAll(),
         ]);
     }
@@ -36,7 +36,7 @@ final class AdminNewsletterController extends AbstractController
             return $this->redirectToRoute('app_admin_newsletter_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('admin_newsletter/new.html.twig', [
+        return $this->render('admin/newsletter/new.html.twig', [
             'newsletter' => $newsletter,
             'form' => $form,
         ]);
@@ -45,7 +45,7 @@ final class AdminNewsletterController extends AbstractController
     #[Route('/{id}', name: 'app_admin_newsletter_show', methods: ['GET'])]
     public function show(Newsletter $newsletter): Response
     {
-        return $this->render('admin_newsletter/show.html.twig', [
+        return $this->render('admin/newsletter/show.html.twig', [
             'newsletter' => $newsletter,
         ]);
     }
@@ -62,7 +62,7 @@ final class AdminNewsletterController extends AbstractController
             return $this->redirectToRoute('app_admin_newsletter_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('admin_newsletter/edit.html.twig', [
+        return $this->render('admin/newsletter/edit.html.twig', [
             'newsletter' => $newsletter,
             'form' => $form,
         ]);
