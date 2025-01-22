@@ -5,5 +5,8 @@
 {% endblock %}
 
 {% block admin_content %}
-  {% include "admin/election/_form.html.twig" %}
+  <div class="container-form my-5">
+    <h2>Modifier l'élection</h2>
+    {% include "admin/election/_form.html.twig" %}
+  </div>
 {% endblock %}
