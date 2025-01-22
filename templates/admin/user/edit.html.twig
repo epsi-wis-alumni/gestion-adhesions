@@ -5,11 +5,21 @@
 {% endblock %}
 
 {% block admin_content %}
-  <div class="container">
-    {{ form(form) }}
-    <div class="mt-4 d-flex justify-content-between">
-      <button type="submit" form="admin_user_edit_form" class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
-      <a href="{{ path('app_admin_user_index') }}" class="btn btn-secondary">Retour à la liste des utilisateurs</a>
-    </div>
+  <div class="container-form my-5">
+    <h2>Modifier un utilisateur</h2>
+    {{ form_start(form) }}
+      {{ form_row(form.firstname) }}
+      {{ form_row(form.lastname) }}
+      {{ form_row(form.email) }}
+      {{ form_row(form.company) }}
+      {{ form_row(form.jobTitle) }}
+      {{ form_row(form.isAdmin) }}
+      
+      <div class="mt-4 text-end">
+        <button type="submit" class="btn btn-primary">
+          {{ button_label|default('Enregistrer') }}
+        </button>
+      </div>
+    {{ form_end(form) }}
   </div>
 {% endblock %}
