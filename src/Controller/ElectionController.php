@@ -33,9 +33,29 @@ class ElectionController extends AbstractController
     #[Route('/close', name: 'app_election_close', methods: ['GET'])]
     public function close(ElectionRepository $electionRepository): Response
     {
+
+    #[Route('/{id}/show', name: 'app_election_show', methods: ['GET'])]
+    public function show(
+        Election $election,
+        ElectionRepository $electionRepository,
+        VoteRepository $voteRepository,
+        CandidateRepository $candidatesRepository
+    ): Response {
+
+        $electionId = $election->getId();
+        $candidates = $candidatesRepository->findBy(['election' => $election]);
+        $totalNbVote = count($voteRepository->findBy(['election' => $election]));
+        
+        $result = $election->getResult(candidates: $candidates, electionId: $electionId, voteRepository: $voteRepository); 
+        $winners = $election->getWinners($result);
+        
         return $this->render('election/show.html.twig', [
+            'totalNbVote' => $totalNbVote,
+            'result' => $result,
+            'winners' => $winners,
             'election' => $election,
             'candidates' => $election->getCandidates()->getValues(),
+            'isClosed' => $electionRepository->isClosed($electionId),
         ]);
     }
 
