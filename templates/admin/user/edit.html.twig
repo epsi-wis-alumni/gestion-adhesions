@@ -8,11 +8,28 @@
   <div class="container-form my-5">
     <h2>Modifier un utilisateur</h2>
     {{ form_start(form) }}
-      {{ form_row(form.firstname) }}
-      {{ form_row(form.lastname) }}
+      <div class="row gy-3 gx-2">
+        <div class="col-md-6">
+          {{ form_row(form.firstname) }}
+        </div>
+        
+        <div class="col-md-6">
+          {{ form_row(form.lastname) }}
+        </div>
+      </div>
+      
       {{ form_row(form.email) }}
-      {{ form_row(form.company) }}
-      {{ form_row(form.jobTitle) }}
+
+      <div class="row gy-3 gx-2">
+        <div class="col-md-6">
+          {{ form_row(form.company) }}
+        </div>
+        
+        <div class="col-md-6">
+          {{ form_row(form.jobTitle) }}
+        </div>
+      </div>
+      
       {{ form_row(form.isAdmin) }}
       
       <div class="mt-4 text-end">
