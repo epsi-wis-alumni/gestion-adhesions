@@ -1,12 +1,13 @@
 import { Controller } from '@hotwired/stimulus';
-import snarkdown from 'snarkdown';
+import markdownit from 'markdown-it'
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
     static targets = ['input', 'preview'];
 
     render() {
-        const rendered = snarkdown(this.inputTarget.value);
+        const md = markdownit();
+        const rendered = md.render(this.inputTarget.value);
         this.previewTarget.innerHTML = rendered;
     }
 }

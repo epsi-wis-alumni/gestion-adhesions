@@ -25,4 +25,22 @@ return [
     '@hotwired/turbo' => [
         'version' => '7.3.0',
     ],
+    'markdown-it' => [
+        'version' => '14.1.0',
+    ],
+    'mdurl' => [
+        'version' => '2.0.0',
+    ],
+    'uc.micro' => [
+        'version' => '2.1.0',
+    ],
+    'entities' => [
+        'version' => '4.5.0',
+    ],
+    'linkify-it' => [
+        'version' => '5.0.0',
+    ],
+    'punycode.js' => [
+        'version' => '2.3.1',
+    ],
 ];
