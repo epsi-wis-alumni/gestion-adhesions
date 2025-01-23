@@ -12,34 +12,69 @@
       <table class="table table-striped mb-0">
         <tbody>
           <tr>
-            <th>Id</th>
-            <td>{{ election.id }}</td>
-          </tr>
-          <tr>
             <th>JobTitle</th>
             <td>{{ election.jobTitle }}</td>
           </tr>
           <tr>
             <th>CreatedAt</th>
-            <td>{{ election.createdAt ? election.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            <td>{{ election.createdAt ? election.createdAt|date('d-m-Y') : '' }}</td>
           </tr>
           <tr>
             <th>CreatedBy</th>
-            <td>{{ election.createdBy.id }}</td>
+            <td>{{ election.createdBy.firstname }} {{ election.createdBy.lastname }}</td>
           </tr>
           <tr>
             <th>VoteStartAt</th>
-            <td>{{ election.voteStartAt ? election.voteStartAt|date('Y-m-d H:i:s') : '' }}</td>
+            <td>{{ election.voteStartAt ? election.voteStartAt|date('d-m-Y') : '' }}</td>
           </tr>
           <tr>
             <th class="border border-end-0">VoteEndAt</th>
-            <td>{{ election.voteEndAt ? election.voteEndAt|date('Y-m-d H:i:s') : '' }}</td>
+            <td>{{ election.voteEndAt ? election.voteEndAt|date('d-m-Y') : '' }}</td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <div class="h1 text-center">Candidats</div>
+    {% if election.isClosed %}
+      <div class="display-5 text-center">
+        Résultats : 
+
+        {% if winners|length > 1 %}
+          <span class="text-secondary fw-bold">Égalité</span>
+        {% else %}
+          <div class="text-success fw-bold">{{ (winners|first).candidate.displayName }}</div>
+        {% endif %}
+        
+        <div class="row justify-content-center gap-3 my-4">
+          {% for winner in winners %}
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <div class="card text-start">
+                <div class="card-body">
+                  <div class="display-5 text-secondary fw-bold mb-3">
+                    {{ winner.votes|length / voteCount * 100 }} %
+                  </div>
+                  <h5 class="card-title">{{ winner.candidate.displayName }}</h5>
+                  <div 
+                    class="progress" 
+                    role="progressbar" 
+                    aria-label="Résultats de {{ winner.candidate.displayName }}" 
+                    aria-valuenow="{{ winner.votes|length }}"
+                    aria-valuemin="0" 
+                    aria-valuemax="{{ voteCount }}"
+                  >
+                    <div class="progress-bar bg-success" style="width: {{ winner.votes|length / voteCount * 100 }}%;">
+                      {{ winner.votes|length }} / {{ voteCount }} votes
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="h2 text-center">Candidats</div>
 
     <div class="table-responsive border rounded my-5">
       <table class="table table-striped mb-0">
@@ -48,17 +83,33 @@
             <th>Nom</th>
             <th>Prénom</th>
             <th>Actions</th>
+            {% if election.isClosed %}
+              <th>Pourcentage de votes sur {{ voteCount }} votes</th>
+            {% endif %}
           </tr>
         </thead>
         <tbody>
-          {% for candidate in candidates %}
+          {% for candidate in results %}
             <tr>
-              <td>{{ candidate.candidate.firstname }}</td>
               <td>{{ candidate.candidate.lastname }}</td>
+              <td>{{ candidate.candidate.firstname }}</td>
+              
               <td class="d-flex align-items-center gap-1">
-                <a class="link-primary" href="#">{{ fa.icon('circle-info') }}</a>
-                <a class="link-primary" href="{{ path('app_vote', { election_id: election.id, candidate_id: candidate.id }) }}">{{ fa.icon('check-to-slot') }}</a>
+                <a class="link-primary" href="#">
+                  {{ fa.icon('circle-info') }}
+                </a>
+                
+                {% if not election.isClosed %}
+                  <a href="{{ path('app_vote', { election_id: election.id, candidate_id: candidate.id }) }}">
+                    {{ fa.icon('check-to-slot') }}
+                  </a>
+                {% endif %}
+                
               </td>
+              
+              {% if election.isClosed %}
+                <td {% if candidate in winners %}class="text-success fw-bold"{% endif %}>{{ (candidate.votes|length / voteCount * 100)|round(2) }}%</td>
+              {% endif %}
             </tr>
           {% else %}
             <tr>

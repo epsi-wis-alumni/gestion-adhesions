@@ -6,9 +6,17 @@ use App\Entity\Candidate;
 use App\Entity\Election;
 use App\Entity\User;
 use App\Entity\Vote;
+use App\Repository\CandidateRepository;
+use App\Repository\VoteRepository;
+use Psr\Log\LoggerInterface;
 
 final class ElectionManager
 {
+    public function __construct(
+        protected VoteRepository $voteRepository,
+        protected CandidateRepository $candidateRepository,
+    ) {}
+
     public function candidate(User $user, Candidate $candidate, Election $election): void
     {
         $candidate
@@ -24,5 +32,12 @@ final class ElectionManager
             ->setCandidate($candidate)
             ->setElection($election)
         ;
+    }
+
+    public function getWinner(Election $election): Candidate
+    {
+        $candidates = $this->candidateRepository->findByVotes($election);
+
+        return $candidates[0];
     }
 }
