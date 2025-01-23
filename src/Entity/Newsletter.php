@@ -35,8 +35,13 @@ class Newsletter
     #[ORM\ManyToOne(inversedBy: 'sentNewsletters')]
     private ?User $sentBy = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $sendAt = null;
+
+    public function __construct()
+    {
+        $this->setCreatedAt(new DateTimeImmutable());
+    }
 
     public function getId(): ?int
     {
