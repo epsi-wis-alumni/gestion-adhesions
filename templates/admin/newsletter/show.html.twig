@@ -1,42 +1,32 @@
 {% extends 'admin_base.html.twig' %}
 
-{% block title %}Newsletter{% endblock %}
+{% block title %}
+  Newsletter
+{% endblock %}
 
 {% block admin_content %}
-    <h1>Newsletter</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ newsletter.id }}</td>
-            </tr>
-            <tr>
-                <th>Objet</th>
-                <td>{{ newsletter.objet }}</td>
-            </tr>
-            <tr>
-                <th>Body</th>
-                <td>{{ newsletter.body }}</td>
-            </tr>
-            <tr>
-                <th>Cta</th>
-                <td>{{ newsletter.cta }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ newsletter.createdAt ? newsletter.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>SendAt</th>
-                <td>{{ newsletter.sendAt ? newsletter.sendAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+<div class="my-5">
+  <h1>Newsletter</h1>
 
-    <a href="{{ path('app_admin_newsletter_index') }}">back to list</a>
+  <div class="mb-2 ms-1">Objet :</div>
+  <div class="form-control mb-4">{{ newsletter.objet }}</div>
 
-    <a href="{{ path('app_admin_newsletter_edit', {'id': newsletter.id}) }}">edit</a>
+  <div class="mb-2 ms-1">Body :</div>
+  <div class="align-items-stretch mb-4" data-controller="markdown">
+    <div class="d-none">
+      <textarea class="form-widget p-3" data-markdown-target="input" data-action="input->markdown#render">{{ newsletter.body }}</textarea>
+    </div>
+    <div class="overflow-y-scroll markdown-form-render-container form-control p-3" style="max-height: 25rem; min-height: 14.09rem;" data-markdown-target="preview"></div>
+  </div>
 
-    {{ include('admin_newsletter/_delete_form.html.twig') }}
+  <div class="mb-2 ms-1">CTA :</div>
+  <div class="form-control mb-4">{{ newsletter.cta }}</div>
+  
+  <div class="mb-2 ms-1">Date de création :</div>
+  <div class="form-control mb-4">{{ newsletter.createdAt ? newsletter.createdAt|date('m-d-Y') : ' ' }}</div>
+
+  <div class="mb-2 ms-1">Date d'envoie :</div>
+  <div class="form-control mb-4">{{ (newsletter.sendAt ? newsletter.sendAt|date('m-d-Y') : 'Non envoyé') }}</div>
+</div>
 {% endblock %}
