@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% import "macros/card.html.twig" as card %}
 
 {% block title %}
   Elections
@@ -6,45 +7,58 @@
 
 {% block body %}
   <div class="container my-5">
-    {% if isClose %}
-      <a href="{{ path('app_election_index') }}" class="btn btn-secondary">Élection en cours</a>
-    {% else %}
-      <a href="{{ path('app_election_close') }}" class="btn btn-secondary">Élection terminées</a>
-    {% endif %}
+    <section class="mb-5">
+      <h2>Prochaines élections</h2>
 
-    <div class="table-responsive border rounded my-3">
-      <table class="table table-striped mb-0">
-        <thead class="table-bordered">
-          <tr>
-            <th>JobTitle</th>
-            <th>CreatedAt</th>
-            <th>VoteStartAt</th>
-            <th>VoteEndAt</th>
-            <th>actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for election in elections %}
-            <tr>
-              <td>{{ election.jobTitle }}</td>
-              <td>{{ election.createdAt ? election.createdAt|date('d-m-Y') : '' }}</td>
-              <td>{{ election.voteStartAt ? election.voteStartAt|date('d-m-Y') : '' }}</td>
-              <td>{{ election.voteEndAt ? election.voteEndAt|date('d-m-Y') : '' }}</td>
-              <td class="d-flex align-items-center gap-2">
-                <a class="link-primary text-decoration-none" href="{{ path('app_candidate', { id: election.id }) }}">
-                  <i class="fa-duotone fa-regular fa-user-plus"></i>
-                  Candidater
-                </a>
-                <a class="link-primary" href="{{ path('app_election_show', { id: election.id }) }}"><i class="fa-duotone fa-regular fa-circle-info"></i></a>
-              </td>
-            </tr>
-          {% else %}
-            <tr>
-              <td colspan="3">Aucune Élection</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+      <div class="row gap-3">
+        {% for election in pending_elections %}
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            {{ card.election(election, 1) }}
+          </div>
+        {% else %}
+          <div class="col">
+            <div class="alert alert-info">
+              Il n'y a pas encore d'élections prévues.
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+    
+    <section class="mb-5">
+      <h2>Élections en cours</h2>
+
+      <div class="row gap-3">
+        {% for election in in_progress_elections %}
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            {{ card.election(election, 2) }}
+          </div>
+        {% else %}
+          <div class="col">
+            <div class="alert alert-info">
+              Il n'y a pas encore d'élections en cours.
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+    
+    <section class="mb-5">
+      <h2>Élections passées</h2>
+
+      <div class="row gap-3">
+        {% for election in done_elections %}
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            {{ card.election(election, 3) }}
+          </div>
+        {% else %}
+          <div class="col">
+            <div class="alert alert-info">
+              Il n'y a pas encore d'élections passées.
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
   </div>
 {% endblock %}
