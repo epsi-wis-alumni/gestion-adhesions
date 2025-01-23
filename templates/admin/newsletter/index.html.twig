@@ -1,47 +1,66 @@
 {% extends 'admin_base.html.twig' %}
+{% import "macros/fontawesome.html.twig" as fa %}
 
 {% block title %}
   Newsletter index
 {% endblock %}
 
 {% block admin_content %}
-  <h1>Newsletter index</h1>
+  <div class="my-5">
+    <div class="row align-items-end gap-2 mb-3">
+        <div class="col-auto me-auto">
+          <h2 class="h4 mb-0">Liste des newsletters</h2>
+        </div>
 
-  {% include "admin/newsletter/markdown.html.twig" %}
+        <div class="col-auto">
+          <a href="{{ path('app_admin_newsletter_new') }}" class="btn btn-primary">
+            {{ fa.icon('plus', swap_opacity: true) }}
+            Ajouter
+          </a>
+        </div>
+      </div>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Id</th>
-        <th>Objet</th>
-        <th>Body</th>
-        <th>Cta</th>
-        <th>CreatedAt</th>
-        <th>SendAt</th>
-        <th>actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for newsletter in newsletters %}
-        <tr>
-          <td>{{ newsletter.id }}</td>
-          <td>{{ newsletter.objet }}</td>
-          <td>{{ newsletter.body }}</td>
-          <td>{{ newsletter.cta }}</td>
-          <td>{{ newsletter.createdAt ? newsletter.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-          <td>{{ newsletter.sendAt ? newsletter.sendAt|date('Y-m-d H:i:s') : '' }}</td>
-          <td>
-            <a href="{{ path('app_admin_newsletter_show', { id: newsletter.id }) }}">show</a>
-            <a href="{{ path('app_admin_newsletter_edit', { id: newsletter.id }) }}">edit</a>
-          </td>
-        </tr>
-      {% else %}
-        <tr>
-          <td colspan="7">no records found</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-
-  <a href="{{ path('app_admin_newsletter_new') }}">Create new</a>
+    <div class="table-responsive border rounded">
+      <table class="table table-striped mb-0">
+        <thead class="table-bordered">
+          <tr>
+            <th>Id</th>
+            <th>Objet</th>
+            <th>Body</th>
+            <th>Cta</th>
+            <th>CreatedAt</th>
+            <th>SendAt</th>
+            <th>actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for newsletter in newsletters %}
+            <tr>
+              <td>{{ newsletter.id }}</td>
+              <td>{{ newsletter.objet }}</td>
+              {% set words = newsletter.body|split(' ') %}
+              {% set truncated_body = words|slice(0, 6)|join(' ') ~ ' ...' %}
+              <td>{{ truncated_body }}</td>
+              <td>{{ newsletter.cta }}</td>
+              <td>{{ newsletter.createdAt ? newsletter.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+              <td>{{ newsletter.sendAt ? newsletter.sendAt|date('Y-m-d H:i:s') : '' }}</td>
+              <td class="d-flex align-items-center gap-2">
+                <a class="link-primary" href="{{ path('app_admin_newsletter_edit', { id: newsletter.id }) }}">
+                  <i class="fa-duotone fa-regular fa-pen-to-square"></i>
+                </a>
+                <a class="link-primary" href="{{ path('app_admin_newsletter_show', { id: newsletter.id }) }}">
+                <i class="fa-duotone fa-regular fa-circle-info"></i>
+                </a>
+                {% include 'admin/newsletter/_delete.html.twig' %}
+              </td>
+            </tr>
+          {% else %}
+            <tr>
+              <td colspan="7">no records found</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 {% endblock %}
