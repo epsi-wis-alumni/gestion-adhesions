@@ -5,6 +5,10 @@ import markdownit from 'markdown-it'
 export default class extends Controller {
     static targets = ['input', 'preview'];
 
+    connect() {
+        this.render();
+    }
+    
     render() {
         const md = markdownit();
         const rendered = md.render(this.inputTarget.value);
