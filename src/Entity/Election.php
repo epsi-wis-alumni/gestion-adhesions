@@ -177,19 +177,8 @@ class Election
         return $this;
     }
 
-    public function getResult($candidates, int $electionId, VoteRepository $voteRepository): array
+    public function isClosed(): bool
     {
-        $result = [];
-        foreach ($candidates as $candidate) {
-            $userId = $candidate->getCandidate()->getId();
-            $result[$userId] = $voteRepository->getNbVote($userId, $electionId);
-        }
-        return $result;
-    }
-
-    public function getWinners(array $result): array
-    {
-        $maxValue = max($result);
-        return array_keys($result, $maxValue);
+        return $this->voteEndAt < new DateTimeImmutable();
     }
 }

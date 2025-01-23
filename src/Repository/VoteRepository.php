@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Entity\Election;
+use App\Entity\User;
 use App\Entity\Vote;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,7 +21,7 @@ class VoteRepository extends ServiceEntityRepository
     /**
      * @return boolean Returns a boolean
      */
-    public function hasVoted($user, $election): bool
+    public function hasVoted(User $user, Election $election): bool
     {
         return $this->createQueryBuilder('v')
             ->andWhere('v.voter = :user')
@@ -29,32 +31,4 @@ class VoteRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult() ? true : false;;
     }
-
-    /**
-     * @return int Returns number of vote for a candidate
-     */
-    public function getNbVote(int $candidateId, int $electionId): int
-    {
-        return $this->createQueryBuilder('v')
-            ->select('COUNT(v.id) as NB')   
-            ->leftJoin('v.candidate', 'c')
-            ->leftJoin('v.election', 'e')
-            ->andWhere('c.id = :candidateId')
-            ->andWhere('e.id = :electionId')
-            ->setParameter('candidateId', $candidateId)
-            ->setParameter('electionId', $electionId)
-            ->getQuery()
-            ->getSingleScalarResult()
-        ;
-    }
-
-    //    public function findOneBySomeField($value): ?Vote
-    //    {
-    //        return $this->createQueryBuilder('v')
-    //            ->andWhere('v.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }

@@ -45,25 +45,27 @@ class ElectionController extends AbstractController
     #[Route('/{id}/show', name: 'app_election_show', methods: ['GET'])]
     public function show(
         Election $election,
-        ElectionRepository $electionRepository,
-        VoteRepository $voteRepository,
-        CandidateRepository $candidatesRepository
+        CandidateRepository $candidateRepository,
     ): Response {
+        $votes = $election->getVotes();
+        $voteCount = $votes->count();
+        $results = $candidateRepository->findByVoteCount($election);
 
-        $electionId = $election->getId();
-        $candidates = $candidatesRepository->findBy(['election' => $election]);
-        $totalNbVote = count($voteRepository->findBy(['election' => $election]));
-        
-        $result = $election->getResult(candidates: $candidates, electionId: $electionId, voteRepository: $voteRepository); 
-        $winners = $election->getWinners($result);
+        $maxVoteCount = max(
+            array_map(fn (Candidate $candidate) => $candidate->getVotes()->count(), $results)
+        );
+
+        $winners = array_filter(
+            $results,
+            fn (Candidate $candidate) => $candidate->getVotes()->count() === $maxVoteCount
+        );
         
         return $this->render('election/show.html.twig', [
-            'totalNbVote' => $totalNbVote,
-            'result' => $result,
+            'voteCount' => $voteCount,
+            'results' => $results,
             'winners' => $winners,
             'election' => $election,
-            'candidates' => $election->getCandidates()->getValues(),
-            'isClosed' => $electionRepository->isClosed($electionId),
+            'candidates' => $election->getCandidates(),
         ]);
     }
 
