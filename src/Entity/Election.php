@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ElectionRepository;
+use App\Repository\VoteRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -174,5 +175,10 @@ class Election
         }
 
         return $this;
+    }
+
+    public function isClosed(): bool
+    {
+        return $this->voteEndAt < new DateTimeImmutable();
     }
 }

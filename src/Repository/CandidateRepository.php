@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Candidate;
+use App\Entity\Election;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +17,20 @@ class CandidateRepository extends ServiceEntityRepository
         parent::__construct($registry, Candidate::class);
     }
 
-    //    /**
-    //     * @return Candidate[] Returns an array of Candidate objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('c.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Candidate
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    /**
+     * @return Candidate[]
+     */
+    public function findByVoteCount(Election $election): array
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->leftJoin('c.votes', 'v')
+            ->leftJoin('c.election', 'e')
+            ->where('e.id = :electionId')
+            ->groupBy('c.id')
+            ->orderBy('COUNT(v.id)', 'DESC')
+            ->setParameter('electionId', $election->getId())
+        ;
+        
+        return $qb->getQuery()->getResult();
+    }
 }
