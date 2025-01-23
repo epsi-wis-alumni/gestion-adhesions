@@ -7,8 +7,11 @@ use App\Entity\Election;
 use App\Entity\User;
 use App\Entity\Vote;
 use App\Form\CandidateType;
+use App\Repository\CandidateRepository;
 use App\Repository\ElectionRepository;
+use App\Repository\VoteRepository;
 use App\Service\ElectionManager;
+use ArrayObject;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,19 +24,48 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 class ElectionController extends AbstractController
 {
     #[Route(name: 'app_election_index', methods: ['GET'])]
-    public function index(ElectionRepository $electionRepository): Response
+    public function open(ElectionRepository $electionRepository): Response
+    {
+        
+        return $this->render('election/index.html.twig', [
+            'isClose' => false,
+            'elections' => $electionRepository->findOpened(),
+        ]);
+    }
+
+    #[Route('/close', name: 'app_election_close', methods: ['GET'])]
+    public function close(ElectionRepository $electionRepository): Response
     {
         return $this->render('election/index.html.twig', [
-            'elections' => $electionRepository->findAll(),
+            'isClose' => true,
+            'elections' => $electionRepository->findClosed(),
         ]);
     }
 
     #[Route('/{id}/show', name: 'app_election_show', methods: ['GET'])]
-    public function show(Election $election): Response
-    {
+    public function show(
+        Election $election,
+        CandidateRepository $candidateRepository,
+    ): Response {
+        $votes = $election->getVotes();
+        $voteCount = $votes->count();
+        $results = $candidateRepository->findByVoteCount($election);
+
+        $maxVoteCount = max(
+            array_map(fn (Candidate $candidate) => $candidate->getVotes()->count(), $results)
+        );
+
+        $winners = array_filter(
+            $results,
+            fn (Candidate $candidate) => $candidate->getVotes()->count() === $maxVoteCount
+        );
+        
         return $this->render('election/show.html.twig', [
+            'voteCount' => $voteCount,
+            'results' => $results,
+            'winners' => $winners,
             'election' => $election,
-            'candidates' => $election->getCandidates()->getValues(),
+            'candidates' => $election->getCandidates(),
         ]);
     }
 

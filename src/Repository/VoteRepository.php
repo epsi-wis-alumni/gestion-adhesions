@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Entity\Election;
+use App\Entity\User;
 use App\Entity\Vote;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -16,28 +18,17 @@ class VoteRepository extends ServiceEntityRepository
         parent::__construct($registry, Vote::class);
     }
 
-    //    /**
-    //     * @return Vote[] Returns an array of Vote objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('v')
-    //            ->andWhere('v.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('v.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Vote
-    //    {
-    //        return $this->createQueryBuilder('v')
-    //            ->andWhere('v.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    /**
+     * @return boolean Returns a boolean
+     */
+    public function hasVoted(User $user, Election $election): bool
+    {
+        return $this->createQueryBuilder('v')
+            ->andWhere('v.voter = :user')
+            ->andWhere('v.election = :election')
+            ->setParameter('user', $user)
+            ->setParameter('election', $election)
+            ->getQuery()
+            ->getOneOrNullResult() ? true : false;;
+    }
 }
