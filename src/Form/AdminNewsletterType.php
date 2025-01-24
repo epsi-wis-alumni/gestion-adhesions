@@ -39,6 +39,13 @@ class AdminNewsletterType extends AbstractType
                 'row_attr' => ['class' => 'mb-3'],
                 'label' => 'Call To Action',
             ])
+            ->add('template', ChoiceType::class, [
+                'choices' => $options['templates'],
+                'attr' => ['class' => 'form-select'],
+                'row_attr' => ['class' => 'mb-3'],
+                'label' => 'Choissisez un template',
+                'placeholder' => 'Choissisez un template...',
+            ])
         ;
     }
 
@@ -46,6 +53,7 @@ class AdminNewsletterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Newsletter::class,
+            'template' => [],
         ]);
     }
 }
