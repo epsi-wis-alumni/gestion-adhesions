@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Newsletter;
 use App\Entity\User;
-use App\Form\NewsletterType;
+use App\Form\AdminNewsletterType;
 use App\Repository\NewsletterRepository;
 use App\Service\NewsletterManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,7 +33,7 @@ final class AdminNewsletterController extends AbstractController
     ): Response {
 
         $newsletter = new Newsletter();
-        $form = $this->createForm(NewsletterType::class, $newsletter);
+        $form = $this->createForm(AdminNewsletterType::class, $newsletter);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
