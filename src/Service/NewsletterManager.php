@@ -2,28 +2,18 @@
 
 namespace App\Service;
 
+use App\Entity\MailTemplate;
 use Symfony\Component\Finder\Finder;
 
 
 final class NewsletterManager
 {
-    public function findMailsTemplates(): array
+    public function findMailsTemplates(iterable $mailTemplates): array
     {
         $templates = [];
-        $finder = new Finder();
-        $finder->files()->in(__DIR__ . '/../../templates/mails');
 
-        foreach ($finder as $file) {
-            $fileNameWithExtension = $file->getRelativePathname();
-            $pattern = '/^(.*?)(?=\.html\.twig$)/';
-
-            if (preg_match($pattern, $fileNameWithExtension, $matches)) {
-                $filenameWithoutExtension = $matches[1];
-            } else {
-                $filenameWithoutExtension = "";
-            }
-
-            $templates[$filenameWithoutExtension] = $fileNameWithExtension;
+        foreach ($mailTemplates as $mailTemplate) {
+            $templates[$mailTemplate->getLabel()] = $mailTemplate;
         }
 
         return $templates;

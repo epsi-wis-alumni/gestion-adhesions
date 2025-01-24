@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Newsletter;
 use App\Entity\User;
 use App\Form\AdminNewsletterType;
+use App\Repository\MailTemplateRepository;
 use App\Repository\NewsletterRepository;
 use App\Service\NewsletterManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,12 +31,16 @@ final class AdminNewsletterController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         #[CurrentUser()] User $currentUser,
+        NewsletterManager $newsletterManager,
+        MailTemplateRepository $mailTemplateRepository,
     ): Response {
 
         $newsletter = new Newsletter();
-        $form = $this->createForm(AdminNewsletterType::class, $newsletter);
+        $form = $this->createForm(AdminNewsletterType::class, $newsletter, [
+            'templates' => $newsletterManager->findMailsTemplates($mailTemplateRepository->findAll()),
+        ]);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $newsletter->setCreatedBy($currentUser);
             $entityManager->persist($newsletter);
@@ -63,10 +68,12 @@ final class AdminNewsletterController extends AbstractController
         Request $request,
         Newsletter $newsletter,
         EntityManagerInterface $entityManager,
-        NewsletterManager $newsletterManager
+        MailTemplateRepository $mailTemplateRepository,
+        NewsletterManager $newsletterManager,
     ): Response {
+
         $form = $this->createForm(AdminNewsletterType::class, $newsletter, [
-            'templates' => $newsletterManager->findMailsTemplates(),  
+            'templates' => $newsletterManager->findMailsTemplates($mailTemplateRepository->findAll()),
         ]);
         $form->handleRequest($request);
 

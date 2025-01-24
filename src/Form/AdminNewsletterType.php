@@ -53,7 +53,7 @@ class AdminNewsletterType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Newsletter::class,
-            'template' => [],
+            'templates' => [],
         ]);
     }
 }
