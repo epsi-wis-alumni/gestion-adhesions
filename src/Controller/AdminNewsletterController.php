@@ -59,9 +59,15 @@ final class AdminNewsletterController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_admin_newsletter_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Newsletter $newsletter, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(NewsletterType::class, $newsletter);
+    public function edit(
+        Request $request,
+        Newsletter $newsletter,
+        EntityManagerInterface $entityManager,
+        NewsletterManager $newsletterManager
+    ): Response {
+        $form = $this->createForm(AdminNewsletterType::class, $newsletter, [
+            'templates' => $newsletterManager->findMailsTemplates(),  
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
