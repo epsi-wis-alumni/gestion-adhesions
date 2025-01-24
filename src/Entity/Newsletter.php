@@ -38,6 +38,9 @@ class Newsletter
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $sendAt = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $template = null;
+
     public function __construct()
     {
         $this->setCreatedAt(new DateTimeImmutable());
@@ -128,6 +131,18 @@ class Newsletter
     public function setSendAt(\DateTimeImmutable $sendAt): static
     {
         $this->sendAt = $sendAt;
+
+        return $this;
+    }
+
+    public function getTemplate(): ?string
+    {
+        return $this->template;
+    }
+
+    public function setTemplate(?string $template): static
+    {
+        $this->template = $template;
 
         return $this;
     }
