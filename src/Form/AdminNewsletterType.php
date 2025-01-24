@@ -23,7 +23,7 @@ class AdminNewsletterType extends AbstractType
             ])
             ->add('body', TextareaType::class, [
                 'attr' => [
-                    'class' => 'form-widget p-3',
+                    'class' => 'p-3',
                     'data-markdown-target' => 'input',
                     'data-action' => 'input->markdown#render',
                     'aria-label' => 'Type markdown into this box',
