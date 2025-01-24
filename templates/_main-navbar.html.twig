@@ -76,6 +76,12 @@
                     path: '#',
                     icon: fa.icon('calendar-star', fixed_width: true),
                   ) }}
+
+                  {{ dropdown.item(
+                    label: 'Newsletters',
+                    path: path('app_admin_newsletter_index'),
+                    icon: fa.icon('envelope', fixed_width: true),
+                  ) }}
                 {% endif %}
                 
                 <li>
