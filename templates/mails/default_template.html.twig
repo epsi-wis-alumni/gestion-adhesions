@@ -1,0 +1,21 @@
+{% extends 'mail_base.html.twig' %}
+
+{% block title %}
+  Hello UserController!
+{% endblock %}
+
+{% block mail_content %}
+  <h1>Default template</h1>
+  <div class="">Objet : {{ currentNewsletter.objet }}</div>
+  <br />
+  <div class="">
+    Body :<div class="align-items-stretch mb-4" data-controller="markdown">
+      <div class="d-none">
+        <textarea class="form-widget p-3" data-markdown-target="input" data-action="input->markdown#render">{{ currentNewsletter.body }}</textarea>
+      </div>
+      <div class="overflow-y-scroll markdown-form-render-container p-3" data-markdown-target="preview"></div>
+    </div>
+  </div>
+  <br />
+  <div class="">CTA : {{ currentNewsletter.cta }}</div>
+{% endblock %}
