@@ -44,7 +44,7 @@ class AdminNewsletterType extends AbstractType
                 'attr' => ['class' => 'form-select'],
                 'row_attr' => ['class' => 'mb-3'],
                 'label' => 'Choissisez un template',
-                'placeholder' => 'Choissisez un template...',
+                'placeholder' => 'Choississez un template...',
             ])
         ;
     }
