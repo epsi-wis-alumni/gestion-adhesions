@@ -31,13 +31,12 @@ final class AdminNewsletterController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         #[CurrentUser()] User $currentUser,
-        NewsletterManager $newsletterManager,
         MailTemplateRepository $mailTemplateRepository,
     ): Response {
 
         $newsletter = new Newsletter();
         $form = $this->createForm(AdminNewsletterType::class, $newsletter, [
-            'templates' => $newsletterManager->findMailsTemplates($mailTemplateRepository->findAll()),
+            'templates' => array_reduce($mailTemplateRepository->findAll(), fn($acc, $t) => $acc + [$t->getLabel() => $t], []),
         ]);
         $form->handleRequest($request);
         
@@ -69,11 +68,10 @@ final class AdminNewsletterController extends AbstractController
         Newsletter $newsletter,
         EntityManagerInterface $entityManager,
         MailTemplateRepository $mailTemplateRepository,
-        NewsletterManager $newsletterManager,
     ): Response {
 
         $form = $this->createForm(AdminNewsletterType::class, $newsletter, [
-            'templates' => $newsletterManager->findMailsTemplates($mailTemplateRepository->findAll()),
+            'templates' => array_reduce($mailTemplateRepository->findAll(), fn($acc, $t) => $acc + [$t->getLabel() => $t], []),
         ]);
         $form->handleRequest($request);
 
