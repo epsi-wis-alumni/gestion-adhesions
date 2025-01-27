@@ -1,0 +1,15 @@
+{% import "macros/fontawesome.html.twig" as fa %}
+
+{{ form_start(form) }}
+
+    {{ form_row(form.objet) }}
+    {% include "admin/newsletter/markdown_editor.html.twig" with {
+        'form' : form,
+    }%}
+    {{ form_row(form.cta) }}
+
+    <button type="submit" class="btn btn-primary">
+        {{ fa.icon('save') }}
+        Enregistrer
+    </button>
+{{ form_end(form) }}

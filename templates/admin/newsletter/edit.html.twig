@@ -1,0 +1,12 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}
+  Edit Newsletter
+{% endblock %}
+
+{% block admin_content %}
+  <div class="my-5">
+    <h2>Modifier la newsletter</h2>
+    {{ include('admin/newsletter/_form.html.twig') }}
+  </div>
+{% endblock %}
