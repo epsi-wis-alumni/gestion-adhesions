@@ -621,6 +621,17 @@ class User implements UserInterface
 
         return $this;
     }
+    public function getSettings(): ?Settings
+    {
+        return $this->settings;
+    }
+
+    public function setSettings(?Settings $settings): self
+    {
+        $this->settings = $settings;
+
+        return $this;
+    }
 
     /**
      * @return Collection<int, self>
