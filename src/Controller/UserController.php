@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Settings;
 use App\Entity\User;
 use App\Form\CompleteProfileType;
 use App\Form\UserSettingsType;
@@ -100,10 +101,11 @@ final class UserController extends AbstractController
             $entityManager->persist($currentUser);
             $entityManager->flush();
             
-            return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_user_settings', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('user/settings.html.twig', [
+            'currentUser' => $currentUser,
             'form' => $form,
         ]);
     }
