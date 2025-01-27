@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+{% import 'macros/fontawesome.html.twig' as fa %}
+
+{% block title %}
+  Paramètres
+{% endblock %}
+
+{% block body %}
+    <div class="container-form my-5">
+        {{ form_start(form) }}
+            {{ form_row(form.settings.allowNewsletters) }}
+
+            <div class="text-end">
+            <button type="submit" class="btn btn-primary">
+                {{ fa.icon('save') }}
+                Enregistrer
+            </button>
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
