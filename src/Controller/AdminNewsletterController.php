@@ -66,9 +66,7 @@ final class AdminNewsletterController extends AbstractController
         MailTemplateRepository $mailTemplateRepository,
     ): Response {
 
-        $form = $this->createForm(AdminNewsletterType::class, $newsletter, [
-            'templates' => array_reduce($mailTemplateRepository->findAll(), fn($acc, $t) => $acc + [$t->getLabel() => $t], []),
-        ]);
+        $form = $this->createForm(AdminNewsletterType::class, $newsletter);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
