@@ -4,9 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Newsletter;
 use App\Entity\User;
-use App\Form\NewsletterType;
+use App\Form\AdminNewsletterType;
+use App\Repository\MailTemplateRepository;
 use App\Repository\NewsletterRepository;
-use App\Service\NewsletterManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,9 +33,9 @@ final class AdminNewsletterController extends AbstractController
     ): Response {
 
         $newsletter = new Newsletter();
-        $form = $this->createForm(NewsletterType::class, $newsletter);
+        $form = $this->createForm(AdminNewsletterType::class, $newsletter);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $newsletter->setCreatedBy($currentUser);
             $entityManager->persist($newsletter);
@@ -59,9 +59,14 @@ final class AdminNewsletterController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_admin_newsletter_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Newsletter $newsletter, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(NewsletterType::class, $newsletter);
+    public function edit(
+        Request $request,
+        Newsletter $newsletter,
+        EntityManagerInterface $entityManager,
+        MailTemplateRepository $mailTemplateRepository,
+    ): Response {
+
+        $form = $this->createForm(AdminNewsletterType::class, $newsletter);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

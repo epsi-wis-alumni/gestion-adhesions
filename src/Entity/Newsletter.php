@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\NewsletterRepository;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\BlobType;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -37,6 +39,9 @@ class Newsletter
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $sendAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'newsletters')]
+    private ?MailTemplate $template = null;
 
     public function __construct()
     {
@@ -128,6 +133,18 @@ class Newsletter
     public function setSendAt(\DateTimeImmutable $sendAt): static
     {
         $this->sendAt = $sendAt;
+
+        return $this;
+    }
+
+    public function getTemplate(): ?MailTemplate
+    {
+        return $this->template;
+    }
+
+    public function setTemplate(?MailTemplate $template): static
+    {
+        $this->template = $template;
 
         return $this;
     }
