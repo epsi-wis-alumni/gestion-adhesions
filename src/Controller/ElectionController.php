@@ -93,8 +93,8 @@ class ElectionController extends AbstractController
     public function vote(
         EntityManagerInterface $entityManager,
         #[CurrentUser()] User $currentUser,
-        #[MapEntity(id: 'election_id')] Election $election,
-        #[MapEntity(id: 'candidate_id')] Candidate $candidate,
+        #[MapEntity(id: 'electionId')] Election $election,
+        #[MapEntity(id: 'candidateId')] Candidate $candidate,
         ElectionManager $electionManager
     ): Response {
 
