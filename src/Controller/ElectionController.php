@@ -45,9 +45,9 @@ class ElectionController extends AbstractController
         $voteCount = $votes->count();
         $results = $candidateRepository->findByVoteCount($election);
 
-        $maxVoteCount = max(
+        $maxVoteCount = count($results) > 0 ? max(
             array_map(fn (Candidate $candidate) => $candidate->getVotes()->count(), $results)
-        );
+        ) : 0;
 
         $winners = array_filter(
             $results,
