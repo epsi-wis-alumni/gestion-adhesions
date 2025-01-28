@@ -8,7 +8,6 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Embeddable;
 use Doctrine\ORM\Mapping\Embedded;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -696,45 +695,5 @@ class User implements UserInterface
     public function hasCompleteInfo(): bool
     {
         return !!$this->getCompany() && !!$this->getJobTitle();
-    }
-}
-
-#[Embeddable]
-class Settings
-{
-    #[ORM\Column]
-    private ?bool $allowNewsletters = null;
-
-    #[ORM\Column]
-    private ?bool $allowNotifications = null;
-
-    public function __construct()
-    {
-        $this->setAllowNewsletters(false);
-        $this->setAllowNotifications(false);
-    }
-
-    public function isAllowNewsletters(): ?bool
-    {
-        return $this->allowNewsletters;
-    }
-
-    public function setAllowNewsletters(bool $allowNewsletters): static
-    {
-        $this->allowNewsletters = $allowNewsletters;
-
-        return $this;
-    }
-
-    public function isAllowNotifications(): ?bool
-    {
-        return $this->allowNotifications;
-    }
-
-    public function setAllowNotifications(bool $allowNotifications): static
-    {
-        $this->allowNotifications = $allowNotifications;
-
-        return $this;
     }
 }
