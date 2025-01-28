@@ -2,10 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Settings;
 use App\Entity\User;
 use App\Form\CompleteProfileType;
-use App\Form\UserSettingsType;
+use App\Form\SettingsType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +20,6 @@ final class UserController extends AbstractController
     public function index(
         UserRepository $userRepository,
     ): Response {
-
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
         ]);
@@ -29,10 +27,9 @@ final class UserController extends AbstractController
 
     #[Route('/login', name: 'app_user_login', methods: ['POST', 'GET'])]
     public function login(
-        Request $request, 
+        Request $request,
         EntityManagerInterface $entityManager,
     ): Response {
-
         $user = new User();
         $form = $this->createForm(CompleteProfileType::class, $user);
         $form->handleRequest($request);
@@ -52,11 +49,10 @@ final class UserController extends AbstractController
 
     #[Route('/update/{id}', name: 'app_user_update', methods: ['POST', 'GET'])]
     public function update(
-        Request $request, 
-        EntityManagerInterface $entityManager, 
+        Request $request,
+        EntityManagerInterface $entityManager,
         User $user,
     ): Response {
-
         $form = $this->createForm(CompleteProfileType::class, $user);
         $form->handleRequest($request);
 
@@ -74,11 +70,10 @@ final class UserController extends AbstractController
 
     #[Route('/delete/{id}', name: 'app_user_delete', methods: ['POST'])]
     public function delete(
-        Request $request, 
-        EntityManagerInterface $entityManager, 
+        Request $request,
+        EntityManagerInterface $entityManager,
         User $user,
     ): Response {
-
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager->remove($user);
             $entityManager->flush();
@@ -89,18 +84,17 @@ final class UserController extends AbstractController
 
     #[Route('/settings', name: 'app_user_settings', methods: ['POST', 'GET'])]
     public function settings(
-        Request $request, 
-        EntityManagerInterface $entityManager, 
+        Request $request,
+        EntityManagerInterface $entityManager,
         #[CurrentUser()] User $currentUser,
     ): Response {
-
-        $form = $this->createForm(UserSettingsType::class, $currentUser);
+        $form = $this->createForm(SettingsType::class, $currentUser->getSettings());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($currentUser);
             $entityManager->flush();
-            
+
             return $this->redirectToRoute('app_user_settings', [], Response::HTTP_SEE_OTHER);
         }
 
