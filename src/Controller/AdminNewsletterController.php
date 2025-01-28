@@ -7,7 +7,6 @@ use App\Entity\User;
 use App\Form\AdminNewsletterType;
 use App\Repository\MailTemplateRepository;
 use App\Repository\NewsletterRepository;
-use App\Service\NewsletterManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,13 +30,10 @@ final class AdminNewsletterController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         #[CurrentUser()] User $currentUser,
-        MailTemplateRepository $mailTemplateRepository,
     ): Response {
 
         $newsletter = new Newsletter();
-        $form = $this->createForm(AdminNewsletterType::class, $newsletter, [
-            'templates' => array_reduce($mailTemplateRepository->findAll(), fn($acc, $t) => $acc + [$t->getLabel() => $t], []),
-        ]);
+        $form = $this->createForm(AdminNewsletterType::class, $newsletter);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
