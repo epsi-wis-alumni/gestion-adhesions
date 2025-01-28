@@ -2,41 +2,22 @@
 
 namespace App\Entity;
 
-use App\Repository\SettingsRepository;
+use Doctrine\ORM\Mapping\Embeddable;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: SettingsRepository::class)]
+#[Embeddable]
 class Settings
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
-
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?User $user = null;
-
     #[ORM\Column]
     private ?bool $allowNewsletters = null;
 
     #[ORM\Column]
     private ?bool $allowNotifications = null;
 
-    public function getId(): ?int
+    public function __construct()
     {
-        return $this->id;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
-
-        return $this;
+        $this->setAllowNewsletters(false);
+        $this->setAllowNotifications(false);
     }
 
     public function isAllowNewsletters(): ?bool

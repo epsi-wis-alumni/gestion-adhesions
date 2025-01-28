@@ -2,10 +2,12 @@
 
 namespace App\Service;
 
+use App\Entity\Settings;
 use App\Entity\User;
-use App\Repository\UserRepository;
+use App\Enum\DefaultSettings;
 use DateTimeImmutable;
 use LogicException;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 final class UserManager
 {
@@ -40,7 +42,7 @@ final class UserManager
     public function addRole(User $to, string $role): void
     {
         if (!str_starts_with($role, 'ROLE_')) {
-            throw new LogicException('A role must start with "ROLE_", but "'. $role .'" given.');
+            throw new LogicException('A role must start with "ROLE_", but "' . $role . '" given.');
         }
         $roles = $to->getRoles();
         $roles[] = $role;
