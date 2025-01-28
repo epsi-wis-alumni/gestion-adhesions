@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+{% import 'macros/fontawesome.html.twig' as fa %}
+
+{% block title %}
+  Paramètres
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="h1 text-center mt-2">
+            Paramètres 
+            {% if currentUser.firstname|lower|first in ['a', 'e', 'i', 'o', 'u', 'y'] %}
+                d'{{ currentUser.firstname|capitalize }}
+            {% else %}
+                de {{ currentUser.firstname|capitalize }}
+            {% endif %}
+        </div>
+        <div class="container-form my-5">
+            {{ form_start(form) }}
+                {{ form_row(form.allowNewsletters) }}
+                {{ form_row(form.allowNotifications) }}
+
+                <div class="text-end">
+                <button type="submit" class="btn btn-primary">
+                    {{ fa.icon('save') }}
+                    Enregistrer
+                </button>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

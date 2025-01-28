@@ -8,6 +8,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Embedded;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -127,6 +128,9 @@ class User implements UserInterface
     #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'rejectedBy')]
     private Collection $rejectedUsers;
 
+    #[Embedded(class: Settings::class)]
+    private Settings $settings;
+
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
@@ -138,6 +142,7 @@ class User implements UserInterface
         $this->sentNewsletters = new ArrayCollection();
         $this->approvedUsers = new ArrayCollection();
         $this->rejectedUsers = new ArrayCollection();
+        $this->settings = new Settings();
     }
 
     public function loadUserByOAuthUserResponse(UserResponseInterface $response, string $resourceOwnerName): UserInterface
@@ -612,6 +617,17 @@ class User implements UserInterface
     public function setRejectedBy(?self $rejectedBy): static
     {
         $this->rejectedBy = $rejectedBy;
+
+        return $this;
+    }
+    public function getSettings(): ?Settings
+    {
+        return $this->settings;
+    }
+
+    public function setSettings(?Settings $settings): self
+    {
+        $this->settings = $settings;
 
         return $this;
     }
