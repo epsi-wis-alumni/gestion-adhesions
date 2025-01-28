@@ -1,0 +1,45 @@
+{% macro election(election, step) %}
+  {% import "macros/fontawesome.html.twig" as fa %}
+  {% import "macros/progress.html.twig" as progress %}
+  <div class="card">
+    <div class="card-body text-center">
+      <h3 class="card-title mb-3">
+        <a href="{{ path('app_election_show', { id: election.id }) }}" class="link-body-emphasis">{{ election.jobTitle }}</a>
+      </h3>
+      
+      <div class="card-text text-secondary">
+        {{ election.voteStartAt|date('d/m/Y H:i') }}
+      </div>
+
+      <div class="">
+        {{ fa.icon('arrow-down-long', size: 'xl', swap_opacity: true) }}
+      </div>
+      
+      <div class="card-text text-secondary mb-3">
+        {{ election.voteEndAt|date('d/m/Y H:i') }}
+      </div>
+
+      {{ progress.election(step) }}
+    </div>
+    <div class="card-footer">
+      <div class="text-end">
+        {% if step == 1 %}
+          <a href="{{ path('app_election_candidate', { id: election.id }) }}" class="btn btn-secondary">
+            {{ fa.icon('person-sign') }}
+            Postuler
+          </a>
+        {% elseif step == 2 %}
+          <a href="{{ path('app_election_vote', { electionId: election.id, candidateId: app.user.id }) }}" class="btn btn-primary">
+            {{ fa.icon('check-to-slot') }}
+            Voter
+          </a>
+        {% else %}
+          <a href="{{ path('app_election_show', { id: election.id }) }}" class="btn btn-success">
+            {{ fa.icon('ranking-star') }}
+            Consulter
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endmacro %}

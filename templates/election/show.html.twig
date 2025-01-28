@@ -94,16 +94,18 @@
               <td>{{ candidate.candidate.lastname }}</td>
               <td>{{ candidate.candidate.firstname }}</td>
               
-              <td class="d-flex align-items-center gap-1">
-                <a class="link-primary" href="#">
-                  {{ fa.icon('circle-info') }}
-                </a>
-                
-                {% if not election.isClosed %}
-                  <a href="{{ path('app_vote', { election_id: election.id, candidate_id: candidate.id }) }}">
-                    {{ fa.icon('check-to-slot') }}
+              <td>
+                <div class="d-flex align-items-center gap-2">
+                  <a class="link-primary" href="#">
+                    {{ fa.icon('circle-info') }}
                   </a>
-                {% endif %}
+                  
+                  {% if not election.isClosed %}
+                    <a href="{{ path('app_vote', { election_id: election.id, candidate_id: candidate.id }) }}">
+                      {{ fa.icon('check-to-slot') }}
+                    </a>
+                  {% endif %}
+                </div>
                 
               </td>
               

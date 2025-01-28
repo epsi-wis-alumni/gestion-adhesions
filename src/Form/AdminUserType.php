@@ -4,22 +4,19 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class AdminUserUpdateType extends AbstractType
+class AdminUserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('email', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Ex : jeanmarc@contact.com',
+                    'placeholder' => 'Adresse email',
                 ],
                 'row_attr' => [
                     'class' => 'mb-3',
@@ -28,8 +25,7 @@ class AdminUserUpdateType extends AbstractType
             ])
             ->add('firstname', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Ex : Jean-Marc',
+                    'placeholder' => 'Prénom',
                 ],
                 'row_attr' => [
                     'class' => 'mb-3',
@@ -39,8 +35,7 @@ class AdminUserUpdateType extends AbstractType
             ])
             ->add('lastname', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Ex : Dupont',
+                    'placeholder' => 'Nom',
                 ],
                 'row_attr' => [
                     'class' => 'mb-3',
@@ -48,21 +43,9 @@ class AdminUserUpdateType extends AbstractType
                 'label' => 'Nom',
                 'required' => false,
             ])
-            ->add('username', TextType::class, [
-                'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Ex : JM Dupont',
-                ],
-                'row_attr' => [
-                    'class' => 'mb-3',
-                ],
-                'label' => 'Surnom',
-                'required' => false,
-            ])
             ->add('company', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Ex : EPSI-WIS Alumni',
+                    'placeholder' => 'Entreprise',
                 ],
                 'row_attr' => [
                     'class' => 'mb-3',
@@ -72,23 +55,15 @@ class AdminUserUpdateType extends AbstractType
             ])
             ->add('jobTitle', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Ex : Secrétaire',
+                    'placeholder' => 'Poste occupé',
                 ],
                 'row_attr' => [
                     'class' => 'mb-3',
                 ],
-                'label' => 'Poste',
+                'label' => 'Poste occupé',
                 'required' => false,
             ])
             ->add('isAdmin', CheckboxType::class, [
-                'attr' => [
-                    'class' => 'form-check-input',
-                    'placeholder' => 'Ex : 12345678',
-                ],
-                'row_attr' => [
-                    'class' => 'mb-3 form-check form-switch ps-3',
-                ],
                 'label' => 'Administrateur',
                 'label_attr' => [
                     'class' => 'checkbox-switch',
