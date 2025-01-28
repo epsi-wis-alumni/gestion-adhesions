@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\AdminUserUpdateType;
+use App\Form\AdminUserType;
 use App\Repository\UserRepository;
 use App\Service\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -43,7 +43,7 @@ class AdminUserController extends AbstractController
     #[Route('/{id}/edit', name: 'app_admin_user_edit', methods: ['POST', 'GET'])]
     public function edit(Request $request, EntityManagerInterface $entityManager, User $user, UserManager $userManager): Response
     {
-        $form = $this->createForm(AdminUserUpdateType::class, $user, [
+        $form = $this->createForm(AdminUserType::class, $user, [
             'attr' => ['id' => 'admin_user_edit_form']
         ]);
         $form->handleRequest($request);

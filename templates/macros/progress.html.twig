@@ -1,0 +1,70 @@
+{% macro election(step) %}
+    {% import "macros/fontawesome.html.twig" as fa %}
+    {% set accent = step == 1 ? 'secondary' : (step == 2 ? 'primary' : 'success') %}
+    {% set in_progress_accent = 'primary' %}
+    {% set done_accent = 'success' %}
+
+    <div class="progress-election row align-items-center g-0 mb-3">
+        <div class="col-auto" style="z-index: 10;">
+            <div 
+                class="
+                    progress-item
+                    text-bg-{{ accent }}
+                    border
+                    border-3
+                    d-flex
+                    justify-content-center
+                    align-items-center
+                    {% if step == 1 %}active{% endif %}
+                "
+                style="--bg-color: var(--bs-{{ accent }});"
+            >
+                {{ fa.icon('clock', size: 'lg', fixed_width: true) }}
+            </div>
+        </div>
+
+        <div class="col" style="z-index: 0;">
+            <div class="bg-{{ step > 1 ? accent : 'secondary' }}" style="height: .5rem; margin: 0 -.5rem"></div>
+        </div>
+
+        <div class="col-auto" style="z-index: 10;">
+            <div 
+                class="
+                    progress-item
+                    text-bg-{{ step > 1 ? accent : 'secondary' }}
+                    border
+                    border-3
+                    d-flex
+                    justify-content-center
+                    align-items-center
+                    {% if step == 2 %}active{% endif %}
+                " 
+                style="--bg-color: var(--bs-{{ accent }});"
+            >
+                {{ fa.icon('check-to-slot', size: 'lg', fixed_width: true) }}
+            </div>
+        </div>
+
+        <div class="col" style="z-index: 0;">
+            <div class="bg-{{ step > 2 ? accent : 'secondary' }}" style="height: .5rem; margin: 0 -.5rem"></div>
+        </div>
+
+        <div class="col-auto" style="z-index: 10;">
+            <div 
+                class="
+                    progress-item
+                    text-bg-{{ step > 2 ? accent : 'secondary' }}
+                    border
+                    border-3
+                    d-flex
+                    justify-content-center
+                    align-items-center
+                    {% if step == 3 %}active{% endif %}
+                " 
+                style="--bg-color: var(--bs-{{ accent }});"
+            >
+                {{ fa.icon('check', size: 'lg', fixed_width: true, swap_opacity: true) }}
+            </div>
+        </div>
+    </div>
+{% endmacro %}

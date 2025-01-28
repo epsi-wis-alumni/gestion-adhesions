@@ -17,29 +17,49 @@ class ElectionRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Election[] Returns an array of Election objects
+     * @return Election[]
      */
-    public function findOpened(): array
+    public function findPending(): array
     {
+        $now = new \DateTimeImmutable();
+
         return $this->createQueryBuilder('e')
-            ->andWhere('e.voteStartAt <= :now')
-            ->andWhere('e.voteEndAt >= :now')
-            ->setParameter('now', new \DateTimeImmutable())
-            ->orderBy('e.id', 'ASC')
+            ->andWhere('e.voteStartAt > :now')
+            ->setParameter('now', $now)
+            ->orderBy('e.voteStartAt', 'ASC')
             ->getQuery()
             ->getResult()
         ;
     }
 
     /**
-     * @return Election[] Returns an array of Election objects
+     * @return Election[]
      */
-    public function findClosed(): array
+    public function findInProgress(): array
     {
+        $now = new \DateTimeImmutable();
+
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.voteStartAt <= :now')
+            ->andWhere('e.voteEndAt >= :now')
+            ->setParameter('now', $now)
+            ->orderBy('e.voteStartAt', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Election[]
+     */
+    public function findDone(): array
+    {
+        $now = new \DateTimeImmutable();
+
         return $this->createQueryBuilder('e')
             ->andWhere('e.voteEndAt < :now')
-            ->setParameter('now', new \DateTimeImmutable())
-            ->orderBy('e.id', 'ASC')
+            ->setParameter('now', $now)
+            ->orderBy('e.voteEndAt', 'DESC')
             ->getQuery()
             ->getResult()
         ;

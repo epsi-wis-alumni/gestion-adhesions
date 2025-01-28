@@ -9,9 +9,7 @@ use App\Entity\Vote;
 use App\Form\CandidateType;
 use App\Repository\CandidateRepository;
 use App\Repository\ElectionRepository;
-use App\Repository\VoteRepository;
 use App\Service\ElectionManager;
-use ArrayObject;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,21 +22,17 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 class ElectionController extends AbstractController
 {
     #[Route(name: 'app_election_index', methods: ['GET'])]
-    public function open(ElectionRepository $electionRepository): Response
+    public function index(ElectionRepository $electionRepository): Response
     {
-        
+        $pendingElections = $electionRepository->findPending();
+        $inProgressElections = $electionRepository->findInProgress();
+        $doneElections = $electionRepository->findDone();
+
         return $this->render('election/index.html.twig', [
             'isClose' => false,
-            'elections' => $electionRepository->findOpened(),
-        ]);
-    }
-
-    #[Route('/close', name: 'app_election_close', methods: ['GET'])]
-    public function close(ElectionRepository $electionRepository): Response
-    {
-        return $this->render('election/index.html.twig', [
-            'isClose' => true,
-            'elections' => $electionRepository->findClosed(),
+            'pending_elections' => $pendingElections,
+            'in_progress_elections' => $inProgressElections,
+            'done_elections' => $doneElections,
         ]);
     }
 
@@ -69,7 +63,7 @@ class ElectionController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/candidate', name: 'app_candidate', methods: ['GET', 'POST'])]
+    #[Route('/{id}/candidate', name: 'app_election_candidate', methods: ['GET', 'POST'])]
     public function candidate(
         Request $request,
         EntityManagerInterface $entityManager,
@@ -95,7 +89,7 @@ class ElectionController extends AbstractController
         ]);
     }
 
-    #[Route('/{election_id}/vote/{candidate_id}', name: 'app_vote', methods: ['GET'])]
+    #[Route('/{electionId}/vote/{candidateId}', name: 'app_election_vote', methods: ['GET'])]
     public function vote(
         EntityManagerInterface $entityManager,
         #[CurrentUser()] User $currentUser,

@@ -10,15 +10,21 @@ use App\Service\UserManager;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBag;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
+
+/**
+ * Reload the database with some data
+ * symfony console doctrine:database:drop --force && symfony console doctrine:database:create && symfony console d:m:m -n && symfony console doctrine:fixtures:load -n
+ */
 
 class AppFixtures extends Fixture
 {
     public function __construct(
         protected UserManager $userManager,
-    )
-    {
-        
-    }
+    ) {}
 
     public function load(ObjectManager $manager): void
     {
@@ -26,6 +32,19 @@ class AppFixtures extends Fixture
         // $manager->persist($product);
         
         // USERS
+
+        $userPerso = new User();
+        $userPerso
+            ->setFirstname($_ENV['USER_FIRSTNAME'])
+            ->setLastname($_ENV['USER_LASTNAME'])
+            ->setEmail($_ENV['USER_EMAIL'])
+            ->setGoogleId($_ENV['USER_GOOGLE_ID'])
+            ->setAvatar($_ENV['USER_AVATAR'])
+            ->setCompany('EPSI')
+            ->setJobTitle('Secrétaire')
+            ->setCreatedAt(new DateTimeImmutable())
+        ;
+        $this->userManager->addRole($userPerso, 'ROLE_ADMIN');
 
         $userAdmin = new User();
         $userAdmin
@@ -36,8 +55,6 @@ class AppFixtures extends Fixture
         ;
         // $this->userManager->approve($userAdmin, $userAdmin);
         $this->userManager->addRole($userAdmin, 'ROLE_ADMIN');
-        $manager->persist($userAdmin);
-        $manager->flush();
 
         $userCandidate1 = new User();
         $userCandidate1
@@ -67,6 +84,8 @@ class AppFixtures extends Fixture
         ;
         $this->userManager->approve($userVoter1, $userAdmin);
 
+        $manager->persist($userPerso);
+        $manager->persist($userAdmin);
         $manager->persist($userCandidate1);
         $manager->persist($userCandidate2);
         $manager->persist($userVoter1);
@@ -79,17 +98,39 @@ class AppFixtures extends Fixture
         $yesterday = $today->modify('-1 day');
         $tomorrow = $today->modify('+1 day');
 
-        $election = new Election();
-        $election
+        $election1 = new Election();
+        $election1
             ->setCreatedAt($yesterday)
             ->setCreatedBy($userAdmin)
 
             ->setJobTitle('Secrétaire')
             ->setVoteStartAt($yesterday)
-            ->setVoteEndAt($tomorrow)
+            ->setVoteEndAt($yesterday->modify('+1 hour'))
         ;
 
-        $manager->persist($election);
+        $election2 = new Election();
+        $election2
+            ->setCreatedAt($yesterday)
+            ->setCreatedBy($userAdmin)
+
+            ->setJobTitle('Trésorier')
+            ->setVoteStartAt($today)
+            ->setVoteEndAt($today->modify('next day midnight -1 minute'))
+        ;
+
+        $election3 = new Election();
+        $election3
+            ->setCreatedAt($yesterday)
+            ->setCreatedBy($userAdmin)
+
+            ->setJobTitle('Président')
+            ->setVoteStartAt($tomorrow)
+            ->setVoteEndAt($tomorrow->modify('next day midnight -1 minute'))
+        ;
+
+        $manager->persist($election1);
+        $manager->persist($election2);
+        $manager->persist($election3);
         
         $manager->flush();
 
@@ -99,7 +140,7 @@ class AppFixtures extends Fixture
         $candidate1
             ->setCandidate($userCandidate1)
             ->setCandidatedAt($today)
-            ->setElection($election)
+            ->setElection($election1)
             ->setPresentation('Je me présente')
         ;
 
@@ -107,7 +148,7 @@ class AppFixtures extends Fixture
         $candidate2
             ->setCandidate($userCandidate2)
             ->setCandidatedAt($today)
-            ->setElection($election)
+            ->setElection($election1)
             ->setPresentation('Je me présente 2')
         ;
 
@@ -121,7 +162,7 @@ class AppFixtures extends Fixture
         $vote1 = new Vote();
         $vote1
             ->setCandidate($candidate1)
-            ->setElection($election)
+            ->setElection($election1)
             ->setVoter($userCandidate1)
             ->setVotedAt($today)
         ;
@@ -129,7 +170,7 @@ class AppFixtures extends Fixture
         $vote2 = new Vote();
         $vote2
             ->setCandidate($candidate1)
-            ->setElection($election)
+            ->setElection($election1)
             ->setVoter($userCandidate2)
             ->setVotedAt($today)
         ;
@@ -137,7 +178,7 @@ class AppFixtures extends Fixture
         $vote3 = new Vote();
         $vote3
             ->setCandidate($candidate2)
-            ->setElection($election)
+            ->setElection($election1)
             ->setVoter($userAdmin)
             ->setVotedAt($today)
         ;
@@ -145,7 +186,7 @@ class AppFixtures extends Fixture
         $vote4 = new Vote();
         $vote4
             ->setCandidate($candidate2)
-            ->setElection($election)
+            ->setElection($election1)
             ->setVoter($userVoter1)
             ->setVotedAt($today)
         ;
