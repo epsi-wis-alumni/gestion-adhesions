@@ -29,7 +29,7 @@
             Postuler
           </a>
         {% elseif step == 2 %}
-          <a href="{{ path('app_election_vote', { electionId: election.id, candidateId: app.user.id }) }}" class="btn btn-primary">
+          <a href="{{ path('app_election_show', { id: election.id }) }}" class="btn btn-primary">
             {{ fa.icon('check-to-slot') }}
             Voter
           </a>
