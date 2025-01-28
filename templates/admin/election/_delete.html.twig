@@ -1,4 +1,7 @@
+{% import 'macros/fontawesome.html.twig' as fa %}
 <form method="POST" action="{{ path('app_admin_election_delete', {'id': election.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
   <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ election.id) }}" />
-  <button class="bg-transparent border-0 link-danger p-0"><i class="fa-duotone fa-regular fa-trash-can"></i></button>
+  <button class="bg-transparent border-0 link-danger p-0">
+    {{ fa.icon('trash-can') }}
+  </button>
 </form>

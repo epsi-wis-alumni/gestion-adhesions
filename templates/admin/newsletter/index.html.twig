@@ -47,10 +47,10 @@
               <td>
                 <div class="d-flex align-items-center gap-2">
                   <a class="link-primary" href="{{ path('app_admin_newsletter_edit', { id: newsletter.id }) }}">
-                    <i class="fa-duotone fa-regular fa-pen-to-square"></i>
+                    {{ fa.icon('pen-to-square') }}
                   </a>
                   <a class="link-primary" href="{{ path('app_admin_newsletter_show', { id: newsletter.id }) }}">
-                  <i class="fa-duotone fa-regular fa-circle-info"></i>
+                    {{ fa.icon('circle-info') }}
                   </a>
                   {% include 'admin/newsletter/_delete.html.twig' %}
                 </div>
