@@ -24,7 +24,7 @@ class Vote
     private ?Election $election = null;
 
     #[ORM\ManyToOne(inversedBy: 'votes')]
-    private ?Candidate $candidate = null;
+    private ?Candidacy $candidacy = null;
 
     public function __construct()
     {
@@ -72,14 +72,14 @@ class Vote
         return $this;
     }
 
-    public function getCandidate(): ?Candidate
+    public function getCandidacy(): ?Candidacy
     {
-        return $this->candidate;
+        return $this->candidacy;
     }
 
-    public function setCandidate(?Candidate $candidate): static
+    public function setCandidacy(?Candidacy $candidacy): static
     {
-        $this->candidate = $candidate;
+        $this->candidacy = $candidacy;
 
         return $this;
     }

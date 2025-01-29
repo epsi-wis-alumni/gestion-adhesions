@@ -2,11 +2,11 @@
 
 namespace App\Service;
 
-use App\Entity\Candidate;
+use App\Entity\Candidacy;
 use App\Entity\Election;
 use App\Entity\User;
 use App\Entity\Vote;
-use App\Repository\CandidateRepository;
+use App\Repository\CandidacyRepository;
 use App\Repository\VoteRepository;
 use DateTimeImmutable;
 use Psr\Log\LoggerInterface;
@@ -15,22 +15,22 @@ final class ElectionManager
 {
     public function __construct(
         protected VoteRepository $voteRepository,
-        protected CandidateRepository $candidateRepository,
+        protected CandidacyRepository $candidacyRepository,
     ) {}
 
-    public function candidate(User $user, Candidate $candidate, Election $election): void
+    public function candidacy(User $user, Candidacy $candidacy, Election $election): void
     {
-        $candidate
-            ->setCandidate($user)
+        $candidacy
+            ->setCandidacy($user)
             ->setElection($election)
         ;
     }
 
-    public function vote(User $user, Vote $vote, Candidate $candidate, Election $election): void
+    public function vote(User $user, Vote $vote, Candidacy $candidacy, Election $election): void
     {
         $vote
             ->setVoter($user)
-            ->setCandidate($candidate)
+            ->setCandidacy($candidacy)
             ->setElection($election)
         ;
     }
@@ -42,20 +42,20 @@ final class ElectionManager
     {
         $votes = $election->getVotes();
         $voteCount = $votes->count();
-        $results = $this->candidateRepository->findByVoteCount($election);
+        $results = $this->candidacyRepository->findByVoteCount($election);
 
         $maxVoteCount = $this->getMaxVoteCount($results);
 
         return array_filter(
             $results,
-            fn (Candidate $candidate) => $candidate->getVotes()->count() === $maxVoteCount
+            fn (Candidacy $candidacy) => $candidacy->getVotes()->count() === $maxVoteCount
         );
     }
 
-    protected function getMaxVoteCount(array $candidates): int
+    protected function getMaxVoteCount(array $candidacys): int
     {
-        return count($candidates) > 0 ? max(
-            array_map(fn (Candidate $candidate) => $candidate->getVotes()->count(), $candidates)
+        return count($candidacys) > 0 ? max(
+            array_map(fn (Candidacy $candidacy) => $candidacy->getVotes()->count(), $candidacys)
         ) : 0;
     }
 

@@ -34,10 +34,10 @@ class Election
     private ?User $createdBy = null;
 
     /**
-     * @var Collection<int, Candidate>
+     * @var Collection<int, Candidacy>
      */
-    #[ORM\OneToMany(targetEntity: Candidate::class, mappedBy: 'election')]
-    private Collection $candidates;
+    #[ORM\OneToMany(targetEntity: Candidacy::class, mappedBy: 'election')]
+    private Collection $candidacys;
 
     /**
      * @var Collection<int, Vote>
@@ -47,7 +47,7 @@ class Election
 
     public function __construct()
     {
-        $this->candidates = new ArrayCollection();
+        $this->candidacys = new ArrayCollection();
         $this->votes = new ArrayCollection();
         $this->setCreatedAt(new DateTimeImmutable());
     }
@@ -118,29 +118,29 @@ class Election
     }
 
     /**
-     * @return Collection<int, Candidate>
+     * @return Collection<int, Candidacy>
      */
-    public function getCandidates(): Collection
+    public function getCandidacys(): Collection
     {
-        return $this->candidates;
+        return $this->candidacys;
     }
 
-    public function addCandidate(Candidate $candidate): static
+    public function addCandidacy(Candidacy $candidacy): static
     {
-        if (!$this->candidates->contains($candidate)) {
-            $this->candidates->add($candidate);
-            $candidate->setElection($this);
+        if (!$this->candidacys->contains($candidacy)) {
+            $this->candidacys->add($candidacy);
+            $candidacy->setElection($this);
         }
 
         return $this;
     }
 
-    public function removeCandidate(Candidate $candidate): static
+    public function removeCandidacy(Candidacy $candidacy): static
     {
-        if ($this->candidates->removeElement($candidate)) {
+        if ($this->candidacys->removeElement($candidacy)) {
             // set the owning side to null (unless already changed)
-            if ($candidate->getElection() === $this) {
-                $candidate->setElection(null);
+            if ($candidacy->getElection() === $this) {
+                $candidacy->setElection(null);
             }
         }
 

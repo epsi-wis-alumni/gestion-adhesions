@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\CandidateRepository;
+use App\Repository\CandidacyRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CandidateRepository::class)]
-class Candidate
+#[ORM\Entity(repositoryClass: CandidacyRepository::class)]
+class Candidacy
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -19,17 +19,17 @@ class Candidate
     #[ORM\Column]
     private ?\DateTimeImmutable $candidatedAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'candidates')]
+    #[ORM\ManyToOne(inversedBy: 'candidacys')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $candidate = null;
 
-    #[ORM\ManyToOne(inversedBy: 'candidates')]
+    #[ORM\ManyToOne(inversedBy: 'candidacys')]
     private ?Election $election = null;
 
     /**
      * @var Collection<int, Vote>
      */
-    #[ORM\OneToMany(targetEntity: Vote::class, mappedBy: 'candidate')]
+    #[ORM\OneToMany(targetEntity: Vote::class, mappedBy: 'candidacy')]
     private Collection $votes;
 
     #[ORM\Column(length: 255)]
@@ -38,7 +38,7 @@ class Candidate
     public function __construct()
     {
         $this->votes = new ArrayCollection();
-        $this->setCandidatedAt(new DateTimeImmutable());
+        $this->setCandidacydAt(new DateTimeImmutable());
     }
 
     public function getId(): ?int
@@ -46,12 +46,12 @@ class Candidate
         return $this->id;
     }
 
-    public function getCandidatedAt(): ?\DateTimeImmutable
+    public function getCandidacydAt(): ?\DateTimeImmutable
     {
         return $this->candidatedAt;
     }
 
-    public function setCandidatedAt(\DateTimeImmutable $candidatedAt): static
+    public function setCandidacydAt(\DateTimeImmutable $candidatedAt): static
     {
         $this->candidatedAt = $candidatedAt;
 
@@ -94,7 +94,7 @@ class Candidate
     {
         if (!$this->votes->contains($vote)) {
             $this->votes->add($vote);
-            $vote->setCandidate($this);
+            $vote->setCandidacy($this);
         }
 
         return $this;
@@ -104,8 +104,8 @@ class Candidate
     {
         if ($this->votes->removeElement($vote)) {
             // set the owning side to null (unless already changed)
-            if ($vote->getCandidate() === $this) {
-                $vote->setCandidate(null);
+            if ($vote->getCandidacy() === $this) {
+                $vote->setCandidacy(null);
             }
         }
 

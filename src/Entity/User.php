@@ -75,10 +75,10 @@ class User implements UserInterface
     private Collection $elections;
 
     /**
-     * @var Collection<int, Candidate>
+     * @var Collection<int, Candidacy>
      */
-    #[ORM\OneToMany(targetEntity: Candidate::class, mappedBy: 'candidate')]
-    private Collection $candidates;
+    #[ORM\OneToMany(targetEntity: Candidacy::class, mappedBy: 'candidacy')]
+    private Collection $candidacys;
 
     /**
      * @var Collection<int, Vote>
@@ -135,7 +135,7 @@ class User implements UserInterface
     {
         $this->transactions = new ArrayCollection();
         $this->elections = new ArrayCollection();
-        $this->candidates = new ArrayCollection();
+        $this->candidacys = new ArrayCollection();
         $this->votes = new ArrayCollection();
         $this->transactions = new ArrayCollection();
         $this->createdNewsletters = new ArrayCollection();
@@ -400,29 +400,29 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection<int, Candidate>
+     * @return Collection<int, Candidacy>
      */
-    public function getCandidates(): Collection
+    public function getCandidacys(): Collection
     {
-        return $this->candidates;
+        return $this->candidacys;
     }
 
-    public function addCandidate(Candidate $candidate): static
+    public function addCandidacy(Candidacy $candidacy): static
     {
-        if (!$this->candidates->contains($candidate)) {
-            $this->candidates->add($candidate);
-            $candidate->setCandidate($this);
+        if (!$this->candidacys->contains($candidacy)) {
+            $this->candidacys->add($candidacy);
+            $candidacy->setCandidacy($this);
         }
 
         return $this;
     }
 
-    public function removeCandidate(Candidate $candidate): static
+    public function removeCandidacy(Candidacy $candidacy): static
     {
-        if ($this->candidates->removeElement($candidate)) {
+        if ($this->candidacys->removeElement($candidacy)) {
             // set the owning side to null (unless already changed)
-            if ($candidate->getCandidate() === $this) {
-                $candidate->setCandidate(null);
+            if ($candidacy->getCandidacy() === $this) {
+                $candidacy->setCandidacy(null);
             }
         }
 

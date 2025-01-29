@@ -102,7 +102,7 @@
           </tr>
         </thead>
         <tbody>
-          {% for candidate in results %}
+          {% for candidacy in results %}
             <tr>
               <td>{{ candidate.candidate.lastname }}</td>
               <td>{{ candidate.candidate.firstname }}</td>
@@ -114,7 +114,7 @@
                   </a>
                   
                   {% if not election.isClosed %}
-                    <a href="{{ path('app_vote', { election_id: election.id, candidate_id: candidate.id }) }}">
+                    <a href="{{ path('app_vote', { election_id: election.id, candidacy_id: candidacy.id }) }}">
                       {{ fa.icon('check-to-slot') }}
                     </a>
                   {% endif %}
@@ -123,7 +123,7 @@
               </td>
               
               {% if election.isClosed %}
-                <td {% if candidate in winners %}class="text-success fw-bold"{% endif %}>{{ (candidate.votes|length / voteCount * 100)|round(2) }}%</td>
+                <td {% if candidacy in winners %}class="text-success fw-bold"{% endif %}>{{ (candidacy.votes|length / voteCount * 100)|round(2) }}%</td>
               {% endif %}
             </tr>
           {% else %}

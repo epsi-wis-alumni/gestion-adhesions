@@ -2,23 +2,23 @@
 
 namespace App\Repository;
 
-use App\Entity\Candidate;
+use App\Entity\Candidacy;
 use App\Entity\Election;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Candidate>
+ * @extends ServiceEntityRepository<Candidacy>
  */
-class CandidateRepository extends ServiceEntityRepository
+class CandidacyRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Candidate::class);
+        parent::__construct($registry, Candidacy::class);
     }
 
     /**
-     * @return Candidate[]
+     * @return Candidacy[]
      */
     public function findByVoteCount(Election $election): array
     {
