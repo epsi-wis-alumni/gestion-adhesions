@@ -1,0 +1,17 @@
+{% extends 'mail_base.html.twig' %}
+
+{% block title %}
+  Hello UserController!
+{% endblock %}
+
+{% block mail_content %}
+  <h1 class="text-primary">Template 1</h1>
+  <div class="">Object : {{ userNewsletter.newsletter.object }}</div>
+  <br/>
+  <div class="">
+    Body :
+    {{ include(template_from_string(userNewsletter.newsletter.body))|markdown_to_html }}
+  </div>
+  <br/>
+  <div class="">CTA : {{ userNewsletter.newsletter.cta }}</div>
+{% endblock %}
