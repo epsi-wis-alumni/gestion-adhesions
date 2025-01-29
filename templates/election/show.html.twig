@@ -1,14 +1,21 @@
 {% extends 'base.html.twig' %}
 {% import 'macros/image.html.twig' as image %}
 {% import 'macros/fontawesome.html.twig' as fa %}
-
+{% import "macros/progress.html.twig" as progress %}
 {% block title %}
   Election {{ election.id }}
 {% endblock %}
 
 {% block body %}
-  <div class="container">
-    <div class="table-responsive border rounded my-5">
+  <div class="container mt-3 mb-5">
+    <nav class="mb-3" aria-label="breadcrumb">
+      <ol class="breadcrumb bg-body px-3 py-3 mb-0 border rounded shadow-sm">
+        <li class="breadcrumb-item"><a href="{{ path('app_election_index') }}">Élections</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Élection {{ election.jobTitle }}</li>
+      </ol>
+    </nav>
+
+    <div class="table-responsive border rounded">
       <table class="table table-striped mb-0">
         <tbody>
           <tr>
