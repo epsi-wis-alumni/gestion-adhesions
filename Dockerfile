@@ -40,6 +40,8 @@ RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | s
     symfony server:ca:install && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
+RUN echo "alias sc='symfony console'" >> ~/.bashrc
+
 # Configure Apache
 ADD docker/apache/entrypoint.sh /entrypoint.sh
 RUN chmod a+x /entrypoint.sh && \

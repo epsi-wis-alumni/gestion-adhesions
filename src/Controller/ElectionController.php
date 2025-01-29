@@ -45,9 +45,9 @@ class ElectionController extends AbstractController
         $voteCount = $votes->count();
         $results = $candidateRepository->findByVoteCount($election);
 
-        $maxVoteCount = max(
+        $maxVoteCount = count($results) > 0 ? max(
             array_map(fn (Candidate $candidate) => $candidate->getVotes()->count(), $results)
-        );
+        ) : 0;
 
         $winners = array_filter(
             $results,
@@ -93,8 +93,8 @@ class ElectionController extends AbstractController
     public function vote(
         EntityManagerInterface $entityManager,
         #[CurrentUser()] User $currentUser,
-        #[MapEntity(id: 'election_id')] Election $election,
-        #[MapEntity(id: 'candidate_id')] Candidate $candidate,
+        #[MapEntity(id: 'electionId')] Election $election,
+        #[MapEntity(id: 'candidateId')] Candidate $candidate,
         ElectionManager $electionManager
     ): Response {
 

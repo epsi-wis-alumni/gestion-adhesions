@@ -45,10 +45,10 @@
               <td>
                 <div class="d-flex align-items-center gap-2">
                   <a class="link-primary" href="{{ path('app_admin_election_edit', { id: election.id }) }}">
-                    <i class="fa-duotone fa-regular fa-pen-to-square"></i>
+                    {{ fa.icon('pen-to-square') }}
                   </a>
                   <a class="link-primary" href="{{ path('app_admin_election_show', { id: election.id }) }}">
-                  <i class="fa-duotone fa-regular fa-circle-info"></i>
+                    {{ fa.icon('circle-info') }}
                   </a>
                   {% include 'admin/election/_delete.html.twig' %}
                 </div>

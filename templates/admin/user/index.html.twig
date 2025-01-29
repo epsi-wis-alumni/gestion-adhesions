@@ -80,13 +80,13 @@
               <td>
                 <div class="d-flex align-items-center gap-1">
                   <a class="link-primary" href="{{ path('app_admin_user_edit', { id: user.id }) }}">
-                    <i class="fa-duotone fa-regular fa-pen-to-square"></i>
+                    {{ fa.icon('pen-to-square') }}
                   </a>
                   {% include 'admin/user/_delete.html.twig' %}
 
                   <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                     <a class="btn btn-sm btn-primary" href="{{ path('app_admin_user_approve', { id: user.id }) }}">
-                      <i class="fa-duotone fa-regular fa-check fa-swap-opacity"></i>
+                      {{ fa.icon('check', swap_opacity: true) }}
                       Accepter
                     </a>
                     <div class="btn-group" role="group">
