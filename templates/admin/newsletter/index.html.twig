@@ -46,6 +46,9 @@
               <td>{{ newsletter.sendAt ? newsletter.sendAt|date('Y-m-d H:i:s') : '' }}</td>
               <td>
                 <div class="d-flex align-items-center gap-2">
+                  <a class="link-primary" href="{{ path('app_admin_newsletter_send', { id: newsletter.id }) }}">
+                    {{ fa.icon('paper-plane') }}
+                  </a>
                   <a class="link-primary" href="{{ path('app_admin_newsletter_edit', { id: newsletter.id }) }}">
                     {{ fa.icon('pen-to-square') }}
                   </a>
