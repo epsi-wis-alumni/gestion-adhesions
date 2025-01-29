@@ -6,16 +6,12 @@
 
 {% block mail_content %}
   <h1>Default template</h1>
-  <div class="">Objet : {{ currentNewsletter.objet }}</div>
+  <div class="">Object : {{ userNewsletter.newsletter.object }}</div>
   <br />
   <div class="">
-    Body :<div class="align-items-stretch mb-4" data-controller="markdown">
-      <div class="d-none">
-        <textarea class="form-widget p-3" data-markdown-target="input" data-action="input->markdown#render">{{ currentNewsletter.body }}</textarea>
-      </div>
-      <div class="markdown-form-render-container p-3" data-markdown-target="preview"></div>
-    </div>
+    Body :
+    {{ include(template_from_string(userNewsletter.newsletter.body))|mardown_to_html }}
   </div>
   <br />
-  <div class="">CTA : {{ currentNewsletter.cta }}</div>
+  <div class="">CTA : {{ userNewsletter.newsletter.cta }}</div>
 {% endblock %}
