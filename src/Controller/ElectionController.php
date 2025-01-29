@@ -10,6 +10,7 @@ use App\Form\CandidateType;
 use App\Repository\CandidateRepository;
 use App\Repository\ElectionRepository;
 use App\Service\ElectionManager;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -44,6 +45,10 @@ class ElectionController extends AbstractController
         $votes = $election->getVotes();
         $voteCount = $votes->count();
         $results = $candidateRepository->findByVoteCount($election);
+        $now = new DateTimeImmutable();
+        $step = $election->getVoteStartAt() > $now
+            ? 1 : ($election->getVoteStartAt() < $now && $election->getVoteEndAt() > $now
+            ? 2 : 3);
 
         $maxVoteCount = count($results) > 0 ? max(
             array_map(fn (Candidate $candidate) => $candidate->getVotes()->count(), $results)
@@ -60,6 +65,7 @@ class ElectionController extends AbstractController
             'winners' => $winners,
             'election' => $election,
             'candidates' => $election->getCandidates(),
+            'step' => $step,
         ]);
     }
 
