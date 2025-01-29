@@ -41,30 +41,20 @@ class ElectionController extends AbstractController
     public function show(
         Election $election,
         CandidateRepository $candidateRepository,
+        ElectionManager $electionManager,
     ): Response {
-        $votes = $election->getVotes();
-        $voteCount = $votes->count();
+        $voteCount = $election->getVotes()->count();
         $results = $candidateRepository->findByVoteCount($election);
-        $now = new DateTimeImmutable();
-        $step = $election->getVoteStartAt() > $now
-            ? 1 : ($election->getVoteStartAt() < $now && $election->getVoteEndAt() > $now
-            ? 2 : 3);
-
-        $maxVoteCount = count($results) > 0 ? max(
-            array_map(fn (Candidate $candidate) => $candidate->getVotes()->count(), $results)
-        ) : 0;
-
-        $winners = array_filter(
-            $results,
-            fn (Candidate $candidate) => $candidate->getVotes()->count() === $maxVoteCount
-        );
+        $step = $electionManager->getStep($election);
+        $winners = $electionManager->getWinners($election);
+        $candidates = $election->getCandidates();
         
         return $this->render('election/show.html.twig', [
             'voteCount' => $voteCount,
             'results' => $results,
             'winners' => $winners,
             'election' => $election,
-            'candidates' => $election->getCandidates(),
+            'candidates' => $candidates,
             'step' => $step,
         ]);
     }

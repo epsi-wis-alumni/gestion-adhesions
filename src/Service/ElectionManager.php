@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Entity\Vote;
 use App\Repository\CandidateRepository;
 use App\Repository\VoteRepository;
+use DateTimeImmutable;
 use Psr\Log\LoggerInterface;
 
 final class ElectionManager
@@ -34,10 +35,37 @@ final class ElectionManager
         ;
     }
 
-    public function getWinner(Election $election): Candidate
+    /**
+     * @return
+     */
+    public function getWinners(Election $election): array
     {
-        $candidates = $this->candidateRepository->findByVotes($election);
+        $votes = $election->getVotes();
+        $voteCount = $votes->count();
+        $results = $this->candidateRepository->findByVoteCount($election);
 
-        return $candidates[0];
+        $maxVoteCount = $this->getMaxVoteCount($results);
+
+        return array_filter(
+            $results,
+            fn (Candidate $candidate) => $candidate->getVotes()->count() === $maxVoteCount
+        );
+    }
+
+    protected function getMaxVoteCount(array $candidates): int
+    {
+        return count($candidates) > 0 ? max(
+            array_map(fn (Candidate $candidate) => $candidate->getVotes()->count(), $candidates)
+        ) : 0;
+    }
+
+    public function getStep(Election $election): int
+    {
+        $now = new DateTimeImmutable();
+        
+        return $election->getVoteStartAt() > $now
+            ? 1 : ($election->getVoteStartAt() < $now && $election->getVoteEndAt() > $now
+            ? 2 : 3)
+        ;
     }
 }
