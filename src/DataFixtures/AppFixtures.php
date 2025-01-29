@@ -10,10 +10,6 @@ use App\Service\UserManager;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ContainerBag;
-
-use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 
 /**
  * Reload the database with some data
@@ -191,10 +187,19 @@ class AppFixtures extends Fixture
             ->setVotedAt($today)
         ;
 
+        $vote5 = new Vote();
+        $vote5
+            ->setCandidate($candidate2)
+            ->setElection($election1)
+            ->setVoter($userPerso)
+            ->setVotedAt($today)
+        ;
+
         $manager->persist($vote1);
         $manager->persist($vote2);
         $manager->persist($vote3);
         $manager->persist($vote4);
+        $manager->persist($vote5);
 
         $manager->flush();
     }
