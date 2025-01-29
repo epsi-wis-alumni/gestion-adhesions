@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Newsletter;
 use App\Entity\UserNewsletter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -16,28 +17,16 @@ class UserNewsletterRepository extends ServiceEntityRepository
         parent::__construct($registry, UserNewsletter::class);
     }
 
-    //    /**
-    //     * @return UserNewsletter[] Returns an array of UserNewsletter objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('u.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?UserNewsletter
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    /**
+     * @return UserNewsletter[] Returns an array of User objects
+     */
+    public function findByNewsletter(
+        Newsletter $newsletter,
+    ): array {
+        return $this->createQueryBuilder('u')
+            ->where('u.newsletter = :newsletter')
+            ->setParameter('newsletter', $newsletter)
+            ->getQuery()
+            ->getResult();
+    }
 }
