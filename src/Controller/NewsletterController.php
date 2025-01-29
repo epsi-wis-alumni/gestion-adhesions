@@ -20,12 +20,12 @@ class NewsletterController extends AbstractController
         $currentNewsletter = $newsletterRepository->find($newsletter);
         $templateFileName = $currentNewsletter->getTemplate()->getFileName();
 
-        if (!file_exists(realpath(__DIR__ . '/../../templates/mails/' . $templateFileName . '.html.twig'))) {
-            $templateFileName = 'default_template';
+        if (!file_exists(realpath(__DIR__ . '/../../templates/mails/' . $templateFileName))) {
+            $userNewsletter = 'userNewsletter';
         }
-        
-        return $this->render('mails/' . $templateFileName . '.html.twig', [
-            'currentNewsletter' => $currentNewsletter,
+
+        return $this->render('mails/' . $templateFileName, [
+            'userNewsletter' => $userNewsletter,
         ]);
     }
 }
