@@ -25,7 +25,7 @@
         <thead class="table-bordered">
           <tr>
             <th>Id</th>
-            <th>Objet</th>
+            <th>Object</th>
             <th>Body</th>
             <th>Cta</th>
             <th>CreatedAt</th>
@@ -37,7 +37,7 @@
           {% for newsletter in newsletters %}
             <tr>
               <td>{{ newsletter.id }}</td>
-              <td>{{ newsletter.objet }}</td>
+              <td>{{ newsletter.object }}</td>
               {% set words = newsletter.body|split(' ') %}
               {% set truncated_body = words|slice(0, 6)|join(' ') ~ ' ...' %}
               <td>{{ truncated_body }}</td>

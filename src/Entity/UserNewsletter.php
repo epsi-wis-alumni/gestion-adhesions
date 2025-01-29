@@ -27,6 +27,9 @@ class UserNewsletter
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $openedAt = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $sentAt = null;
+
     public function getId(): ?Uuid
     {
         return $this->id;
@@ -64,6 +67,18 @@ class UserNewsletter
     public function setOpenedAt(?\DateTimeImmutable $openedAt): static
     {
         $this->openedAt = $openedAt;
+
+        return $this;
+    }
+
+    public function getSentAt(): ?\DateTimeImmutable
+    {
+        return $this->sentAt;
+    }
+
+    public function setSentAt(?\DateTimeImmutable $sentAt): static
+    {
+        $this->sentAt = $sentAt;
 
         return $this;
     }

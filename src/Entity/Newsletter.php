@@ -19,7 +19,7 @@ class Newsletter
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $objet = null;
+    private ?string $object = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $body = null;
@@ -60,14 +60,14 @@ class Newsletter
         return $this->id;
     }
 
-    public function getObjet(): ?string
+    public function getObject(): ?string
     {
-        return $this->objet;
+        return $this->object;
     }
 
-    public function setObjet(string $objet): static
+    public function setObject(string $object): static
     {
-        $this->objet = $objet;
+        $this->object = $object;
 
         return $this;
     }

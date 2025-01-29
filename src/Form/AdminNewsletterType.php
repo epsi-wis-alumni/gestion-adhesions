@@ -27,10 +27,10 @@ class AdminNewsletterType extends AbstractType
         $mailTemplateRepository = $this->mailTemplateRepository;
 
         $builder
-            ->add('objet', TextType::class, [
+            ->add('object', TextType::class, [
                 'attr' => ['class' => ''],
                 'row_attr' => ['class' => 'mb-3'],
-                'label' => 'Objet',
+                'label' => 'Object',
             ])
             ->add('body', TextareaType::class, [
                 'attr' => [
