@@ -1,0 +1,25 @@
+{% macro alert(id, path, path_param = {}, title, description, cancelButton = 'Annuler', continueButton = 'Continuer') %}
+  {% set path_url = path(path, path_param|default({})) %}
+
+  <div class="modal fade" id="{{ id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="{{ id }}Label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="{{ id }}Label">{{ title }}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        {% if description %}
+          <div class="modal-body">{{ description }}</div>
+        {% endif %}
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ cancelButton }}</button>
+          <a href="{{ path_url }}" class="btn btn-primary">
+            {{ continueButton }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endmacro %}

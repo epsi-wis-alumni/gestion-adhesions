@@ -1,5 +1,6 @@
 {% extends 'admin_base.html.twig' %}
 {% import "macros/fontawesome.html.twig" as fa %}
+{% import "macros/confirm_alert.html.twig" as confirm_alert %}
 
 {% block title %}
   Newsletter index
@@ -46,9 +47,16 @@
               <td>{{ newsletter.sendAt ? newsletter.sendAt|date('Y-m-d H:i:s') : '' }}</td>
               <td>
                 <div class="d-flex align-items-center gap-2">
-                  <a class="link-primary" href="{{ path('app_admin_newsletter_send', { id: newsletter.id }) }}">
+                  <a class="link-primary" data-bs-toggle="modal" data-bs-target="#confirmAlert-{{ newsletter.id }}" href="#">
                     {{ fa.icon('paper-plane') }}
                   </a>
+                  {{ confirm_alert.alert(
+                    id: 'confirmAlert-' ~ newsletter.id,
+                    path: 'app_admin_newsletter_send',
+                    path_param: {'id': newsletter.id},
+                    title: 'Êtes-vous sur d\'envoyer ?',
+                    continueButton: 'Envoyer'
+                    ) }}
                   <a class="link-primary" href="{{ path('app_admin_newsletter_edit', { id: newsletter.id }) }}">
                     {{ fa.icon('pen-to-square') }}
                   </a>
