@@ -3,12 +3,16 @@
 namespace App\Service;
 
 use App\Entity\Newsletter;
+use App\Entity\User;
 use App\Entity\UserNewsletter;
 use App\Repository\UserNewsletterRepository;
 use App\Repository\UserRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 final class NewsletterManager
 {
@@ -17,6 +21,7 @@ final class NewsletterManager
         private UserRepository $userRepository,
         private UserNewsletterRepository $userNewsletterRepository,
         private MailerInterface $mailerInterface,
+        private Security $security,
     ) {
     }
 
@@ -32,6 +37,12 @@ final class NewsletterManager
         foreach ($userNewsletters as $key => $userNewsletter) {
             $this->sendMail($userNewsletter);
         }
+
+        $newsletter
+            ->setSendAt(new DateTimeImmutable)
+            ->setSentBy($this->security->getUser())
+        ;
+        $this->entityManager->flush();
     }
 
     public function prepareUserNewsletters(Newsletter $newsletter): void
@@ -64,6 +75,7 @@ final class NewsletterManager
             ->context([
                 'userNewsletter' => $userNewsletter,
             ]);
-        dd($this->mailerInterface->send($email)->getDebug());
+        $this->mailerInterface->send($email);
+        $userNewsletter->setSentAt(new DateTimeImmutable());
     }
 }
