@@ -87,7 +87,7 @@ class UserRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('u')
             ->join('u.userNewsletters', 'un')
             ->where('un.newsletter = :newsletter')
-            ->andWhere('un.sentAt IS NULL')
+            ->andWhere('un.sentAt IS NOT NULL')
             ->setParameter('newsletter', $newsletter)
             ->getQuery()
             ->getResult();
