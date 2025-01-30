@@ -23,8 +23,9 @@ class UserNewsletterRepository extends ServiceEntityRepository
     public function findByNewsletter(
         Newsletter $newsletter,
     ): array {
-        return $this->createQueryBuilder('u')
-            ->where('u.newsletter = :newsletter')
+        return $this->createQueryBuilder('un')
+            ->where('un.newsletter = :newsletter')
+            ->andWhere('un.sentAt IS NULL')
             ->setParameter('newsletter', $newsletter)
             ->getQuery()
             ->getResult();
