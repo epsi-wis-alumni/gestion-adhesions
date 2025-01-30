@@ -7,8 +7,6 @@ use App\Entity\User;
 use App\Form\AdminNewsletterType;
 use App\Repository\MailTemplateRepository;
 use App\Repository\NewsletterRepository;
-use App\Repository\UserNewsletterRepository;
-use App\Repository\UserRepository;
 use App\Service\NewsletterManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
