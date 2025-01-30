@@ -9,6 +9,7 @@ use App\Repository\UserNewsletterRepository;
 use App\Repository\UserRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Mailer\MailerInterface;
@@ -22,6 +23,7 @@ final class NewsletterManager
         private UserNewsletterRepository $userNewsletterRepository,
         private MailerInterface $mailerInterface,
         private Security $security,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -65,10 +67,10 @@ final class NewsletterManager
     }
 
     public function sendMail(
-        $userNewsletter,
+        UserNewsletter $userNewsletter,
     ): void {
         $email = (new TemplatedEmail())
-            // ->from('test@epsi-wis-alumni.fr')
+            ->from('test@epsi-wis-alumni.fr')
             ->to($userNewsletter->getUser()->getEmail())
             ->subject($userNewsletter->getNewsletter()->getObject())
             ->htmlTemplate('mails/' . ($userNewsletter->getNewsletter()->getTemplate()->getFileName()))
