@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Newsletter;
 use App\Entity\User;
 use App\Repository\Trait\OrderableTrait;
 use App\Repository\Trait\PaginableTrait;
@@ -74,6 +75,20 @@ class UserRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('u')
             ->where('u.settings.allowNewsletters = :allowNewsletters')
             ->setParameter('allowNewsletters', true)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return User[] Returns an array of User objects
+     */
+    public function findByReceiveNewsletter(Newsletter $newsletter): array
+    {
+        return $this->createQueryBuilder('u')
+            ->join('u.userNewsletters', 'un')
+            ->where('un.newsletter = :newsletter')
+            ->andWhere('un.sentAt IS NULL')
+            ->setParameter('newsletter', $newsletter)
             ->getQuery()
             ->getResult();
     }
