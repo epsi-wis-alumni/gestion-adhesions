@@ -16,7 +16,7 @@
   </style>
   <div class="container my-2">
     <div class="d-flex justify-content-between mb-3">
-      <a class="btn btn-secondary" href="{{ absolute_url(userNewsletter.id) }}">Voir sur le web</a>
+      <a class="btn btn-secondary" href="{{ absolute_url(path('app_newsletter_show', { id: userNewsletter.id })) }}">Voir sur le web</a>
       <div>{{ userNewsletter.sentAt|date('d/m/Y') }}</div>
     </div>
     <h2 class="">{{ userNewsletter.newsletter.object }}</h2>
