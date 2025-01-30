@@ -131,6 +131,12 @@ class User implements UserInterface
     #[Embedded(class: Settings::class)]
     private Settings $settings;
 
+    /**
+     * @var Collection<int, UserNewsletter>
+     */
+    #[ORM\OneToMany(targetEntity: UserNewsletter::class, mappedBy: 'user')]
+    private Collection $userNewsletters;
+
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
@@ -143,6 +149,7 @@ class User implements UserInterface
         $this->approvedUsers = new ArrayCollection();
         $this->rejectedUsers = new ArrayCollection();
         $this->settings = new Settings();
+        $this->userNewsletters = new ArrayCollection();
     }
 
     public function loadUserByOAuthUserResponse(UserResponseInterface $response, string $resourceOwnerName): UserInterface
@@ -695,5 +702,35 @@ class User implements UserInterface
     public function hasCompleteInfo(): bool
     {
         return !!$this->getCompany() && !!$this->getJobTitle();
+    }
+
+    /**
+     * @return Collection<int, UserNewsletter>
+     */
+    public function getUserNewsletters(): Collection
+    {
+        return $this->userNewsletters;
+    }
+
+    public function addUserNewsletter(UserNewsletter $userNewsletter): static
+    {
+        if (!$this->userNewsletters->contains($userNewsletter)) {
+            $this->userNewsletters->add($userNewsletter);
+            $userNewsletter->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserNewsletter(UserNewsletter $userNewsletter): static
+    {
+        if ($this->userNewsletters->removeElement($userNewsletter)) {
+            // set the owning side to null (unless already changed)
+            if ($userNewsletter->getUser() === $this) {
+                $userNewsletter->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

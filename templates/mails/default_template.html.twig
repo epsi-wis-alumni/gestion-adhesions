@@ -1,0 +1,29 @@
+{% extends 'mail_base.html.twig' %}
+
+{% block title %}
+  Hello UserController!
+{% endblock %}
+
+{% block mail_content %}
+  <style>
+    img {
+      display: flex;
+      justify-self: center;
+    }
+    a {
+      text-decoration: none;
+    }
+  </style>
+  <h5>Default template</h5>
+  <div class="container my-2">
+    <div class="d-flex justify-content-between mb-3">
+      <a class="btn btn-secondary" href="{{ absolute_url(userNewsletter.id) }}">Voir sur le web</a>
+      <div>{{ userNewsletter.sentAt|date('d/m/Y') }}</div>
+    </div>
+    <h2 class="">{{ userNewsletter.newsletter.object }}</h2>
+    <br />
+    <div class="">{{ include(template_from_string(userNewsletter.newsletter.body))|markdown_to_html }}</div>
+    <br />
+    <a href="" class="btn btn-primary">{{ userNewsletter.newsletter.cta }}</a>
+  </div>
+{% endblock %}
