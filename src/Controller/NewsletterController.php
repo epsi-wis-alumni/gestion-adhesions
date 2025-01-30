@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\UserNewsletter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -9,14 +10,12 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/newsletter')]
 class NewsletterController extends AbstractController
 {
-    #[Route('/{id}', name: 'app_newsletter_show')]
+    #[Route('/{id}', name: 'app_newsletter_show', methods: ['GET'])]
     public function index(
-        Newsletter $newsletter,
-        NewsletterRepository $newsletterRepository,
+        UserNewsletter $userNewsletter,
     ): Response {
 
-        $currentNewsletter = $newsletterRepository->find($newsletter);
-        $templateFileName = $currentNewsletter->getTemplate()->getFileName();
+        $templateFileName = $userNewsletter->getNewsletter()->getTemplate()->getFileName();
 
         if (!file_exists(realpath(__DIR__ . '/../../templates/mails/' . $templateFileName))) {
             $userNewsletter = 'userNewsletter';
