@@ -77,7 +77,11 @@ final class NewsletterManager
             ->context([
                 'userNewsletter' => $userNewsletter,
             ]);
-        $this->mailerInterface->send($email);
-        $userNewsletter->setSentAt(new DateTimeImmutable());
+        try {
+            $this->mailerInterface->send($email);
+            $userNewsletter->setSentAt(new DateTimeImmutable());
+        } catch (\Throwable $th) {
+            $userNewsletter->setSentAt(null);
+        }
     }
 }
