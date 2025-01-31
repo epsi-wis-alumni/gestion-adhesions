@@ -51,7 +51,7 @@
               <div class="card text-start">
                 <div class="card-body">
                   <div class="display-5 text-secondary fw-bold mb-3">
-                    {{ winner.votes|length / voteCount * 100 }} %
+                    {{ (winner.votes|length / voteCount * 100)|round(2) }} %
                   </div>
                   <h5 class="card-title">{{ winner.candidate.displayName }}</h5>
                   <div 

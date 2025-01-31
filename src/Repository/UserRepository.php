@@ -35,8 +35,8 @@ class UserRepository extends ServiceEntityRepository
     }
 
     /**
-    * @return User[] Returns an array of User objects
-    */
+     * @return User[] Returns an array of User objects
+     */
     public function findPending(): array
     {
         return $this->createQueryBuilder('u')
@@ -48,8 +48,8 @@ class UserRepository extends ServiceEntityRepository
     }
 
     /**
-    * @return User[] Returns an array of User objects
-    */
+     * @return User[] Returns an array of User objects
+     */
     public function findBySearchPaginated(int $page = 1, int $perPage = 50, array $orderBy = [], ?string $search = null): array
     {
         $qb = $this->createQueryBuilder('u');
@@ -64,5 +64,17 @@ class UserRepository extends ServiceEntityRepository
         $qb->andWhere('u.deletedAt IS NULL');
 
         return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @return User[] Returns an array of User objects
+     */
+    public function findByAllowNewsletter(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.settings.allowNewsletters = :allowNewsletters')
+            ->setParameter('allowNewsletters', true)
+            ->getQuery()
+            ->getResult();
     }
 }

@@ -19,7 +19,7 @@ class Newsletter
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $objet = null;
+    private ?string $object = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $body = null;
@@ -43,9 +43,16 @@ class Newsletter
     #[ORM\ManyToOne(inversedBy: 'newsletters')]
     private ?MailTemplate $template = null;
 
+    /**
+     * @var Collection<int, UserNewsletter>
+     */
+    #[ORM\OneToMany(targetEntity: UserNewsletter::class, mappedBy: 'newsletter')]
+    private Collection $userNewsletters;
+
     public function __construct()
     {
         $this->setCreatedAt(new DateTimeImmutable());
+        $this->userNewsletters = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -53,14 +60,14 @@ class Newsletter
         return $this->id;
     }
 
-    public function getObjet(): ?string
+    public function getObject(): ?string
     {
-        return $this->objet;
+        return $this->object;
     }
 
-    public function setObjet(string $objet): static
+    public function setObject(string $object): static
     {
-        $this->objet = $objet;
+        $this->object = $object;
 
         return $this;
     }
@@ -145,6 +152,36 @@ class Newsletter
     public function setTemplate(?MailTemplate $template): static
     {
         $this->template = $template;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserNewsletter>
+     */
+    public function getUserNewsletters(): Collection
+    {
+        return $this->userNewsletters;
+    }
+
+    public function addUserNewsletter(UserNewsletter $userNewsletter): static
+    {
+        if (!$this->userNewsletters->contains($userNewsletter)) {
+            $this->userNewsletters->add($userNewsletter);
+            $userNewsletter->setNewsletter($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserNewsletter(UserNewsletter $userNewsletter): static
+    {
+        if ($this->userNewsletters->removeElement($userNewsletter)) {
+            // set the owning side to null (unless already changed)
+            if ($userNewsletter->getNewsletter() === $this) {
+                $userNewsletter->setNewsletter(null);
+            }
+        }
 
         return $this;
     }

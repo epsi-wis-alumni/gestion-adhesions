@@ -25,7 +25,7 @@
         <thead class="table-bordered">
           <tr>
             <th>Id</th>
-            <th>Objet</th>
+            <th>Object</th>
             <th>Body</th>
             <th>Cta</th>
             <th>CreatedAt</th>
@@ -37,7 +37,7 @@
           {% for newsletter in newsletters %}
             <tr>
               <td>{{ newsletter.id }}</td>
-              <td>{{ newsletter.objet }}</td>
+              <td>{{ newsletter.object }}</td>
               {% set words = newsletter.body|split(' ') %}
               {% set truncated_body = words|slice(0, 6)|join(' ') ~ ' ...' %}
               <td>{{ truncated_body }}</td>
@@ -46,6 +46,9 @@
               <td>{{ newsletter.sendAt ? newsletter.sendAt|date('Y-m-d H:i:s') : '' }}</td>
               <td>
                 <div class="d-flex align-items-center gap-2">
+                  <a class="link-primary" href="{{ path('app_admin_newsletter_send', { id: newsletter.id }) }}">
+                    {{ fa.icon('paper-plane') }}
+                  </a>
                   <a class="link-primary" href="{{ path('app_admin_newsletter_edit', { id: newsletter.id }) }}">
                     {{ fa.icon('pen-to-square') }}
                   </a>
