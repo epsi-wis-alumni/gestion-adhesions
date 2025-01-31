@@ -82,6 +82,18 @@ class UserRepository extends ServiceEntityRepository
     /**
      * @return User[] Returns an array of User objects
      */
+    public function findByAllowNotifications(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.settings.allowNotifications = :allowNotifications')
+            ->setParameter('allowNotifications', true)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return User[] Returns an array of User objects
+     */
     public function findByReceiveNewsletter(Newsletter $newsletter): array
     {
         return $this->createQueryBuilder('u')
