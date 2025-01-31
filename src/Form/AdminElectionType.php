@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Election;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -29,7 +30,16 @@ class AdminElectionType extends AbstractType
                 'row_attr' => ['class' => 'mb-3'],
                 'label' => 'Date de fin',
             ])
-        ;
+            ->add('notifyByEmail', CheckboxType::class, [
+                'label' => 'Notifier par email',
+                'label_attr' => [
+                    'class' => 'checkbox-switch',
+                ],
+                'required' => false,
+                'mapped' => false,
+                'row_attr' => ['class' => 'mb-3'],
+                'data'=> true,
+            ]);;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
