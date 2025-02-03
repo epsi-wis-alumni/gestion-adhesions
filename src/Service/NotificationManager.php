@@ -21,24 +21,25 @@ final class NotificationManager
     public function sendElectionNotification(Election $election): void
     {
         $users = $this->userRepository->findByAllowNotifications();
-        
-        $this->sendMail($election, $this->getMailingListFromUsers($users));
 
-        $this->entityManager->flush();
+        $this->sendNotification($election, $this->getMailFromUsers($users));
+
+        // $this->entityManager->flush();
     }
 
-    public function sendMail(Election $election, array $user): void
+    public function sendNotification(Election $election, array $users): void
     {
-        // $email = (new TemplatedEmail())
-        //     ->from('test@epsi-wis-alumni.fr')
-        //     ->bcc(join(',', $user))
-        //     ->subject('Élection pour ' . $election->getJobTitle())
-        //     ->htmlTemplate('mails/test.html.twig')
-        //     ->context([
-        //         'election' => $election,
-        //     ]);
-        
-        dd(join(',', $user));
+        $email = (new TemplatedEmail())
+            ->from('test@epsi-wis-alumni.fr')
+            ->to('test+to@epsi-wis-alumni.fr')
+            // ->bcc(implode("','", $users))
+            ->bcc('aurelienlol33@gmail.com','test+bcc@epsi-wis-alumni.fr')
+            ->subject('Élection pour ' . $election->getJobTitle())
+            ->htmlTemplate('mails/test.html.twig')
+            ->context([
+                'election' => $election,
+            ]);
+
         try {
             $this->mailerInterface->send($email);
         } catch (\Throwable $th) {
@@ -46,9 +47,8 @@ final class NotificationManager
         }
     }
 
-    public function getMailingListFromUsers(array $users): array
+    public function getMailFromUsers(array $users): array
     {
-        return array_map(fn ($user) => $user->getEmail(), $users);
+        return array_map(fn($user) => $user->getEmail(), $users);
     }
 }
-
