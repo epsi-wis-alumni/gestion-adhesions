@@ -33,7 +33,7 @@ final class NotificationManager
             ->from('test@epsi-wis-alumni.fr')
             ->bcc(...$users)
             ->subject('Élection pour ' . $election->getJobTitle())
-            ->htmlTemplate('mails/test.html.twig')
+            ->htmlTemplate('mails/election.html.twig')
             ->context([
                 'election' => $election,
             ]);
