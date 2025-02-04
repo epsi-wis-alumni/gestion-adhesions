@@ -31,9 +31,7 @@ final class NotificationManager
     {
         $email = (new TemplatedEmail())
             ->from('test@epsi-wis-alumni.fr')
-            ->to('test+to@epsi-wis-alumni.fr')
-            // ->bcc(implode("','", $users))
-            ->bcc('aurelienlol33@gmail.com','test+bcc@epsi-wis-alumni.fr')
+            ->bcc(...$users)
             ->subject('Élection pour ' . $election->getJobTitle())
             ->htmlTemplate('mails/test.html.twig')
             ->context([
