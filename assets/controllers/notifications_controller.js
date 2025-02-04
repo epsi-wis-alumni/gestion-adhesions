@@ -8,12 +8,8 @@ export default class extends Controller {
   }
 
   showNotification() {
-    if (this.notificationsTarget.checked) {
-      this.notificationListTarget.style.display = 'block';
-    } else {
-      this.notificationListTarget.style.display = 'none';
-    }
-  }
+    this.notificationListTarget.style.display = this.notificationsTarget.checked ? 'block' : 'none';
+  }  
 
   syncNotification() {
     if (this.hasNotificationTarget) {
