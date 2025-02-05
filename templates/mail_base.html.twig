@@ -6,11 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
   <body>
-    <main class="container">
-      {% block mail_content %}
-
-      {% endblock %}
-    </main>
+    <table role="presentation" class="email-container">
+      <tr>
+        <td align="center">
+          <table role="presentation" class="container">
+            {% block mail_content %}{% endblock %}
+          </table>
+        </td>
+      </tr>
+    </table>
   </body>
 </html>
 {% endapply %}
