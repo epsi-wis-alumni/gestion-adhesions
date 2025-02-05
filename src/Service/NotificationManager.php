@@ -20,11 +20,9 @@ final class NotificationManager
 
     public function sendElectionNotification(Election $election): void
     {
-        $users = $this->userRepository->findByAllowNotifications();
+        $users = $this->userRepository->findByNotificationsAllowed();
 
         $this->sendNotification($election, $this->getMailFromUsers($users));
-
-        // $this->entityManager->flush();
     }
 
     public function sendNotification(Election $election, array $users): void
@@ -38,11 +36,7 @@ final class NotificationManager
                 'election' => $election,
             ]);
 
-        try {
-            $this->mailerInterface->send($email);
-        } catch (\Throwable $th) {
-            dd($th);
-        }
+        $this->mailerInterface->send($email);
     }
 
     public function getMailFromUsers(array $users): array
