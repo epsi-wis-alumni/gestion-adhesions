@@ -43,8 +43,9 @@ final class MailListener
     {
         $error = $event->getError();
         if ($error instanceof TransportExceptionInterface) {
-            $this->logger->error('Erreur lors de l\'envoi de l\'e-mail : ' . $error->getMessage());
-            $this->logger->debug('Détails de l\'erreur : ' . $error->getDebug());
+            $this->logger->debug('Erreur lors de l\'envoi de l\'e-mail', [
+                'message' => $error->getMessage(),
+            ]);
         }
     }
 }
