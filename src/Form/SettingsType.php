@@ -5,6 +5,8 @@ namespace App\Form;
 use App\Entity\Settings;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SettingsType extends AbstractType
@@ -13,9 +15,6 @@ class SettingsType extends AbstractType
     {
         $builder
             ->add('allowNewsletters', null, [
-                // 'row_attr' => [
-                //     'class' => 'mb-3',
-                // ],
                 'label' => 'Newsletter',
                 'label_attr' => [
                     'class' => 'checkbox-switch',
@@ -26,8 +25,35 @@ class SettingsType extends AbstractType
                 'label_attr' => [
                     'class' => 'checkbox-switch',
                 ],
-            ])
-        ;
+                'attr' => [
+                    'class' => 'js-notifications',
+                    'data-notifications-target' => 'notifications',
+                    'data-action' => 'change->notifications#toggle',
+                ],
+            ]);
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
+            $form = $event->getForm();
+            $data = $event->getData();
+
+            if (!$data) {
+                return;
+            }
+
+            $value = $data->isAllowNotifications();
+
+            $form->add('allowElectionNotifications', null, [
+                'label' => 'Élections',
+                'label_attr' => [
+                    'class' => 'checkbox-switch'
+                ],
+                'data' => $value,
+                'attr' => [
+                    'class' => 'js-notification',
+                    'data-notifications-target' => 'notification',
+                ],
+            ]);
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver): void

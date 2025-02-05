@@ -1,6 +1,4 @@
-{% macro alert(id, path, path_param = {}, title, description, cancelButton = 'Annuler', continueButton = 'Continuer') %}
-  {% set path_url = path(path, path_param|default({})) %}
-
+{% macro confirm(id, path, title, description, cancelButton = 'Annuler', continueButton = 'Continuer') %}
   <div class="modal fade" id="{{ id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="{{ id }}Label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -15,7 +13,7 @@
         
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ cancelButton }}</button>
-          <a href="{{ path_url }}" class="btn btn-primary">
+          <a href="{{ path }}" class="btn btn-primary">
             {{ continueButton }}
           </a>
         </div>
