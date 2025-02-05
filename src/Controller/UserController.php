@@ -94,8 +94,6 @@ final class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($currentUser);
             $entityManager->flush();
-
-            return $this->redirectToRoute('app_user_settings', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('user/settings.html.twig', [
