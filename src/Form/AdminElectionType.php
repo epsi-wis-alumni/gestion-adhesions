@@ -39,7 +39,8 @@ class AdminElectionType extends AbstractType
                 'mapped' => false,
                 'row_attr' => ['class' => 'mb-3'],
                 'data'=> true,
-            ]);;
+            ]);
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
