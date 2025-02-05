@@ -5,8 +5,35 @@
 {% endblock %}
 
 {% block mail_content %}
-    <div class="container">
-      <div>{{ election.id }}</div>
-      <div>{{ election.jobTitle }}</div>
-    </div>
+  <tr>
+    <td align="center">
+      <table role="presentation" class="content">
+        <tr>
+          <td class="header">
+            <h1>Élection pour le poste : {{ election.jobTitle }}</h1>
+          </td>
+        </tr>
+        <tr>
+          <td class="body">
+            <table role="presentation" class="details">
+              <tr>
+                <td class="detail">Poste : {{ election.jobTitle }}</td>
+              </tr>
+              <tr>
+                <td class="detail">Début du vote : {{ election.VoteStartAt|date('d/m/Y H:i:s') }}</td>
+              </tr>
+              <tr>
+                <td class="detail">Fin du vote : {{ election.VoteEndAt|date('d/m/Y H:i:s') }}</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="footer">
+            <a href="{{ absolute_url(path('app_election_show', { id: election.id })) }}" class="button">Consulter l'élection</a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
 {% endblock %}
