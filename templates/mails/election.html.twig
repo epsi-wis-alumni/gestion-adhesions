@@ -1,0 +1,12 @@
+{% extends 'mail_base.html.twig' %}
+
+{% block title %}
+  Élection pour le poste : {{ election.jobTitle }}
+{% endblock %}
+
+{% block mail_content %}
+    <div class="container">
+      <div>{{ election.id }}</div>
+      <div>{{ election.jobTitle }}</div>
+    </div>
+{% endblock %}

@@ -6,6 +6,7 @@ use App\Entity\Election;
 use App\Entity\User;
 use App\Form\AdminElectionType;
 use App\Repository\ElectionRepository;
+use App\Service\NotificationManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,6 +29,7 @@ final class AdminElectionController extends AbstractController
     public function new(
         Request $request,
         EntityManagerInterface $entityManager,
+        NotificationManager $notificationManager,
         #[CurrentUser()] User $currentUser
     ): Response {
         
@@ -39,6 +41,10 @@ final class AdminElectionController extends AbstractController
             $election->setCreatedBy($currentUser);
             $entityManager->persist($election);
             $entityManager->flush();
+            
+            if($form->get('notifyByEmail')->getData()){
+                $notificationManager->sendElectionNotification($election);
+            } 
 
             return $this->redirectToRoute('app_admin_election_index', [], Response::HTTP_SEE_OTHER);
         }
