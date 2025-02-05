@@ -24,8 +24,7 @@ final class NewsletterManager
         private MailerInterface $mailerInterface,
         private Security $security,
         private LoggerInterface $logger,
-    ) {
-    }
+    ) {}
 
     public function send(Newsletter $newsletter): void
     {
@@ -77,11 +76,8 @@ final class NewsletterManager
             ->context([
                 'userNewsletter' => $userNewsletter,
             ]);
-        try {
-            $this->mailerInterface->send($email);
-            $userNewsletter->setSentAt(new DateTimeImmutable());
-        } catch (\Throwable $th) {
-            $userNewsletter->setSentAt(null);
-        }
+
+        $this->mailerInterface->send($email);
+        $userNewsletter->setSentAt(new DateTimeImmutable());
     }
 }

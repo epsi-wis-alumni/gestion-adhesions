@@ -36,11 +36,7 @@ final class NotificationManager
                 'election' => $election,
             ]);
 
-        try {
-            $this->mailerInterface->send($email);
-        } catch (\Throwable $th) {
-            dd($th);
-        }
+        $this->mailerInterface->send($email);
     }
 
     public function getMailFromUsers(array $users): array
