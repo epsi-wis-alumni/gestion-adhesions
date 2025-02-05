@@ -20,7 +20,7 @@ final class NotificationManager
 
     public function sendElectionNotification(Election $election): void
     {
-        $users = $this->userRepository->findByAllowNotifications();
+        $users = $this->userRepository->findByNotificationsAllowed();
 
         $this->sendNotification($election, $this->getMailFromUsers($users));
     }

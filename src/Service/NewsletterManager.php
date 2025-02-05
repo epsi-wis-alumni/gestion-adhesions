@@ -48,7 +48,7 @@ final class NewsletterManager
 
     public function prepareUserNewsletters(Newsletter $newsletter): void
     {
-        $users = $this->userRepository->findByAllowNewsletter();
+        $users = $this->userRepository->findByNewsletterAllowed();
 
         foreach ($users as $key => $user) {
             $userNewsletter = new UserNewsletter();

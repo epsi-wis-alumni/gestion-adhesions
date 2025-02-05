@@ -70,7 +70,7 @@ class UserRepository extends ServiceEntityRepository
     /**
      * @return User[] Returns an array of User objects
      */
-    public function findByAllowNewsletter(): array
+    public function findByNewsletterAllowed(): array
     {
         return $this->createQueryBuilder('u')
             ->where('u.settings.allowNewsletters = :allowNewsletters')
@@ -82,7 +82,7 @@ class UserRepository extends ServiceEntityRepository
     /**
      * @return User[] Returns an array of User objects
      */
-    public function findByAllowNotifications(): array
+    public function findByNotificationsAllowed(): array
     {
         return $this->createQueryBuilder('u')
             ->where('u.settings.allowNotifications = :allowNotifications')
@@ -94,7 +94,7 @@ class UserRepository extends ServiceEntityRepository
     /**
      * @return User[] Returns an array of User objects
      */
-    public function findByReceiveNewsletter(Newsletter $newsletter): array
+    public function findByNewsletterReceived(Newsletter $newsletter): array
     {
         return $this->createQueryBuilder('u')
             ->join('u.userNewsletters', 'un')
