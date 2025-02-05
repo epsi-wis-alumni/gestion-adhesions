@@ -23,8 +23,6 @@ final class NotificationManager
         $users = $this->userRepository->findByAllowNotifications();
 
         $this->sendNotification($election, $this->getMailFromUsers($users));
-
-        // $this->entityManager->flush();
     }
 
     public function sendNotification(Election $election, array $users): void
