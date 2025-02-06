@@ -1,0 +1,36 @@
+{% extends 'mail_base.html.twig' %}
+
+{% block title %}
+  Nouvel Événement : {{ event.title }}
+{% endblock %}
+
+{% block mail_content %}
+  <tr>
+    <td align="center">
+      <table role="presentation" class="content">
+        <tr>
+          <td class="header">
+            <h1>Nouvel Événement : {{ event.title }}</h1>
+          </td>
+        </tr>
+        <tr>
+          <td class="body">
+            <table role="presentation" class="details">
+              <tr>
+                <td class="detail">Du : {{ event.startAt|date('d/m/Y H:i') }}</td>
+              </tr>
+              <tr>
+                <td class="detail">Au : {{ event.endAt|date('d/m/Y H:i') }}</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="footer">
+            <a href="{{ absolute_url(path('app_admin_event_show', { id: event.id })) }}" class="button">Consulter l'événement</a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+{% endblock %}
