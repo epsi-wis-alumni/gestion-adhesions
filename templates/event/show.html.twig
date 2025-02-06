@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% import 'macros/fontawesome.html.twig' as fa %}
+
+{% block title %}
+  {{ event.title }}
+{% endblock %}
+
+{% set date_format = 'd/m/Y H:i' %}
+
+{% block body %}
+  <h1 class="mb-3">{{ event.title }}</h1>
+
+  <div class="table-responsive border rounded">
+    <table class="table table-striped mb-0">
+      <tbody>
+        <tr>
+          <th>Lieu</th>
+          <td>{{ event.place }}</td>
+        </tr>
+        <tr>
+          <th>Date de début</th>
+          <td>{{ event.startAt|date(date_format) }}</td>
+        </tr>
+        <tr>
+          <th>Date de fin</th>
+          <td>{{ event.endAt|date(date_format) }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
