@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Entity\User;
-use App\Form\EventType;
+use App\Form\AdminEventType;
 use App\Repository\EventRepository;
 use App\Service\EventManager;
 use DateTimeImmutable;
@@ -34,7 +34,7 @@ final class AdminEventController extends AbstractController
         #[CurrentUser()] User $currentUser,
     ): Response {
         $event = new Event();
-        $form = $this->createForm(EventType::class, $event);
+        $form = $this->createForm(AdminEventType::class, $event);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -67,7 +67,7 @@ final class AdminEventController extends AbstractController
         EntityManagerInterface $entityManager,
         #[CurrentUser()] User $currentUser,
     ): Response {
-        $form = $this->createForm(EventType::class, $event);
+        $form = $this->createForm(AdminEventType::class, $event);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
