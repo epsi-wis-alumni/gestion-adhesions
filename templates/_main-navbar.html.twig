@@ -23,9 +23,9 @@
 
             {{ navigation.nav_item(
               label: 'Évènements',
-              path: '#',
+              path: path('app_event_index'),
               icon: fa.icon('calendar-star', size: 'lg'),
-              check_path: '#',
+              check_path: 'app_event',
             ) }}
           {% endif %}
         </ul>
