@@ -16,28 +16,59 @@ class EventRepository extends ServiceEntityRepository
         parent::__construct($registry, Event::class);
     }
 
-    //    /**
-    //     * @return Event[] Returns an array of Event objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('e')
-    //            ->andWhere('e.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('e.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * @return Event[] Returns an array of Event objects
+     */
+    public function findByPublic(bool $value = true): array
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.private != :private')
+            ->setParameter('private', $value)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
-    //    public function findOneBySomeField($value): ?Event
-    //    {
-    //        return $this->createQueryBuilder('e')
-    //            ->andWhere('e.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+     /**
+     * @return Event[]
+     */
+    public function findPending(): array
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.startAt > :now')
+            ->setParameter('now', new \DateTimeImmutable())
+            ->orderBy('e.startAt', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Event[]
+     */
+    public function findInProgress(): array
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.startAt <= :now')
+            ->andWhere('e.endAt >= :now')
+            ->setParameter('now', new \DateTimeImmutable())
+            ->orderBy('e.startAt', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Event[]
+     */
+    public function findDone(): array
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.endAt < :now')
+            ->setParameter('now', new \DateTimeImmutable())
+            ->orderBy('e.endAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }
