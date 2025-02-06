@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\AdminEventType;
 use App\Repository\EventRepository;
 use App\Service\EventManager;
+use App\Service\NotificationManager;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,6 +32,7 @@ final class AdminEventController extends AbstractController
         Request $request,
         EventManager $eventManager,
         EntityManagerInterface $entityManager,
+        NotificationManager $notificationManager,
         #[CurrentUser()] User $currentUser,
     ): Response {
         $event = new Event();

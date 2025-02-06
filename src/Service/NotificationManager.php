@@ -27,14 +27,29 @@ final class NotificationManager
 
     public function sendNotification(object $entity, array $users): void
     {
+
+        $entityName = $this->getEntityName($entity);
         $email = (new TemplatedEmail())
             ->from('test@epsi-wis-alumni.fr')
-            ->bcc(...$users)
-            ->subject('Élection pour ' . $election->getJobTitle())
-            ->htmlTemplate('mails/election.html.twig')
+            ->bcc(...$users);
+
+        switch ($entityName) {
+            case 'election':
+                $email->subject('Élection pour ' . $entity->getJobTitle());
+                break;
+            case 'event':
+                $email->subject('Nouvel Événement : ' . $entity->getTitle());
+                break;
+            default:
+                throw new \InvalidArgumentException("Type d'entité non pris en charge : " . $entityName);
+        };
+
+        $email
+            ->htmlTemplate('mails/' . $entityName . '.html.twig')
             ->context([
-                'election' => $election,
-            ]);
+                $entityName => $entity
+            ])
+        ;
 
         $this->mailerInterface->send($email);
     }
@@ -42,5 +57,10 @@ final class NotificationManager
     public function getMailFromUsers(array $users): array
     {
         return array_map(fn($user) => $user->getEmail(), $users);
+    }
+
+    public function getEntityName(object $entity): string
+    {
+        return strtolower((new \ReflectionClass($entity))->getShortName());
     }
 }
