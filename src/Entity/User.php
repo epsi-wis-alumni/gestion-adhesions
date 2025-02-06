@@ -137,6 +137,12 @@ class User implements UserInterface
     #[ORM\OneToMany(targetEntity: UserNewsletter::class, mappedBy: 'user')]
     private Collection $userNewsletters;
 
+    /**
+     * @var Collection<int, Event>
+     */
+    #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'createdBy')]
+    private Collection $events;
+
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
@@ -150,6 +156,7 @@ class User implements UserInterface
         $this->rejectedUsers = new ArrayCollection();
         $this->settings = new Settings();
         $this->userNewsletters = new ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
     public function loadUserByOAuthUserResponse(UserResponseInterface $response, string $resourceOwnerName): UserInterface
@@ -728,6 +735,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($userNewsletter->getUser() === $this) {
                 $userNewsletter->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Event>
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): static
+    {
+        if (!$this->events->contains($event)) {
+            $this->events->add($event);
+            $event->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): static
+    {
+        if ($this->events->removeElement($event)) {
+            // set the owning side to null (unless already changed)
+            if ($event->getCreatedBy() === $this) {
+                $event->setCreatedBy(null);
             }
         }
 
