@@ -1,0 +1,47 @@
+{% extends 'admin_base.html.twig' %}
+{% import 'macros/fontawesome.html.twig' as fa %}
+
+{% block title %}
+  Event
+{% endblock %}
+
+{% set date_format = 'd/m/Y H:i' %}
+
+{% block admin_content %}
+  <h1 class="mb-3">Événement n°{{ event.id }}</h1>
+
+  <div class="table-responsive border rounded">
+    <table class="table table-striped mb-0">
+      <tbody>
+        <tr>
+          <th>Titre</th>
+          <td>{{ event.title }}</td>
+        </tr>
+        <tr>
+          <th>Lieu</th>
+          <td>{{ event.place }}</td>
+        </tr>
+        <tr>
+          <th>Date de début</th>
+          <td>{{ event.startAt|date(date_format) }}</td>
+        </tr>
+        <tr>
+          <th>Date de fin</th>
+          <td>{{ event.endAt|date(date_format) }}</td>
+        </tr>
+        <tr>
+          <th>Privé</th>
+          <td>{{ event.private ? fa.icon('check') : fa.icon('xmark') }}</td>
+        </tr>
+        <tr>
+          <th>Date de création</th>
+          <td>{{ event.createdAt|date(date_format) }}</td>
+        </tr>
+        <tr>
+          <th>Dernière mise à jour</th>
+          <td>{{ event.updatedAt ? event.updatedAt|date(date_format) : 'Aucune mise à jour' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
