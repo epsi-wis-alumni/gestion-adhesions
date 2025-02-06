@@ -1,0 +1,70 @@
+{% extends 'admin_base.html.twig' %}
+{% import "macros/fontawesome.html.twig" as fa %}
+
+{% block title %}
+  Event index
+{% endblock %}
+
+{% set date_format = 'd/m/Y H:i' %}
+
+{% block admin_content %}
+    <div class="row align-items-end gap-2 mb-3">
+      <div class="col-auto me-auto">
+        <h2 class="h4 mb-0">Liste des événements</h2>
+      </div>
+
+      <div class="col-auto">
+        <a href="{{ path('app_admin_event_new') }}" class="btn btn-primary">
+          {{ fa.icon('plus', swap_opacity: true) }}
+          Ajouter
+        </a>
+      </div>
+    </div>
+
+    <div class="table-responsive border rounded">
+      <table class="table table-striped mb-0">
+        <thead class="table-bordered">
+          <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Lieu</th>
+            <th>Début</th>
+            <th>Fin</th>
+            <th>Privé</th>
+            <th>Création</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for event in events %}
+            <tr>
+              <td>{{ event.id }}</td>
+              <td>{{ event.title }}</td>
+              <td>{{ event.place }}</td>
+              <td>{{ event.startAt ? event.startAt|date(date_format) : '' }}</td>
+              <td>{{ event.endAt ? event.endAt|date(date_format) : '' }}</td>
+              <td class="ps-4">
+                {{ event.private ? fa.icon('check') : fa.icon('xmark') }}
+              </td>
+              <td>{{ event.createdAt ? event.createdAt|date(date_format) : '' }}</td>
+              <td>
+                <div class="d-flex align-items-center gap-2">
+                  <a class="link-primary" href="{{ path('app_admin_event_edit', { id: event.id }) }}">
+                    {{ fa.icon('pen-to-square') }}
+                  </a>
+                  <a class="link-primary" href="{{ path('app_admin_event_show', { id: event.id }) }}">
+                    {{ fa.icon('circle-info') }}
+                  </a>
+                  {% include 'admin/event/_delete.html.twig' %}
+                </div>
+              </td>
+            </tr>
+          {% else %}
+            <tr>
+              <td colspan="7">Aucun Événements</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+{% endblock %}
