@@ -45,6 +45,17 @@ class AdminEventType extends AbstractType
                 'row_attr' => ['class' => 'mb-3'],
                 'required' => false,
             ])
+            ->add('notifyByEmail', CheckboxType::class, [
+                'label' => 'Notifier par email',
+                'label_attr' => [
+                    'class' => 'checkbox-switch',
+                ],
+                'required' => false,
+                'mapped' => false,
+                'row_attr' => ['class' => 'mb-3'],
+                'data' => true,
+            ]);
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -42,6 +42,10 @@ final class AdminEventController extends AbstractController
             $entityManager->persist($event);
             $entityManager->flush();
 
+            if($form->get('notifyByEmail')->getData()){
+                $notificationManager->sendNotification($election);
+            } 
+
             return $this->redirectToRoute('app_admin_event_index', [], Response::HTTP_SEE_OTHER);
         }
 
