@@ -18,14 +18,14 @@ final class NotificationManager
         private MailerInterface $mailerInterface,
     ) {}
 
-    public function sendElectionNotification(Election $election): void
+    public function send(object $entity): void
     {
         $users = $this->userRepository->findByNotificationsAllowed();
 
-        $this->sendNotification($election, $this->getMailFromUsers($users));
+        $this->sendNotification($entity, $this->getMailFromUsers($users));
     }
 
-    public function sendNotification(Election $election, array $users): void
+    public function sendNotification(object $entity, array $users): void
     {
         $email = (new TemplatedEmail())
             ->from('test@epsi-wis-alumni.fr')
