@@ -1,0 +1,33 @@
+{% macro event(event, step) %}
+  {% import "macros/fontawesome.html.twig" as fa %}
+  {% import "macros/progress_event.html.twig" as progress %}
+  <div class="card">
+    <div class="card-body text-center">
+      <h3 class="card-title mb-3">
+        <a href="{{ path('app_event_show', { id: event.id }) }}" class="link-body-emphasis">{{ event.Title }}</a>
+      </h3>
+      
+      <div class="card-text text-secondary">
+        {{ event.startAt|date('d/m/Y H:i') }}
+      </div>
+
+      <div class="">
+        {{ fa.icon('arrow-down-long', size: 'xl', swap_opacity: true) }}
+      </div>
+      
+      <div class="card-text text-secondary mb-3">
+        {{ event.endAt|date('d/m/Y H:i') }}
+      </div>
+
+      {{ progress.event(step) }}
+    </div>
+    <div class="card-footer">
+      <div class="text-end">
+          <a href="{{ path('app_event_show', { id: event.id }) }}" class="btn btn-primary">
+            {{ fa.icon('circle-info') }}
+            Consulter
+          </a>
+      </div>
+    </div>
+  </div>
+{% endmacro %}
