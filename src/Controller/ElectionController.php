@@ -46,14 +46,14 @@ class ElectionController extends AbstractController
         $results = $candidateRepository->findByVoteCount($election);
 
         $maxVoteCount = count($results) > 0 ? max(
-            array_map(fn (Candidate $candidate) => $candidate->getVotes()->count(), $results)
+            array_map(fn(Candidate $candidate) => $candidate->getVotes()->count(), $results)
         ) : 0;
 
         $winners = array_filter(
             $results,
-            fn (Candidate $candidate) => $candidate->getVotes()->count() === $maxVoteCount
+            fn(Candidate $candidate) => $candidate->getVotes()->count() === $maxVoteCount
         );
-        
+
         return $this->render('election/show.html.twig', [
             'voteCount' => $voteCount,
             'results' => $results,
@@ -75,7 +75,7 @@ class ElectionController extends AbstractController
         $candidate = new Candidate();
         $form = $this->createForm(CandidateType::class, $candidate);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $electionManager->candidate(user: $currentUser, candidate: $candidate, election: $election);
             $entityManager->persist($candidate);
