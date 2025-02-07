@@ -1,7 +1,10 @@
 {% macro event(event, step) %}
   {% import "macros/fontawesome.html.twig" as fa %}
   {% import "macros/progress_event.html.twig" as progress %}
-  <div class="card">
+
+  {% set accent = step == 1 ? 'secondary' : (step == 2 ? 'primary' : 'success') %}
+
+  <div class="card mb-4">
     <div class="card-body text-center">
       <h3 class="card-title mb-3">
         <a href="{{ path('app_event_show', { id: event.id }) }}" class="link-body-emphasis">{{ event.Title }}</a>
@@ -23,7 +26,7 @@
     </div>
     <div class="card-footer">
       <div class="text-end">
-          <a href="{{ path('app_event_show', { id: event.id }) }}" class="btn btn-primary">
+          <a href="{{ path('app_event_show', { id: event.id }) }}" class="btn btn-{{ accent }}">
             {{ fa.icon('circle-info') }}
             Consulter
           </a>
