@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Candidate;
 use App\Entity\Election;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -32,5 +33,19 @@ class CandidateRepository extends ServiceEntityRepository
         ;
         
         return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @return boolean Returns a boolean
+     */
+    public function hasCandidated(User $user, Election $election): bool
+    {
+        return (bool) $this->createQueryBuilder('c')
+            ->andWhere('c.candidate = :candidate')
+            ->andWhere('c.election = :election')
+            ->setParameter('candidate', $user)
+            ->setParameter('election', $election)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }
