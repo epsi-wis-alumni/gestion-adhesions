@@ -74,14 +74,21 @@ class ElectionController extends AbstractController
         EntityManagerInterface $entityManager,
         #[CurrentUser()] User $currentUser,
         ElectionManager $electionManager,
-        Election $election
+        Election $election,
+        CandidateRepository $candidateRepository,
     ): Response {
+        $hasCandidated = $candidateRepository->hasCandidated($currentUser, $election);
+        $candidate = $hasCandidated
+            ? $candidateRepository->findOneBy(['candidate' => $currentUser, 'election' => $election])
+            : new Candidate();
 
-        $candidate = new Candidate();
         $form = $this->createForm(CandidateType::class, $candidate);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!$hasCandidated) {
+                $electionManager->candidate(user: $currentUser, candidate: $candidate, election: $election);
+            }
             $electionManager->candidate(user: $currentUser, candidate: $candidate, election: $election);
             $entityManager->persist($candidate);
             $entityManager->flush();
@@ -91,6 +98,7 @@ class ElectionController extends AbstractController
 
         return $this->render('election/candidate.html.twig', [
             'form' => $form,
+            'hasCandidated' => $hasCandidated,
         ]);
     }
 
