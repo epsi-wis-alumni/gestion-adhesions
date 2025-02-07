@@ -9,6 +9,7 @@ use App\Entity\Vote;
 use App\Form\CandidateType;
 use App\Repository\CandidateRepository;
 use App\Repository\ElectionRepository;
+use App\Repository\VoteRepository;
 use App\Service\ElectionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
@@ -40,7 +41,10 @@ class ElectionController extends AbstractController
     public function show(
         Election $election,
         CandidateRepository $candidateRepository,
+        #[CurrentUser()] User $currentUser,
+        VoteRepository $voteRepository
     ): Response {
+        $hasVoted = $voteRepository->hasVoted($currentUser, $election);
         $votes = $election->getVotes();
         $voteCount = $votes->count();
         $results = $candidateRepository->findByVoteCount($election);
@@ -55,6 +59,7 @@ class ElectionController extends AbstractController
         );
 
         return $this->render('election/show.html.twig', [
+            'hasVoted' => $hasVoted,
             'voteCount' => $voteCount,
             'results' => $results,
             'winners' => $winners,
@@ -95,14 +100,15 @@ class ElectionController extends AbstractController
         #[CurrentUser()] User $currentUser,
         #[MapEntity(id: 'electionId')] Election $election,
         #[MapEntity(id: 'candidateId')] Candidate $candidate,
-        ElectionManager $electionManager
+        ElectionManager $electionManager,
+        VoteRepository $voteRepository,
     ): Response {
-
-        $vote = new Vote();
-        $electionManager->vote(user: $currentUser, vote: $vote, candidate: $candidate, election: $election);
-        $entityManager->persist($vote);
-        $entityManager->flush();
-
+        if (!$voteRepository->hasVoted($currentUser, $election)) {
+            $vote = new Vote();
+            $electionManager->vote(user: $currentUser, vote: $vote, candidate: $candidate, election: $election);
+            $entityManager->persist($vote);
+            $entityManager->flush();
+        }
         return $this->redirectToRoute('app_election_index', [], Response::HTTP_SEE_OTHER);
     }
 }
