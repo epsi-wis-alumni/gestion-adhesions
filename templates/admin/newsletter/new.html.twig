@@ -1,10 +1,12 @@
 {% extends 'admin_base.html.twig' %}
 
 {% block title %}
-  New Newsletter
+  Créer une newsletter
 {% endblock %}
 
 {% block admin_content %}
-  <h2>Créer une newsletter</h2>
-  {{ include('admin/newsletter/_form.html.twig') }}
+  <div class="my-5">
+    <h2>Créer une newsletter</h2>
+    {{ include('admin/newsletter/_form.html.twig') }}
+  </div>
 {% endblock %}

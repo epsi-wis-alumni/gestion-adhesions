@@ -141,7 +141,13 @@ class User implements UserInterface
      * @var Collection<int, Event>
      */
     #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'createdBy')]
-    private Collection $events;
+    private Collection $createdEvents;
+
+    /**
+     * @var Collection<int, Event>
+     */
+    #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'updatedBy')]
+    private Collection $updatedEvents;
 
     public function __construct()
     {
@@ -156,7 +162,8 @@ class User implements UserInterface
         $this->rejectedUsers = new ArrayCollection();
         $this->settings = new Settings();
         $this->userNewsletters = new ArrayCollection();
-        $this->events = new ArrayCollection();
+        $this->createdEvents = new ArrayCollection();
+        $this->updatedEvents = new ArrayCollection();
     }
 
     public function loadUserByOAuthUserResponse(UserResponseInterface $response, string $resourceOwnerName): UserInterface
@@ -744,27 +751,57 @@ class User implements UserInterface
     /**
      * @return Collection<int, Event>
      */
-    public function getEvents(): Collection
+    public function getCreatedEvents(): Collection
     {
-        return $this->events;
+        return $this->createdEvents;
     }
 
-    public function addEvent(Event $event): static
+    public function addCreatedEvent(Event $event): static
     {
-        if (!$this->events->contains($event)) {
-            $this->events->add($event);
+        if (!$this->createdEvents->contains($event)) {
+            $this->createdEvents->add($event);
             $event->setCreatedBy($this);
         }
 
         return $this;
     }
 
-    public function removeEvent(Event $event): static
+    public function removeCreatedEvent(Event $event): static
     {
-        if ($this->events->removeElement($event)) {
+        if ($this->createdEvents->removeElement($event)) {
             // set the owning side to null (unless already changed)
             if ($event->getCreatedBy() === $this) {
                 $event->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Event>
+     */
+    public function getUpdatedEvents(): Collection
+    {
+        return $this->updatedEvents;
+    }
+
+    public function addUpdatedEvent(Event $event): static
+    {
+        if (!$this->updatedEvents->contains($event)) {
+            $this->updatedEvents->add($event);
+            $event->setUpdatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUpdatedEvent(Event $event): static
+    {
+        if ($this->updatedEvents->removeElement($event)) {
+            // set the owning side to null (unless already changed)
+            if ($event->getUpdatedBy() === $this) {
+                $event->setUpdatedBy(null);
             }
         }
 

@@ -6,6 +6,8 @@
   Newsletter index
 {% endblock %}
 
+{% set date_format = 'd/m/Y H:i' %}
+
 {% block admin_content %}
     <div class="row align-items-end gap-2 mb-3">
         <div class="col-auto me-auto">
@@ -25,12 +27,12 @@
         <thead class="table-bordered">
           <tr>
             <th>Id</th>
-            <th>Object</th>
-            <th>Body</th>
-            <th>Cta</th>
-            <th>CreatedAt</th>
-            <th>SendAt</th>
-            <th>actions</th>
+            <th>Objet</th>
+            <th>Corps</th>
+            <th>CTA</th>
+            <th>Création</th>
+            <th>Envoi</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -42,8 +44,8 @@
               {% set truncated_body = words|slice(0, 6)|join(' ') ~ ' ...' %}
               <td>{{ truncated_body }}</td>
               <td>{{ newsletter.cta }}</td>
-              <td>{{ newsletter.createdAt ? newsletter.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-              <td>{{ newsletter.sendAt ? newsletter.sendAt|date('Y-m-d H:i:s') : '' }}</td>
+              <td>{{ newsletter.createdAt|date(date_format) : '' }}</td>
+              <td>{{ newsletter.sendAt ? newsletter.sendAt|date(date_format) : '' }}</td>
               <td>
                 <div class="d-flex align-items-center gap-2">
                 {% set modalId = 'confirmAlert-' ~ newsletter.id %}
@@ -68,7 +70,7 @@
             </tr>
           {% else %}
             <tr>
-              <td colspan="7">no records found</td>
+              <td colspan="7">Aucune Newsletters</td>
             </tr>
           {% endfor %}
         </tbody>
