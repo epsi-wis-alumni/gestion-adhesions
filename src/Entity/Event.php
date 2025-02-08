@@ -28,13 +28,13 @@ class Event
     #[ORM\Column]
     private ?bool $private = null;
 
-    #[ORM\ManyToOne(inversedBy: 'events')]
+    #[ORM\ManyToOne(inversedBy: 'createdEvents')]
     private ?User $createdBy = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'events')]
+    #[ORM\ManyToOne(inversedBy: 'updatedEvents')]
     private ?User $updatedBy = null;
 
     #[ORM\Column(nullable: true)]
