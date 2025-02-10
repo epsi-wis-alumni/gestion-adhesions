@@ -115,7 +115,7 @@
             </tr>
           {% else %}
             <tr>
-              <td colspan="3">Aucun candidat</td>
+              <td colspan="{{ election.isClosed ? 4 : 3}}">Aucun candidat</td>
             </tr>
           {% endfor %}
         </tbody>
