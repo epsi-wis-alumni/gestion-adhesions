@@ -32,12 +32,19 @@ class EventRepository extends ServiceEntityRepository
      /**
      * @return Event[]
      */
-    public function findPending(): array
+    public function findPending(bool $onlyPublic = false): array
     {
-        return $this->createQueryBuilder('e')
+        $qb = $this->createQueryBuilder('e')
             ->andWhere('e.startAt > :now')
             ->setParameter('now', new \DateTimeImmutable())
             ->orderBy('e.startAt', 'ASC')
+        ;
+
+        if ($onlyPublic) {
+            $qb->andWhere('e.private = FALSE');
+        }
+
+        return $qb
             ->getQuery()
             ->getResult()
         ;
@@ -46,29 +53,41 @@ class EventRepository extends ServiceEntityRepository
     /**
      * @return Event[]
      */
-    public function findInProgress(): array
+    public function findInProgress(bool $onlyPublic = false): array
     {
-        return $this->createQueryBuilder('e')
+        $qb = $this->createQueryBuilder('e')
             ->andWhere('e.startAt <= :now')
             ->andWhere('e.endAt >= :now')
             ->setParameter('now', new \DateTimeImmutable())
             ->orderBy('e.startAt', 'ASC')
-            ->getQuery()
-            ->getResult()
         ;
+
+        if ($onlyPublic) {
+            $qb->andWhere('e.private = FALSE');
+        }
+
+        return $qb
+            ->getQuery()
+            ->getResult();
     }
 
     /**
      * @return Event[]
      */
-    public function findDone(): array
+    public function findDone(bool $onlyPublic = false): array
     {
-        return $this->createQueryBuilder('e')
+        $qb = $this->createQueryBuilder('e')
             ->andWhere('e.endAt < :now')
             ->setParameter('now', new \DateTimeImmutable())
             ->orderBy('e.endAt', 'DESC')
-            ->getQuery()
-            ->getResult()
         ;
+
+        if ($onlyPublic) {
+            $qb->andWhere('e.private = FALSE');
+        }
+
+        return $qb
+            ->getQuery()
+            ->getResult();
     }
 }

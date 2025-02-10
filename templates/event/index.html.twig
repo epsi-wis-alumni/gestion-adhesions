@@ -11,25 +11,13 @@
       <h2>Prochains évènements</h2>
 
       <div class="row">
-        {% set has_pending_events = false %}
-
-        {% if is_granted('ROLE_APPROVED') %}
-          {% for event in pending_events %}
-            <div class="col-sm-6 col-md-4 col-lg-3">{{ card.event(event, 1) }}</div>
-            {% set has_pending_events = true %}
-          {% endfor %}  
+        {% for event in pending_events %}
+          <div class="col-sm-6 col-md-4 col-lg-3">{{ card.event(event, 1) }}</div>
         {% else %}
-          {% for event in public_pending_events %}
-            <div class="col-sm-6 col-md-4 col-lg-3">{{ card.event(event, 1) }}</div>
-            {% set has_pending_events = true %}
-          {% endfor %}
-        {% endif %}
-
-        {% if not has_pending_events %}
           <div class="col">
             <div class="alert alert-info">Il n'y a pas encore d'évènements prévus.</div>
           </div>
-        {% endif %}
+        {% endfor %}  
       </div>
     </section>
 
@@ -37,25 +25,13 @@
       <h2>Évènements en cours</h2>
 
       <div class="row">
-        {% set has_in_progress_events = false %}
-
-        {% if is_granted('ROLE_APPROVED') %}
-          {% for event in in_progress_events %}
-            <div class="col-sm-6 col-md-4 col-lg-3">{{ card.event(event, 2) }}</div>
-            {% set has_in_progress_events = true %}
-          {% endfor %}
+        {% for event in in_progress_events %}
+          <div class="col-sm-6 col-md-4 col-lg-3">{{ card.event(event, 2) }}</div>
         {% else %}
-          {% for event in public_in_progress_events %}
-            <div class="col-sm-6 col-md-4 col-lg-3">{{ card.event(event, 2) }}</div>
-            {% set has_in_progress_events = true %}
-          {% endfor %}
-        {% endif %}
-
-        {% if not has_in_progress_events %}
           <div class="col">
             <div class="alert alert-info">Il n'y a pas encore d'évènements en cours.</div>
           </div>
-        {% endif %}
+        {% endfor %}
       </div>
     </section>
 
@@ -63,25 +39,13 @@
       <h2>Évènements en cours</h2>
 
       <div class="row">
-        {% set has_done_events = false %}
-
-        {% if is_granted('ROLE_APPROVED') %}
-          {% for event in done_events %}
-            <div class="col-sm-6 col-md-4 col-lg-3">{{ card.event(event, 3) }}</div>
-            {% set has_done_events = true %}
-          {% endfor %}
+        {% for event in done_events %}
+          <div class="col-sm-6 col-md-4 col-lg-3">{{ card.event(event, 3) }}</div>
         {% else %}
-          {% for event in public_done_events %}
-            <div class="col-sm-6 col-md-4 col-lg-3">{{ card.event(event, 3) }}</div>
-            {% set has_done_events = true %}
-          {% endfor %}
-        {% endif %}
-
-        {% if not has_done_events %}
           <div class="col">
             <div class="alert alert-info">Il n'y a pas encore d'évènements passés.</div>
           </div>
-        {% endif %}
+        {% endfor %}
       </div>
     </section>
   </div>
