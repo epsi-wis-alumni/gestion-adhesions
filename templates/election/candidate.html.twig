@@ -1,15 +1,21 @@
 {% extends 'base.html.twig' %}
+{% import 'macros/fontawesome.html.twig' as fa %}
 
 {% block title %}
   Candidature
 {% endblock %}
 
 {% block body %}
-  <div class="container">
-    <div class="mx-auto" style="max-width: 24rem;">
-      {{ form_start(form) }}
-      {{ form_row(form.presentation) }}
-      {{ form_end(form) }}
+  <div class="container-form my-5">
+    {{ form_start(form) }}
+    {{ form_row(form.presentation) }}
+    {# {{ form_row(form.save) }} #}
+    <div class="text-end">
+      <button type="submit" class="btn btn-primary">
+        {{ hasCandidated ? fa.icon('save') : fa.icon('person-sign') }}
+        {{ hasCandidated ? 'Modifier' : 'Postuler' }}
+      </button>
     </div>
+    {{ form_end(form) }}
   </div>
 {% endblock %}
