@@ -1,7 +1,7 @@
 {% extends 'mail_base.html.twig' %}
 
 {% block title %}
-  Nouvel Événement : {{ event.title }}
+  Nouvel Évènement : {{ event.title }}
 {% endblock %}
 
 {% block mail_content %}
@@ -10,7 +10,7 @@
       <table role="presentation" class="content">
         <tr>
           <td class="header">
-            <h1>Nouvel Événement : {{ event.title }}</h1>
+            <h1>Nouvel Évènement : {{ event.title }}</h1>
           </td>
         </tr>
         <tr>
@@ -27,7 +27,7 @@
         </tr>
         <tr>
           <td class="footer">
-            <a href="{{ absolute_url(path('app_admin_event_show', { id: event.id })) }}" class="button">Consulter l'événement</a>
+            <a href="{{ absolute_url(path('app_admin_event_show', { id: event.id })) }}" class="button">Consulter l'évènement</a>
           </td>
         </tr>
       </table>

@@ -2,13 +2,13 @@
 {% import 'macros/card_event.html.twig' as card %}
 
 {% block title %}
-  Événements
+  Évènements
 {% endblock %}
 
 {% block body %}
   <div class="container my-5">
     <section class="mb-5">
-      <h2>Prochains événements</h2>
+      <h2>Prochains évènements</h2>
 
       <div class="row">
         {% set has_pending_events = false %}
@@ -27,14 +27,14 @@
 
         {% if not has_pending_events %}
           <div class="col">
-            <div class="alert alert-info">Il n'y a pas encore d'événements prévus.</div>
+            <div class="alert alert-info">Il n'y a pas encore d'évènements prévus.</div>
           </div>
         {% endif %}
       </div>
     </section>
 
     <section class="mb-5">
-      <h2>Événements en cours</h2>
+      <h2>Évènements en cours</h2>
 
       <div class="row">
         {% set has_in_progress_events = false %}
@@ -53,14 +53,14 @@
 
         {% if not has_in_progress_events %}
           <div class="col">
-            <div class="alert alert-info">Il n'y a pas encore d'événements en cours.</div>
+            <div class="alert alert-info">Il n'y a pas encore d'évènements en cours.</div>
           </div>
         {% endif %}
       </div>
     </section>
 
     <section class="mb-5">
-      <h2>Événements en cours</h2>
+      <h2>Évènements en cours</h2>
 
       <div class="row">
         {% set has_done_events = false %}
@@ -79,7 +79,7 @@
 
         {% if not has_done_events %}
           <div class="col">
-            <div class="alert alert-info">Il n'y a pas encore d'événements passés.</div>
+            <div class="alert alert-info">Il n'y a pas encore d'évènements passés.</div>
           </div>
         {% endif %}
       </div>

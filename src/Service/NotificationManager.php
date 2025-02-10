@@ -34,7 +34,7 @@ final class NotificationManager
         };
         $subject = match($entity::class) {
             Election::class => 'Élection pour ' . $entity->getJobTitle(),
-            Event::class => 'Nouvel Événement : ' . $entity->getTitle(),
+            Event::class => 'Nouvel Évènement : ' . $entity->getTitle(),
         };
         $context = match($entity::class) {
             Election::class => ['election' => $entity],
