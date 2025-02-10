@@ -21,12 +21,13 @@
               check_path: 'app_election',
             ) }}
           {% endif %}
-            {{ navigation.nav_item(
-              label: 'Évènements',
-              path: path('app_event_index'),
-              icon: fa.icon('calendar-star', size: 'lg'),
-              check_path: 'app_event',
-            ) }}
+          
+          {{ navigation.nav_item(
+            label: 'Évènements',
+            path: path('app_event_index'),
+            icon: fa.icon('calendar-star', size: 'lg'),
+            check_path: 'app_event',
+          ) }}
         </ul>
 
         {# ----- Bouton de droite ----- #}
