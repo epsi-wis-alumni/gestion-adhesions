@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Election;
+use App\Entity\Event;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use DateTimeImmutable;
@@ -18,23 +19,39 @@ final class NotificationManager
         private MailerInterface $mailerInterface,
     ) {}
 
-    public function sendElectionNotification(Election $election): void
+    public function send(Election|Event $entity): void
     {
         $users = $this->userRepository->findByNotificationsAllowed();
 
-        $this->sendNotification($election, $this->getMailFromUsers($users));
+        $this->sendNotification($entity, $this->getMailFromUsers($users));
     }
 
-    public function sendNotification(Election $election, array $users): void
+    public function sendNotification(Election|Event $entity, array $users): void
     {
+        $templateName = match($entity::class) {
+            Election::class => 'mails/election.html.twig',
+            Event::class => 'mails/event.html.twig',
+        };
+        $subject = match($entity::class) {
+            Election::class => 'Élection pour ' . $entity->getJobTitle(),
+            Event::class => 'Nouvel Événement : ' . $entity->getTitle(),
+        };
+        $context = match($entity::class) {
+            Election::class => ['election' => $entity],
+            Event::class => ['event' => $entity],
+        };
+        $bcc = match ($entity::class) {
+            Election::class => array_filter($users, fn (User $user) => $user->getSettings()->isElectionNotificationsAllowed()),
+            Event::class => array_filter($users, fn (User $user) => $user->getSettings()->isEventNotificationsAllowed()),
+        };
+
         $email = (new TemplatedEmail())
             ->from('test@epsi-wis-alumni.fr')
             ->bcc(...$users)
-            ->subject('Élection pour ' . $election->getJobTitle())
-            ->htmlTemplate('mails/election.html.twig')
-            ->context([
-                'election' => $election,
-            ]);
+            ->subject($subject)
+            ->htmlTemplate($templateName)
+            ->context($context)
+        ;
 
         $this->mailerInterface->send($email);
     }
