@@ -5,11 +5,13 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Entity\User;
 use App\Repository\EventRepository;
+use App\Security\Voter\EventVoter;
 use App\Service\EventManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/event')]
 final class EventController extends AbstractController
@@ -31,6 +33,7 @@ final class EventController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_event_show', methods: ['GET'])]
+    #[IsGranted(EventVoter::VIEW, 'event')]
     public function show(Event $event): Response
     {
         return $this->render('event/show.html.twig', [
