@@ -20,14 +20,14 @@
               icon: fa.icon('check-to-slot', size: 'lg'),
               check_path: 'app_election',
             ) }}
-
-            {{ navigation.nav_item(
-              label: 'Évènements',
-              path: '#',
-              icon: fa.icon('calendar-star', size: 'lg'),
-              check_path: '#',
-            ) }}
           {% endif %}
+          
+          {{ navigation.nav_item(
+            label: 'Évènements',
+            path: path('app_event_index'),
+            icon: fa.icon('calendar-star', size: 'lg'),
+            check_path: 'app_event',
+          ) }}
         </ul>
 
         {# ----- Bouton de droite ----- #}
@@ -73,7 +73,7 @@
                 
                   {{ dropdown.item(
                     label: 'Évènements',
-                    path: '#',
+                    path: path('app_admin_event_index'),
                     icon: fa.icon('calendar-star', fixed_width: true),
                   ) }}
 

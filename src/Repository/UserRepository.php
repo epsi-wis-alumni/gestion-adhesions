@@ -73,8 +73,8 @@ class UserRepository extends ServiceEntityRepository
     public function findByNewsletterAllowed(): array
     {
         return $this->createQueryBuilder('u')
-            ->where('u.settings.allowNewsletters = :allowNewsletters')
-            ->setParameter('allowNewsletters', true)
+            ->where('u.settings.newsletterAllowed = :newsletterAllowed')
+            ->setParameter('newsletterAllowed', true)
             ->getQuery()
             ->getResult();
     }
@@ -85,8 +85,8 @@ class UserRepository extends ServiceEntityRepository
     public function findByNotificationsAllowed(): array
     {
         return $this->createQueryBuilder('u')
-            ->where('u.settings.allowNotifications = :allowNotifications')
-            ->setParameter('allowNotifications', true)
+            ->where('u.settings.notificationsAllowed = :notificationsAllowed')
+            ->setParameter('notificationsAllowed', true)
             ->getQuery()
             ->getResult();
     }

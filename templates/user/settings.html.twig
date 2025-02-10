@@ -17,14 +17,14 @@
     <div class="container-form my-5">
       {{ form_start(form) }}
       
-      {{ form_row(form.allowNewsletters) }}
+      {{ form_row(form.newsletterAllowed) }}
       
       <div data-bs-toggle="collapse" data-bs-target="#notifications-details">
-        {{ form_row(form.allowNotifications) }}
+        {{ form_row(form.notificationsAllowed) }}
       </div>
 
       <div id="notifications-details" class="collapse ms-3">
-        {{ form_row(form.allowElectionNotifications) }}
+        {{ form_row(form.electionNotificationsAllowed) }}
       </div>
 
       <div class="text-end">
