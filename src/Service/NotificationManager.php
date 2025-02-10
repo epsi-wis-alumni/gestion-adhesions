@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Election;
+use App\Entity\Event;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use DateTimeImmutable;
@@ -18,37 +19,38 @@ final class NotificationManager
         private MailerInterface $mailerInterface,
     ) {}
 
-    public function send(object $entity): void
+    public function send(Election|Event $entity): void
     {
         $users = $this->userRepository->findByNotificationsAllowed();
 
         $this->sendNotification($entity, $this->getMailFromUsers($users));
     }
 
-    public function sendNotification(object $entity, array $users): void
+    public function sendNotification(Election|Event $entity, array $users): void
     {
-
-        $entityName = strtolower(basename(str_replace('\\', '/', $entity::class)));
-        $email = (new TemplatedEmail())
-            ->from('test@epsi-wis-alumni.fr')
-            ->bcc(...$users);
-
-        switch ($entityName) {
-            case 'election':
-                $email->subject('Élection pour ' . $entity->getJobTitle());
-                break;
-            case 'event':
-                $email->subject('Nouvel Événement : ' . $entity->getTitle());
-                break;
-            default:
-                throw new \InvalidArgumentException("Type d'entité non pris en charge : " . $entityName);
+        $templateName = match($entity::class) {
+            Election::class => 'mails/election.html.twig',
+            Event::class => 'mails/event.html.twig',
+        };
+        $subject = match($entity::class) {
+            Election::class => 'Élection pour ' . $entity->getJobTitle(),
+            Event::class => 'Nouvel Événement : ' . $entity->getTitle(),
+        };
+        $context = match($entity::class) {
+            Election::class => ['election' => $entity],
+            Event::class => ['event' => $entity],
+        };
+        $bcc = match ($entity::class) {
+            Election::class => array_filter($users, fn (User $user) => $user->getSettings()->isElectionNotificationsAllowed()),
+            Event::class => array_filter($users, fn (User $user) => $user->getSettings()->isEventNotificationsAllowed()),
         };
 
-        $email
-            ->htmlTemplate('mails/' . $entityName . '.html.twig')
-            ->context([
-                $entityName => $entity
-            ])
+        $email = (new TemplatedEmail())
+            ->from('test@epsi-wis-alumni.fr')
+            ->bcc(...$users)
+            ->subject($subject)
+            ->htmlTemplate($templateName)
+            ->context($context)
         ;
 
         $this->mailerInterface->send($email);
