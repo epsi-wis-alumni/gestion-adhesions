@@ -1,50 +1,24 @@
 {% macro election(election, step) %}
-  {% import "macros/fontawesome.html.twig" as fa %}
-  {% import "macros/progress.html.twig" as progress %}
-  <div class="card">
-    <div class="card-body text-center">
-      <h3 class="card-title mb-3">
-        <a href="{{ path('app_election_show', { id: election.id }) }}" class="link-body-emphasis">{{ election.jobTitle }}</a>
-      </h3>
-      
-      <div class="card-text text-secondary">
-        {{ election.voteStartAt|date('d/m/Y H:i') }}
-      </div>
-
-      <div class="">
-        {{ fa.icon('arrow-down-long', size: 'xl', swap_opacity: true) }}
-      </div>
-      
-      <div class="card-text text-secondary mb-3">
-        {{ election.voteEndAt|date('d/m/Y H:i') }}
-      </div>
-
-      {{ progress.election(step) }}
-    </div>
-    <div class="card-footer">
-      <div class="text-end">
-        {% if step == 1 %}
-          <a href="{{ path('app_election_candidate', { id: election.id }) }}" class="btn btn-secondary">
-            {{ fa.icon('person-sign') }}
-            Postuler
-          </a>
-        {% elseif step == 2 %}
-          <a href="{{ path('app_election_show', { id: election.id }) }}" class="btn btn-primary">
-            {{ fa.icon('check-to-slot') }}
-            Voter
-          </a>
-        {% else %}
-          <a href="{{ path('app_election_show', { id: election.id }) }}" class="btn btn-success">
-            {{ fa.icon('ranking-star') }}
-            Consulter
-          </a>
-        {% endif %}
-      </div>
-    </div>
-  </div>
+  {{ _self.generic(
+    step,
+    path('app_election_show', { id: election.id }),
+    election.jobTitle,
+    election.startAt|date('d/m/Y H:i'),
+    election.endAt|date('d/m/Y H:i')
+  ) }}
 {% endmacro %}
 
 {% macro event(event, step) %}
+  {{ _self.generic(
+    step,
+    path('app_event_show', { id: event.id }),
+    event.title,
+    event.startAt|date('d/m/Y H:i'),
+    event.endAt|date('d/m/Y H:i')
+  ) }}
+{% endmacro %}
+
+{% macro generic(step, dest_path, card_title, start_date, end_date) %}
   {% import "macros/fontawesome.html.twig" as fa %}
   {% import "macros/progress.html.twig" as progress %}
 
@@ -53,26 +27,26 @@
   <div class="card mb-4">
     <div class="card-body text-center">
       <h3 class="card-title mb-3">
-        <a href="{{ path('app_event_show', { id: event.id }) }}" class="link-body-emphasis">{{ event.Title }}</a>
+        <a href="{{ dest_path }}" class="link-body-emphasis">{{ card_title }}</a>
       </h3>
       
       <div class="card-text text-secondary">
-        {{ event.startAt|date('d/m/Y H:i') }}
+        {{ start_date }}
       </div>
 
-      <div class="">
+      <div>
         {{ fa.icon('arrow-down-long', size: 'xl', swap_opacity: true) }}
       </div>
       
       <div class="card-text text-secondary mb-3">
-        {{ event.endAt|date('d/m/Y H:i') }}
+        {{ end_date }}
       </div>
 
       {{ progress.event(step) }}
     </div>
     <div class="card-footer">
       <div class="text-end">
-          <a href="{{ path('app_event_show', { id: event.id }) }}" class="btn btn-{{ accent }}">
+          <a href="{{ dest_path }}" class="btn btn-{{ accent }}">
             {{ fa.icon('circle-info') }}
             Consulter
           </a>
