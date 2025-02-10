@@ -4,9 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Entity\User;
-use App\Form\EventType;
+use App\Form\AdminEventType;
 use App\Repository\EventRepository;
 use App\Service\EventManager;
+use App\Service\NotificationManager;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,16 +32,21 @@ final class AdminEventController extends AbstractController
         Request $request,
         EventManager $eventManager,
         EntityManagerInterface $entityManager,
+        NotificationManager $notificationManager,
         #[CurrentUser()] User $currentUser,
     ): Response {
         $event = new Event();
-        $form = $this->createForm(EventType::class, $event);
+        $form = $this->createForm(AdminEventType::class, $event);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $eventManager->create($currentUser, $event);
             $entityManager->persist($event);
             $entityManager->flush();
+
+            if ($form->get('notifyByEmail')->getData()) {
+                $notificationManager->send($event);
+            }
 
             return $this->redirectToRoute('app_admin_event_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -67,7 +73,7 @@ final class AdminEventController extends AbstractController
         EntityManagerInterface $entityManager,
         #[CurrentUser()] User $currentUser,
     ): Response {
-        $form = $this->createForm(EventType::class, $event);
+        $form = $this->createForm(AdminEventType::class, $event);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

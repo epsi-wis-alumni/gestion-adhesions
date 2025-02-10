@@ -44,7 +44,7 @@
               {% set truncated_body = words|slice(0, 6)|join(' ') ~ ' ...' %}
               <td>{{ truncated_body }}</td>
               <td>{{ newsletter.cta }}</td>
-              <td>{{ newsletter.createdAt|date(date_format) : '' }}</td>
+              <td>{{ newsletter.createdAt|date(date_format)}}</td>
               <td>{{ newsletter.sendAt ? newsletter.sendAt|date(date_format) : '' }}</td>
               <td>
                 <div class="d-flex align-items-center gap-2">

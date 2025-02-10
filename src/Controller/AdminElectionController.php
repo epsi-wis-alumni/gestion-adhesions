@@ -43,7 +43,7 @@ final class AdminElectionController extends AbstractController
             $entityManager->flush();
             
             if($form->get('notifyByEmail')->getData()){
-                $notificationManager->sendElectionNotification($election);
+                $notificationManager->send($election);
             } 
 
             return $this->redirectToRoute('app_admin_election_index', [], Response::HTTP_SEE_OTHER);

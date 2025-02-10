@@ -14,13 +14,13 @@ class SettingsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('allowNewsletters', null, [
+            ->add('newsletterAllowed', null, [
                 'label' => 'Newsletter',
                 'label_attr' => [
                     'class' => 'checkbox-switch',
                 ],
             ])
-            ->add('allowNotifications', null, [
+            ->add('notificationsAllowed', null, [
                 'label' => 'Notifications',
                 'label_attr' => [
                     'class' => 'checkbox-switch',
@@ -40,9 +40,9 @@ class SettingsType extends AbstractType
                 return;
             }
 
-            $value = $data->isAllowNotifications();
+            $value = $data->isNotificationsAllowed();
 
-            $form->add('allowElectionNotifications', null, [
+            $form->add('electionNotificationsAllowed', null, [
                 'label' => 'Élections',
                 'label_attr' => [
                     'class' => 'checkbox-switch'
