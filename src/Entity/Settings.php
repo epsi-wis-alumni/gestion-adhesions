@@ -17,10 +17,27 @@ class Settings
     #[ORM\Column]
     private ?bool $electionNotificationsAllowed = null;
 
+    #[ORM\Column]
+    private ?bool $eventNotificationsAllowed = null;
+
     public function __construct()
     {
         $this->setNewsletterAllowed(false);
         $this->setNotificationsAllowed(false);
+        $this->setElectionNotificationsAllowed(false);
+        $this->setEventNotificationsAllowed(false);
+    }
+
+    public function isNewsletterAllowed(): ?bool
+    {
+        return $this->newsletterAllowed;
+    }
+
+    public function setNewsletterAllowed(bool $newsletterAllowed): static
+    {
+        $this->newsletterAllowed = $newsletterAllowed;
+
+        return $this;
     }
 
     public function isNotificationsAllowed(): ?bool
