@@ -41,6 +41,10 @@ main {
 
 .avatar {
     --size: 2rem;
+    font-size: var(--size);
+}
+
+.avatar > img {
     width: var(--size);
     height: var(--size);
 }
