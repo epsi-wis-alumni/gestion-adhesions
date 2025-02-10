@@ -100,8 +100,8 @@
                     {{ fa.icon('circle-info') }}
                   </a>
                   
-                  {% if not election.isClosed %}
-                    <a href="{{ path('app_vote', { election_id: election.id, candidate_id: candidate.id }) }}">
+                  {% if not election.isClosed and not hasVoted %}
+                    <a class="link-primary" href="{{ path('app_election_vote', { electionId: election.id, candidateId: candidate.id }) }}">
                       {{ fa.icon('check-to-slot') }}
                     </a>
                   {% endif %}
@@ -115,7 +115,7 @@
             </tr>
           {% else %}
             <tr>
-              <td colspan="3">Aucun candidats</td>
+              <td colspan="{{ election.isClosed ? 4 : 3}}">Aucun candidat</td>
             </tr>
           {% endfor %}
         </tbody>
@@ -123,7 +123,7 @@
     </div>
 
     <div class="d-flex gap-1">
-      <a class="btn btn-secondary" href="{{ path('app_election_index') }}">back to list</a>
+      <a class="btn btn-secondary" href="{{ path('app_election_index') }}">Retour à la liste des éléctions</a>
     </div>
   </div>
 {% endblock %}

@@ -78,14 +78,4 @@ class ElectionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult() ? true : false;;
     }
-
-    //    public function findOneBySomeField($value): ?Election
-    //    {
-    //        return $this->createQueryBuilder('e')
-    //            ->andWhere('e.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }

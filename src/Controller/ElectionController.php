@@ -9,6 +9,7 @@ use App\Entity\Vote;
 use App\Form\CandidateType;
 use App\Repository\CandidateRepository;
 use App\Repository\ElectionRepository;
+use App\Repository\VoteRepository;
 use App\Service\ElectionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
@@ -40,21 +41,25 @@ class ElectionController extends AbstractController
     public function show(
         Election $election,
         CandidateRepository $candidateRepository,
+        #[CurrentUser()] User $currentUser,
+        VoteRepository $voteRepository
     ): Response {
+        $hasVoted = $voteRepository->hasVoted($currentUser, $election);
         $votes = $election->getVotes();
         $voteCount = $votes->count();
         $results = $candidateRepository->findByVoteCount($election);
 
         $maxVoteCount = count($results) > 0 ? max(
-            array_map(fn (Candidate $candidate) => $candidate->getVotes()->count(), $results)
+            array_map(fn(Candidate $candidate) => $candidate->getVotes()->count(), $results)
         ) : 0;
 
         $winners = array_filter(
             $results,
-            fn (Candidate $candidate) => $candidate->getVotes()->count() === $maxVoteCount
+            fn(Candidate $candidate) => $candidate->getVotes()->count() === $maxVoteCount
         );
-        
+
         return $this->render('election/show.html.twig', [
+            'hasVoted' => $hasVoted,
             'voteCount' => $voteCount,
             'results' => $results,
             'winners' => $winners,
@@ -69,14 +74,21 @@ class ElectionController extends AbstractController
         EntityManagerInterface $entityManager,
         #[CurrentUser()] User $currentUser,
         ElectionManager $electionManager,
-        Election $election
+        Election $election,
+        CandidateRepository $candidateRepository,
     ): Response {
+        $hasCandidated = $candidateRepository->hasCandidated($currentUser, $election);
+        $candidate = $hasCandidated
+            ? $candidateRepository->findOneBy(['candidate' => $currentUser, 'election' => $election])
+            : new Candidate();
 
-        $candidate = new Candidate();
         $form = $this->createForm(CandidateType::class, $candidate);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!$hasCandidated) {
+                $electionManager->candidate(user: $currentUser, candidate: $candidate, election: $election);
+            }
             $electionManager->candidate(user: $currentUser, candidate: $candidate, election: $election);
             $entityManager->persist($candidate);
             $entityManager->flush();
@@ -86,6 +98,7 @@ class ElectionController extends AbstractController
 
         return $this->render('election/candidate.html.twig', [
             'form' => $form,
+            'hasCandidated' => $hasCandidated,
         ]);
     }
 
@@ -95,14 +108,15 @@ class ElectionController extends AbstractController
         #[CurrentUser()] User $currentUser,
         #[MapEntity(id: 'electionId')] Election $election,
         #[MapEntity(id: 'candidateId')] Candidate $candidate,
-        ElectionManager $electionManager
+        ElectionManager $electionManager,
+        VoteRepository $voteRepository,
     ): Response {
-
-        $vote = new Vote();
-        $electionManager->vote(user: $currentUser, vote: $vote, candidate: $candidate, election: $election);
-        $entityManager->persist($vote);
-        $entityManager->flush();
-
+        if (!$voteRepository->hasVoted($currentUser, $election)) {
+            $vote = new Vote();
+            $electionManager->vote(user: $currentUser, vote: $vote, candidate: $candidate, election: $election);
+            $entityManager->persist($vote);
+            $entityManager->flush();
+        }
         return $this->redirectToRoute('app_election_index', [], Response::HTTP_SEE_OTHER);
     }
 }
