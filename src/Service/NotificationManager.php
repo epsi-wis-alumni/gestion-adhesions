@@ -23,7 +23,7 @@ final class NotificationManager
     {
         $users = $this->userRepository->findByNotificationsAllowed();
 
-        $this->sendNotification($entity, $this->getMailFromUsers($users));
+        $this->sendNotification($entity, $users);
     }
 
     public function sendNotification(Election|Event $entity, array $users): void
@@ -47,7 +47,7 @@ final class NotificationManager
 
         $email = (new TemplatedEmail())
             ->from('test@epsi-wis-alumni.fr')
-            ->bcc(...$users)
+            ->bcc(...array_map(fn (User $user) => $user->getEmail(), $bcc))
             ->subject($subject)
             ->htmlTemplate($templateName)
             ->context($context)

@@ -43,4 +43,10 @@ return [
     'punycode.js' => [
         'version' => '2.3.1',
     ],
+    'bootstrap' => [
+        'version' => '5.3.3',
+    ],
+    '@popperjs/core' => [
+        'version' => '2.11.8',
+    ],
 ];

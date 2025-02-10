@@ -14,17 +14,18 @@
         de {{ currentUser.firstname|capitalize }}
       {% endif %}
     </div>
-    <div class="container-form my-5">
+    <div class="container-form my-5" {{ stimulus_controller('notifications') }}>
       {{ form_start(form) }}
       
       {{ form_row(form.newsletterAllowed) }}
       
-      <div data-bs-toggle="collapse" data-bs-target="#notifications-details">
+      <div>
         {{ form_row(form.notificationsAllowed) }}
       </div>
 
-      <div id="notifications-details" class="collapse ms-3">
+      <div {{ stimulus_target('notifications', 'notificationDetails') }} class="collapse ms-3">
         {{ form_row(form.electionNotificationsAllowed) }}
+        {{ form_row(form.eventNotificationsAllowed) }}
       </div>
 
       <div class="text-end">

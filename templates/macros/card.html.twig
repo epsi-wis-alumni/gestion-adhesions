@@ -1,26 +1,29 @@
 {% macro election(election, step) %}
+  {% import "macros/progress.html.twig" as progress %}
   {{ _self.generic(
     step,
     path('app_election_show', { id: election.id }),
     election.jobTitle,
-    election.startAt|date('d/m/Y H:i'),
-    election.endAt|date('d/m/Y H:i')
+    election.voteStartAt|date('d/m/Y H:i'),
+    election.voteEndAt|date('d/m/Y H:i'),
+    progress.election(step),
   ) }}
 {% endmacro %}
 
 {% macro event(event, step) %}
+  {% import "macros/progress.html.twig" as progress %}
   {{ _self.generic(
     step,
     path('app_event_show', { id: event.id }),
     event.title,
     event.startAt|date('d/m/Y H:i'),
-    event.endAt|date('d/m/Y H:i')
+    event.endAt|date('d/m/Y H:i'),
+    progress.event(step),
   ) }}
 {% endmacro %}
 
-{% macro generic(step, dest_path, card_title, start_date, end_date) %}
+{% macro generic(step, dest_path, card_title, start_date, end_date, progress) %}
   {% import "macros/fontawesome.html.twig" as fa %}
-  {% import "macros/progress.html.twig" as progress %}
 
   {% set accent = step == 1 ? 'secondary' : (step == 2 ? 'primary' : 'success') %}
 
@@ -42,7 +45,7 @@
         {{ end_date }}
       </div>
 
-      {{ progress.event(step) }}
+      {{ progress }}
     </div>
     <div class="card-footer">
       <div class="text-end">

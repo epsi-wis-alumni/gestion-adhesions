@@ -1,12 +1,22 @@
 {% macro avatar(path, alt, size = 'md', additional_classes = []) %}
   {% import "macros/fontawesome.html.twig" as fa %}
   
-  {%- set classes = ['avatar', 'avatar-' ~ size, 'rounded-pill', 'border'] -%}
+  {%- set classes = ['avatar', 'avatar-' ~ size, 'link-primary'] -%}
   {%- set classes = classes|merge(additional_classes) -%}
   {%- set icon_size = 'fa-' ~ size %}
 
-  <img src="{{ path }}" alt="{{ alt }}" class="{{ classes|join(' ') }}" 
-       onerror="this.style.display='none'; 
-               this.insertAdjacentHTML('afterend', 
-               '{{ fa.icon('user-circle', size='icon_size') | e('js') }}');">
+  <span class="{{ classes|join(' ') }}">
+    <img 
+      src="{{ path }}" 
+      alt="{{ alt }}" 
+      class="rounded-pill border"
+      onerror="
+        this.style.display='none'; 
+        this.insertAdjacentHTML(
+          'afterend', 
+          '{{ fa.icon('user-circle', size='icon_size') | e('js') }}'
+        );
+      "
+    >
+  </span>
 {% endmacro %}

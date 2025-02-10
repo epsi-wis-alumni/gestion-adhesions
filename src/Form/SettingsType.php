@@ -26,34 +26,29 @@ class SettingsType extends AbstractType
                     'class' => 'checkbox-switch',
                 ],
                 'attr' => [
-                    'class' => 'js-notifications',
                     'data-notifications-target' => 'notifications',
                     'data-action' => 'change->notifications#toggle',
                 ],
-            ]);
-
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
-            $form = $event->getForm();
-            $data = $event->getData();
-
-            if (!$data) {
-                return;
-            }
-
-            $value = $data->isNotificationsAllowed();
-
-            $form->add('electionNotificationsAllowed', null, [
+            ])
+            ->add('electionNotificationsAllowed', null, [
                 'label' => 'Élections',
                 'label_attr' => [
                     'class' => 'checkbox-switch'
                 ],
-                'data' => $value,
                 'attr' => [
-                    'class' => 'js-notification',
                     'data-notifications-target' => 'notification',
                 ],
-            ]);
-        });
+            ])
+            ->add('eventNotificationsAllowed', null, [
+                'label' => 'Évènements',
+                'label_attr' => [
+                    'class' => 'checkbox-switch'
+                ],
+                'attr' => [
+                    'data-notifications-target' => 'notification',
+                ],
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
