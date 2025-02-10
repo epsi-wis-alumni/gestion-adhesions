@@ -28,7 +28,7 @@ final class NotificationManager
     public function sendNotification(object $entity, array $users): void
     {
 
-        $entityName = $this->getEntityName($entity);
+        $entityName = strtolower(basename(str_replace('\\', '/', $entity::class)));
         $email = (new TemplatedEmail())
             ->from('test@epsi-wis-alumni.fr')
             ->bcc(...$users);
@@ -57,10 +57,5 @@ final class NotificationManager
     public function getMailFromUsers(array $users): array
     {
         return array_map(fn($user) => $user->getEmail(), $users);
-    }
-
-    public function getEntityName(object $entity): string
-    {
-        return strtolower((new \ReflectionClass($entity))->getShortName());
     }
 }
