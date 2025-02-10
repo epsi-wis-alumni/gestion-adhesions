@@ -84,6 +84,19 @@ erDiagram
         Candidate candidate
         datetime votedAt
     }
+
+    Event {
+        int id
+        string title
+        string place
+        datetime startAt
+        datetime endAt
+        bool private "false"
+        User createdBy
+        datetime createdAt
+        User updateBy
+        datetime updateAt
+    }
     
     Settings 1--1 User: "Set"
     
@@ -102,4 +115,7 @@ erDiagram
 
     Transaction 0+--1 User: ""
     Transaction 0+--1 Subscription: ""
+
+    User 1--0+ Event: "Create"
+    User 1--0+ Event: "Participate"
 ```
