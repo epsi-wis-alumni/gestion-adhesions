@@ -8,8 +8,6 @@ use DateTimeImmutable;
 
 final class EventManager
 {
-    public function __construct() {}
-
     public function create(User $user, Event $event): void
     {
         $event
