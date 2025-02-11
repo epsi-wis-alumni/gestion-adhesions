@@ -1,0 +1,7 @@
+{% macro default(label, variant = 'primary') %}
+    <span class="badge text-bg-{{ variant }}">{{ label }}</span>
+{% endmacro %}
+
+{% macro emphasis(label, variant = 'primary') %}
+    <span class="badge text-{{ variant }}-emphasis bg-{{ variant }}-subtle border border-{{ variant }}-subtle">{{ label }}</span>
+{% endmacro %}
