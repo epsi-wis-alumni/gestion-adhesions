@@ -9,6 +9,7 @@ use App\Entity\Vote;
 use App\Form\CandidacyType;
 use App\Repository\CandidacyRepository;
 use App\Repository\ElectionRepository;
+use App\Repository\VoteRepository;
 use App\Service\ElectionManager;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -50,6 +51,7 @@ class ElectionController extends AbstractController
         $candidacys = $election->getCandidacys();
         
         return $this->render('election/show.html.twig', [
+            'hasVoted' => $hasVoted,
             'voteCount' => $voteCount,
             'results' => $results,
             'winners' => $winners,
@@ -65,15 +67,22 @@ class ElectionController extends AbstractController
         EntityManagerInterface $entityManager,
         #[CurrentUser()] User $currentUser,
         ElectionManager $electionManager,
-        Election $election
+        Election $election,
+        CandidacyRepository $candidacyRepository,
     ): Response {
+        $hasCandidated = $candidacyRepository->hasCandidated($currentUser, $election);
+        $candidacy = $hasCandidated
+            ? $candidacyRepository->findOneBy(['candidate' => $currentUser, 'election' => $election])
+            : new Candidacy();
 
-        $candidacy = new Candidacy();
         $form = $this->createForm(CandidacyType::class, $candidacy);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            $electionManager->candidacy(user: $currentUser, candidacy: $candidacy, election: $election);
+            if (!$hasCandidated) {
+                $electionManager->candidate(user: $currentUser, candidacy: $candidacy, election: $election);
+            }
+
             $entityManager->persist($candidacy);
             $entityManager->flush();
 
@@ -82,23 +91,25 @@ class ElectionController extends AbstractController
 
         return $this->render('election/candidacy.html.twig', [
             'form' => $form,
+            'hasCandidated' => $hasCandidated,
         ]);
     }
 
-    #[Route('/{electionId}/vote/{candidacyId}', name: 'app_election_vote', methods: ['GET'])]
+    #[Route('/{id}/vote/{candidacyId}', name: 'app_election_vote', methods: ['GET'])]
     public function vote(
         EntityManagerInterface $entityManager,
         #[CurrentUser()] User $currentUser,
-        #[MapEntity(id: 'electionId')] Election $election,
+        Election $election,
         #[MapEntity(id: 'candidacyId')] Candidacy $candidacy,
-        ElectionManager $electionManager
+        ElectionManager $electionManager,
+        VoteRepository $voteRepository,
     ): Response {
-
-        $vote = new Vote();
-        $electionManager->vote(user: $currentUser, vote: $vote, candidacy: $candidacy, election: $election);
-        $entityManager->persist($vote);
-        $entityManager->flush();
-
+        if (!$voteRepository->hasVoted($currentUser, $election)) {
+            $vote = new Vote();
+            $electionManager->vote(user: $currentUser, vote: $vote, candidacy: $candidacy, election: $election);
+            $entityManager->persist($vote);
+            $entityManager->flush();
+        }
         return $this->redirectToRoute('app_election_index', [], Response::HTTP_SEE_OTHER);
     }
 }

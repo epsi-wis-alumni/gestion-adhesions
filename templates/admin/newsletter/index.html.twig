@@ -1,12 +1,14 @@
 {% extends 'admin_base.html.twig' %}
 {% import "macros/fontawesome.html.twig" as fa %}
+{% import "macros/modal.html.twig" as modal %}
 
 {% block title %}
   Newsletter index
 {% endblock %}
 
+{% set date_format = 'd/m/Y H:i' %}
+
 {% block admin_content %}
-  <div class="my-5">
     <div class="row align-items-end gap-2 mb-3">
         <div class="col-auto me-auto">
           <h2 class="h4 mb-0">Liste des newsletters</h2>
@@ -26,26 +28,36 @@
           <tr>
             <th>Id</th>
             <th>Objet</th>
-            <th>Body</th>
-            <th>Cta</th>
-            <th>CreatedAt</th>
-            <th>SendAt</th>
-            <th>actions</th>
+            <th>Corps</th>
+            <th>CTA</th>
+            <th>Création</th>
+            <th>Envoi</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {% for newsletter in newsletters %}
             <tr>
               <td>{{ newsletter.id }}</td>
-              <td>{{ newsletter.objet }}</td>
+              <td>{{ newsletter.object }}</td>
               {% set words = newsletter.body|split(' ') %}
               {% set truncated_body = words|slice(0, 6)|join(' ') ~ ' ...' %}
               <td>{{ truncated_body }}</td>
               <td>{{ newsletter.cta }}</td>
-              <td>{{ newsletter.createdAt ? newsletter.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-              <td>{{ newsletter.sendAt ? newsletter.sendAt|date('Y-m-d H:i:s') : '' }}</td>
+              <td>{{ newsletter.createdAt|date(date_format)}}</td>
+              <td>{{ newsletter.sendAt ? newsletter.sendAt|date(date_format) : '' }}</td>
               <td>
                 <div class="d-flex align-items-center gap-2">
+                {% set modalId = 'confirmAlert-' ~ newsletter.id %}
+                  <a class="link-primary" data-bs-toggle="modal" data-bs-target="#{{ modalId }}" href="#">
+                    {{ fa.icon('paper-plane') }}
+                  </a>
+                  {{ modal.confirm(
+                    id: modalId,
+                    path: path('app_admin_newsletter_send', { id: newsletter.id }),
+                    title: 'Êtes-vous sur d\'envoyer ?',
+                    continueButton: 'Envoyer'
+                  ) }}
                   <a class="link-primary" href="{{ path('app_admin_newsletter_edit', { id: newsletter.id }) }}">
                     {{ fa.icon('pen-to-square') }}
                   </a>
@@ -58,11 +70,10 @@
             </tr>
           {% else %}
             <tr>
-              <td colspan="7">no records found</td>
+              <td colspan="7">Aucune Newsletters</td>
             </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
-  </div>
 {% endblock %}

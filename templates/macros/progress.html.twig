@@ -1,5 +1,21 @@
 {% macro election(step) %}
     {% import "macros/fontawesome.html.twig" as fa %}
+    {{ _self.generic(
+        step,
+        icon_middle: fa.icon('check-to-slot', size: 'lg', fixed_width: true)
+    ) }}
+{% endmacro %}
+
+{% macro event(step) %}
+    {% import "macros/fontawesome.html.twig" as fa %}
+    {{ _self.generic(
+        step,
+        icon_middle: fa.icon('party-horn', size: 'lg', fixed_width: true),
+    ) }}
+{% endmacro %}
+
+{% macro generic(step, icon_middle) %}
+    {% import "macros/fontawesome.html.twig" as fa %}
     {% set accent = step == 1 ? 'secondary' : (step == 2 ? 'primary' : 'success') %}
     {% set in_progress_accent = 'primary' %}
     {% set done_accent = 'success' %}
@@ -41,7 +57,7 @@
                 " 
                 style="--bg-color: var(--bs-{{ accent }});"
             >
-                {{ fa.icon('check-to-slot', size: 'lg', fixed_width: true) }}
+                {{ icon_middle }}
             </div>
         </div>
 

@@ -9,37 +9,69 @@ use Doctrine\ORM\Mapping as ORM;
 class Settings
 {
     #[ORM\Column]
-    private ?bool $allowNewsletters = null;
+    private ?bool $newsletterAllowed = null;
 
     #[ORM\Column]
-    private ?bool $allowNotifications = null;
+    private ?bool $notificationsAllowed = null;
+
+    #[ORM\Column]
+    private ?bool $electionNotificationsAllowed = null;
+
+    #[ORM\Column]
+    private ?bool $eventNotificationsAllowed = null;
 
     public function __construct()
     {
-        $this->setAllowNewsletters(false);
-        $this->setAllowNotifications(false);
+        $this->setNewsletterAllowed(false);
+        $this->setNotificationsAllowed(false);
+        $this->setElectionNotificationsAllowed(false);
+        $this->setEventNotificationsAllowed(false);
     }
 
-    public function isAllowNewsletters(): ?bool
+    public function isNewsletterAllowed(): ?bool
     {
-        return $this->allowNewsletters;
+        return $this->newsletterAllowed;
     }
 
-    public function setAllowNewsletters(bool $allowNewsletters): static
+    public function setNewsletterAllowed(bool $newsletterAllowed): static
     {
-        $this->allowNewsletters = $allowNewsletters;
+        $this->newsletterAllowed = $newsletterAllowed;
 
         return $this;
     }
 
-    public function isAllowNotifications(): ?bool
+    public function isNotificationsAllowed(): ?bool
     {
-        return $this->allowNotifications;
+        return $this->notificationsAllowed;
     }
 
-    public function setAllowNotifications(bool $allowNotifications): static
+    public function setNotificationsAllowed(bool $notificationsAllowed): static
     {
-        $this->allowNotifications = $allowNotifications;
+        $this->notificationsAllowed = $notificationsAllowed;
+
+        return $this;
+    }
+
+    public function isElectionNotificationsAllowed(): ?bool
+    {
+        return $this->electionNotificationsAllowed;
+    }
+
+    public function setElectionNotificationsAllowed(bool $electionNotificationsAllowed): static
+    {
+        $this->electionNotificationsAllowed = $electionNotificationsAllowed;
+
+        return $this;
+    }
+
+    public function isEventNotificationsAllowed(): ?bool
+    {
+        return $this->eventNotificationsAllowed;
+    }
+
+    public function setEventNotificationsAllowed(bool $eventNotificationsAllowed): static
+    {
+        $this->eventNotificationsAllowed = $eventNotificationsAllowed;
 
         return $this;
     }

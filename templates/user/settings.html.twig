@@ -6,27 +6,36 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container">
-        <div class="h1 text-center mt-2">
-            Paramètres 
-            {% if currentUser.firstname|lower|first in ['a', 'e', 'i', 'o', 'u', 'y'] %}
-                d'{{ currentUser.firstname|capitalize }}
-            {% else %}
-                de {{ currentUser.firstname|capitalize }}
-            {% endif %}
-        </div>
-        <div class="container-form my-5">
-            {{ form_start(form) }}
-                {{ form_row(form.allowNewsletters) }}
-                {{ form_row(form.allowNotifications) }}
-
-                <div class="text-end">
-                <button type="submit" class="btn btn-primary">
-                    {{ fa.icon('save') }}
-                    Enregistrer
-                </button>
-                </div>
-            {{ form_end(form) }}
-        </div>
+  <div class="container">
+    <div class="h1 text-center mt-2">
+      Paramètres{% if (currentUser.firstname|lower|first) in ['a', 'e', 'i', 'o', 'u', 'y'] %}
+        d'{{ currentUser.firstname|capitalize }}
+      {% else %}
+        de {{ currentUser.firstname|capitalize }}
+      {% endif %}
     </div>
+    <div class="container-form my-5" {{ stimulus_controller('notifications') }}>
+      {{ form_start(form) }}
+      
+      {{ form_row(form.newsletterAllowed) }}
+      
+      <div>
+        {{ form_row(form.notificationsAllowed) }}
+      </div>
+
+      <div {{ stimulus_target('notifications', 'notificationDetails') }} class="collapse ms-3">
+        {{ form_row(form.electionNotificationsAllowed) }}
+        {{ form_row(form.eventNotificationsAllowed) }}
+      </div>
+
+      <div class="text-end">
+        <button type="submit" class="btn btn-primary">
+          {{ fa.icon('save') }}
+          Enregistrer
+        </button>
+      </div>
+
+      {{ form_end(form) }}
+    </div>
+  </div>
 {% endblock %}

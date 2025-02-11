@@ -1,44 +1,58 @@
 {% macro election(election, step) %}
-  {% import "macros/fontawesome.html.twig" as fa %}
   {% import "macros/progress.html.twig" as progress %}
-  <div class="card">
+  {{ _self.generic(
+    step,
+    path('app_election_show', { id: election.id }),
+    election.jobTitle,
+    election.voteStartAt|date('d/m/Y H:i'),
+    election.voteEndAt|date('d/m/Y H:i'),
+    progress.election(step),
+  ) }}
+{% endmacro %}
+
+{% macro event(event, step) %}
+  {% import "macros/progress.html.twig" as progress %}
+  {{ _self.generic(
+    step,
+    path('app_event_show', { id: event.id }),
+    event.title,
+    event.startAt|date('d/m/Y H:i'),
+    event.endAt|date('d/m/Y H:i'),
+    progress.event(step),
+  ) }}
+{% endmacro %}
+
+{% macro generic(step, dest_path, card_title, start_date, end_date, progress) %}
+  {% import "macros/fontawesome.html.twig" as fa %}
+
+  {% set accent = step == 1 ? 'secondary' : (step == 2 ? 'primary' : 'success') %}
+
+  <div class="card mb-4">
     <div class="card-body text-center">
       <h3 class="card-title mb-3">
-        <a href="{{ path('app_election_show', { id: election.id }) }}" class="link-body-emphasis">{{ election.jobTitle }}</a>
+        <a href="{{ dest_path }}" class="link-body-emphasis">{{ card_title }}</a>
       </h3>
       
       <div class="card-text text-secondary">
-        {{ election.voteStartAt|date('d/m/Y H:i') }}
+        {{ start_date }}
       </div>
 
-      <div class="">
+      <div>
         {{ fa.icon('arrow-down-long', size: 'xl', swap_opacity: true) }}
       </div>
       
       <div class="card-text text-secondary mb-3">
-        {{ election.voteEndAt|date('d/m/Y H:i') }}
+        {{ end_date }}
       </div>
 
-      {{ progress.election(step) }}
+      {{ progress }}
     </div>
     <div class="card-footer">
       <div class="text-end">
-        {% if step == 1 %}
-          <a href="{{ path('app_election_candidacy', { id: election.id }) }}" class="btn btn-secondary">
-            {{ fa.icon('person-sign') }}
-            Postuler
-          </a>
-        {% elseif step == 2 %}
-          <a href="{{ path('app_election_show', { id: election.id }) }}" class="btn btn-primary">
-            {{ fa.icon('check-to-slot') }}
-            Voter
-          </a>
-        {% else %}
-          <a href="{{ path('app_election_show', { id: election.id }) }}" class="btn btn-success">
-            {{ fa.icon('ranking-star') }}
+          <a href="{{ dest_path }}" class="btn btn-{{ accent }}">
+            {{ fa.icon('circle-info') }}
             Consulter
           </a>
-        {% endif %}
       </div>
     </div>
   </div>

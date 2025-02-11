@@ -25,10 +25,15 @@ services:
         arguments:
             $class: App\Entity\User
             $properties:
-                'github': 'githubId'
                 'google': 'googleId'
                 'linkedin': 'linkedinId'
                 'azure': 'microsoftId'
 
+    Twig\Extension\StringLoaderExtension:
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    
+    League\CommonMark\Extension\Table\TableExtension:
+        tags:
+            - { name: twig.markdown.league_extension }

@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\AdminNewsletterType;
 use App\Repository\MailTemplateRepository;
 use App\Repository\NewsletterRepository;
+use App\Service\NewsletterManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -89,6 +90,15 @@ final class AdminNewsletterController extends AbstractController
             $entityManager->flush();
         }
 
+        return $this->redirectToRoute('app_admin_newsletter_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/send', name: 'app_admin_newsletter_send', methods: ['GET'])]
+    public function send(
+        NewsletterManager $newsletterManager,
+        Newsletter $newsletter,
+    ): Response {
+        $newsletterManager->send($newsletter);
         return $this->redirectToRoute('app_admin_newsletter_index', [], Response::HTTP_SEE_OTHER);
     }
 }

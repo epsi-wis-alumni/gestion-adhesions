@@ -59,9 +59,6 @@ class User implements UserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $microsoftId = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $githubId = null;
-
     /**
      * @var Collection<int, Transaction>
      */
@@ -131,6 +128,24 @@ class User implements UserInterface
     #[Embedded(class: Settings::class)]
     private Settings $settings;
 
+    /**
+     * @var Collection<int, UserNewsletter>
+     */
+    #[ORM\OneToMany(targetEntity: UserNewsletter::class, mappedBy: 'user')]
+    private Collection $userNewsletters;
+
+    /**
+     * @var Collection<int, Event>
+     */
+    #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'createdBy')]
+    private Collection $createdEvents;
+
+    /**
+     * @var Collection<int, Event>
+     */
+    #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'updatedBy')]
+    private Collection $updatedEvents;
+
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
@@ -143,6 +158,9 @@ class User implements UserInterface
         $this->approvedUsers = new ArrayCollection();
         $this->rejectedUsers = new ArrayCollection();
         $this->settings = new Settings();
+        $this->userNewsletters = new ArrayCollection();
+        $this->createdEvents = new ArrayCollection();
+        $this->updatedEvents = new ArrayCollection();
     }
 
     public function loadUserByOAuthUserResponse(UserResponseInterface $response, string $resourceOwnerName): UserInterface
@@ -155,7 +173,6 @@ class User implements UserInterface
         match ($resourceOwnerName) {
             'google' => $this->setGoogleId($response->getUserIdentifier()),
             'azure' => $this->setMicrosoftId($response->getUserIdentifier()),
-            'github' => $this->setGithubId($response->getUserIdentifier()),
         };
 
         return $this;
@@ -323,18 +340,6 @@ class User implements UserInterface
     public function setMicrosoftId(?string $microsoftId): static
     {
         $this->microsoftId = $microsoftId;
-
-        return $this;
-    }
-
-    public function getGithubId(): ?string
-    {
-        return $this->githubId;
-    }
-
-    public function setGithubId(?string $githubId): static
-    {
-        $this->githubId = $githubId;
 
         return $this;
     }
@@ -695,5 +700,95 @@ class User implements UserInterface
     public function hasCompleteInfo(): bool
     {
         return !!$this->getCompany() && !!$this->getJobTitle();
+    }
+
+    /**
+     * @return Collection<int, UserNewsletter>
+     */
+    public function getUserNewsletters(): Collection
+    {
+        return $this->userNewsletters;
+    }
+
+    public function addUserNewsletter(UserNewsletter $userNewsletter): static
+    {
+        if (!$this->userNewsletters->contains($userNewsletter)) {
+            $this->userNewsletters->add($userNewsletter);
+            $userNewsletter->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserNewsletter(UserNewsletter $userNewsletter): static
+    {
+        if ($this->userNewsletters->removeElement($userNewsletter)) {
+            // set the owning side to null (unless already changed)
+            if ($userNewsletter->getUser() === $this) {
+                $userNewsletter->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Event>
+     */
+    public function getCreatedEvents(): Collection
+    {
+        return $this->createdEvents;
+    }
+
+    public function addCreatedEvent(Event $event): static
+    {
+        if (!$this->createdEvents->contains($event)) {
+            $this->createdEvents->add($event);
+            $event->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedEvent(Event $event): static
+    {
+        if ($this->createdEvents->removeElement($event)) {
+            // set the owning side to null (unless already changed)
+            if ($event->getCreatedBy() === $this) {
+                $event->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Event>
+     */
+    public function getUpdatedEvents(): Collection
+    {
+        return $this->updatedEvents;
+    }
+
+    public function addUpdatedEvent(Event $event): static
+    {
+        if (!$this->updatedEvents->contains($event)) {
+            $this->updatedEvents->add($event);
+            $event->setUpdatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUpdatedEvent(Event $event): static
+    {
+        if ($this->updatedEvents->removeElement($event)) {
+            // set the owning side to null (unless already changed)
+            if ($event->getUpdatedBy() === $this) {
+                $event->setUpdatedBy(null);
+            }
+        }
+
+        return $this;
     }
 }
