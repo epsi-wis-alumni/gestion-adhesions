@@ -55,7 +55,8 @@ final class NewsletterManager
             ;
             $this->entityManager->persist($userNewsletter);
 
-            if (!(($key + 1) % 80)) {
+            $timeToFlush = (($key + 1) % 80) === 0;
+            if ($timeToFlush) {
                 $this->entityManager->flush();
             }
         }
