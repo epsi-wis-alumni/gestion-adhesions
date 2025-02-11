@@ -9,7 +9,6 @@ erDiagram
         array roles
         string microsoftToken
         string googleToken
-        string githubToken
         string company "Nom de l'école pour un étudiant"
         string jobTitle
         datetime createdAt
