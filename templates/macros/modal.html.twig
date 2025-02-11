@@ -1,6 +1,7 @@
-{% macro confirm(id, path, title, description, cancelButton = 'Annuler', continueButton = 'Continuer') %}
+{% macro confirm(id, path, title, avatar, description, continueButton, cancelButton = 'Annuler') %}
+  {% import "macros/image.html.twig" as image %}
   <div class="modal fade" id="{{ id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="{{ id }}Label" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="{{ id }}Label">{{ title }}</h1>
@@ -8,14 +9,26 @@
         </div>
 
         {% if description %}
-          <div class="modal-body">{{ description }}</div>
+          <div class="modal-body">
+          {% if avatar %}
+            <div class="d-flex justify-content-center">
+              {{ image.avatar(
+                path: avatar,
+                alt: 'Photo de profile utilisateur'
+              ) }}
+            </div>
+          {% endif %}
+            {{ description }}
+          </div>
         {% endif %}
         
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ cancelButton }}</button>
-          <a href="{{ path }}" class="btn btn-primary">
-            {{ continueButton }}
-          </a>
+          {% if continueButton %}
+            <a href="{{ path }}" class="btn btn-primary">
+              {{ continueButton }}
+            </a>   
+          {% endif %}
         </div>
       </div>
     </div>
