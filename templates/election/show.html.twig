@@ -111,7 +111,10 @@
             </div>
           {% elseif election.isPending and hasCandidated %}
             <div class="col-auto">
-              <a href="{{ path('app_election_candidate', { id: election.id }) }}" class="btn btn-primary">Modifier ma candidature</a>
+              <a href="{{ path('app_election_candidate', { id: election.id }) }}" class="btn btn-primary">
+                {{ fa.icon('pen-to-square') }}
+                Modifier ma candidature
+              </a>
             </div>
           {% endif %}
         </h3>
@@ -158,8 +161,8 @@
                         {{ fa.icon('circle-info') }}
                       </a>
                       
-                      {% if not election.isClosed %}
-                        <a href="{{ path('app_vote', { election_id: election.id, candidacy_id: candidacy.id }) }}">
+                      {% if not election.isClosed and not hasVoted %}
+                        <a class="link-primary" href="{{ path('app_election_vote', { id: election.id, candidacyId: candidacy.id }) }}">
                           {{ fa.icon('check-to-slot') }}
                         </a>
                       {% endif %}
@@ -169,7 +172,7 @@
                 </tr>
               {% else %}
                 <tr>
-                  <td colspan="3">Aucun candidats</td>
+                  <td colspan={{ election.isClosed ? '4' : '3' }}>Aucun candidat</td>
                 </tr>
               {% endfor %}
             </tbody>
