@@ -10,6 +10,7 @@ use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 final class NotificationManager
 {
@@ -17,6 +18,7 @@ final class NotificationManager
         private EntityManagerInterface $entityManager,
         private UserRepository $userRepository,
         private MailerInterface $mailerInterface,
+        private ContainerBagInterface $params,
     ) {}
 
     public function send(Election|Event $entity): void
@@ -44,9 +46,10 @@ final class NotificationManager
             Election::class => array_filter($users, fn (User $user) => $user->getSettings()->isElectionNotificationsAllowed()),
             Event::class => array_filter($users, fn (User $user) => $user->getSettings()->isEventNotificationsAllowed()),
         };
+        $sender = $this->params->get('mailer_sender');
 
         $email = (new TemplatedEmail())
-            ->from('test@epsi-wis-alumni.fr')
+            ->from($sender)
             ->bcc(...array_map(fn (User $user) => $user->getEmail(), $bcc))
             ->subject($subject)
             ->htmlTemplate($templateName)

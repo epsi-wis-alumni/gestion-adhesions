@@ -11,6 +11,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 final class NewsletterManager
 {
@@ -21,6 +22,7 @@ final class NewsletterManager
         private MailerInterface $mailerInterface,
         private Security $security,
         private LoggerInterface $logger,
+        private ContainerBagInterface $params,
     ) {
     }
 
@@ -63,8 +65,10 @@ final class NewsletterManager
     public function sendMail(
         UserNewsletter $userNewsletter,
     ): void {
+        $sender = $this->params->get('mailer_sender');
+
         $email = (new TemplatedEmail())
-            ->from('test@epsi-wis-alumni.fr')
+            ->from($sender)
             ->to($userNewsletter->getUser()->getEmail())
             ->subject($userNewsletter->getNewsletter()->getObject())
             ->htmlTemplate(
