@@ -45,9 +45,6 @@ class User implements UserInterface
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $username = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
     private ?string $company = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -282,18 +279,6 @@ class User implements UserInterface
         }
 
         return join(' ', $names);
-    }
-
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(?string $username): static
-    {
-        $this->username = $username;
-
-        return $this;
     }
 
     public function getCompany(): ?string
