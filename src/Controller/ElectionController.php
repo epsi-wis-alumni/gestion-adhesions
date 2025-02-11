@@ -43,6 +43,8 @@ class ElectionController extends AbstractController
         Election $election,
         CandidacyRepository $candidacyRepository,
         ElectionManager $electionManager,
+        VoteRepository $voteRepository,
+        #[CurrentUser()] User $currentUser,
     ): Response {
         $voteCount = $election->getVotes()->count();
         $results = $candidacyRepository->findByVoteCount($election);
@@ -51,7 +53,7 @@ class ElectionController extends AbstractController
         $candidacys = $election->getCandidacys();
         
         return $this->render('election/show.html.twig', [
-            'hasVoted' => $hasVoted,
+            'hasVoted' => $voteRepository->hasVoted($currentUser, $election),
             'voteCount' => $voteCount,
             'results' => $results,
             'winners' => $winners,

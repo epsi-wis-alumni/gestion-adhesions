@@ -18,10 +18,10 @@ final class ElectionManager
         protected CandidacyRepository $candidacyRepository,
     ) {}
 
-    public function candidacy(User $user, Candidacy $candidacy, Election $election): void
+    public function candidate(User $user, Candidacy $candidacy, Election $election): void
     {
         $candidacy
-            ->setCandidacy($user)
+            ->setCandidate($user)
             ->setElection($election)
         ;
     }
