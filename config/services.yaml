@@ -26,7 +26,6 @@ services:
         arguments:
             $class: App\Entity\User
             $properties:
-                'github': 'githubId'
                 'google': 'googleId'
                 'linkedin': 'linkedinId'
                 'azure': 'microsoftId'

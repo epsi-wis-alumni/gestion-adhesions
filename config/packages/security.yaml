@@ -19,7 +19,6 @@ security:
             provider: app_user_provider
             oauth:
                 resource_owners:
-                    github:          github_login
                     google:          google_login
                     linkedin: "/login/check-linkedin"
                     azure:           "/login/check-azure"
