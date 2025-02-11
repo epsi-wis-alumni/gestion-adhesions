@@ -53,6 +53,7 @@ class ElectionController extends AbstractController
         $candidacies = $election->getCandidacies();
         
         return $this->render('election/show.html.twig', [
+            'hasCandidated' => $candidacyRepository->hasCandidated($currentUser, $election),
             'hasVoted' => $voteRepository->hasVoted($currentUser, $election),
             'voteCount' => $voteCount,
             'results' => $results,

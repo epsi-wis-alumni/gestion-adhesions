@@ -181,4 +181,9 @@ class Election
     {
         return $this->voteEndAt < new DateTimeImmutable();
     }
+
+    public function isPending(): bool
+    {
+        return $this->voteStartAt > new DateTimeImmutable();
+    }
 }
