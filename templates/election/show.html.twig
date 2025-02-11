@@ -3,6 +3,7 @@
 {% import 'macros/image.html.twig' as image %}
 {% import 'macros/fontawesome.html.twig' as fa %}
 {% import "macros/progress.html.twig" as progress %}
+{% import "macros/modal.html.twig" as modal %}
 {% block title %}
   Élection {{ election.jobTitle }}
 {% endblock %}
@@ -157,9 +158,16 @@
                   
                   <td>
                     <div class="d-flex align-items-center gap-2">
-                      <a class="link-primary" href="#">
+                      {% set modalId = 'confirmAlert-' ~ candidacy.id %}
+                      <a class="link-primary" data-bs-toggle="modal" data-bs-target="#{{ modalId }}" href="#">
                         {{ fa.icon('circle-info') }}
                       </a>
+                      {{ modal.confirm(
+                        id: modalId,
+                        title: candidacy.candidate.displayName,
+                        avatar: candidacy.candidate.avatar,
+                        description: candidacy.presentation,
+                      ) }}
                       
                       {% if not election.isClosed and not hasVoted %}
                         <a class="link-primary" href="{{ path('app_election_vote', { id: election.id, candidacyId: candidacy.id }) }}">
