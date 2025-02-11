@@ -6,7 +6,6 @@ use App\Entity\Election;
 use App\Entity\Event;
 use App\Entity\User;
 use App\Repository\UserRepository;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
@@ -45,15 +44,20 @@ final class NotificationManager
             Event::class => array_filter($users, fn (User $user) => $user->getSettings()->isEventNotificationsAllowed()),
         };
 
-        $email = (new TemplatedEmail())
-            ->from('test@epsi-wis-alumni.fr')
-            ->bcc(...array_map(fn (User $user) => $user->getEmail(), $bcc))
-            ->subject($subject)
-            ->htmlTemplate($templateName)
-            ->context($context)
-        ;
+        $bcc = array_map(fn (User $user) => $user->getEmail(), $bcc);
 
-        $this->mailerInterface->send($email);
+        if (count($bcc)) {
+            $email = (new TemplatedEmail())
+                ->from('test@epsi-wis-alumni.fr')
+                ->bcc(...$bcc)
+                ->subject($subject)
+                ->htmlTemplate($templateName)
+                ->context($context)
+            ;
+    
+            $this->mailerInterface->send($email);
+        }
+
     }
 
     public function getMailFromUsers(array $users): array
