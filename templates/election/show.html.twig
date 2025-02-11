@@ -3,6 +3,7 @@
 {% import 'macros/image.html.twig' as image %}
 {% import 'macros/fontawesome.html.twig' as fa %}
 {% import "macros/progress.html.twig" as progress %}
+{% import "macros/modal.html.twig" as modal %}
 {% block title %}
   Élection {{ election.jobTitle }}
 {% endblock %}
@@ -111,7 +112,10 @@
             </div>
           {% elseif election.isPending and hasCandidated %}
             <div class="col-auto">
-              <a href="{{ path('app_election_candidate', { id: election.id }) }}" class="btn btn-primary">Modifier ma candidature</a>
+              <a href="{{ path('app_election_candidate', { id: election.id }) }}" class="btn btn-primary">
+                {{ fa.icon('pen-to-square') }}
+                Modifier ma candidature
+              </a>
             </div>
           {% endif %}
         </h3>
@@ -154,12 +158,19 @@
                   
                   <td>
                     <div class="d-flex align-items-center gap-2">
-                      <a class="link-primary" href="#">
+                      {% set modalId = 'confirmAlert-' ~ candidacy.id %}
+                      <a class="link-primary" data-bs-toggle="modal" data-bs-target="#{{ modalId }}" href="#">
                         {{ fa.icon('circle-info') }}
                       </a>
+                      {{ modal.confirm(
+                        id: modalId,
+                        title: candidacy.candidate.displayName,
+                        avatar: candidacy.candidate.avatar,
+                        description: candidacy.presentation,
+                      ) }}
                       
-                      {% if not election.isClosed %}
-                        <a href="{{ path('app_vote', { election_id: election.id, candidacy_id: candidacy.id }) }}">
+                      {% if not election.isClosed and not hasVoted %}
+                        <a class="link-primary" href="{{ path('app_election_vote', { id: election.id, candidacyId: candidacy.id }) }}">
                           {{ fa.icon('check-to-slot') }}
                         </a>
                       {% endif %}
@@ -169,7 +180,7 @@
                 </tr>
               {% else %}
                 <tr>
-                  <td colspan="3">Aucun candidats</td>
+                  <td colspan={{ election.isClosed ? '4' : '3' }}>Aucun candidat</td>
                 </tr>
               {% endfor %}
             </tbody>
