@@ -1,13 +1,5 @@
 hwi_oauth:
     resource_owners:
-        github:
-            type:                github
-            client_id:           '%env(GITHUB_CLIENT_ID)%'
-            client_secret:       '%env(GITHUB_CLIENT_SECRET)%'
-            scope:               'user:email,public_repo'
-            options:
-               csrf: true
-               refresh_on_expire: true
         google:
             type:                google
             client_id:           '%env(GOOGLE_CLIENT_ID)%'
