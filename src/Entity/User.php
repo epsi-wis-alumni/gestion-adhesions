@@ -59,9 +59,6 @@ class User implements UserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $microsoftId = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $githubId = null;
-
     /**
      * @var Collection<int, Transaction>
      */
@@ -176,7 +173,6 @@ class User implements UserInterface
         match ($resourceOwnerName) {
             'google' => $this->setGoogleId($response->getUserIdentifier()),
             'azure' => $this->setMicrosoftId($response->getUserIdentifier()),
-            'github' => $this->setGithubId($response->getUserIdentifier()),
         };
 
         return $this;
@@ -344,18 +340,6 @@ class User implements UserInterface
     public function setMicrosoftId(?string $microsoftId): static
     {
         $this->microsoftId = $microsoftId;
-
-        return $this;
-    }
-
-    public function getGithubId(): ?string
-    {
-        return $this->githubId;
-    }
-
-    public function setGithubId(?string $githubId): static
-    {
-        $this->githubId = $githubId;
 
         return $this;
     }
