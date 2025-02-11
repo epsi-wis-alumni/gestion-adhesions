@@ -50,7 +50,7 @@ class ElectionController extends AbstractController
         $results = $candidacyRepository->findByVoteCount($election);
         $step = $electionManager->getStep($election);
         $winners = $electionManager->getWinners($election);
-        $candidacys = $election->getCandidacys();
+        $candidacies = $election->getCandidacies();
         
         return $this->render('election/show.html.twig', [
             'hasVoted' => $voteRepository->hasVoted($currentUser, $election),
@@ -58,12 +58,12 @@ class ElectionController extends AbstractController
             'results' => $results,
             'winners' => $winners,
             'election' => $election,
-            'candidacys' => $candidacys,
+            'candidacies' => $candidacies,
             'step' => $step,
         ]);
     }
 
-    #[Route('/{id}/candidacy', name: 'app_election_candidacy', methods: ['GET', 'POST'])]
+    #[Route('/{id}/candidate', name: 'app_election_candidate', methods: ['GET', 'POST'])]
     public function candidacy(
         Request $request,
         EntityManagerInterface $entityManager,

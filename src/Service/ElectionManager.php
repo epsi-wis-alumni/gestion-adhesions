@@ -52,10 +52,10 @@ final class ElectionManager
         );
     }
 
-    protected function getMaxVoteCount(array $candidacys): int
+    protected function getMaxVoteCount(array $candidacies): int
     {
-        return count($candidacys) > 0 ? max(
-            array_map(fn (Candidacy $candidacy) => $candidacy->getVotes()->count(), $candidacys)
+        return count($candidacies) > 0 ? max(
+            array_map(fn (Candidacy $candidacy) => $candidacy->getVotes()->count(), $candidacies)
         ) : 0;
     }
 

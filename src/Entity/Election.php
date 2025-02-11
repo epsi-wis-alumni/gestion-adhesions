@@ -37,7 +37,7 @@ class Election
      * @var Collection<int, Candidacy>
      */
     #[ORM\OneToMany(targetEntity: Candidacy::class, mappedBy: 'election')]
-    private Collection $candidacys;
+    private Collection $candidacies;
 
     /**
      * @var Collection<int, Vote>
@@ -47,7 +47,7 @@ class Election
 
     public function __construct()
     {
-        $this->candidacys = new ArrayCollection();
+        $this->candidacies = new ArrayCollection();
         $this->votes = new ArrayCollection();
         $this->setCreatedAt(new DateTimeImmutable());
     }
@@ -120,15 +120,15 @@ class Election
     /**
      * @return Collection<int, Candidacy>
      */
-    public function getCandidacys(): Collection
+    public function getCandidacies(): Collection
     {
-        return $this->candidacys;
+        return $this->candidacies;
     }
 
     public function addCandidacy(Candidacy $candidacy): static
     {
-        if (!$this->candidacys->contains($candidacy)) {
-            $this->candidacys->add($candidacy);
+        if (!$this->candidacies->contains($candidacy)) {
+            $this->candidacies->add($candidacy);
             $candidacy->setElection($this);
         }
 
@@ -137,7 +137,7 @@ class Election
 
     public function removeCandidacy(Candidacy $candidacy): static
     {
-        if ($this->candidacys->removeElement($candidacy)) {
+        if ($this->candidacies->removeElement($candidacy)) {
             // set the owning side to null (unless already changed)
             if ($candidacy->getElection() === $this) {
                 $candidacy->setElection(null);

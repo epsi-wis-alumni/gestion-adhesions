@@ -19,11 +19,11 @@ class Candidacy
     #[ORM\Column]
     private ?\DateTimeImmutable $candidatedAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'candidacys')]
+    #[ORM\ManyToOne(inversedBy: 'candidacies')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $candidate = null;
 
-    #[ORM\ManyToOne(inversedBy: 'candidacys')]
+    #[ORM\ManyToOne(inversedBy: 'candidacies')]
     private ?Election $election = null;
 
     /**

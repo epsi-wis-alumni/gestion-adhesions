@@ -72,7 +72,7 @@ class User implements UserInterface
      * @var Collection<int, Candidacy>
      */
     #[ORM\OneToMany(targetEntity: Candidacy::class, mappedBy: 'candidacy')]
-    private Collection $candidacys;
+    private Collection $candidacies;
 
     /**
      * @var Collection<int, Vote>
@@ -147,7 +147,7 @@ class User implements UserInterface
     {
         $this->transactions = new ArrayCollection();
         $this->elections = new ArrayCollection();
-        $this->candidacys = new ArrayCollection();
+        $this->candidacies = new ArrayCollection();
         $this->votes = new ArrayCollection();
         $this->transactions = new ArrayCollection();
         $this->createdNewsletters = new ArrayCollection();
@@ -394,13 +394,13 @@ class User implements UserInterface
      */
     public function getCandidacys(): Collection
     {
-        return $this->candidacys;
+        return $this->candidacies;
     }
 
     public function addCandidacy(Candidacy $candidacy): static
     {
-        if (!$this->candidacys->contains($candidacy)) {
-            $this->candidacys->add($candidacy);
+        if (!$this->candidacies->contains($candidacy)) {
+            $this->candidacies->add($candidacy);
             $candidacy->setCandidate($this);
         }
 
@@ -409,7 +409,7 @@ class User implements UserInterface
 
     public function removeCandidacy(Candidacy $candidacy): static
     {
-        if ($this->candidacys->removeElement($candidacy)) {
+        if ($this->candidacies->removeElement($candidacy)) {
             // set the owning side to null (unless already changed)
             if ($candidacy->getCandidate() === $this) {
                 $candidacy->setCandidate(null);
