@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Candidacy;
 use App\Entity\Election;
+use App\Entity\MailTemplate;
 use App\Entity\User;
 use App\Entity\Vote;
 use App\Service\UserManager;
@@ -201,6 +202,17 @@ class AppFixtures extends Fixture
         $manager->persist($vote4);
         $manager->persist($vote5);
 
+        $manager->flush();
+
+        // TEMPLATES
+
+        $mailTemplate1 = new MailTemplate();
+        $mailTemplate1
+            ->setLabel('Newsletter')
+            ->setFileName('newsletter.html.twig')
+        ;
+
+        $manager->persist($mailTemplate1);
         $manager->flush();
     }
 }
