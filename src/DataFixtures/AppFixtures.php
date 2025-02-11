@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Candidate;
+use App\Entity\Candidacy;
 use App\Entity\Election;
 use App\Entity\User;
 use App\Entity\Vote;
@@ -10,10 +10,6 @@ use App\Service\UserManager;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ContainerBag;
-
-use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 
 /**
  * Reload the database with some data
@@ -56,24 +52,24 @@ class AppFixtures extends Fixture
         // $this->userManager->approve($userAdmin, $userAdmin);
         $this->userManager->addRole($userAdmin, 'ROLE_ADMIN');
 
-        $userCandidate1 = new User();
-        $userCandidate1
-            ->setFirstname('Candidate1')
+        $userCandidacy1 = new User();
+        $userCandidacy1
+            ->setFirstname('Candidacy1')
             ->setLastname('CANDIDATE1')
-            ->setEmail('candidate1@gmail.com')
+            ->setEmail('candidacy1@gmail.com')
             ->setCreatedAt(new DateTimeImmutable())
         ;
-        $this->userManager->approve($userCandidate1, $userAdmin);
+        $this->userManager->approve($userCandidacy1, $userAdmin);
         
 
-        $userCandidate2 = new User();
-        $userCandidate2
-            ->setFirstname('Candidate2')
+        $userCandidacy2 = new User();
+        $userCandidacy2
+            ->setFirstname('Candidacy2')
             ->setLastname('CANDIDATE2')
-            ->setEmail('candidate2@gmail.com')
+            ->setEmail('candidacy2@gmail.com')
             ->setCreatedAt(new DateTimeImmutable())
         ;
-        $this->userManager->approve($userCandidate2, $userAdmin);
+        $this->userManager->approve($userCandidacy2, $userAdmin);
 
         $userVoter1 = new User();
         $userVoter1
@@ -86,8 +82,8 @@ class AppFixtures extends Fixture
 
         $manager->persist($userPerso);
         $manager->persist($userAdmin);
-        $manager->persist($userCandidate1);
-        $manager->persist($userCandidate2);
+        $manager->persist($userCandidacy1);
+        $manager->persist($userCandidacy2);
         $manager->persist($userVoter1);
         
         $manager->flush();
@@ -136,24 +132,24 @@ class AppFixtures extends Fixture
 
         // CANDIDATES
 
-        $candidate1 = new Candidate();
-        $candidate1
-            ->setCandidate($userCandidate1)
-            ->setCandidatedAt($today)
+        $candidacy1 = new Candidacy();
+        $candidacy1
+            ->setCandidate($userCandidacy1)
+            ->setCandidacydAt($today)
             ->setElection($election1)
             ->setPresentation('Je me présente')
         ;
 
-        $candidate2 = new Candidate();
-        $candidate2
-            ->setCandidate($userCandidate2)
-            ->setCandidatedAt($today)
+        $candidacy2 = new Candidacy();
+        $candidacy2
+            ->setCandidate($userCandidacy2)
+            ->setCandidacydAt($today)
             ->setElection($election1)
             ->setPresentation('Je me présente 2')
         ;
 
-        $manager->persist($candidate1);
-        $manager->persist($candidate2);
+        $manager->persist($candidacy1);
+        $manager->persist($candidacy2);
         
         $manager->flush();
 
@@ -161,23 +157,23 @@ class AppFixtures extends Fixture
 
         $vote1 = new Vote();
         $vote1
-            ->setCandidate($candidate1)
+            ->setCandidacy($candidacy1)
             ->setElection($election1)
-            ->setVoter($userCandidate1)
+            ->setVoter($userCandidacy1)
             ->setVotedAt($today)
         ;
 
         $vote2 = new Vote();
         $vote2
-            ->setCandidate($candidate1)
+            ->setCandidacy($candidacy1)
             ->setElection($election1)
-            ->setVoter($userCandidate2)
+            ->setVoter($userCandidacy2)
             ->setVotedAt($today)
         ;
 
         $vote3 = new Vote();
         $vote3
-            ->setCandidate($candidate2)
+            ->setCandidacy($candidacy2)
             ->setElection($election1)
             ->setVoter($userAdmin)
             ->setVotedAt($today)
@@ -185,9 +181,17 @@ class AppFixtures extends Fixture
 
         $vote4 = new Vote();
         $vote4
-            ->setCandidate($candidate2)
+            ->setCandidacy($candidacy2)
             ->setElection($election1)
             ->setVoter($userVoter1)
+            ->setVotedAt($today)
+        ;
+
+        $vote5 = new Vote();
+        $vote5
+            ->setCandidacy($candidacy2)
+            ->setElection($election1)
+            ->setVoter($userPerso)
             ->setVotedAt($today)
         ;
 
@@ -195,6 +199,7 @@ class AppFixtures extends Fixture
         $manager->persist($vote2);
         $manager->persist($vote3);
         $manager->persist($vote4);
+        $manager->persist($vote5);
 
         $manager->flush();
     }

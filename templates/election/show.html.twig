@@ -1,129 +1,181 @@
 {% extends 'base.html.twig' %}
+{% import 'macros/badge.html.twig' as badge %}
 {% import 'macros/image.html.twig' as image %}
 {% import 'macros/fontawesome.html.twig' as fa %}
-
+{% import "macros/progress.html.twig" as progress %}
 {% block title %}
-  Election {{ election.id }}
+  Élection {{ election.jobTitle }}
 {% endblock %}
 
 {% block body %}
-  <div class="container">
-    <div class="table-responsive border rounded my-5">
-      <table class="table table-striped mb-0">
-        <tbody>
-          <tr>
-            <th>JobTitle</th>
-            <td>{{ election.jobTitle }}</td>
-          </tr>
-          <tr>
-            <th>CreatedAt</th>
-            <td>{{ election.createdAt ? election.createdAt|date('d-m-Y') : '' }}</td>
-          </tr>
-          <tr>
-            <th>CreatedBy</th>
-            <td>{{ election.createdBy.firstname }} {{ election.createdBy.lastname }}</td>
-          </tr>
-          <tr>
-            <th>VoteStartAt</th>
-            <td>{{ election.voteStartAt ? election.voteStartAt|date('d-m-Y') : '' }}</td>
-          </tr>
-          <tr>
-            <th class="border border-end-0">VoteEndAt</th>
-            <td>{{ election.voteEndAt ? election.voteEndAt|date('d-m-Y') : '' }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="container mt-3 mb-5">
+    <nav class="mb-3" aria-label="breadcrumb">
+      <ol class="breadcrumb bg-body px-3 py-3 mb-0 border rounded shadow-sm">
+        <li class="breadcrumb-item"><a href="{{ path('app_election_index') }}">Élections</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Élection {{ election.jobTitle }}</li>
+      </ol>
+    </nav>
 
-    {% if election.isClosed %}
-      <div class="display-5 text-center">
-        Résultats : 
+    <div class="row">
+      <div class="col-md-5 col-lg-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="card-text h1">{{ election.jobTitle }}</div>
 
-        {% if winners|length > 1 %}
-          <span class="text-secondary fw-bold">Égalité</span>
-        {% else %}
-          <div class="text-success fw-bold">{{ (winners|first).candidate.displayName }}</div>
-        {% endif %}
-        
-        <div class="row justify-content-center gap-3 my-4">
-          {% for winner in winners %}
-            <div class="col-sm-6 col-md-4 col-lg-3">
-              <div class="card text-start">
-                <div class="card-body">
-                  <div class="display-5 text-secondary fw-bold mb-3">
-                    {{ (winner.votes|length / voteCount * 100)|round(2) }} %
+            <ul class="list-unstyled gy-3">
+              <li class="row align-items-center gx-2">
+                <div class="col-auto">
+                  {{ fa.icon('user-tie', fixed_width: true, size: 'xl', additional_classes: ['text-primary-emphasis']) }}
+                </div>
+                <div class="col">
+                  <div>{{ badge.emphasis('Poste') }}</div>
+                  <div class="text-secondary">
+                    {{ election.jobTitle }}
                   </div>
-                  <h5 class="card-title">{{ winner.candidate.displayName }}</h5>
-                  <div 
-                    class="progress" 
-                    role="progressbar" 
-                    aria-label="Résultats de {{ winner.candidate.displayName }}" 
-                    aria-valuenow="{{ winner.votes|length }}"
-                    aria-valuemin="0" 
-                    aria-valuemax="{{ voteCount }}"
-                  >
-                    <div class="progress-bar bg-success" style="width: {{ winner.votes|length / voteCount * 100 }}%;">
-                      {{ winner.votes|length }} / {{ voteCount }} votes
+                </div>
+              </li>
+              <li class="row align-items-center gx-2">
+                <div class="col-auto">
+                  {{ fa.icon('calendar-check', fixed_width: true, size: 'xl', additional_classes: ['text-primary-emphasis']) }}
+                </div>
+                <div class="col">
+                  <div>{{ badge.emphasis('Début du vote') }}</div>
+                  <div class="text-secondary">
+                    {{ election.voteStartAt ? election.voteStartAt|date('Y/m/d H:i') : '' }}
+                  </div>
+                </div>
+              </li>
+              <li class="row align-items-center gx-2">
+                <div class="col-auto">
+                  {{ fa.icon('calendar-xmark', fixed_width: true, size: 'xl', additional_classes: ['text-primary-emphasis']) }}
+                </div>
+                <div class="col">
+                  <div>{{ badge.emphasis('Fin du vote') }}</div>
+                  <div class="text-secondary">
+                    {{ election.voteEndAt ? election.voteEndAt|date('Y/m/d H:i') : '' }}
+                  </div>
+                </div>
+              </li>
+            </ul>
+
+            {{ progress.election(step) }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+
+        {% if election.isClosed %}
+          <div class="mb-4">
+            <h3 class="h2">Résultats</h3>
+            <div class="row justify-content-start gap-3 mb-3">
+              {% for winner in winners %}
+                <div class="col-md-6">
+                  <div class="card text-start">
+                    <div class="card-body">
+                      <div class="display-5 text-secondary fw-bold mb-3">
+                        {{ winner.votes|length / voteCount * 100 }} %
+                      </div>
+                      <h5 class="card-title">{{ winner.candidate.displayName }}</h5>
+                      <div 
+                        class="progress" 
+                        role="progressbar" 
+                        aria-label="Résultats de {{ winner.candidate.displayName }}" 
+                        aria-valuenow="{{ winner.votes|length }}"
+                        aria-valuemin="0" 
+                        aria-valuemax="{{ voteCount }}"
+                      >
+                        <div class="progress-bar bg-success" style="width: {{ winner.votes|length / voteCount * 100 }}%;">
+                          {{ winner.votes|length }} / {{ voteCount }} votes
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              {% endfor %}
             </div>
-          {% endfor %}
+          </div>
+        {% endif %}
+
+        <h3 class="h2 row g-2 align-items-center">
+          <div class="col-auto">
+            Candidats
+          </div>
+
+          {% if election.isPending and not hasCandidated %}
+            <div class="col-auto">
+              <a href="{{ path('app_election_candidate', { id: election.id }) }}" class="btn btn-primary">
+                {{ fa.icon('person-sign') }}
+                Postuler
+              </a>
+            </div>
+          {% elseif election.isPending and hasCandidated %}
+            <div class="col-auto">
+              <a href="{{ path('app_election_candidate', { id: election.id }) }}" class="btn btn-primary">Modifier ma candidature</a>
+            </div>
+          {% endif %}
+        </h3>
+
+        <div class="table-responsive border rounded mb-3">
+          <table class="table table-striped mb-0">
+            <thead class="table-bordered">
+              <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                {% if election.isClosed %}
+                  <th>Pourcentage de votes sur {{ voteCount }} votes</th>
+                {% endif %}
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody class="align-middle">
+              {% for candidacy in results %}
+                <tr>
+                  <td>{{ candidacy.candidate.lastname }}</td>
+                  <td>{{ candidacy.candidate.firstname }}</td>
+                  
+                  {% if election.isClosed %}
+                    <td {% if candidacy in winners %}class="text-success fw-bold"{% endif %}>
+                      {{ (candidacy.votes|length / voteCount * 100)|round(2) }}%
+                      <div 
+                        class="progress" 
+                        role="progressbar" 
+                        aria-label="Résultats de {{ candidacy.candidate.displayName }}" 
+                        aria-valuenow="{{ candidacy.votes|length }}"
+                        aria-valuemin="0" 
+                        aria-valuemax="{{ voteCount }}"
+                      >
+                        <div class="progress-bar bg-{{ candidacy in winners ? 'success':'secondary' }}" style="width: {{ candidacy.votes|length / voteCount * 100 }}%;">
+                          {{ candidacy.votes|length }} / {{ voteCount }} votes
+                        </div>
+                      </div>
+                    </td>
+                  {% endif %}
+                  
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <a class="link-primary" href="#">
+                        {{ fa.icon('circle-info') }}
+                      </a>
+                      
+                      {% if not election.isClosed %}
+                        <a href="{{ path('app_vote', { election_id: election.id, candidacy_id: candidacy.id }) }}">
+                          {{ fa.icon('check-to-slot') }}
+                        </a>
+                      {% endif %}
+                    </div>
+                    
+                  </td>
+                </tr>
+              {% else %}
+                <tr>
+                  <td colspan="3">Aucun candidats</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
       </div>
-    {% endif %}
-
-    <div class="h2 text-center">Candidats</div>
-
-    <div class="table-responsive border rounded my-5">
-      <table class="table table-striped mb-0">
-        <thead class="table-bordered">
-          <tr>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Actions</th>
-            {% if election.isClosed %}
-              <th>Pourcentage de votes sur {{ voteCount }} votes</th>
-            {% endif %}
-          </tr>
-        </thead>
-        <tbody>
-          {% for candidate in results %}
-            <tr>
-              <td>{{ candidate.candidate.lastname }}</td>
-              <td>{{ candidate.candidate.firstname }}</td>
-              
-              <td>
-                <div class="d-flex align-items-center gap-2">
-                  <a class="link-primary" href="#">
-                    {{ fa.icon('circle-info') }}
-                  </a>
-                  
-                  {% if not election.isClosed and not hasVoted %}
-                    <a class="link-primary" href="{{ path('app_election_vote', { electionId: election.id, candidateId: candidate.id }) }}">
-                      {{ fa.icon('check-to-slot') }}
-                    </a>
-                  {% endif %}
-                </div>
-                
-              </td>
-              
-              {% if election.isClosed %}
-                <td {% if candidate in winners %}class="text-success fw-bold"{% endif %}>{{ (candidate.votes|length / voteCount * 100)|round(2) }}%</td>
-              {% endif %}
-            </tr>
-          {% else %}
-            <tr>
-              <td colspan="{{ election.isClosed ? 4 : 3}}">Aucun candidat</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-
-    <div class="d-flex gap-1">
-      <a class="btn btn-secondary" href="{{ path('app_election_index') }}">Retour à la liste des éléctions</a>
     </div>
   </div>
 {% endblock %}

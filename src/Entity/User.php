@@ -45,9 +45,6 @@ class User implements UserInterface
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $username = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
     private ?string $company = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -72,10 +69,10 @@ class User implements UserInterface
     private Collection $elections;
 
     /**
-     * @var Collection<int, Candidate>
+     * @var Collection<int, Candidacy>
      */
-    #[ORM\OneToMany(targetEntity: Candidate::class, mappedBy: 'candidate')]
-    private Collection $candidates;
+    #[ORM\OneToMany(targetEntity: Candidacy::class, mappedBy: 'candidacy')]
+    private Collection $candidacies;
 
     /**
      * @var Collection<int, Vote>
@@ -150,7 +147,7 @@ class User implements UserInterface
     {
         $this->transactions = new ArrayCollection();
         $this->elections = new ArrayCollection();
-        $this->candidates = new ArrayCollection();
+        $this->candidacies = new ArrayCollection();
         $this->votes = new ArrayCollection();
         $this->transactions = new ArrayCollection();
         $this->createdNewsletters = new ArrayCollection();
@@ -284,18 +281,6 @@ class User implements UserInterface
         return join(' ', $names);
     }
 
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(?string $username): static
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
     public function getCompany(): ?string
     {
         return $this->company;
@@ -405,29 +390,29 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection<int, Candidate>
+     * @return Collection<int, Candidacy>
      */
-    public function getCandidates(): Collection
+    public function getCandidacys(): Collection
     {
-        return $this->candidates;
+        return $this->candidacies;
     }
 
-    public function addCandidate(Candidate $candidate): static
+    public function addCandidacy(Candidacy $candidacy): static
     {
-        if (!$this->candidates->contains($candidate)) {
-            $this->candidates->add($candidate);
-            $candidate->setCandidate($this);
+        if (!$this->candidacies->contains($candidacy)) {
+            $this->candidacies->add($candidacy);
+            $candidacy->setCandidate($this);
         }
 
         return $this;
     }
 
-    public function removeCandidate(Candidate $candidate): static
+    public function removeCandidacy(Candidacy $candidacy): static
     {
-        if ($this->candidates->removeElement($candidate)) {
+        if ($this->candidacies->removeElement($candidacy)) {
             // set the owning side to null (unless already changed)
-            if ($candidate->getCandidate() === $this) {
-                $candidate->setCandidate(null);
+            if ($candidacy->getCandidate() === $this) {
+                $candidacy->setCandidate(null);
             }
         }
 
