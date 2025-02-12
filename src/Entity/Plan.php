@@ -35,6 +35,9 @@ class Plan
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $monthly = null;
 
+    #[ORM\Column]
+    private ?bool $highlighted = null;
+
     public function __construct()
     {
         $this->subscription = new ArrayCollection();
@@ -119,6 +122,18 @@ class Plan
     public function setMonthly(string $monthly): static
     {
         $this->monthly = $monthly;
+
+        return $this;
+    }
+
+    public function isHighlighted(): ?bool
+    {
+        return $this->highlighted;
+    }
+
+    public function setHighlighted(bool $highlighted): static
+    {
+        $this->highlighted = $highlighted;
 
         return $this;
     }
