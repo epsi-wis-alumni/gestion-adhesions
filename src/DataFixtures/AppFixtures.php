@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Candidacy;
 use App\Entity\Election;
+use App\Entity\Plan;
 use App\Entity\User;
 use App\Entity\Vote;
 use App\Service\UserManager;
@@ -200,6 +201,38 @@ class AppFixtures extends Fixture
         $manager->persist($vote3);
         $manager->persist($vote4);
         $manager->persist($vote5);
+
+        $manager->flush();
+
+        // PLANS
+
+        $plan1 = new Plan();
+        $plan1
+            ->setName("Étudiant")
+            ->setDescription("L'abonnement spécial étudiant")
+            ->setMonthly(0.50)
+            ->setYearly(5.00)
+        ;
+
+        $plan2 = new Plan();
+        $plan2
+            ->setName("Alumni")
+            ->setDescription("L'abonnement spécial ancien élève")
+            ->setMonthly(1.50)
+            ->setYearly(15.00)
+        ;
+
+        $plan3 = new Plan();
+        $plan3
+            ->setName("Grand prince")
+            ->setDescription("L'abonnement spécial donnateur")
+            ->setMonthly(3.00)
+            ->setYearly(3.50)
+        ;
+
+        $manager->persist($plan1);
+        $manager->persist($plan2);
+        $manager->persist($plan3);
 
         $manager->flush();
     }

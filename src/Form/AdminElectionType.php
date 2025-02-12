@@ -5,7 +5,6 @@ namespace App\Form;
 use App\Entity\Election;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,7 +15,6 @@ class AdminElectionType extends AbstractType
         $builder
             ->add('jobTitle', null, [
                 'attr' => [
-                    'class' => 'form-control',
                     'placeholder' => 'Ex : Secrétaire',
                 ],
                 'row_attr' => ['class' => 'mb-3'],
