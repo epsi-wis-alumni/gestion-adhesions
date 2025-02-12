@@ -1,0 +1,35 @@
+{% extends 'profile/base.html.twig' %}
+{% import "macros/fontawesome.html.twig" as fa %}
+
+{% block profile_content %}
+<div class="container-fluid">
+    <div class="h1 text-center mt-2">
+        Profil{% if (currentUser.firstname|lower|first) in ['a', 'e', 'i', 'o', 'u', 'y'] %}
+        d'{{ currentUser.firstname|capitalize }}
+        {% else %}
+        de {{ currentUser.firstname|capitalize }}
+        {% endif %}
+    </div>
+    <div class="container-form my-5">
+        {{ form_start(form) }}
+            <div class="row">
+                <div class="col-md-6">{{ form_row(form.firstname) }}</div>
+            
+
+                <div class="col-md-6">{{ form_row(form.lastname) }}</div>
+            </div>
+            
+            {{ form_row(form.company) }}
+
+            {{ form_row(form.jobTitle) }}
+
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary">
+                    {{ fa.icon('save') }}
+                    Enregistrer
+                </button>
+            </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}

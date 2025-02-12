@@ -1,0 +1,34 @@
+{% import "macros/navigation.html.twig" as navigation %}
+{% import "macros/fontawesome.html.twig" as fa %}
+
+<div class="d-flex flex-column flex-grow p-3 bg-dark h-100">
+    <ul class="nav nav-pills flex-column mb-auto">
+        {{ navigation.nav_item(
+            label: 'Profil',
+            path: path('app_profile_index'),
+            icon: fa.icon('user', fixed_width: true),
+            check_path: 'app_profile_index',
+        ) }}
+        
+        {{ navigation.nav_item(
+            label: 'Paramètres',
+            path: path('app_profile_settings'),
+            icon: fa.icon('cog', fixed_width: true),
+            check_path: 'app_profile_settings',
+        ) }}
+
+        {{ navigation.nav_item(
+            label: 'Adhésion',
+            path: '#',
+            icon: fa.icon('user-check', fixed_width: true),
+            check_path: '#',
+        ) }}
+
+        {{ navigation.nav_item(
+            label: 'Facturation',
+            path: '#',
+            icon: fa.icon('receipt', fixed_width: true),
+            check_path: '#',
+        ) }}
+    </ul>
+</div>

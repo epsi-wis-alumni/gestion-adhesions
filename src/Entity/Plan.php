@@ -41,6 +41,7 @@ class Plan
     public function __construct()
     {
         $this->subscription = new ArrayCollection();
+        $this->highlighted = false;
     }
 
     public function getId(): ?int

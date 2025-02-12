@@ -4,14 +4,12 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\CompleteProfileType;
-use App\Form\SettingsType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 #[Route('/user')]
 final class UserController extends AbstractController
@@ -80,25 +78,5 @@ final class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('app_user_index');
-    }
-
-    #[Route('/settings', name: 'app_user_settings', methods: ['POST', 'GET'])]
-    public function settings(
-        Request $request,
-        EntityManagerInterface $entityManager,
-        #[CurrentUser()] User $currentUser,
-    ): Response {
-        $form = $this->createForm(SettingsType::class, $currentUser->getSettings());
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($currentUser);
-            $entityManager->flush();
-        }
-
-        return $this->render('user/settings.html.twig', [
-            'currentUser' => $currentUser,
-            'form' => $form,
-        ]);
     }
 }
