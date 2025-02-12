@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+{% import "macros/fontawesome.html.twig" as fa %}
+
+{% block title %}
+    Profil
+{% endblock %}
+
+{% block body %}
+    <div class="row flex-grow-1 gx-0 gy-3">
+        <div class="col-sm-auto">
+            {% include "profile/_sidebar.html.twig" %}
+        </div>
+        <div class="col">
+            {% block profile_content %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}
