@@ -1,11 +1,11 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin_base.html.twig' %}
 
 {% block title %}New Plan{% endblock %}
 
-{% block body %}
-    <h1>Create new Plan</h1>
+{% block admin_content %}
+    <div class="container-form">
+        <h2>Nouveau plan</h2>
+        {% include 'admin/plan/_form.html.twig' %}
+    </div>
 
-    {{ include('plan/_form.html.twig') }}
-
-    <a href="{{ path('app_plan_index') }}">back to list</a>
 {% endblock %}

@@ -1,13 +1,12 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin_base.html.twig' %}
 
-{% block title %}Edit Plan{% endblock %}
+{% block title %}
+    Edit Plan
+{% endblock %}
 
-{% block body %}
-    <h1>Edit Plan</h1>
-
-    {{ include('plan/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_plan_index') }}">back to list</a>
-
-    {{ include('plan/_delete_form.html.twig') }}
+{% block admin_content %}
+    <div class="container-form">
+        <h2>Modifier le plan</h2>
+        {% include "admin/plan/_form.html.twig" %}
+    </div>
 {% endblock %}

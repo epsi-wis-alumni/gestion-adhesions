@@ -1,41 +1,60 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin_base.html.twig' %}
+{% import "macros/fontawesome.html.twig" as fa %}
 
-{% block title %}Plan index{% endblock %}
+{% block title %}
+    Plan index
+{% endblock %}
 
-{% block body %}
-    <h1>Plan index</h1>
+{% block admin_content %}
+    <div class="row align-items-end gap-2 mb-3">
+        <div class="col-auto me-auto">
+          <h2 class="h4 mb-0">Liste des plans</h2>
+        </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Yearly</th>
-                <th>Monthly</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for plan in plans %}
-            <tr>
-                <td>{{ plan.id }}</td>
-                <td>{{ plan.name }}</td>
-                <td>{{ plan.description }}</td>
-                <td>{{ plan.yearly }}</td>
-                <td>{{ plan.monthly }}</td>
-                <td>
-                    <a href="{{ path('app_plan_show', {'id': plan.id}) }}">show</a>
-                    <a href="{{ path('app_plan_edit', {'id': plan.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <div class="col-auto">
+          <a href="{{ path('app_admin_plan_new') }}" class="btn btn-primary">
+            {{ fa.icon('plus', swap_opacity: true) }}
+            Ajouter
+          </a>
+        </div>
+    </div>
 
-    <a href="{{ path('app_plan_new') }}">Create new</a>
+    <div class="table-responsive border rounded">
+        <table class="table table-striped mb-0">
+            <thead class="table-bordered">
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Yearly</th>
+                    <th>Monthly</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for plan in plans %}
+                <tr>
+                    <td>{{ plan.name }}</td>
+                    <td>{{ plan.description }}</td>
+                    <td>{{ plan.yearly }}</td>
+                    <td>{{ plan.monthly }}</td>
+                    <td>
+                        <div class="d-flex align-items-center gap-2">
+                            <a class="link-primary" href="{{ path('app_admin_plan_edit', {'id': plan.id}) }}">
+                                {{ fa.icon('pen-to-square') }}
+                            </a>
+                            <a class="link-primary" href="{{ path('app_admin_plan_show', {'id': plan.id}) }}">
+                                {{ fa.icon('circle-info') }}
+                            </a>
+                            {% include 'admin/plan/_delete.html.twig' %}
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
