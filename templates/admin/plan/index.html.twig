@@ -23,11 +23,11 @@
         <table class="table table-striped mb-0">
             <thead class="table-bordered">
                 <tr>
-                    <th>Name</th>
+                    <th>Nom</th>
                     <th>Description</th>
-                    <th>Yearly</th>
-                    <th>Monthly</th>
-                    <th>actions</th>
+                    <th>Coût annuel</th>
+                    <th>Coût mensuel</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,8 +35,8 @@
                 <tr>
                     <td>{{ plan.name }}</td>
                     <td>{{ plan.description }}</td>
-                    <td>{{ plan.yearly }}</td>
-                    <td>{{ plan.monthly }}</td>
+                    <td>{{ plan.yearly }} €</td>
+                    <td>{{ plan.monthly }} €</td>
                     <td>
                         <div class="d-flex align-items-center gap-2">
                             <a class="link-primary" href="{{ path('app_admin_plan_edit', {'id': plan.id}) }}">
