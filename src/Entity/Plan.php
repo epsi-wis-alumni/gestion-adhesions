@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\PlanRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\DecimalType;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PlanRepository::class)]
@@ -27,11 +29,11 @@ class Plan
     #[ORM\OneToMany(targetEntity: Subscription::class, mappedBy: 'plan')]
     private Collection $subscription;
 
-    #[ORM\Column]
-    private ?float $yearly = null;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $yearly = null;
 
-    #[ORM\Column]
-    private ?float $monthly = null;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $monthly = null;
 
     public function __construct()
     {
@@ -97,24 +99,24 @@ class Plan
         return $this;
     }
 
-    public function getYearly(): ?float
+    public function getYearly(): ?string
     {
         return $this->yearly;
     }
 
-    public function setYearly(float $yearly): static
+    public function setYearly(string $yearly): static
     {
         $this->yearly = $yearly;
 
         return $this;
     }
 
-    public function getMonthly(): ?float
+    public function getMonthly(): ?string
     {
         return $this->monthly;
     }
 
-    public function setMonthly(float $monthly): static
+    public function setMonthly(string $monthly): static
     {
         $this->monthly = $monthly;
 
