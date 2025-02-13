@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\EditProfileType;
 use App\Form\SettingsType;
+use App\Repository\PlanRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -53,6 +54,19 @@ class ProfileController extends AbstractController
         return $this->render('profile/settings.html.twig', [
             'currentUser' => $currentUser,
             'form' => $form,
+        ]);
+    }
+
+    #[Route('/plan', name: 'app_plan_show', methods: ['GET'])]
+    public function show(
+        #[CurrentUser] User $currentUser,
+        PlanRepository $planRepository,
+    ): Response {
+        $plan = $planRepository->getPlanByUser($currentUser);
+
+        return $this->render('profile/plan.html.twig', [
+            'currentUser' => $currentUser,
+            'plan' => $plan,
         ]);
     }
 }
