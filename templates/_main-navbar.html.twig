@@ -58,6 +58,12 @@
                     icon: fa.icon('user-check', fixed_width: true),
                 ) }}
 
+                {{ dropdown.item(
+                    label: 'Facturation',
+                    path: '#',
+                    icon: fa.icon('receipt', fixed_width: true),
+                ) }}
+
                 {% if is_granted('ROLE_ADMIN') %}
                   <li>
                     <hr class="dropdown-divider" />
