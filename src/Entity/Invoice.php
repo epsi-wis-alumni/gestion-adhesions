@@ -9,17 +9,17 @@ use Doctrine\ORM\Mapping\Embeddable;
 class Invoice
 {
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $fileName = null;
+    private ?string $filePath = null;
 
-    public function setFileName(string $fileName): static
+    public function setFilePath(string $filePath): static
     {
-        $this->fileName = $fileName;
+        $this->filePath = $filePath;
 
         return $this;
     }
 
-    public function getFileName(): ?string
+    public function getFilePath(): ?string
     {
-        return $this->fileName;
+        return $this->filePath;
     }
 }
