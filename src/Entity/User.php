@@ -347,6 +347,22 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getLastTransaction(): ?Transaction
+    {
+        $transactions = $this->getTransactions();
+
+        if ($transactions->isEmpty()) {
+            return null;
+        }
+
+        $sortedTransactions = $transactions->toArray();
+        usort($sortedTransactions, function ($a, $b) {
+            return $b->getDate() <=> $a->getDate();
+        });
+
+        return $sortedTransactions[0];
+    }
+
     public function removeTransaction(Transaction $transaction): static
     {
         if ($this->transactions->removeElement($transaction)) {
