@@ -1,7 +1,7 @@
 {% extends 'mail_base.html.twig' %}
 
 {% block title %}
-  {{ userNewsletter.newsletter.object }}
+  {{ base_title }} - {{ userNewsletter.newsletter.object }}
 {% endblock %}
 
 {% block mail_content %}

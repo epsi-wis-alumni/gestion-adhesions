@@ -2,7 +2,9 @@
 {% import 'macros/fontawesome.html.twig' as fa %}
 
 {% block title %}
-  {{ event.title }}
+  {{ base_title }} - Évènement {{ event.title }}
+{{ event.title }}
+
 {% endblock %}
 
 {% set date_format = 'd/m/Y H:i' %}
