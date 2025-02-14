@@ -25,7 +25,7 @@ final class InvoiceManager
         $this->entityManager->flush();
 
         $invoice = $transaction->getInvoice();
-        $users = [$transaction->getUser()->getEmail()];
+        $users = [$transaction->getUser()];
         $this->notificationManager->sendNotification($invoice, $users);
     }
 
