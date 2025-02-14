@@ -15,8 +15,7 @@ class CandidacyType extends AbstractType
         $builder
             ->add('presentation', TextareaType::class, [
                 'attr' => [
-                    'class' => 'mb-3',
-                    'class' => 'p-3',
+                    'class' => 'mb-3 p-3',
                     'rows' => '3',
                 ],
                 'label' => 'Présentation',

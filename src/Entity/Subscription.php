@@ -43,6 +43,9 @@ class Subscription
     #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'subscription')]
     private Collection $transactions;
 
+    #[ORM\ManyToOne(inversedBy: 'subscription')]
+    private ?Plan $plan = null;
+
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
@@ -163,6 +166,18 @@ class Subscription
                 $transaction->setSubscription(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPlan(): ?Plan
+    {
+        return $this->plan;
+    }
+
+    public function setPlan(?Plan $plan): static
+    {
+        $this->plan = $plan;
 
         return $this;
     }

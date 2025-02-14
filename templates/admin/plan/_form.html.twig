@@ -1,0 +1,21 @@
+{% import 'macros/fontawesome.html.twig' as fa %}
+
+{{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.description) }}
+
+    <div class="row">
+        <div class="col-md-6">{{ form_row(form.yearly) }}</div>
+
+        <div class="col-md-6">{{ form_row(form.monthly) }}</div>
+    </div>
+
+    {{ form_row(form.highlighted) }}
+
+    <div class="text-end">
+        <button type="submit" class="btn btn-primary">
+            {{ fa.icon('save') }}
+            Enregistrer
+        </button>
+    </div>
+{{ form_end(form) }}

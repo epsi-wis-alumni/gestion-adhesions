@@ -42,13 +42,13 @@
 
                 {{ dropdown.item(
                   label: 'Profil',
-                  path: '#',
+                  path: path('app_profile_index'),
                   icon: fa.icon('user', fixed_width: true),
                 ) }}
                 
                 {{ dropdown.item(
                   label: 'Paramètres',
-                  path: path('app_user_settings'),
+                  path: path('app_profile_settings'),
                   icon: fa.icon('cog', fixed_width: true),
                 ) }}
 
@@ -81,6 +81,12 @@
                     label: 'Newsletters',
                     path: path('app_admin_newsletter_index'),
                     icon: fa.icon('envelope', fixed_width: true),
+                  ) }}
+
+                  {{ dropdown.item(
+                    label: 'Plans',
+                    path: path('app_admin_plan_index'),
+                    icon: fa.icon('face-tongue-money', fixed_width: true),
                   ) }}
                 {% endif %}
                 

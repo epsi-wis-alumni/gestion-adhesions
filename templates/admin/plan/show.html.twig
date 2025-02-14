@@ -1,0 +1,37 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}Plan{% endblock %}
+
+{% block admin_content %}
+    <div class="table-responsive border rounded">
+        <div class="table table-striped mb-0">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Nom</th>
+                        <td>{{ plan.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td>{{ plan.description }}</td>
+                    </tr>
+                    <tr>
+                        <th>Coût annuel</th>
+                        <td>{{ plan.yearly }} €</td>
+                    </tr>
+                    <tr>
+                        <th>Coût mensuel</th>
+                        <td>{{ plan.monthly }} €</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="d-flex gap-1">
+        <a class="btn btn-secondary" href="{{ path('app_admin_plan_index') }}">back to list</a>
+
+        <a class="btn btn-primary" href="{{ path('app_admin_plan_edit', {'id': plan.id}) }}">edit</a>
+
+        {{ include('admin/plan/_delete.html.twig') }}
+    </div>
+{% endblock %}
