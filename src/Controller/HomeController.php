@@ -2,7 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Subscription;
 use App\Entity\User;
+use App\Repository\SubscriptionRepository;
+use App\Service\InvoiceManager;
+use App\Service\TransactionManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
