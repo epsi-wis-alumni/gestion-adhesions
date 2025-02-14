@@ -1,0 +1,53 @@
+{% extends 'profile/base.html.twig' %}
+{% import "macros/fontawesome.html.twig" as fa %}
+
+{% block profile_content %}
+<div class="container-fluid">
+    <div class="h1 text-center mt-2">
+        Factures{% if (currentUser.firstname|lower|first) in ['a', 'e', 'i', 'o', 'u', 'y'] %}
+        d'{{ currentUser.firstname|capitalize }}
+        {% else %}
+        de {{ currentUser.firstname|capitalize }}
+        {% endif %}
+    </div>
+    <div class="container my-5">
+        <div class="table-responsive border rounded">
+            <table class="table table-striped mb-0">
+                <thead class="table-bordered">
+                    <tr>
+                        <th>Nom</th>
+                        <th>Description</th>
+                        <th>Date</th>
+                        <th>Montant</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for invoice in invoices %}
+                        <tr>
+                            <td>{{ invoice.subscription.title }}</td>
+                            <td>{{ invoice.transaction.status }}</td>
+                            <td>{{ invoice.transaction.createdAt|date('d/m/Y') }}</td>
+                            <td>{{ invoice.transaction.amount }} €</td>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <a class="link-primary" href="{{ path('app_profile_show_invoice', { id: invoice.transaction.id }) }}" target="_blank">
+                                        {{ fa.icon('eye') }}
+                                    </a>
+                                    {# <a class="link-primary" href="{{ path('app_admin_newsletter_show', { id: invoice.id }) }}">
+                                        {{ fa.icon('file-arrow-down') }}
+                                    </a> #}
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                        <td colspan="4">Vous n'avez aucune factures disponibles</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

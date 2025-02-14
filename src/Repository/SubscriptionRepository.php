@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Subscription;
+use App\Entity\Transaction;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +18,21 @@ class SubscriptionRepository extends ServiceEntityRepository
         parent::__construct($registry, Subscription::class);
     }
 
-    //    /**
-    //     * @return Subscription[] Returns an array of Subscription objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('s.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Subscription
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    /**
+     * @return ?int Returns planId or null
+     */
+    public function findSubscriptionIdByTransaction(Transaction $transaction): ?int
+    {
+        $planId = $this->createQueryBuilder('u')
+            ->select('s.id')
+            ->leftJoin('u.transactions', 't')
+            ->leftJoin('t.subscription', 's')
+            ->where('t = :transaction')
+            ->setParameter('transaction', $transaction)
+            ->orderBy('t.createdAt', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+        return $planId ? $planId['id'] : null;
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Plan;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -11,8 +12,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PlanRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        private UserRepository $userRepository,
+    ) {
         parent::__construct($registry, Plan::class);
     }
 
@@ -27,5 +30,14 @@ class PlanRepository extends ServiceEntityRepository
             ->setParameter('highlighted', false)
             ->getQuery()
             ->execute();
+    }
+
+    /**
+     * @return ?plan Returns a plan or null
+     */
+    public function getPlanByUser(User $user): ?Plan
+    {
+        $planId = $this->userRepository->findActivePlanIdByUser($user);
+        return $planId ? $this->find($planId) : null;
     }
 }

@@ -1,0 +1,33 @@
+{% extends 'profile/base.html.twig' %}
+{% import "macros/fontawesome.html.twig" as fa %}
+
+{% block profile_content %}
+<div class="container-fluid">
+    <div class="h1 text-center mt-2">
+        Plan{% if (currentUser.firstname|lower|first) in ['a', 'e', 'i', 'o', 'u', 'y'] %}
+        d'{{ currentUser.firstname|capitalize }}
+        {% else %}
+        de {{ currentUser.firstname|capitalize }}
+        {% endif %}
+    </div>
+    <div class="container-form my-5">
+        <div class="d-flex justify-content-center">
+            {% if plan %}
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ plan.name }}</h5>
+                        <p class="card-text">{{ plan.description }}</p>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">{{ plan.yearly }} €</h6>
+                        <a class="card-link" href="{{ '#' }}">Voir les adhésions</a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="d-flex flex-column align-items-center gap-5">
+                    <div class="text-center">Vous n'avez aucune adhésion</div>
+                    <a class="btn btn-primary" href="{{ '#' }}">Souscrire à une adhésion</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

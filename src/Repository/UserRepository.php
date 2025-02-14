@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Newsletter;
+use App\Entity\Plan;
 use App\Entity\User;
 use App\Repository\Trait\OrderableTrait;
 use App\Repository\Trait\PaginableTrait;
@@ -103,5 +104,26 @@ class UserRepository extends ServiceEntityRepository
             ->setParameter('newsletter', $newsletter)
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @return ?int Returns planId or null
+     */
+    public function findActivePlanIdByUser(User $user): ?int
+    {
+        $planId = $this->createQueryBuilder('u')
+            ->select('p.id')
+            ->leftJoin('u.transactions', 't')
+            ->leftJoin('t.subscription', 's')
+            ->leftJoin('s.plan', 'p')
+            ->where('t.createdAt >= :date')
+            ->andWhere('u = :user')
+            ->setParameter('date', new \DateTime('-1 year'))
+            ->setParameter('user', $user)
+            ->orderBy('t.createdAt', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+        return $planId ? $planId['id'] : null;
     }
 }

@@ -4,7 +4,12 @@ namespace App\DataFixtures;
 
 use App\Entity\Candidacy;
 use App\Entity\Election;
+use App\Entity\Event;
+use App\Entity\MailTemplate;
+use App\Entity\Newsletter;
 use App\Entity\Plan;
+use App\Entity\Subscription;
+use App\Entity\Transaction;
 use App\Entity\User;
 use App\Entity\Vote;
 use App\Service\UserManager;
@@ -233,6 +238,245 @@ class AppFixtures extends Fixture
         $manager->persist($plan1);
         $manager->persist($plan2);
         $manager->persist($plan3);
+
+        $manager->flush();
+
+        // MAIL_TEMPLATE
+
+        $mailTemplate1 = new MailTemplate();
+        $mailTemplate1
+            ->setLabel("Élection")
+            ->setFileName("election.html.twig")
+        ;
+
+        $mailTemplate2 = new MailTemplate();
+        $mailTemplate2
+            ->setLabel("Évènement")
+            ->setFileName("event.html.twig")
+        ;
+
+        $mailTemplate3 = new MailTemplate();
+        $mailTemplate3
+            ->setLabel("Newsletter")
+            ->setFileName("newsletter.html.twig")
+        ;
+
+        $manager->persist($mailTemplate1);
+        $manager->persist($mailTemplate2);
+        $manager->persist($mailTemplate3);
+
+        $manager->flush();
+
+        // NEWSLETTER
+
+        $newsletter1 = new Newsletter();
+        $newsletter1
+            ->setCreatedBy($userAdmin)
+            ->setCreatedAt(New \DateTimeImmutable())
+            ->setTemplate($mailTemplate3)
+            ->setObject("Découvrez nos plans adaptés à vos besoins !")
+            ->setBody("
+                Bonjour {{ curentUser.firstname }},
+
+                Nous avons conçu des plans spécialement pour répondre à vos besoins. Que vous soyez étudiant, professionnel ou une entreprise, nous avons une solution pour vous !
+
+                Plan Étudiant : Accès premium à 5€/mois seulement.
+                Plan Pro : Optimisé pour les freelances à 10€/mois.
+                Plan Entreprise : Une offre sur mesure pour gérer votre activité.
+
+                Profitez-en maintenant et améliorez votre expérience !
+
+                L'équipe EPSI-WIS Alumni.
+            ")
+            ->setCta("Découvrez nos offres")
+        ;
+
+        $newsletter2 = new Newsletter();
+        $newsletter2
+            ->setCreatedBy($userAdmin)
+            ->setCreatedAt(New \DateTimeImmutable())
+            ->setTemplate($mailTemplate3)
+            ->setObject("Participez à notre prochain webinaire gratuit !")
+            ->setBody("
+                Bonjour {{ currentUser.firstname }},
+
+                Rejoignez-nous pour un webinaire exclusif sur le thème : \"Comment maximiser les avantages de votre plan ?\"
+
+                Date : Mardi 25 février 2025
+                Heure : 18h00 (CET)
+                Lieu : En ligne (lien envoyé après inscription)
+
+                Ce que vous apprendrez :
+
+                Optimiser l'utilisation des outils inclus dans votre plan.
+                Découvrir les nouveautés 2025.
+                Répondre à vos questions en direct avec notre équipe.
+
+                Ne manquez pas cette opportunité !
+
+                L'équipe EPSI-WIS Alumni.
+            ")
+            ->setCta("Inscrivez-vous gratuitement")
+        ;
+
+        $newsletter3 = new Newsletter();
+        $newsletter3
+            ->setCreatedBy($userAdmin)
+            ->setCreatedAt(New \DateTimeImmutable())
+            ->setTemplate($mailTemplate3)
+            ->setObject("Votre plateforme évolue ! Découvrez les nouveautés.")
+            ->setBody("
+                Bonjour {{ currentUser.firstname }},
+
+                Nous avons le plaisir de vous annoncer des nouveautés pour améliorer votre expérience :
+
+                Nouvelle interface : Plus intuitive et rapide.
+                Fonctionnalités avancées : Une gestion simplifiée de vos abonnements.
+                Offres exclusives : Des remises pour les abonnés annuels.
+
+                Merci pour votre confiance. Nous restons à votre disposition pour toute question ou suggestion.
+
+                L'équipe EPSI-WIS Alumni.
+            ")
+            ->setCta("Explorez les nouveautés")
+        ;
+
+        $manager->persist($newsletter1);
+        $manager->persist($newsletter2);
+        $manager->persist($newsletter3);
+
+        $manager->flush();
+
+        // Évènements
+
+        $evenement1 = new Event();
+        $evenement1
+            ->setCreatedBy($userAdmin)
+            ->setTitle("Hackathon des Innovateurs")
+            ->setPlace("349 Rue de la Cavalade, 34070 Montpellier")
+            ->setStartAt(new \DateTimeImmutable('2025-03-15 10:00:00'))
+            ->setEndAt(new \DateTimeImmutable('2025-03-17 18:00:00'))
+            ->setCreatedAt(New \DateTimeImmutable())
+            ->setPrivate(false)
+        ;
+
+        $evenement2 = new Event();
+        $evenement2
+            ->setCreatedBy($userAdmin)
+            ->setTitle("Conférence : L'Intelligence Artificielle et l'Éthique")
+            ->setPlace("349 Rue de la Cavalade, 34070 Montpellier")
+            ->setStartAt(new \DateTimeImmutable('2025-04-23 09:30:00'))
+            ->setEndAt(new \DateTimeImmutable('2025-04-23 17:00:00'))
+            ->setCreatedAt(New \DateTimeImmutable())
+            ->setPrivate(false)
+        ;
+
+        $evenement3 = new Event();
+        $evenement3
+            ->setCreatedBy($userAdmin)
+            ->setTitle("Atelier de Création de Startups")
+            ->setPlace("349 Rue de la Cavalade, 34070 Montpellier")
+            ->setStartAt(new \DateTimeImmutable('2025-06-01 08:30:00'))
+            ->setEndAt(new \DateTimeImmutable('2025-06-01 16:00:00'))
+            ->setCreatedAt(New \DateTimeImmutable())
+            ->setPrivate(true)
+        ;
+
+        $manager->persist($evenement1);
+        $manager->persist($evenement2);
+        $manager->persist($evenement3);
+
+        $manager->flush();
+
+        // SUBSCRIPTION
+
+        $subscription1 = new Subscription();
+        $subscription1
+            ->setPlan($plan1)
+            ->setTitle("Abonnement Étudiant")
+            ->setAmount(5.00)
+            ->setDiscount(0)
+            ->setPeriodicity(12)
+            ->setStartAt(new \DateTimeImmutable())
+            ->setEndAt(new \DateTimeImmutable('+1 year'))
+            ->setFeatures([
+                'Accès premium',
+                'Support prioritaire',
+                'Mises à jour régulières',
+            ])
+        ;
+
+        $subscription2 = new Subscription();
+        $subscription2
+            ->setPlan($plan2)
+            ->setTitle("Abonnement Alumni")
+            ->setAmount(15.00)
+            ->setDiscount(0)
+            ->setPeriodicity(12)
+            ->setStartAt(new \DateTimeImmutable())
+            ->setEndAt(new \DateTimeImmutable('+1 year'))
+            ->setFeatures([
+                'Accès premium',
+                'Support prioritaire',
+                'Mises à jour régulières',
+            ])
+        ;
+        $subscription3 = new Subscription();
+        $subscription3
+            ->setPlan($plan3)
+            ->setTitle("Abonnement Grand prince")
+            ->setAmount(60.00)
+            ->setDiscount(0)
+            ->setPeriodicity(12)
+            ->setStartAt(new \DateTimeImmutable())
+            ->setEndAt(new \DateTimeImmutable('+1 year'))
+            ->setFeatures([
+                'Accès premium',
+                'Support prioritaire',
+                'Mises à jour régulières',
+            ])
+        ;
+        $manager->persist($subscription1);
+        $manager->persist($subscription2);
+        $manager->persist($subscription3);
+
+        $manager->flush();
+
+        // TRANSACTION
+
+        $transaction1 = new Transaction();
+        $transaction1
+            ->setUser($userPerso)
+            ->setSubscription($subscription1)
+            ->setStatus(1)
+            ->setType(1)
+            ->setAmount(5.00)
+            ->setCreatedAt(new \DateTimeImmutable())
+        ;
+
+        $transaction2 = new Transaction();
+        $transaction2
+            ->setUser($userAdmin)
+            ->setSubscription($subscription2)
+            ->setStatus(1)
+            ->setType(1)
+            ->setAmount(15.00)
+            ->setCreatedAt(new \DateTimeImmutable())
+        ;
+
+        $transaction3 = new Transaction();
+        $transaction3
+            ->setUser($userCandidacy1)
+            ->setSubscription($subscription3)
+            ->setStatus(1)
+            ->setType(1)
+            ->setAmount(60.00)
+            ->setCreatedAt(new \DateTimeImmutable())
+        ;
+
+        $manager->persist($transaction1);
+        $manager->persist($transaction2);
+        $manager->persist($transaction3);
 
         $manager->flush();
     }
