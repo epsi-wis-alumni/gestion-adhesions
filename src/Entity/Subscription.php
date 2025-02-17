@@ -43,7 +43,7 @@ class Subscription
     #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'subscription')]
     private Collection $transactions;
 
-    #[ORM\ManyToOne(inversedBy: 'subscription')]
+    #[ORM\ManyToOne(inversedBy: 'subscriptions')]
     private ?Plan $plan = null;
 
     public function __construct()
