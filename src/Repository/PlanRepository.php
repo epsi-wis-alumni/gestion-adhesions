@@ -32,7 +32,7 @@ class PlanRepository extends ServiceEntityRepository
             ->execute();
     }
 
-    public function findActivePlanByUser(User $user): ?Plan
+    public function findOneActivePlanByUser(User $user): ?Plan
     {
         return $this->createQueryBuilder('p')
             ->leftJoin('p.subscriptions', 's')
