@@ -66,7 +66,7 @@ class ProfileController extends AbstractController
         #[CurrentUser] User $currentUser,
         PlanRepository $planRepository,
     ): Response {
-        $plan = $planRepository->getPlanByUser($currentUser);
+        $plan = $planRepository->findOneActivePlanByUser($currentUser);
 
         return $this->render('profile/plan.html.twig', [
             'currentUser' => $currentUser,

@@ -17,22 +17,4 @@ class SubscriptionRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Subscription::class);
     }
-
-    /**
-     * @return ?int Returns planId or null
-     */
-    public function findSubscriptionIdByTransaction(Transaction $transaction): ?int
-    {
-        $planId = $this->createQueryBuilder('u')
-            ->select('s.id')
-            ->leftJoin('u.transactions', 't')
-            ->leftJoin('t.subscription', 's')
-            ->where('t = :transaction')
-            ->setParameter('transaction', $transaction)
-            ->orderBy('t.createdAt', 'DESC')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getOneOrNullResult();
-        return $planId ? $planId['id'] : null;
-    }
 }
