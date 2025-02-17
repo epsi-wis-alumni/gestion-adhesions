@@ -42,6 +42,14 @@ erDiagram
         Subscription subscription
     }
 
+    Plan {
+        int id
+        string name
+        string description
+        float yearly
+        boolean highlighted
+    }
+
     Settings {
         int id
         User user
@@ -114,6 +122,8 @@ erDiagram
 
     Transaction 0+--1 User: ""
     Transaction 0+--1 Subscription: ""
+
+    Subscription 0+--1 Plan: ""
 
     User 1--0+ Event: "Create"
     User 1--0+ Event: "Participate"
