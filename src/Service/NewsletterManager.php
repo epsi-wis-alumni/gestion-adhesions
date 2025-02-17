@@ -74,7 +74,7 @@ final class NewsletterManager
             ->subject($userNewsletter->getNewsletter()->getObject())
             ->htmlTemplate(
                 file_exists(
-                    realpath(__DIR__.'/../../templates/mails/'.
+                    realpath(__DIR__.$this->params->get('mails_base_path').
                         $userNewsletter->getNewsletter()->getTemplate()->getFileName())
                 ) ?
                     'mails/'.($userNewsletter->getNewsletter()->getTemplate()->getFileName()) :
