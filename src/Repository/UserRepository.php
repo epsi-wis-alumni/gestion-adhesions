@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Newsletter;
+use App\Entity\Plan;
 use App\Entity\User;
 use App\Repository\Trait\OrderableTrait;
 use App\Repository\Trait\PaginableTrait;
