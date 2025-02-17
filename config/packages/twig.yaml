@@ -3,6 +3,10 @@ twig:
     form_themes: ['bootstrap_5_layout.html.twig']
     paths:
         '%kernel.project_dir%/assets/styles': styles
+    globals:
+        epsi_name: '%env(EPSI_NAME)%'
+        epsi_tel: '%env(EPSI_TEL)%'
+        epsi_address: '%env(EPSI_ADDRESS)%'
 
 when@test:
     twig:

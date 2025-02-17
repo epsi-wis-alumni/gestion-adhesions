@@ -1,0 +1,55 @@
+{% extends 'invoice_base.html.twig' %}
+
+{% block title %}
+  Facture
+{% endblock %}
+
+{% block invoice_content %}
+  <div class="container">
+    <div class="header">
+      <h1>Facture</h1>
+      <p>
+        {{ epsi_name }} <br>
+        {{ epsi_tel }} <br>
+        {{ epsi_address }}
+      </p>
+    </div>
+    <div class="invoice-info">
+        <h2>Informations de la facture</h2>
+        <p>
+            <strong>Numéro de facture :</strong> {{ transaction.id }}
+        </p>
+        <p>
+            <strong>Date :</strong> {{ transaction.createdAt|date('d/m/Y') }}
+        </p>
+        <p>
+            <strong>Client :</strong> {{ transaction.user.displayName }}
+        </p>
+        <p>
+            <strong>Adresse :</strong> {{ transaction.user.email }}
+        </p>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Montant</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ transaction.subscription.plan.description }}</td>
+          <td>{{ transaction.amount }} €</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="total">
+      <strong>Total payé : {{ transaction.amount }} €</strong>
+    </div>
+    <div class="footer">
+      <p>
+        Merci pour votre confiance. <span style="color: red; font-weight: 600;">GROS BISOU</span>
+      </p>
+    </div>
+  </div>
+{% endblock %}

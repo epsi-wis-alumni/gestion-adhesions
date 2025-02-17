@@ -276,7 +276,7 @@ class AppFixtures extends Fixture
             ->setTemplate($mailTemplate3)
             ->setObject("Découvrez nos plans adaptés à vos besoins !")
             ->setBody("
-                Bonjour {{ curentUser.firstname }},
+                Bonjour {{ userNewsletter.user.firstname }},
 
                 Nous avons conçu des plans spécialement pour répondre à vos besoins. Que vous soyez étudiant, professionnel ou une entreprise, nous avons une solution pour vous !
 
@@ -298,7 +298,7 @@ class AppFixtures extends Fixture
             ->setTemplate($mailTemplate3)
             ->setObject("Participez à notre prochain webinaire gratuit !")
             ->setBody("
-                Bonjour {{ currentUser.firstname }},
+                Bonjour {{ userNewsletter.user.firstname }},
 
                 Rejoignez-nous pour un webinaire exclusif sur le thème : \"Comment maximiser les avantages de votre plan ?\"
 
@@ -326,7 +326,7 @@ class AppFixtures extends Fixture
             ->setTemplate($mailTemplate3)
             ->setObject("Votre plateforme évolue ! Découvrez les nouveautés.")
             ->setBody("
-                Bonjour {{ currentUser.firstname }},
+                Bonjour {{ userNewsletter.user.firstname }},
 
                 Nous avons le plaisir de vous annoncer des nouveautés pour améliorer votre expérience :
 

@@ -106,7 +106,7 @@ class ProfileController extends AbstractController
         Transaction $transaction,
     ): Response {
 
-        $filePath = __DIR__ . '/../../assets/upload/invoices/invoice_' . $transaction->getId() . '.pdf';
+        $filePath = $transaction->getInvoice()->getFilePath();
 
         if (!file_exists($filePath)) {
             throw $this->createNotFoundException('La facture demandée est introuvable.');
