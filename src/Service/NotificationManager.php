@@ -19,6 +19,7 @@ final class NotificationManager
         private EntityManagerInterface $entityManager,
         private UserRepository $userRepository,
         private MailerInterface $mailerInterface,
+        private ContainerBagInterface $params,
     ) {}
 
     public function send(Election|Event $entity): void
@@ -55,12 +56,13 @@ final class NotificationManager
             Event::class => null,
             Invoice::class => $entity->getFilePath(),
         };
+        $sender = $this->params->get('mailer_sender');
 
         $bcc = array_map(fn (User $user) => $user->getEmail(), $bcc);
 
         if (count($bcc)) {
             $email = (new TemplatedEmail())
-                ->from('test@epsi-wis-alumni.fr')
+                ->from($sender)
                 ->bcc(...$bcc)
                 ->subject($subject)
                 ->htmlTemplate($templateName)
