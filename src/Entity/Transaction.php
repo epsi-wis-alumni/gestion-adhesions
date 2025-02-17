@@ -4,15 +4,19 @@ namespace App\Entity;
 
 use App\Repository\TransactionRepository;
 use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping as ORM;use App\Entity\Trait\SoftDeletableTrait;
+use Doctrine\ORM\Mapping\Embedded;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: TransactionRepository::class)]
 class Transaction
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private ?Uuid $id = null;
 
     #[ORM\Column]
     private ?int $status = null;
@@ -32,7 +36,15 @@ class Transaction
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     private ?Subscription $subscription = null;
 
-    public function getId(): ?int
+    #[Embedded(class: Invoice::class)]
+    private Invoice $invoice;
+
+    public function __construct()
+    {
+        $this->invoice = new Invoice();
+    }
+
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
@@ -105,6 +117,18 @@ class Transaction
     public function setSubscription(?Subscription $subscription): static
     {
         $this->subscription = $subscription;
+
+        return $this;
+    }
+
+    public function getInvoice(): ?Invoice
+    {
+        return $this->invoice;
+    }
+
+    public function setInvoice(?Invoice $invoice): self
+    {
+        $this->invoice = $invoice;
 
         return $this;
     }

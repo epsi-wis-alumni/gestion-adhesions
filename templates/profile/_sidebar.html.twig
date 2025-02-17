@@ -19,16 +19,16 @@
 
         {{ navigation.nav_item(
             label: 'Adhésion',
-            path: path('app_plan_show'),
+            path: path('app_profilee_plan'),
             icon: fa.icon('user-check', fixed_width: true),
-            check_path: 'app_plan_show',
+            check_path: 'app_profilee_plan',
         ) }}
 
         {{ navigation.nav_item(
             label: 'Facturation',
-            path: '#',
+            path: path('app_profile_invoice'),
             icon: fa.icon('receipt', fixed_width: true),
-            check_path: '#',
+            check_path: 'app_profile_invoice',
         ) }}
     </ul>
 </div>
