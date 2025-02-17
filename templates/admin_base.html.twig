@@ -1,6 +1,10 @@
 {% extends 'base.html.twig' %}
 {% import "macros/fontawesome.html.twig" as fa %}
 
+{% block title %}
+    {{ base_title_admin }} - {% block title_admin %}{% endblock %}
+{% endblock %}
+
 {% block body %}
   <div class="bg-body-secondary border-bottom">
     <div class="container">
