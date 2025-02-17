@@ -27,7 +27,7 @@ class Plan
      * @var Collection<int, Subscription>
      */
     #[ORM\OneToMany(targetEntity: Subscription::class, mappedBy: 'plan')]
-    private Collection $subscription;
+    private Collection $subscriptions;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $yearly = null;
@@ -40,7 +40,7 @@ class Plan
 
     public function __construct()
     {
-        $this->subscription = new ArrayCollection();
+        $this->subscriptions = new ArrayCollection();
         $this->highlighted = false;
     }
 
@@ -76,15 +76,15 @@ class Plan
     /**
      * @return Collection<int, Subscription>
      */
-    public function getSubscription(): Collection
+    public function getSubscriptions(): Collection
     {
-        return $this->subscription;
+        return $this->subscriptions;
     }
 
     public function addSubscription(Subscription $subscription): static
     {
-        if (!$this->subscription->contains($subscription)) {
-            $this->subscription->add($subscription);
+        if (!$this->subscriptions->contains($subscription)) {
+            $this->subscriptions->add($subscription);
             $subscription->setPlan($this);
         }
 
@@ -93,7 +93,7 @@ class Plan
 
     public function removeSubscription(Subscription $subscription): static
     {
-        if ($this->subscription->removeElement($subscription)) {
+        if ($this->subscriptions->removeElement($subscription)) {
             // set the owning side to null (unless already changed)
             if ($subscription->getPlan() === $this) {
                 $subscription->setPlan(null);
