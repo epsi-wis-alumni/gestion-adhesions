@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     mailer_sender: '%env(MAILER_SENDER)%'
+    invoice_base_path: '/../../public/assets/upload/invoices/'
 
 services:
     # default configuration for services in *this* file
