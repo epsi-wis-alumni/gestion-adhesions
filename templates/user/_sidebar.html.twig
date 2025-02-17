@@ -5,30 +5,30 @@
     <ul class="nav nav-pills flex-column mb-auto">
         {{ navigation.nav_item(
             label: 'Profil',
-            path: path('app_profile_index'),
+            path: path('app_user_profile'),
             icon: fa.icon('user', fixed_width: true),
-            check_path: 'app_profile_index',
+            check_path: 'app_user_profile',
         ) }}
         
         {{ navigation.nav_item(
             label: 'Paramètres',
-            path: path('app_profile_settings'),
+            path: path('app_user_settings'),
             icon: fa.icon('cog', fixed_width: true),
-            check_path: 'app_profile_settings',
+            check_path: 'app_user_settings',
         ) }}
 
         {{ navigation.nav_item(
             label: 'Adhésion',
-            path: path('app_profilee_plan'),
+            path: path('app_user_plan'),
             icon: fa.icon('user-check', fixed_width: true),
-            check_path: 'app_profilee_plan',
+            check_path: 'app_user_plan',
         ) }}
 
         {{ navigation.nav_item(
             label: 'Facturation',
-            path: path('app_profile_invoice'),
+            path: path('app_user_invoice'),
             icon: fa.icon('receipt', fixed_width: true),
-            check_path: 'app_profile_invoice',
+            check_path: 'app_user_invoice',
         ) }}
     </ul>
 </div>

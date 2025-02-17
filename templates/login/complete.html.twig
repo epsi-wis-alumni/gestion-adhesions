@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% import "macros/fontawesome.html.twig" as fa %}
 
 {% block title %}
   Informations complémentaires
@@ -8,18 +9,22 @@
   <div class="container">
     <div class="mx-auto" style="max-width: 24rem;">
       {{ form_start(form) }}
-      {{ form_row(form.email) }}
-      <div class="row">
-        <div class="col-md-6">
-          {{ form_row(form.firstname) }}
+        <div class="row">
+          <div class="col-md-6">
+            {{ form_row(form.firstname) }}
+          </div>
+          <div class="col-md-6">
+            {{ form_row(form.lastname) }}
+          </div>
         </div>
-        <div class="col-md-6">
-          {{ form_row(form.lastname) }}
+        {{ form_row(form.company) }}
+        {{ form_row(form.jobTitle) }}
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary">
+                {{ fa.icon('save') }}
+                Enregistrer
+            </button>
         </div>
-      </div>
-      {{ form_row(form.company) }}
-      {{ form_row(form.jobTitle) }}
-      {{ form_row(form.save) }}
       {{ form_end(form) }}
     </div>
   </div>

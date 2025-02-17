@@ -1,4 +1,4 @@
-{% extends 'profile/base.html.twig' %}
+{% extends 'user/base.html.twig' %}
 {% import "macros/fontawesome.html.twig" as fa %}
 
 {% block profile_content %}
@@ -31,7 +31,7 @@
                             <td>{{ invoice.transaction.amount }} €</td>
                             <td>
                                 <div class="d-flex align-items-center gap-2">
-                                    <a class="link-primary" href="{{ path('app_profile_show_invoice', { id: invoice.transaction.id }) }}" target="_blank">
+                                    <a class="link-primary" href="{{ path('app_user_invoice_show', { id: invoice.transaction.id }) }}" target="_blank">
                                         {{ fa.icon('eye') }}
                                     </a>
                                     {# <a class="link-primary" href="{{ path('app_admin_newsletter_show', { id: invoice.id }) }}">
