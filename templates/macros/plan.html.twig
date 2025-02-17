@@ -1,0 +1,47 @@
+{% macro plan(title, description, features = [], price, path, highlight, current) %}
+  {% import "macros/fontawesome.html.twig" as fa %}
+
+  {% set accent = highlight ? 'primary' : 'secondary' %}
+  {% set border = highlight  ? 'highlight' : '' %}
+
+  <div class="card mb-4 {{ border }}">
+    <div class="card-body">
+
+      <h3 class="card-title text-center mb-3">
+        {{ title }}
+      </h3>
+
+      {% if current %}
+        <div class="badge bg-success current">actif</div>
+        {# <div class="position-absolute top-0 start-100 translate-middle px-3 py-2 bg-success rounded-circle">
+          {{ fa.icon('check', swap_opacity: true) }}
+        </div> #}
+      {% endif %}
+      
+
+      <div class="card-text text-secondary text-center mb-3">
+        {{ description }}
+      </div>
+
+      {% for feature in features %}
+        <div class="d-flex align-items-center gap-2 mb-2 lh-1">
+          {{ fa.icon('arrow-right', swap_opacity: true) }}
+          <div>
+            {{ feature }}
+          </div>
+        </div>
+      {% endfor %}
+
+      <div class="card-text text-{{ accent }} text-center fs-4 fw-bold my-3">
+        {{ price }} €
+      </div>
+
+      <div class="text-center">
+          <a href="{{ path }}" class="btn btn-{{ accent }}">
+            {{ fa.icon('circle-info') }}
+            Consulter
+          </a>
+      </div>
+    </div>
+  </div>
+{% endmacro %}
