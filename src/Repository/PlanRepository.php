@@ -32,12 +32,20 @@ class PlanRepository extends ServiceEntityRepository
             ->execute();
     }
 
-    /**
-     * @return ?plan Returns a plan or null
-     */
-    public function getPlanByUser(User $user): ?Plan
+    public function findOneActivePlanByUser(User $user): ?Plan
     {
-        $planId = $this->userRepository->findActivePlanIdByUser($user);
-        return $planId ? $this->find($planId) : null;
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.subscriptions', 's')
+            ->leftJoin('s.transactions', 't')
+            ->leftJoin('t.user', 'u')
+            ->where('s.plan = p')
+            ->where('t.subscription = t')
+            ->where('t.user = :user')
+            ->orderBy('t.createdAt', 'DESC')
+            ->setMaxResults(1)
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
     }
 }
