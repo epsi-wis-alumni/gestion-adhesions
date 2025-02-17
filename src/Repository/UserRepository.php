@@ -121,7 +121,6 @@ class UserRepository extends ServiceEntityRepository
             ->setParameter('date', new \DateTime('-1 year'))
             ->setParameter('user', $user)
             ->orderBy('t.createdAt', 'DESC')
-            ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
         return $planId ? $planId['id'] : null;
