@@ -7,6 +7,8 @@ twig:
         epsi_name: '%env(EPSI_NAME)%'
         epsi_tel: '%env(EPSI_TEL)%'
         epsi_address: '%env(EPSI_ADDRESS)%'
+        base_title: '%env(BASE_TITLE)%'
+        base_title_admin: '%env(BASE_TITLE_ADMIN)%'
 
 when@test:
     twig:
