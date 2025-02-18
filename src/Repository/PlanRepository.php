@@ -50,4 +50,20 @@ class PlanRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
+
+    /**
+     * @return Plan[] orderby highlight and price
+     */
+    public function findAllSorted(): array
+    {
+        $plans = $this->createQueryBuilder('p')
+            ->orderBy('p.highlighted', 'DESC')
+            ->addOrderBy('p.price', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+        [$plans[0], $plans[1]] = [$plans[1], $plans[0]];
+
+        return $plans;
+    }
 }
