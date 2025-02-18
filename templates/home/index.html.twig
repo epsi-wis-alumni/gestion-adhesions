@@ -26,6 +26,17 @@
     </div>
   </div>
 
+  <!-- Évènements -->
+  <div class="bg-body-secondary">
+    <div class="container d-flex align-items-center justify-content-around my-5">
+      {% for event in events %}
+        {% set step = (event.startAt >= date()) ? '1' : ((event.endAt >= date()) ? '2' : '3' ) %}
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          {{ card.event(event, step) }}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
 
 
   <!-- Plans -->
