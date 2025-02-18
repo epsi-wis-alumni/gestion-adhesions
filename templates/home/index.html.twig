@@ -1,4 +1,6 @@
 {% extends 'base.html.twig' %}
+{% import "macros/fontawesome.html.twig" as fa %}
+{% import "macros/card.html.twig" as card %}
 
 {% block title %}
   Accueil
@@ -32,4 +34,10 @@
     <span class="btn btn-primary">Login with linkedin</span>
 </a>
 </div>
+{% endblock %}
+  <!-- Plans -->
+  <div class="bg-body-secondary" id="plans">
+    {% include "/user/_plan.html.twig" %}
+  </div>
+  
 {% endblock %}

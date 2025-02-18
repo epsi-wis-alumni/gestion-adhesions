@@ -1,6 +1,5 @@
 {% extends 'user/base.html.twig' %}
 {% import "macros/fontawesome.html.twig" as fa %}
-{% import "macros/plan.html.twig" as plan_card %}
 
 {% block profile_content %}
 <div class="container-fluid">
@@ -11,25 +10,6 @@
         de {{ currentUser.firstname|capitalize }}
         {% endif %}
     </div>
-    <div class="container d-flex align-items-center gap-5 my-5">
-        {% for plan in plans %}
-            {% if activePlan %}
-                {% set current = plan.name == activePlan.name ? true : false %}
-            {% else %}
-                {% set current = false %}
-            {% endif %}
-            
-            <div class="col">
-                {{ plan_card.plan(
-                    title: plan.name,
-                    description: plan.description,
-                    features: plan.features,
-                    price: plan.price,
-                    highlight: plan.highlighted,
-                    current: current
-                )}}
-            </div>
-        {% endfor %}
-    </div>
+    {% include "/user/_plan.html.twig" %}
 </div>
 {% endblock %}
