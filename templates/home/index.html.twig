@@ -38,6 +38,17 @@
     </div>
   </div>
 
+  <!-- Élections -->
+  <div class="bg-body-primary">
+    <div class="container d-flex align-items-center justify-content-around my-5">
+      {% for election in elections %}
+        {% set step = (election.voteStartAt >= date()) ? '1' : ((election.voteEndAt >= date()) ? '2' : '3' ) %}
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          {{ card.election(election, step) }}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
 
   <!-- Plans -->
   <div class="bg-body-secondary" id="plans">
