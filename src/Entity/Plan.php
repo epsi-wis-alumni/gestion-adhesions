@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\PlanRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\DecimalType;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -23,6 +22,9 @@ class Plan
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
+    #[ORM\Column(type: Types::ARRAY)]
+    private array $features = [];
+
     /**
      * @var Collection<int, Subscription>
      */
@@ -30,10 +32,7 @@ class Plan
     private Collection $subscriptions;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $yearly = null;
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $monthly = null;
+    private ?string $price = null;
 
     #[ORM\Column]
     private ?bool $highlighted = null;
@@ -73,6 +72,19 @@ class Plan
         return $this;
     }
 
+
+    public function getFeatures(): array
+    {
+        return $this->features;
+    }
+
+    public function setFeatures(array $features): static
+    {
+        $this->features = $features;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Subscription>
      */
@@ -103,30 +115,18 @@ class Plan
         return $this;
     }
 
-    public function getYearly(): ?string
+    public function getPrice(): ?string
     {
-        return $this->yearly;
+        return $this->price;
     }
 
-    public function setYearly(string $yearly): static
+    public function setPrice(string $price): static
     {
-        $this->yearly = $yearly;
+        $this->price = $price;
 
         return $this;
     }
-
-    public function getMonthly(): ?string
-    {
-        return $this->monthly;
-    }
-
-    public function setMonthly(string $monthly): static
-    {
-        $this->monthly = $monthly;
-
-        return $this;
-    }
-
+    
     public function isHighlighted(): ?bool
     {
         return $this->highlighted;
