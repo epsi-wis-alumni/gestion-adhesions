@@ -3,6 +3,7 @@
 
   {% set accent = highlight ? 'primary' : 'secondary' %}
   {% set border = highlight  ? 'highlight' : '' %}
+  {% set badge = highlight  ? 'current badge text-bg-success' : 'd-none' %}
 
   <div class="card mb-4 {{ border }}">
     <div class="card-body">
@@ -12,7 +13,7 @@
       </h3>
 
       {% if current %}
-        <div class="badge bg-success current">actif</div>
+        <div class="badge bg-success current">Actif</div>
         {# <div class="position-absolute top-0 start-100 translate-middle px-3 py-2 bg-success rounded-circle">
           {{ fa.icon('check', swap_opacity: true) }}
         </div> #}
