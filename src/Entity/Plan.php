@@ -22,9 +22,6 @@ class Plan
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::ARRAY)]
-    private array $features = [];
-
     /**
      * @var Collection<int, Subscription>
      */
@@ -37,10 +34,17 @@ class Plan
     #[ORM\Column]
     private ?bool $highlighted = null;
 
+    /**
+     * @var Collection<int, Feature>
+     */
+    #[ORM\OneToMany(targetEntity: Feature::class, mappedBy: 'plan', cascade: ['persist'])]
+    private Collection $features;
+
     public function __construct()
     {
         $this->subscriptions = new ArrayCollection();
         $this->highlighted = false;
+        $this->features = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -68,19 +72,6 @@ class Plan
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-
-    public function getFeatures(): array
-    {
-        return $this->features;
-    }
-
-    public function setFeatures(array $features): static
-    {
-        $this->features = $features;
 
         return $this;
     }
@@ -126,7 +117,7 @@ class Plan
 
         return $this;
     }
-    
+
     public function isHighlighted(): ?bool
     {
         return $this->highlighted;
@@ -135,6 +126,35 @@ class Plan
     public function setHighlighted(bool $highlighted): static
     {
         $this->highlighted = $highlighted;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Feature>
+     */
+    public function getFeatures(): Collection
+    {
+        return $this->features;
+    }
+
+    public function addFeature(Feature $feature): static
+    {
+        if (!$this->features->contains($feature)) {
+            $this->features->add($feature);
+            $feature->setPlan($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFeature(Feature $feature): static
+    {
+        if ($this->features->removeElement($feature)) {
+            if ($feature->getPlan() === $this) {
+                $feature->setPlan(null);
+            }
+        }
 
         return $this;
     }

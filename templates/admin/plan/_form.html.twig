@@ -3,19 +3,34 @@
 {{ form_start(form) }}
     {{ form_row(form.name) }}
     {{ form_row(form.description) }}
-
-    <div class="row">
-        <div class="col-md-6">{{ form_row(form.yearly) }}</div>
-
-        <div class="col-md-6">{{ form_row(form.monthly) }}</div>
-    </div>
-
+    {{ form_row(form.price) }}
     {{ form_row(form.highlighted) }}
 
+    <div {{ stimulus_controller('form-collection') }} 
+      data-form-collection-index-value="{{ (form.features|length) > 0 ? form.features|last.vars.name + 1 : 0 }}" 
+      data-form-collection-prototype-value="{{ form_widget(form.features.vars.prototype)|e('html_attr') }}"
+    >
+      <div class="d-flex align-items-center mb-2">
+        <h3 class="mb-0">Privilège</h3>
+        <a class="ms-auto me-0" type="button" {{ stimulus_action('form-collection', 'addCollectionElement') }}>
+          {{ fa.icon('add', size: 'lg', swap_opacity: true) }}
+        </a>
+      </div>
+      <ul class="features list-unstyled ps-3" {{ stimulus_target('form-collection', 'collectionContainer') }}>
+        {% for feature in form.features %}
+          <div class="d-flex align-items-center mb-2">
+            <li class="col-11">
+              {{ form_row(feature.name) }}
+            </li>
+          </div>
+        {% endfor %}
+      </ul>
+    </div>
+
     <div class="text-end">
-        <button type="submit" class="btn btn-primary">
-            {{ fa.icon('save') }}
-            Enregistrer
-        </button>
+      <button type="submit" class="btn btn-primary">
+        {{ fa.icon('save') }}
+        Enregistrer
+      </button>
     </div>
 {{ form_end(form) }}

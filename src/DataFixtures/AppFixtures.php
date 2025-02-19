@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Candidacy;
 use App\Entity\Election;
 use App\Entity\Event;
+use App\Entity\Feature;
 use App\Entity\MailTemplate;
 use App\Entity\Newsletter;
 use App\Entity\Plan;
@@ -211,47 +212,108 @@ class AppFixtures extends Fixture
 
         // PLANS
 
-        $plan2 = new Plan();
-        $plan2
+        $plan1 = new Plan();
+        $plan1
             ->setName("Alumni")
             ->setDescription("L'abonnement spécial ancien élève")
             ->setPrice(15.00)
-            ->setFeatures([
-                'Mises à jour professionnelles',
-                'Accès illimité à la base de données des membres',
-            ])
+        ;
+
+        $plan2 = new Plan();
+        $plan2
+            ->setName("Grand Prince")
+            ->setDescription("L'abonnement spécial donnateur")
+            ->setPrice(60.00)
+            ->setHighlighted(true)
         ;
 
         $plan3 = new Plan();
         $plan3
-            ->setName("Grand Prince")
-            ->setDescription("L'abonnement spécial donnateur")
-            ->setPrice(60.00)
-            ->setFeatures([
-                'Mention honorifique',
-                'Accès premium aux événements',
-                'Consultations personnalisées',
-                'Contenus exclusifs',
-                'Opportunité de parrainage',
-                'Badge spécial',
-            ])
-            ->setHighlighted(true)
-        ;
-
-        $plan1 = new Plan();
-        $plan1
             ->setName("Grande Pince")
             ->setDescription("L'abonnement spécial étudiant")
             ->setPrice(5.00)
-            ->setFeatures([
-                'Accès illimité au réseau des anciens élèves',
-                'Participation aux événements',
-            ])
         ;
 
         $manager->persist($plan1);
         $manager->persist($plan2);
         $manager->persist($plan3);
+
+        $manager->flush();
+
+        // FEATURES
+        // 1 - Plan 1
+        $feature1_1 = new Feature();
+        $feature1_1
+            ->setName("Accès au réseau des anciens élèves")
+            ->setPlan($plan1)
+        ;
+
+        $feature1_2 = new Feature();
+        $feature1_2
+            ->setName("Participation aux événements")
+            ->setPlan($plan1)
+        ;
+
+        // 2 - Plan 2
+        $feature2_1 = new Feature();
+        $feature2_1
+            ->setName("Mention honorifique")
+            ->setPlan($plan2)
+        ;
+
+        $feature2_2 = new Feature();
+        $feature2_2
+            ->setName("Accès premium aux événements")
+            ->setPlan($plan2)
+        ;
+
+        $feature2_3 = new Feature();
+        $feature2_3
+            ->setName("Consultations personnalisées")
+            ->setPlan($plan2)
+        ;
+
+        $feature2_4 = new Feature();
+        $feature2_4
+            ->setName("Contenus exclusifs")
+            ->setPlan($plan2)
+        ;
+
+        $feature2_5 = new Feature();
+        $feature2_5
+            ->setName("Opportunité de parrainage")
+            ->setPlan($plan2)
+        ;
+
+        $feature2_6 = new Feature();
+        $feature2_6
+            ->setName("Badge spécial")
+            ->setPlan($plan2)
+        ;
+
+        // 3 - Plan 3
+        $feature3_1 = new Feature();
+        $feature3_1
+            ->setName("Mises à jour professionnelles")
+            ->setPlan($plan3)
+        ;
+
+        $feature3_2 = new Feature();
+        $feature3_2
+            ->setName("Accès illimité à la base de données des membres")
+            ->setPlan($plan3)
+        ;
+
+        $manager->persist($feature1_1);
+        $manager->persist($feature1_2);
+        $manager->persist($feature2_1);
+        $manager->persist($feature2_2);
+        $manager->persist($feature2_3);
+        $manager->persist($feature2_4);
+        $manager->persist($feature2_5);
+        $manager->persist($feature2_6);
+        $manager->persist($feature3_1);
+        $manager->persist($feature3_2);
 
         $manager->flush();
 

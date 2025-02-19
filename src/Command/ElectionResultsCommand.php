@@ -56,16 +56,16 @@ class ElectionResultsCommand extends Command
         $io->title('Results by candiate');
         $io->table(
             ['ID', 'Name', 'Votes', '%'],
-            $election->getCandidacys()->map(fn (Candidacy $candidacy) => [
+            $election->getCandidacies()->map(fn (Candidacy $candidacy) => [
                 $candidacy->getId(),
-                $candidacy->getCandidacy()->getDisplayName(),
+                $candidacy->getCandidate()->getDisplayName(),
                 $candidacy->getVotes()->count(),
                 'test'
             ])->toArray(),
         );
 
         /** @var Candidacy */
-        $candidacy = $election->getCandidacys()->first();
+        $candidacy = $election->getCandidacies()->first();
 
         $io->title('Winner\'s votes');
         $io->table(
