@@ -5,35 +5,37 @@
 {% endblock %}
 
 {% block admin_content %}
+    <h1 class="mb-3">Plan n°{{ plan.id }}</h1>
+
     <div class="table-responsive border rounded">
-        <div class="table table-striped mb-0">
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <th>Nom</th>
-                        <td>{{ plan.name }}</td>
-                    </tr>
-                    <tr>
-                        <th>Description</th>
-                        <td>{{ plan.description }}</td>
-                    </tr>
-                    <tr>
-                        <th>Coût annuel</th>
-                        <td>{{ plan.yearly }} €</td>
-                    </tr>
-                    <tr>
-                        <th>Coût mensuel</th>
-                        <td>{{ plan.monthly }} €</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="d-flex gap-1">
-        <a class="btn btn-secondary" href="{{ path('app_admin_plan_index') }}">back to list</a>
-
-        <a class="btn btn-primary" href="{{ path('app_admin_plan_edit', {'id': plan.id}) }}">edit</a>
-
-        {{ include('admin/plan/_delete.html.twig') }}
+        <table class="table table-striped mb-0">
+            <tbody>
+                <tr>
+                    <th>Nom</th>
+                    <td>{{ plan.name }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ plan.description }}</td>
+                </tr>
+                <tr>
+                    <th>
+                        Avantages
+                    </th>
+                    <td>
+                        <ul class="m-0 ps-3">
+                            {% for feature in plan.features %}
+                                <li>{{ feature.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="border-0">Coût</th>
+                    <td>{{ plan.price }} €</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 {% endblock %}
+ 

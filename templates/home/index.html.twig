@@ -1,35 +1,58 @@
 {% extends 'base.html.twig' %}
+{% import "macros/fontawesome.html.twig" as fa %}
+{% import "macros/card.html.twig" as card %}
 
 {% block title %}
   Accueil
 {% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+ 
+  <!-- Utilisateurs -->
+  <div class="bg-body-primary">
+    <div class="container py-5">
+      <div class="text-center fs-4">
+        Nous comptons déjà parmis nous de nombreux membres.
+      </div>
+      <div class="d-flex gap-2 align-items-center justify-content-center text-primary">
+        <span class="fw-bold fs-1">
+          {{ userCount }}
+        </span>
+        {{ fa.icon('users', size: 'xl') }}
+      </div>
+      <div class="d-flex align-items-center justify-content-center">
+        <a class="btn btn-primary" href="{{ path('app_user_profile') }}">Voir mon profil</a>
+      </div>
+    </div>
+  </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+  <!-- Évènements -->
+  <div class="bg-body-secondary">
+    <div class="container d-flex align-items-center justify-content-around my-5">
+      {% for event in events %}
+        {% set step = (event.startAt >= date()) ? '1' : ((event.endAt >= date()) ? '2' : '3' ) %}
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          {{ card.event(event, step) }}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/var/www/src/Controller/HomeController.php</code></li>
-        <li>Your template at <code>/var/www/templates/home/index.html.twig</code></li>
-    </ul>
+  <!-- Élections -->
+  <div class="bg-body-primary">
+    <div class="container d-flex align-items-center justify-content-around my-5">
+      {% for election in elections %}
+        {% set step = (election.voteStartAt >= date()) ? '1' : ((election.voteEndAt >= date()) ? '2' : '3' ) %}
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          {{ card.election(election, step) }}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
 
-    <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}">
-    <span>Login with Google</span>
-
-        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'github' }) }}">
-    <span>Login with github</span>
-
-        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'azure' }) }}">
-    <span>Login with azure</span>
-
-        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'linkedin' }) }}">
-    <span class="btn btn-primary">Login with linkedin</span>
-</a>
-</div>
+  <!-- Plans -->
+  <div class="bg-body-secondary" id="plans">
+    {% include "/user/_plan.html.twig" %}
+  </div>
+  
 {% endblock %}

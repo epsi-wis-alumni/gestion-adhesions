@@ -93,3 +93,15 @@ main {
     z-index: -1;
     border-radius: 50%;
 }
+
+.highlight {
+    border: solid 2px var(--bs-primary);
+    box-shadow: 0 0 28px color-mix(in srgb, var(--bs-primary) 70%, transparent);
+}
+
+.current {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+}

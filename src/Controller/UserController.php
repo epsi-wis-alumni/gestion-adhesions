@@ -79,11 +79,13 @@ final class UserController extends AbstractController
         #[CurrentUser] User $currentUser,
         PlanRepository $planRepository,
     ): Response {
-        $plan = $planRepository->findOneActivePlanByUser($currentUser);
+        $activePlan = $planRepository->findOneActivePlanByUser($currentUser);
+        $plans = $planRepository->findAllSorted();
 
         return $this->render('user/plan.html.twig', [
             'currentUser' => $currentUser,
-            'plan' => $plan,
+            'activePlan' => $activePlan,
+            'plans' => $plans,
         ]);
     }
 

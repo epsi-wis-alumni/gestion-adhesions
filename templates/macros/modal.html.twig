@@ -1,4 +1,4 @@
-{% macro confirm(id, path, title, avatar, description, continueButton, cancelButton = 'Annuler') %}
+{% macro confirm(id, path, title, avatar, description, continueButton, cancelButton = 'Annuler', type = 'button', accent = 'primary') %}
   {% import "macros/image.html.twig" as image %}
   <div class="modal fade" id="{{ id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="{{ id }}Label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
@@ -25,9 +25,15 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ cancelButton }}</button>
           {% if continueButton %}
-            <a href="{{ path }}" class="btn btn-primary">
-              {{ continueButton }}
-            </a>   
+            {% if type == "submit" %}
+              <button type="{{ type }}" class="btn btn-{{ accent }}">
+                {{ continueButton }}
+              </button>
+            {% else %}
+              <a href="{{ path }}" class="btn btn-{{ accent }}">
+                {{ continueButton }}
+              </a>   
+            {% endif %}
           {% endif %}
         </div>
       </div>

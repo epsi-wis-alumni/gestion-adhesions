@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Candidacy;
 use App\Entity\Election;
 use App\Entity\Event;
+use App\Entity\Feature;
 use App\Entity\MailTemplate;
 use App\Entity\Newsletter;
 use App\Entity\Plan;
@@ -213,31 +214,106 @@ class AppFixtures extends Fixture
 
         $plan1 = new Plan();
         $plan1
-            ->setName("Étudiant")
-            ->setDescription("L'abonnement spécial étudiant")
-            ->setMonthly(0.50)
-            ->setYearly(5.00)
+            ->setName("Alumni")
+            ->setDescription("L'abonnement spécial ancien élève")
+            ->setPrice(15.00)
         ;
 
         $plan2 = new Plan();
         $plan2
-            ->setName("Alumni")
-            ->setDescription("L'abonnement spécial ancien élève")
-            ->setMonthly(1.50)
-            ->setYearly(15.00)
+            ->setName("Grand Prince")
+            ->setDescription("L'abonnement spécial donnateur")
+            ->setPrice(60.00)
+            ->setHighlighted(true)
         ;
 
         $plan3 = new Plan();
         $plan3
-            ->setName("Grand prince")
-            ->setDescription("L'abonnement spécial donnateur")
-            ->setMonthly(3.00)
-            ->setYearly(3.50)
+            ->setName("Grande Pince")
+            ->setDescription("L'abonnement spécial étudiant")
+            ->setPrice(5.00)
         ;
 
         $manager->persist($plan1);
         $manager->persist($plan2);
         $manager->persist($plan3);
+
+        $manager->flush();
+
+        // FEATURES
+        // 1 - Plan 1
+        $feature1_1 = new Feature();
+        $feature1_1
+            ->setName("Accès au réseau des anciens élèves")
+            ->setPlan($plan1)
+        ;
+
+        $feature1_2 = new Feature();
+        $feature1_2
+            ->setName("Participation aux événements")
+            ->setPlan($plan1)
+        ;
+
+        // 2 - Plan 2
+        $feature2_1 = new Feature();
+        $feature2_1
+            ->setName("Mention honorifique")
+            ->setPlan($plan2)
+        ;
+
+        $feature2_2 = new Feature();
+        $feature2_2
+            ->setName("Accès premium aux événements")
+            ->setPlan($plan2)
+        ;
+
+        $feature2_3 = new Feature();
+        $feature2_3
+            ->setName("Consultations personnalisées")
+            ->setPlan($plan2)
+        ;
+
+        $feature2_4 = new Feature();
+        $feature2_4
+            ->setName("Contenus exclusifs")
+            ->setPlan($plan2)
+        ;
+
+        $feature2_5 = new Feature();
+        $feature2_5
+            ->setName("Opportunité de parrainage")
+            ->setPlan($plan2)
+        ;
+
+        $feature2_6 = new Feature();
+        $feature2_6
+            ->setName("Badge spécial")
+            ->setPlan($plan2)
+        ;
+
+        // 3 - Plan 3
+        $feature3_1 = new Feature();
+        $feature3_1
+            ->setName("Mises à jour professionnelles")
+            ->setPlan($plan3)
+        ;
+
+        $feature3_2 = new Feature();
+        $feature3_2
+            ->setName("Accès illimité à la base de données des membres")
+            ->setPlan($plan3)
+        ;
+
+        $manager->persist($feature1_1);
+        $manager->persist($feature1_2);
+        $manager->persist($feature2_1);
+        $manager->persist($feature2_2);
+        $manager->persist($feature2_3);
+        $manager->persist($feature2_4);
+        $manager->persist($feature2_5);
+        $manager->persist($feature2_6);
+        $manager->persist($feature3_1);
+        $manager->persist($feature3_2);
 
         $manager->flush();
 
@@ -393,48 +469,18 @@ class AppFixtures extends Fixture
         $subscription1 = new Subscription();
         $subscription1
             ->setPlan($plan1)
-            ->setTitle("Abonnement Étudiant")
-            ->setAmount(5.00)
             ->setDiscount(0)
-            ->setPeriodicity(12)
-            ->setStartAt(new \DateTimeImmutable())
-            ->setEndAt(new \DateTimeImmutable('+1 year'))
-            ->setFeatures([
-                'Accès premium',
-                'Support prioritaire',
-                'Mises à jour régulières',
-            ])
         ;
 
         $subscription2 = new Subscription();
         $subscription2
             ->setPlan($plan2)
-            ->setTitle("Abonnement Alumni")
-            ->setAmount(15.00)
             ->setDiscount(0)
-            ->setPeriodicity(12)
-            ->setStartAt(new \DateTimeImmutable())
-            ->setEndAt(new \DateTimeImmutable('+1 year'))
-            ->setFeatures([
-                'Accès premium',
-                'Support prioritaire',
-                'Mises à jour régulières',
-            ])
         ;
         $subscription3 = new Subscription();
         $subscription3
             ->setPlan($plan3)
-            ->setTitle("Abonnement Grand prince")
-            ->setAmount(60.00)
             ->setDiscount(0)
-            ->setPeriodicity(12)
-            ->setStartAt(new \DateTimeImmutable())
-            ->setEndAt(new \DateTimeImmutable('+1 year'))
-            ->setFeatures([
-                'Accès premium',
-                'Support prioritaire',
-                'Mises à jour régulières',
-            ])
         ;
         $manager->persist($subscription1);
         $manager->persist($subscription2);
