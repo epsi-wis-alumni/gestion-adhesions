@@ -7,12 +7,14 @@ use App\Entity\Transaction;
 use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 final class InvoiceManager
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
         private NotificationManager $notificationManager,
+        private ContainerBagInterface $params,
     ) {}
 
     public function create(
@@ -33,7 +35,7 @@ final class InvoiceManager
         string $html,
         Transaction $transaction
         ): string {
-        $directory = __DIR__ . '/../../public/assets/upload/invoices/';
+        $directory = __DIR__ . $this->params->get('invoice_base_path');
         $filename = 'invoice_' . $transaction->getId() . '.pdf';
 
         if (!is_dir($directory)) {
