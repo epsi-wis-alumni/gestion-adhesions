@@ -58,31 +58,27 @@ final class AdminPlanController extends AbstractController
         Request $request, 
         EntityManagerInterface $entityManager
     ): Response {
-        $originalFeature = new ArrayCollection();
-
-        foreach ($plan->getFeatures() as $feature) {
-            $originalFeature->add($feature);
-        }
+        $originalFeatures = new ArrayCollection($plan->getFeatures()->toArray());
 
         $form = $this->createForm(AdminPlanType::class, $plan);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            foreach ($originalFeature as $feature) {
-                if (false === $plan->getFeatures()->contains($feature)) {
-                    $feature->getPlan()->removeElement($feature);
-                    $entityManager->persist($feature);
+            foreach ($originalFeatures as $feature) {
+                if (!$plan->getFeatures()->contains($feature)) {
+                    $feature->setPlan(null);
                     $entityManager->remove($feature);
                 }
             }
 
             $entityManager->persist($plan);
             $entityManager->flush();
+
             return $this->redirectToRoute('app_admin_plan_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('admin/plan/new.html.twig', [
+        return $this->render('admin/plan/edit.html.twig', [
             'form' => $form,
         ]);
     }
@@ -92,7 +88,7 @@ final class AdminPlanController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$plan->getId(), $request->get('_token'))) {
             foreach ($plan->getFeatures() as $feature) {
-                $feature->getPlan()->removeElement($feature);
+                $feature->setPlan(null);
                 $entityManager->remove($feature);
             }
 
