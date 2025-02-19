@@ -18,14 +18,9 @@ class Feature
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToMany(targetEntity: Plan::class, mappedBy: 'features')]
-    private Collection $plans;
-
-    
-    public function __construct()
-    {
-        $this->plans = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'features')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Plan $plan = null;
 
     public function getId(): ?int
     {
@@ -44,24 +39,15 @@ class Feature
         return $this;
     }
 
-    public function getPlan(): Collection
+    public function getPlan(): ?Plan
     {
-        return $this->plans;
+        return $this->plan;
     }
 
-    public function addPlan(Plan $plan): void
+    public function setPlan(?Plan $plan): static
     {
-        if (!$this->plans->contains($plan)) {
-            $this->plans->add($plan);
-            $plan->addFeature($this);
-        }
-    }
+        $this->plan = $plan;
 
-    public function removePlan(Plan $plan): void
-    {
-        if ($this->plans->contains($plan)) {
-            $this->plans->removeElement($plan);
-            $plan->removeFeature($this);
-        }
+        return $this;
     }
 }

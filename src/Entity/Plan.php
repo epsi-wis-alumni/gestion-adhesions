@@ -37,8 +37,7 @@ class Plan
     /**
      * @var Collection<int, Feature>
      */
-    #[ORM\ManyToMany(targetEntity: Feature::class, inversedBy: 'plans', cascade: ['persist'])]
-    #[ORM\JoinTable(name: 'plan_feature')]
+    #[ORM\OneToMany(targetEntity: Feature::class, mappedBy: 'plan', cascade: ['persist'])]
     private Collection $features;
 
     public function __construct()
@@ -118,7 +117,7 @@ class Plan
 
         return $this;
     }
-    
+
     public function isHighlighted(): ?bool
     {
         return $this->highlighted;
@@ -139,19 +138,24 @@ class Plan
         return $this->features;
     }
 
-    public function addFeature(Feature $feature): void
+    public function addFeature(Feature $feature): static
     {
         if (!$this->features->contains($feature)) {
             $this->features->add($feature);
-            $feature->addPlan($this);
+            $feature->setPlan($this);
         }
+
+        return $this;
     }
 
-    public function removeFeature(Feature $feature): void
+    public function removeFeature(Feature $feature): static
     {
-        if ($this->features->contains($feature)) {
-            $this->features->removeElement($feature);
-            $feature->removePlan($this);
+        if ($this->features->removeElement($feature)) {
+            if ($feature->getPlan() === $this) {
+                $feature->setPlan(null);
+            }
         }
+
+        return $this;
     }
 }
