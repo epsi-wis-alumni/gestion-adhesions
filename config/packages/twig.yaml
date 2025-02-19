@@ -4,9 +4,9 @@ twig:
     paths:
         '%kernel.project_dir%/assets/styles': styles
     globals:
-        epsi_name: '%env(EPSI_NAME)%'
-        epsi_tel: '%env(EPSI_TEL)%'
-        epsi_address: '%env(EPSI_ADDRESS)%'
+        invoice_name: '%env(INVOICE_NAME)%'
+        invoice_tel: '%env(INVOICE_TEL)%'
+        invoice_address: '%env(INVOICE_ADDRESS)%'
         base_title: '%env(BASE_TITLE)%'
         base_title_admin: '%env(BASE_TITLE_ADMIN)%'
 
