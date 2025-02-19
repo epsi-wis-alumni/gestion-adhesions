@@ -25,8 +25,8 @@
                 <tr>
                     <th>Nom</th>
                     <th>Description</th>
-                    <th>Coût annuel</th>
-                    <th>Coût mensuel</th>
+                    <th>Avantages</th>
+                    <th>Coût</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -35,8 +35,8 @@
                 <tr>
                     <td>{{ plan.name }}</td>
                     <td>{{ plan.description }}</td>
-                    <td>{{ plan.yearly }} €</td>
-                    <td>{{ plan.monthly }} €</td>
+                    <td>{{ plan.features[0].name }} ...</td>
+                    <td>{{ plan.price }} €</td>
                     <td>
                         <div class="d-flex align-items-center gap-2">
                             <a class="link-primary" href="{{ path('app_admin_plan_edit', {'id': plan.id}) }}">
@@ -51,7 +51,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="6">no records found</td>
+                    <td colspan="4">no records found</td>
                 </tr>
             {% endfor %}
             </tbody>
