@@ -22,9 +22,6 @@ class Plan
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::ARRAY)]
-    private array $features = [];
-
     /**
      * @var Collection<int, Subscription>
      */
@@ -37,10 +34,18 @@ class Plan
     #[ORM\Column]
     private ?bool $highlighted = null;
 
+    /**
+     * @var Collection<int, Feature>
+     */
+    #[ORM\ManyToMany(targetEntity: Feature::class, inversedBy: 'plans', cascade: ['persist'])]
+    #[ORM\JoinTable(name: 'plan_feature')]
+    private Collection $features;
+
     public function __construct()
     {
         $this->subscriptions = new ArrayCollection();
         $this->highlighted = false;
+        $this->features = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -68,19 +73,6 @@ class Plan
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-
-    public function getFeatures(): array
-    {
-        return $this->features;
-    }
-
-    public function setFeatures(array $features): static
-    {
-        $this->features = $features;
 
         return $this;
     }
@@ -137,5 +129,29 @@ class Plan
         $this->highlighted = $highlighted;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Feature>
+     */
+    public function getFeatures(): Collection
+    {
+        return $this->features;
+    }
+
+    public function addFeature(Feature $feature): void
+    {
+        if (!$this->features->contains($feature)) {
+            $this->features->add($feature);
+            $feature->addPlan($this);
+        }
+    }
+
+    public function removeFeature(Feature $feature): void
+    {
+        if ($this->features->contains($feature)) {
+            $this->features->removeElement($feature);
+            $feature->removePlan($this);
+        }
     }
 }
