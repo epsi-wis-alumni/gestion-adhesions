@@ -26,7 +26,8 @@ final class AdminPlanController extends AbstractController
     #[Route('/new', name: 'app_admin_plan_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        PlanRepository $planRepository,
     ): Response {
         $plan = new Plan();
         $form = $this->createForm(AdminPlanType::class, $plan);
@@ -34,6 +35,10 @@ final class AdminPlanController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($plan->isHighlighted()) {
+                $planRepository->resetAllHighlighted();
+            }
+
             $entityManager->persist($plan);
             $entityManager->flush();
             return $this->redirectToRoute('app_admin_plan_index', [], Response::HTTP_SEE_OTHER);
@@ -56,7 +61,8 @@ final class AdminPlanController extends AbstractController
     public function edit(
         Plan $plan, 
         Request $request, 
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        PlanRepository $planRepository,
     ): Response {
         $originalFeatures = new ArrayCollection($plan->getFeatures()->toArray());
 
@@ -65,6 +71,10 @@ final class AdminPlanController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($plan->isHighlighted()) {
+                $planRepository->resetAllHighlighted();
+            }
+
             foreach ($originalFeatures as $feature) {
                 if (!$plan->getFeatures()->contains($feature)) {
                     $feature->setPlan(null);
