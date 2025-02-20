@@ -77,7 +77,7 @@ final class AdminPlanController extends AbstractController
 
             foreach ($originalFeatures as $feature) {
                 if (!$plan->getFeatures()->contains($feature)) {
-                    $feature->setPlan(null);
+                    $plan->removeFeature($feature);
                     $entityManager->remove($feature);
                 }
             }
