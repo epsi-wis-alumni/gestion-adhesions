@@ -96,7 +96,7 @@ final class AdminPlanController extends AbstractController
     #[Route('/{id}', name: 'app_admin_plan_delete', methods: ['POST'])]
     public function delete(Request $request, Plan $plan, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$plan->getId(), $request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$plan->getId(), $request->getPayload()->getString('_token'))) {
             foreach ($plan->getFeatures() as $feature) {
                 $feature->setPlan(null);
                 $entityManager->remove($feature);
