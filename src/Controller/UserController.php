@@ -14,6 +14,7 @@ use App\Form\SettingsType;
 use App\Repository\PlanRepository;
 use App\Repository\SubscriptionRepository;
 use App\Repository\TransactionRepository;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 #[Route('/user')]
@@ -116,21 +117,48 @@ final class UserController extends AbstractController
         ]);
     }
 
+    // #[Route('/invoice/{id}', name: 'app_user_invoice_show', methods: ['GET'])]
+    // public function showInvoice(
+    //     Transaction $transaction,
+    // ): Response {
+
+    //     $filePath = $transaction->getInvoice()->getFilePath();
+
+    //     if (!file_exists($filePath)) {
+    //         throw $this->createNotFoundException('La facture demandée est introuvable.');
+    //     }
+
+    //     $pdfContent = file_get_contents($filePath);
+
+    //     return new Response(
+    //         $pdfContent,
+    //         200,
+    //         [
+    //             'Content-Type' => 'application/pdf',
+    //             'Content-Disposition' => 'inline; filename="invoice_' . $transaction->getId() . '.pdf"',
+    //         ]
+    //     );
+    // }
+
     #[Route('/invoice/{id}', name: 'app_user_invoice_show', methods: ['GET'])]
     public function showInvoice(
         Transaction $transaction,
     ): Response {
-
         $filePath = $transaction->getInvoice()->getFilePath();
+        
+        $finder = new Finder();
+        $finder->files()->in(dirname($filePath))->name(basename($filePath));
 
-        if (!file_exists($filePath)) {
+        if (!$finder->hasResults()) {
             throw $this->createNotFoundException('La facture demandée est introuvable.');
         }
 
-        $pdfContent = file_get_contents($filePath);
+        foreach ($finder as $file) {
+            $contents = $file->getContents();
+        }
 
         return new Response(
-            $pdfContent,
+            $contents,
             200,
             [
                 'Content-Type' => 'application/pdf',
