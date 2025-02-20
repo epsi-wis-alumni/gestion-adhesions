@@ -19,7 +19,7 @@
       <ul class="features list-unstyled ps-3" {{ stimulus_target('form-collection', 'collectionContainer') }}>
         {% for feature in form.features %}
           <div class="d-flex align-items-center mb-2">
-            <li class="col-11">
+            <li class="col">
               {{ form_row(feature.name) }}
             </li>
           </div>
