@@ -1,4 +1,6 @@
 import './bootstrap.js';
+import { Tooltip } from 'bootstrap';
+
 /*
  * Welcome to your app's main JavaScript file!
  *
@@ -6,3 +8,8 @@ import './bootstrap.js';
  * which should already be in your base.html.twig.
  */
 import './styles/app.css';
+
+document.addEventListener('DOMContentLoaded', () => {
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl));
+});
