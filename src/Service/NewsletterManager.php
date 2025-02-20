@@ -12,6 +12,7 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
+use Symfony\Component\Finder\Finder;
 
 final class NewsletterManager
 {
@@ -67,24 +68,25 @@ final class NewsletterManager
         UserNewsletter $userNewsletter,
     ): void {
         $sender = $this->params->get('mailer_sender');
-
+        $templateFileName = $userNewsletter->getNewsletter()->getTemplate()->getFileName();
+        $basePath = realpath(__DIR__ . $this->params->get('mails_base_path'));
+    
+        $finder = new Finder();
+        $finder->files()->in($basePath)->name($templateFileName);
+    
+        $templatePath = $finder->hasResults() ? 'mails/' . $templateFileName : 'mails/newsletter.html.twig';
+    
         $email = (new TemplatedEmail())
             ->from($sender)
             ->to($userNewsletter->getUser()->getEmail())
             ->subject($userNewsletter->getNewsletter()->getObject())
-            ->htmlTemplate(
-                file_exists(
-                    realpath(__DIR__.$this->params->get('mails_base_path').
-                        $userNewsletter->getNewsletter()->getTemplate()->getFileName())
-                ) ?
-                    'mails/'.($userNewsletter->getNewsletter()->getTemplate()->getFileName()) :
-                    'mails/newsletter.html.twig'
-            )
+            ->htmlTemplate($templatePath)
             ->context([
                 'userNewsletter' => $userNewsletter,
             ]);
-
+    
         $this->mailerInterface->send($email);
         $userNewsletter->setSentAt(new \DateTimeImmutable());
     }
+    
 }
