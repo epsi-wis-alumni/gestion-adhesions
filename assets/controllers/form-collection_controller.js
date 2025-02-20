@@ -20,7 +20,7 @@ export default class extends Controller {
 
     addCollectionElement(event) {
         const item = document.createElement('li');
-        item.className = "col-11";
+        item.className = "col";
         item.innerHTML = this.prototypeValue.replace(/__name__/g, this.indexValue);
 
         const wrapper = this.wrapInDiv(item);
@@ -32,7 +32,7 @@ export default class extends Controller {
 
     wrapInDiv(item) {
         const wrapper = document.createElement('div');
-        wrapper.className = "form-group mb-3 d-flex align-items-center";
+        wrapper.className = "mb-3 row align-items-center";
         wrapper.appendChild(item);
         return wrapper;
     }
@@ -40,7 +40,7 @@ export default class extends Controller {
     addDeleteButton(wrapper) {
         const removeFormButton = document.createElement('a');
         removeFormButton.type = 'button';
-        removeFormButton.className = 'bg-transparent border-0 link-danger p-2';
+        removeFormButton.className = 'bg-transparent border-0 link-danger p-2 col-auto';
 
         const icon = document.createElement('i');
         icon.className = "fa-duotone fa-regular fa-trash-can fa-swap-opacity";
