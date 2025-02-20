@@ -39,13 +39,31 @@ class PlanRepository extends ServiceEntityRepository
             ->leftJoin('s.transactions', 't')
             ->leftJoin('t.user', 'u')
             ->where('s.plan = p')
-            ->where('t.subscription = t')
+            ->where('t.subscription = s')
             ->where('t.user = :user')
+            ->andWhere('t.createdAt >= :date')
             ->orderBy('t.createdAt', 'DESC')
-            ->setMaxResults(1)
             ->setParameter('user', $user)
+            ->setParameter('date', new \DateTimeImmutable('-1 year'))
+            ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult()
         ;
+    }
+
+    /**
+     * @return Plan[] orderby highlight and price
+     */
+    public function findAllSorted(): array
+    {
+        $plans = $this->createQueryBuilder('p')
+            ->orderBy('p.highlighted', 'DESC')
+            ->addOrderBy('p.price', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+        [$plans[0], $plans[1]] = [$plans[1], $plans[0]];
+
+        return $plans;
     }
 }

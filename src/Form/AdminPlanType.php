@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Plan;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -29,7 +30,7 @@ class AdminPlanType extends AbstractType
                 'row_attr' => ['class' => 'mb-3'],
                 'label' => 'Description',
             ])
-            ->add('yearly', NumberType::class, [
+            ->add('price', NumberType::class, [
                 'attr' => [
                     'placeholder' => 'Ex : 5.00',
                     'step' => '0.01',
@@ -38,14 +39,13 @@ class AdminPlanType extends AbstractType
                 'row_attr' => ['class' => 'mb-3'],
                 'label' => 'Annuel (€)',
             ])
-            ->add('monthly', NumberType::class, [
-                'attr' => [
-                    'placeholder' => 'Ex : 0.50',
-                    'step' => '0.01',
-                    'min' => '0',
-                ],
-                'row_attr' => ['class' => 'mb-3'],
-                'label' => 'Mensuel (€)',
+            ->add('features', CollectionType::class, [
+                'entry_type' => AdminFeatureType::class,  
+                'entry_options' => ['label' => false],
+                'label' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
             ])
             ->add('highlighted', CheckboxType::class, [
                 'label' => 'Mis en avant',

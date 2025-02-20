@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\PlanRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\DecimalType;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -30,18 +29,22 @@ class Plan
     private Collection $subscriptions;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $yearly = null;
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $monthly = null;
+    private ?string $price = null;
 
     #[ORM\Column]
     private ?bool $highlighted = null;
+
+    /**
+     * @var Collection<int, Feature>
+     */
+    #[ORM\OneToMany(targetEntity: Feature::class, mappedBy: 'plan', cascade: ['persist'])]
+    private Collection $features;
 
     public function __construct()
     {
         $this->subscriptions = new ArrayCollection();
         $this->highlighted = false;
+        $this->features = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -103,26 +106,14 @@ class Plan
         return $this;
     }
 
-    public function getYearly(): ?string
+    public function getPrice(): ?string
     {
-        return $this->yearly;
+        return $this->price;
     }
 
-    public function setYearly(string $yearly): static
+    public function setPrice(string $price): static
     {
-        $this->yearly = $yearly;
-
-        return $this;
-    }
-
-    public function getMonthly(): ?string
-    {
-        return $this->monthly;
-    }
-
-    public function setMonthly(string $monthly): static
-    {
-        $this->monthly = $monthly;
+        $this->price = $price;
 
         return $this;
     }
@@ -135,6 +126,35 @@ class Plan
     public function setHighlighted(bool $highlighted): static
     {
         $this->highlighted = $highlighted;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Feature>
+     */
+    public function getFeatures(): Collection
+    {
+        return $this->features;
+    }
+
+    public function addFeature(Feature $feature): static
+    {
+        if (!$this->features->contains($feature)) {
+            $this->features->add($feature);
+            $feature->setPlan($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFeature(Feature $feature): static
+    {
+        if ($this->features->removeElement($feature)) {
+            if ($feature->getPlan() === $this) {
+                $feature->setPlan(null);
+            }
+        }
 
         return $this;
     }
