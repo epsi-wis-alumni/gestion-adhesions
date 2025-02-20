@@ -105,3 +105,7 @@ main {
     right: 0;
     transform: translate(50%, -50%);
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}
