@@ -10,6 +10,7 @@
  
   <!-- Utilisateurs -->
   <div class="bg-body-primary">
+    <h2 class="text-center pt-4">EPSI-WIS Alumni</h2>
     <div class="container py-5">
       <div class="text-center fs-4">
         Nous comptons déjà parmis nous de nombreux membres.
@@ -28,6 +29,7 @@
 
   <!-- Évènements -->
   <div class="bg-body-secondary">
+    <h2 class="text-center pt-4">Élections</h2>
     <div class="container d-flex align-items-center justify-content-around my-5">
       {% for event in events %}
         {% set step = (event.startAt >= date()) ? '1' : ((event.endAt >= date()) ? '2' : '3' ) %}
@@ -40,6 +42,7 @@
 
   <!-- Élections -->
   <div class="bg-body-primary">
+    <h2 class="text-center pt-4">Évènements</h2>
     <div class="container d-flex align-items-center justify-content-around my-5">
       {% for election in elections %}
         {% set step = (election.voteStartAt >= date()) ? '1' : ((election.voteEndAt >= date()) ? '2' : '3' ) %}
@@ -52,6 +55,7 @@
 
   <!-- Plans -->
   <div class="bg-body-secondary" id="plans">
+    <h2 class="text-center pt-4">Adhésions</h2>
     {% include "/user/_plan.html.twig" %}
   </div>
   
