@@ -63,6 +63,10 @@ class PaymentController extends AbstractController
             ],
         ];
 
+        $apiKey = $this->params->get('stripe_api_key');
+
+        Stripe::setApiKey($apiKey); 
+
         $checkoutSession = Session::create([
             'customer_email' => $currentUser->getEmail(),
             'payment_method_types' => ['card'],
