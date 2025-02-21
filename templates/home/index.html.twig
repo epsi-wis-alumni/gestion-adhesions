@@ -8,6 +8,9 @@
 
 {% block body %}
  
+ <form action="{{ path('app_payment', {id: 1}) }}" method="POST">
+    <button type="submit" id="checkout-button">Checkout</button>
+  </form>
   <!-- Utilisateurs -->
   <div class="bg-body-primary">
     <h2 class="text-center pt-4">EPSI-WIS Alumni</h2>

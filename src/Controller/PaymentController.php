@@ -45,7 +45,10 @@ class PaymentController extends AbstractController
                 $subscription->getPlan()->getPrice() * 
                 $subscription->getDiscount()
             )
-            ->setStatus(0);
+            ->setStatus(0)
+            ->setType(0)
+            ->setCreatedAt(createdAt: new \DateTimeImmutable())
+        ;
 
         $this->entityManager->persist($transaction);
         $this->entityManager->flush();
@@ -75,12 +78,12 @@ class PaymentController extends AbstractController
             ],
             'mode' => 'payment',
             'success_url' => $this->urlGenerator->generate(
-                'order/success',
+                'app_payment_success',
                 ['id' => $transaction->getId()],
                 UrlGeneratorInterface::ABSOLUTE_URL
             ),
             'cancel_url' => $this->urlGenerator->generate(
-                'order/error',
+                'app_payment_error',
                 ['id' => $transaction->getId()],
                 UrlGeneratorInterface::ABSOLUTE_URL
             ),
