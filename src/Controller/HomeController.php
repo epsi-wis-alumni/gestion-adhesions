@@ -17,14 +17,14 @@ class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
     public function index(
-        #[CurrentUser()] User $currentUser,
+        #[CurrentUser()] ?User $currentUser,
         PlanRepository $planRepository,
         ElectionRepository $electionRepository,
         EventRepository $eventRepository,
         UserRepository $userRepository,
         Manager $manager,
     ): Response {
-        if (!$currentUser->hasCompleteInfo()) {
+        if ($currentUser && !$currentUser->hasCompleteInfo()) {
             return $this->redirectToRoute('app_complete_profile', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -34,7 +34,7 @@ class HomeController extends AbstractController
 
         $elections = $manager->orderByStep($electionRepository->findLastest(3));
 
-        $activePlan = $planRepository->findOneActivePlanByUser($currentUser);
+        $activePlan = $currentUser ? $planRepository->findOneActivePlanByUser($currentUser) : null;
         $plans = $planRepository->findAllSorted();
 
         return $this->render('home/index.html.twig', [
