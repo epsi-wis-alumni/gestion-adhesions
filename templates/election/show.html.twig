@@ -170,9 +170,17 @@
                       ) }}
                       
                       {% if not election.isClosed and not hasVoted %}
-                        <a class="link-primary" href="{{ path('app_election_vote', { id: election.id, candidacyId: candidacy.id }) }}">
+                        {% set modalId = 'confirmAlert-vote-' ~ election.id %}
+                        <a class="link-primary" data-bs-toggle="modal" data-bs-target="#{{ modalId }}" href="#">
                           {{ fa.icon('check-to-slot') }}
                         </a>
+                        {{ modal.confirm(
+                          id: modalId,
+                          path: path('app_election_vote', { id: election.id, candidacyId: candidacy.id }),
+                          title: 'Êtes-vous sûr de vouloir voter ?',
+                          continueButton: 'Voter'
+                        ) }}
+
                       {% endif %}
                     </div>
                     
