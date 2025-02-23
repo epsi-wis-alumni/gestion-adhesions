@@ -41,6 +41,7 @@ final class AdminPlanController extends AbstractController
 
             $entityManager->persist($plan);
             $entityManager->flush();
+
             return $this->redirectToRoute('app_admin_plan_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -59,8 +60,8 @@ final class AdminPlanController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_admin_plan_edit', methods: ['GET', 'POST'])]
     public function edit(
-        Plan $plan, 
-        Request $request, 
+        Plan $plan,
+        Request $request,
         EntityManagerInterface $entityManager,
         PlanRepository $planRepository,
     ): Response {
@@ -108,5 +109,4 @@ final class AdminPlanController extends AbstractController
 
         return $this->redirectToRoute('app_admin_plan_index', [], Response::HTTP_SEE_OTHER);
     }
-
 }

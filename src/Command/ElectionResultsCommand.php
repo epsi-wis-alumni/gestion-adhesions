@@ -6,12 +6,10 @@ use App\Entity\Candidacy;
 use App\Entity\Election;
 use App\Entity\Vote;
 use App\Repository\ElectionRepository;
-use DateTimeImmutable;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -60,7 +58,7 @@ class ElectionResultsCommand extends Command
                 $candidacy->getId(),
                 $candidacy->getCandidate()->getDisplayName(),
                 $candidacy->getVotes()->count(),
-                'test'
+                'test',
             ])->toArray(),
         );
 
@@ -73,7 +71,7 @@ class ElectionResultsCommand extends Command
             $candidacy->getVotes()->map(fn (Vote $vote) => [
                 $vote->getVoter()->getId(),
                 $vote->getVoter()->getDisplayName(),
-                $vote->getVotedAt()->format(DateTimeImmutable::ATOM),
+                $vote->getVotedAt()->format(\DateTimeImmutable::ATOM),
             ])->toArray(),
         );
 

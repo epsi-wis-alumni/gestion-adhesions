@@ -30,9 +30,8 @@ final class AdminElectionController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         NotificationManager $notificationManager,
-        #[CurrentUser()] User $currentUser
+        #[CurrentUser()] User $currentUser,
     ): Response {
-        
         $election = new Election();
         $form = $this->createForm(AdminElectionType::class, $election);
         $form->handleRequest($request);
@@ -41,10 +40,10 @@ final class AdminElectionController extends AbstractController
             $election->setCreatedBy($currentUser);
             $entityManager->persist($election);
             $entityManager->flush();
-            
-            if($form->get('notifyByEmail')->getData()){
+
+            if ($form->get('notifyByEmail')->getData()) {
                 $notificationManager->send($election);
-            } 
+            }
 
             return $this->redirectToRoute('app_admin_election_index', [], Response::HTTP_SEE_OTHER);
         }

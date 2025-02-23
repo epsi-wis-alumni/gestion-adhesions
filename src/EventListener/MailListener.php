@@ -2,15 +2,17 @@
 
 namespace App\EventListener;
 
-use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
-use Symfony\Component\Mailer\Event\MessageEvent;
-use Symfony\Component\Mailer\Event\FailedMessageEvent;
-use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+use Symfony\Component\Mailer\Event\FailedMessageEvent;
+use Symfony\Component\Mailer\Event\MessageEvent;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 final class MailListener
 {
-    public function __construct(private LoggerInterface $logger) {}
+    public function __construct(private LoggerInterface $logger)
+    {
+    }
 
     #[AsEventListener(event: MessageEvent::class)]
     public function onMessageEvent(MessageEvent $event): void
@@ -34,7 +36,7 @@ final class MailListener
                 }, $bcc)
             );
 
-            $this->logger->info('Un e-mail a été envoyé à : ' . implode(', ', $addresses));
+            $this->logger->info('Un e-mail a été envoyé à : '.implode(', ', $addresses));
         }
     }
 

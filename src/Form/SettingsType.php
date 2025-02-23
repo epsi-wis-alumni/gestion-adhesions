@@ -5,8 +5,6 @@ namespace App\Form;
 use App\Entity\Settings;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SettingsType extends AbstractType
@@ -33,7 +31,7 @@ class SettingsType extends AbstractType
             ->add('electionNotificationsAllowed', null, [
                 'label' => 'Élections',
                 'label_attr' => [
-                    'class' => 'checkbox-switch'
+                    'class' => 'checkbox-switch',
                 ],
                 'attr' => [
                     'data-notifications-target' => 'notification',
@@ -42,7 +40,7 @@ class SettingsType extends AbstractType
             ->add('eventNotificationsAllowed', null, [
                 'label' => 'Évènements',
                 'label_attr' => [
-                    'class' => 'checkbox-switch'
+                    'class' => 'checkbox-switch',
                 ],
                 'attr' => [
                     'data-notifications-target' => 'notification',

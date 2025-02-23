@@ -3,10 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\NewsletterRepository;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\BlobType;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -51,7 +49,7 @@ class Newsletter
 
     public function __construct()
     {
-        $this->setCreatedAt(new DateTimeImmutable());
+        $this->setCreatedAt(new \DateTimeImmutable());
         $this->userNewsletters = new ArrayCollection();
     }
 

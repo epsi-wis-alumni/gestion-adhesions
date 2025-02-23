@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\ElectionRepository;
-use App\Repository\PlanRepository;
 use App\Repository\EventRepository;
+use App\Repository\PlanRepository;
 use App\Repository\UserRepository;
 use App\Service\Manager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,11 +29,11 @@ class HomeController extends AbstractController
         }
 
         $userCount = $userRepository->count();
-        
+
         $events = $manager->orderByStep($eventRepository->findLastest(3));
-        
+
         $elections = $manager->orderByStep($electionRepository->findLastest(3));
-        
+
         $activePlan = $planRepository->findOneActivePlanByUser($currentUser);
         $plans = $planRepository->findAllSorted();
 

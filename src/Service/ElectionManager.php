@@ -8,15 +8,14 @@ use App\Entity\User;
 use App\Entity\Vote;
 use App\Repository\CandidacyRepository;
 use App\Repository\VoteRepository;
-use DateTimeImmutable;
-use Psr\Log\LoggerInterface;
 
 final class ElectionManager
 {
     public function __construct(
         protected VoteRepository $voteRepository,
         protected CandidacyRepository $candidacyRepository,
-    ) {}
+    ) {
+    }
 
     public function candidate(User $user, Candidacy $candidacy, Election $election): void
     {
@@ -35,9 +34,6 @@ final class ElectionManager
         ;
     }
 
-    /**
-     * @return
-     */
     public function getWinners(Election $election): array
     {
         $votes = $election->getVotes();
@@ -61,8 +57,8 @@ final class ElectionManager
 
     public function getStep(Election $election): int
     {
-        $now = new DateTimeImmutable();
-        
+        $now = new \DateTimeImmutable();
+
         return $election->getVoteStartAt() > $now
             ? 1 : ($election->getVoteStartAt() < $now && $election->getVoteEndAt() > $now
             ? 2 : 3)

@@ -21,7 +21,8 @@ final class NotificationManager
         private UserRepository $userRepository,
         private MailerInterface $mailerInterface,
         private ContainerBagInterface $params,
-    ) {}
+    ) {
+    }
 
     public function send(Election|Event $entity): void
     {
@@ -32,17 +33,17 @@ final class NotificationManager
 
     public function sendNotification(Election|Event|Invoice $entity, array $users): void
     {
-        $templateName = match($entity::class) {
+        $templateName = match ($entity::class) {
             Election::class => 'mails/election.html.twig',
             Event::class => 'mails/event.html.twig',
-            Invoice::class => 'mails/invoice.html.twig'
+            Invoice::class => 'mails/invoice.html.twig',
         };
-        $subject = match($entity::class) {
-            Election::class => 'Élection pour ' . $entity->getJobTitle(),
-            Event::class => 'Nouvel Évènement : ' . $entity->getTitle(),
+        $subject = match ($entity::class) {
+            Election::class => 'Élection pour '.$entity->getJobTitle(),
+            Event::class => 'Nouvel Évènement : '.$entity->getTitle(),
             Invoice::class => 'Nouvelle Facture disponible',
         };
-        $context = match($entity::class) {
+        $context = match ($entity::class) {
             Election::class => ['election' => $entity],
             Event::class => ['event' => $entity],
             Invoice::class => [],
@@ -69,17 +70,16 @@ final class NotificationManager
                 ->htmlTemplate($templateName)
                 ->context($context)
             ;
-            if($filePath) {
+            if ($filePath) {
                 $email->addPart(new DataPart(new File($filePath)));
             }
 
             $this->mailerInterface->send($email);
         }
-
     }
 
     public function getMailFromUsers(array $users): array
     {
-        return array_map(fn($user) => $user->getEmail(), $users);
+        return array_map(fn ($user) => $user->getEmail(), $users);
     }
 }

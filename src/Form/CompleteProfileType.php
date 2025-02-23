@@ -12,13 +12,13 @@ class CompleteProfileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('firstname', null, [
-                    'attr' => [
-                        'class' => 'form-control',
-                        'placeholder' => 'Ex : Jean-Marc',
-                    ],
-                    'row_attr' => ['class' => 'mb-3'],
-                    'label' => 'Prénom'
-                ])
+            'attr' => [
+                'class' => 'form-control',
+                'placeholder' => 'Ex : Jean-Marc',
+            ],
+            'row_attr' => ['class' => 'mb-3'],
+            'label' => 'Prénom',
+        ])
                 ->add('lastname', null, [
                     'attr' => [
                         'class' => 'form-control',
@@ -43,7 +43,7 @@ class CompleteProfileType extends AbstractType
                     'row_attr' => ['class' => 'mb-3'],
                     'label' => 'Poste',
                 ])
-                ;
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
