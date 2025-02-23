@@ -35,7 +35,8 @@
                 <tr>
                     <td>{{ plan.name }}</td>
                     <td>{{ plan.description }}</td>
-                    <td>{{ plan.features[0].name }} ...</td>
+                    {# <td>{{ plan.features[0].name }} ...</td> #}
+                    <td>{{ plan.features is not empty ? plan.features[0].name ~ '...' : 'Aucun avantages disponibles' }}</td>
                     <td>{{ plan.price }} €</td>
                     <td>
                         <div class="d-flex align-items-center gap-2">
