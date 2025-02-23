@@ -28,6 +28,20 @@
             icon: fa.icon('calendar-star', size: 'lg'),
             check_path: 'app_event',
           ) }}
+          
+          {{ navigation.nav_item(
+            label: 'Être adhérent',
+            path: '#',
+            icon: fa.icon('user-check', size: 'lg'),
+            check_path: 'null',
+          ) }}
+
+          {{ navigation.nav_item(
+            label: 'Être partenaire',
+            path: '#',
+            icon: fa.icon('handshake', size: 'lg'),
+            check_path: 'null',
+          ) }}
         </ul>
 
         {# ----- Bouton de droite ----- #}
@@ -119,8 +133,11 @@
           </ul>
         {% else %}
           <ul class="navbar-nav mb-2 mb-lg-0 list-unstyled">
+            <li class="nav-item me-1">
+              <a href="{{ path('app_login') }}" class="btn btn-warning">Connexion</a>
+            </li>
             <li class="nav-item">
-              <a href="{{ path('app_login') }}" class="nav-link">Connexion</a>
+              <a href="{{ path('app_login') }}" class="btn btn-primary">Nous contacter</a>
             </li>
           </ul>
         {% endif %}
