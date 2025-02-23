@@ -48,7 +48,7 @@
               <td>{{ newsletter.sendAt ? newsletter.sendAt|date(date_format) : '' }}</td>
               <td>
                 <div class="d-flex align-items-center gap-2">
-                {% set modalId = 'confirmAlert-' ~ newsletter.id %}
+                  {% set modalId = 'confirmAlert-' ~ newsletter.id %}
                   <a class="link-primary" data-bs-toggle="modal" data-bs-target="#{{ modalId }}" href="#">
                     {{ fa.icon('paper-plane') }}
                   </a>
