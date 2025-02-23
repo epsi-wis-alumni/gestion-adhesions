@@ -8,17 +8,19 @@
   <div class="card mb-4 {{ border }}">
     <div class="card-body">
 
-      <h3 class="card-title text-center mb-3">
-        {{ title }}
+      <h3 class="card-title text-center mb-3" data-controller="tooltips">
+        {{ title }} 
+        
+        {% if current %}
+          <span class="text-success cursor-pointer"
+            data-bs-toggle="tooltip" 
+            data-bs-placement="top"  
+            data-bs-custom-class="custom-tooltip" 
+            data-bs-title="Adhésion active"> 
+              {{ fa.icon('circle-check', size: 'sm') }}
+          </span>
+        {% endif %}
       </h3>
-
-      {% if current %}
-        <div class="badge bg-success current">Actif</div>
-        {# <div class="position-absolute top-0 start-100 translate-middle px-3 py-2 bg-success rounded-circle">
-          {{ fa.icon('check', swap_opacity: true) }}
-        </div> #}
-      {% endif %}
-      
 
       <div class="card-text text-secondary text-center mb-3">
         {{ description }}
