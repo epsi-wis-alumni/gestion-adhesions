@@ -3,6 +3,8 @@
 $color-mode-type: media-query;
 $enable-shadows: true;
 $primary: #4B4B99;
+$tooltip-color: var(--primary);
+$tooltip-bg: $primary;
 
 @import "../../vendor/twbs/bootstrap/scss/variables";
 @import "../../vendor/twbs/bootstrap/scss/variables-dark";

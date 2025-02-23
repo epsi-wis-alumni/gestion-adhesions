@@ -96,7 +96,7 @@ main {
 
 .highlight {
     border: solid 2px var(--bs-primary);
-    box-shadow: 0 0 28px color-mix(in srgb, var(--bs-primary) 70%, transparent);
+    box-shadow: 0 .5rem 28px color-mix(in srgb, var(--bs-primary) 70%, transparent);
 }
 
 .current {
@@ -104,4 +104,8 @@ main {
     top: 0;
     right: 0;
     transform: translate(50%, -50%);
+}
+
+.cursor-pointer {
+    cursor: pointer;
 }
