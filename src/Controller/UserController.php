@@ -78,7 +78,6 @@ final class UserController extends AbstractController
     public function show(
         #[CurrentUser] User $currentUser,
         PlanRepository $planRepository,
-        SubscriptionRepository $subscriptionRepository,
     ): Response {
         $activePlan = $planRepository->findOneActivePlanByUser($currentUser);
         $plans = $planRepository->findAllSorted();

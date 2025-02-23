@@ -23,4 +23,13 @@ final class EventManager
             ->setUpdatedAt(new DateTimeImmutable())
         ;
     }
+
+    public function getStep(Event $event): int
+    {
+        $now = new DateTimeImmutable();
+
+        return $event->getStartAt() > $now
+            ? 1 : ($event->getStartAt() < $now && $event->getEndAt() > $now
+            ? 2 : 3);
+    }
 }
