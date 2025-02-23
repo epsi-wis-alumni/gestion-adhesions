@@ -24,13 +24,13 @@ final class Manager {
             };
 
             switch ($step) {
-                case '1':
+                case 1:
                     $futur[] = $entity;
                     break;
-                case '2':
+                case 2:
                     $present[] = $entity;
                     break;
-                case '3':
+                case 3:
                     $past[] = $entity;
                     break;
             }
