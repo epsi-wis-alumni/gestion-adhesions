@@ -7,13 +7,6 @@ on:
 env:
   APP_ENV: prod
   APP_VERSION: ${{ github.ref_name }}
-  APP_DEBUG: 0
-  DATABASE_URL: ${{ secrets.SYMFONY_DATABASE_URL }}
-  MAILER_DSN: ${{ secrets.SYMFONY_MAILER_DSN }}
-  GOOGLE_CLIENT_ID: ${{ secrets.OAUTH_GOOGLE_CLIENT_ID }}
-  GOOGLE_CLIENT_SECRET: ${{ secrets.OAUTH_GOOGLE_CLIENT_SECRET }}
-  GITHUB_CLIENT_ID: ${{ secrets.OAUTH_GITHUB_CLIENT_ID }}
-  GITHUB_CLIENT_SECRET: ${{ secrets.OAUTH_GITHUB_CLIENT_SECRET }}
 
 jobs:
   ftp_upload:
@@ -25,6 +18,17 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.3
+
+      - name: Setup env
+        run: |
+          echo "APP_ENV=prod" >> .env.local
+          echo "APP_DEBUG=0" >> .env.local
+          echo "DATABASE_URL=${{ secrets.SYMFONY_DATABASE_URL }}" >> .env.prod.local
+          echo "MAILER_DSN=${{ secrets.SYMFONY_MAILER_DSN }}" >> .env.prod.local
+          echo "GOOGLE_CLIENT_ID=${{ secrets.OAUTH_GOOGLE_CLIENT_ID }}" >> .env.prod.local
+          echo "GOOGLE_CLIENT_SECRET=${{ secrets.OAUTH_GOOGLE_CLIENT_SECRET }}" >> .env.prod.local
+          echo "GITHUB_CLIENT_ID=${{ secrets.OAUTH_GITHUB_CLIENT_ID }}" >> .env.prod.local
+          echo "GITHUB_CLIENT_SECRET=${{ secrets.OAUTH_GITHUB_CLIENT_SECRET }}" >> .env.prod.local
           
       - name: Install Composer dependencies
         uses: ramsey/composer-install@v2
