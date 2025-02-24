@@ -1,0 +1,62 @@
+name: Deploy to FTP
+
+on:
+  release:
+    types: [released]
+
+env:
+  APP_ENV: prod
+  APP_VERSION: ${{ github.ref_name }}
+
+jobs:
+  ftp_upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup PHP Action
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@v2
+        with:
+          dependency-versions: locked
+          composer-options: "--ignore-platform-reqs --optimize-autoloader --no-dev"
+          
+      - name: Create env.local.php
+        run: |
+          touch .env.local
+          
+          echo "APP_VERSION=\"${{ github.ref_name }}\"" >> .env.local
+          echo "APP_DEBUG=0" >> .env.local
+          
+          echo "DATABASE_URL=\"${{ secrets.SYMFONY_DATABASE_URL }}\"" >> .env.local
+          echo "MAILER_DSN=\"${{ secrets.SYMFONY_MAILER_DSN }}\"" >> .env.local
+          
+          echo "GOOGLE_CLIENT_ID=\"${{ secrets.OAUTH_GOOGLE_CLIENT_ID }}\"" >> .env.local
+          echo "GOOGLE_CLIENT_SECRET=\"${{ secrets.OAUTH_GOOGLE_CLIENT_SECRET }}\"" >> .env.local
+          echo "GITHUB_CLIENT_ID=\"${{ secrets.OAUTH_GITHUB_CLIENT_ID }}\"" >> .env.local
+          echo "GITHUB_CLIENT_SECRET=\"${{ secrets.OAUTH_GITHUB_CLIENT_SECRET }}\"" >> .env.local
+          
+          composer dump-autoload --optimize --classmap-authoritative
+          composer dump-env prod
+
+      - name: Import assets
+        run: |
+          php bin/console sass:compile
+          php bin/console assets:install
+      
+      - name: Upload to hosting FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          server-dir: ./fr.epsi-wis-alumni/
+          log-level: 'minimal'
+          exclude: |
+            **/.git*
+            **/.git*/**
