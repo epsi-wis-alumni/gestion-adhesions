@@ -48,8 +48,7 @@ security:
         ROLE_ADMIN: ROLE_MEMBER
 
     access_control:
-        - { path: ^/$, roles: PUBLIC_ACCESS }
-        - { path: ^/(login|connect|event), roles: PUBLIC_ACCESS }
+        - { path: ^/(login|connect|event|$|cgu), roles: PUBLIC_ACCESS }
         - { path: ^/(complete-profile|user|logout), roles: ROLE_USER }
         - { path: ^/contribute, roles: ROLE_APPROVED }
         - { path: ^/admin, roles: ROLE_ADMIN }
