@@ -11,8 +11,8 @@
       alt="{{ alt }}" 
       class="rounded-pill border"
       onerror="
-        this.style.display='none'; 
-        this.insertAdjacentHTML(
+        this.style.display='none';
+        if (this.nextElementSibling === null) this.insertAdjacentHTML(
           'afterend', 
           '{{ fa.icon('user-circle', size='icon_size') | e('js') }}'
         );
