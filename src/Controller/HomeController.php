@@ -47,4 +47,10 @@ class HomeController extends AbstractController
             'plans' => $plans,
         ]);
     }
+
+    #[Route('/cgu', name: 'app_cgu')]
+    public function cgu(): Response
+    {
+        return $this->render('home/cgu.html.twig');
+    }
 }
