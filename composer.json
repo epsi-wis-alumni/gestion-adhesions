@@ -88,7 +88,7 @@
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
             "importmap:install": "symfony-cmd",
-            "sass:compile": "symfony-cmd",
+            "sass:build": "symfony-cmd",
             "minify:asset": "symfony-cmd"
         },
         "post-install-cmd": [
