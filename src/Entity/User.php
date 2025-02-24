@@ -3,8 +3,8 @@
 namespace App\Entity;
 
 use App\Entity\Trait\SoftDeletableTrait;
-use App\Enum\MemberType;
 use App\Enum\MembershipStatus;
+use App\Enum\MemberType;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -279,8 +279,8 @@ class User implements UserInterface
     public function getDisplayName(bool $reverse = false): string
     {
         $names = [
-            u($this->getLastname())->upper(), 
-            u($this->getFirstname())->title(allWords: true)
+            u($this->getLastname())->upper(),
+            u($this->getFirstname())->title(allWords: true),
         ];
 
         if ($reverse) {
