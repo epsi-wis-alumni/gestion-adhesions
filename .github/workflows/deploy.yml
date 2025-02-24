@@ -19,12 +19,6 @@ jobs:
         with:
           php-version: 8.3
           
-      - name: Install Composer dependencies
-        uses: ramsey/composer-install@v2
-        with:
-          dependency-versions: locked
-          composer-options: "--ignore-platform-reqs --optimize-autoloader --no-dev"
-          
       - name: Create env.local.php
         run: |
           touch .env.local
@@ -42,6 +36,12 @@ jobs:
           
           composer dump-autoload --optimize --classmap-authoritative
           composer dump-env prod
+          
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@v2
+        with:
+          dependency-versions: locked
+          composer-options: "--ignore-platform-reqs --optimize-autoloader --no-dev"
 
       - name: Import assets
         run: |
