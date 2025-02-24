@@ -36,6 +36,7 @@ class Subscription
     {
         return $this->id;
     }
+
     public function getDiscount(): ?int
     {
         return $this->discount;

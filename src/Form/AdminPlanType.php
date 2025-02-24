@@ -40,7 +40,7 @@ class AdminPlanType extends AbstractType
                 'label' => 'Annuel (€)',
             ])
             ->add('features', CollectionType::class, [
-                'entry_type' => AdminFeatureType::class,  
+                'entry_type' => AdminFeatureType::class,
                 'entry_options' => ['label' => false],
                 'label' => false,
                 'allow_add' => true,

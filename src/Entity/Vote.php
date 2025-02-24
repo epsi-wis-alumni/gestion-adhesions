@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\VoteRepository;
-use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: VoteRepository::class)]
@@ -28,7 +27,7 @@ class Vote
 
     public function __construct()
     {
-        $this->setVotedAt(new DateTimeImmutable());
+        $this->setVotedAt(new \DateTimeImmutable());
     }
 
     public function getId(): ?int

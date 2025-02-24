@@ -5,20 +5,22 @@ namespace App\Service;
 use App\Entity\Election;
 use App\Entity\Event;
 
-final class Manager {
+final class Manager
+{
     public function __construct(
         private ElectionManager $electionManager,
         private EventManager $eventManager,
-    ) { }
+    ) {
+    }
+
     public function orderByStep(array $entities): array
-    
     {
         $futur = [];
         $present = [];
         $past = [];
 
         foreach ($entities as $entity) {
-            $step = match($entity::class) {
+            $step = match ($entity::class) {
                 Election::class => $this->electionManager->getStep($entity),
                 Event::class => $this->eventManager->getStep($entity),
             };
@@ -35,6 +37,7 @@ final class Manager {
                     break;
             }
         }
+
         return array_merge($futur, $present, $past);
     }
 }

@@ -16,7 +16,7 @@ class AdminFeatureType extends AbstractType
                 'class' => 'mb-0',
             ],
             'label' => false,
-            ])
+        ])
         ;
     }
 

@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use App\Entity\Invoice;
 use App\Entity\Transaction;
 use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
@@ -15,7 +14,8 @@ final class InvoiceManager
         private EntityManagerInterface $entityManager,
         private NotificationManager $notificationManager,
         private ContainerBagInterface $params,
-    ) {}
+    ) {
+    }
 
     public function create(
         string $html,
@@ -23,7 +23,7 @@ final class InvoiceManager
     ): void {
         $invoicePath = $this->generate($html, $transaction);
         $transaction->getInvoice()->setFilePath($invoicePath);
-        
+
         $this->entityManager->flush();
 
         $invoice = $transaction->getInvoice();
@@ -33,10 +33,10 @@ final class InvoiceManager
 
     public function generate(
         string $html,
-        Transaction $transaction
-        ): string {
-        $directory = __DIR__ . $this->params->get('invoice_base_path');
-        $filename = 'invoice_' . $transaction->getId() . '.pdf';
+        Transaction $transaction,
+    ): string {
+        $directory = __DIR__.$this->params->get('invoice_base_path');
+        $filename = 'invoice_'.$transaction->getId().'.pdf';
 
         if (!is_dir($directory)) {
             mkdir($directory, 0777, true);
@@ -52,10 +52,9 @@ final class InvoiceManager
 
         $dompdf->render();
 
-        $filePath = $directory . $filename;
+        $filePath = $directory.$filename;
         file_put_contents($filePath, $dompdf->output());
 
         return $filePath;
     }
-
 }

@@ -55,7 +55,6 @@ class AdminEventType extends AbstractType
                 'row_attr' => ['class' => 'mb-3'],
                 'data' => true,
             ]);
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

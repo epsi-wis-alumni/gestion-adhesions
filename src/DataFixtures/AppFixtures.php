@@ -14,26 +14,25 @@ use App\Entity\Transaction;
 use App\Entity\User;
 use App\Entity\Vote;
 use App\Service\UserManager;
-use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
 /**
  * Reload the database with some data
- * symfony console doctrine:database:drop --force && symfony console doctrine:database:create && symfony console d:m:m -n && symfony console doctrine:fixtures:load -n
+ * symfony console doctrine:database:drop --force && symfony console doctrine:database:create && symfony console d:m:m -n && symfony console doctrine:fixtures:load -n.
  */
-
 class AppFixtures extends Fixture
 {
     public function __construct(
         protected UserManager $userManager,
-    ) {}
+    ) {
+    }
 
     public function load(ObjectManager $manager): void
     {
         // $product = new Product();
         // $manager->persist($product);
-        
+
         // USERS
 
         $userPerso = new User();
@@ -45,7 +44,7 @@ class AppFixtures extends Fixture
             ->setAvatar($_ENV['USER_AVATAR'])
             ->setCompany('EPSI')
             ->setJobTitle('Secrétaire')
-            ->setCreatedAt(new DateTimeImmutable())
+            ->setCreatedAt(new \DateTimeImmutable())
         ;
         $this->userManager->addRole($userPerso, 'ROLE_ADMIN');
 
@@ -54,7 +53,7 @@ class AppFixtures extends Fixture
             ->setFirstname('Admin')
             ->setLastname('ADMIN')
             ->setEmail('admin@gmail.com')
-            ->setCreatedAt(new DateTimeImmutable())
+            ->setCreatedAt(new \DateTimeImmutable())
         ;
         // $this->userManager->approve($userAdmin, $userAdmin);
         $this->userManager->addRole($userAdmin, 'ROLE_ADMIN');
@@ -64,17 +63,16 @@ class AppFixtures extends Fixture
             ->setFirstname('Candidacy1')
             ->setLastname('CANDIDATE1')
             ->setEmail('candidacy1@gmail.com')
-            ->setCreatedAt(new DateTimeImmutable())
+            ->setCreatedAt(new \DateTimeImmutable())
         ;
         $this->userManager->approve($userCandidacy1, $userAdmin);
-        
 
         $userCandidacy2 = new User();
         $userCandidacy2
             ->setFirstname('Candidacy2')
             ->setLastname('CANDIDATE2')
             ->setEmail('candidacy2@gmail.com')
-            ->setCreatedAt(new DateTimeImmutable())
+            ->setCreatedAt(new \DateTimeImmutable())
         ;
         $this->userManager->approve($userCandidacy2, $userAdmin);
 
@@ -83,7 +81,7 @@ class AppFixtures extends Fixture
             ->setFirstname('Voter1')
             ->setLastname('VOTER1')
             ->setEmail('voter1@gmail.com')
-            ->setCreatedAt(new DateTimeImmutable())
+            ->setCreatedAt(new \DateTimeImmutable())
         ;
         $this->userManager->approve($userVoter1, $userAdmin);
 
@@ -92,12 +90,12 @@ class AppFixtures extends Fixture
         $manager->persist($userCandidacy1);
         $manager->persist($userCandidacy2);
         $manager->persist($userVoter1);
-        
+
         $manager->flush();
 
         // ELECTIONS
 
-        $today = new DateTimeImmutable();
+        $today = new \DateTimeImmutable();
         $yesterday = $today->modify('-1 day');
         $tomorrow = $today->modify('+1 day');
 
@@ -134,7 +132,7 @@ class AppFixtures extends Fixture
         $manager->persist($election1);
         $manager->persist($election2);
         $manager->persist($election3);
-        
+
         $manager->flush();
 
         // CANDIDATES
@@ -157,7 +155,7 @@ class AppFixtures extends Fixture
 
         $manager->persist($candidacy1);
         $manager->persist($candidacy2);
-        
+
         $manager->flush();
 
         // VOTES
@@ -214,14 +212,14 @@ class AppFixtures extends Fixture
 
         $plan1 = new Plan();
         $plan1
-            ->setName("Alumni")
+            ->setName('Alumni')
             ->setDescription("L'abonnement spécial ancien élève")
             ->setPrice(15.00)
         ;
 
         $plan2 = new Plan();
         $plan2
-            ->setName("Grand Prince")
+            ->setName('Grand Prince')
             ->setDescription("L'abonnement spécial donnateur")
             ->setPrice(60.00)
             ->setHighlighted(true)
@@ -229,7 +227,7 @@ class AppFixtures extends Fixture
 
         $plan3 = new Plan();
         $plan3
-            ->setName("Grande Pince")
+            ->setName('Grande Pince')
             ->setDescription("L'abonnement spécial étudiant")
             ->setPrice(5.00)
         ;
@@ -244,63 +242,63 @@ class AppFixtures extends Fixture
         // 1 - Plan 1
         $feature1_1 = new Feature();
         $feature1_1
-            ->setName("Accès au réseau des anciens élèves")
+            ->setName('Accès au réseau des anciens élèves')
             ->setPlan($plan1)
         ;
 
         $feature1_2 = new Feature();
         $feature1_2
-            ->setName("Participation aux événements")
+            ->setName('Participation aux événements')
             ->setPlan($plan1)
         ;
 
         // 2 - Plan 2
         $feature2_1 = new Feature();
         $feature2_1
-            ->setName("Mention honorifique")
+            ->setName('Mention honorifique')
             ->setPlan($plan2)
         ;
 
         $feature2_2 = new Feature();
         $feature2_2
-            ->setName("Accès premium aux événements")
+            ->setName('Accès premium aux événements')
             ->setPlan($plan2)
         ;
 
         $feature2_3 = new Feature();
         $feature2_3
-            ->setName("Consultations personnalisées")
+            ->setName('Consultations personnalisées')
             ->setPlan($plan2)
         ;
 
         $feature2_4 = new Feature();
         $feature2_4
-            ->setName("Contenus exclusifs")
+            ->setName('Contenus exclusifs')
             ->setPlan($plan2)
         ;
 
         $feature2_5 = new Feature();
         $feature2_5
-            ->setName("Opportunité de parrainage")
+            ->setName('Opportunité de parrainage')
             ->setPlan($plan2)
         ;
 
         $feature2_6 = new Feature();
         $feature2_6
-            ->setName("Badge spécial")
+            ->setName('Badge spécial')
             ->setPlan($plan2)
         ;
 
         // 3 - Plan 3
         $feature3_1 = new Feature();
         $feature3_1
-            ->setName("Mises à jour professionnelles")
+            ->setName('Mises à jour professionnelles')
             ->setPlan($plan3)
         ;
 
         $feature3_2 = new Feature();
         $feature3_2
-            ->setName("Accès illimité à la base de données des membres")
+            ->setName('Accès illimité à la base de données des membres')
             ->setPlan($plan3)
         ;
 
@@ -321,20 +319,20 @@ class AppFixtures extends Fixture
 
         $mailTemplate1 = new MailTemplate();
         $mailTemplate1
-            ->setLabel("Élection")
-            ->setFileName("election.html.twig")
+            ->setLabel('Élection')
+            ->setFileName('election.html.twig')
         ;
 
         $mailTemplate2 = new MailTemplate();
         $mailTemplate2
-            ->setLabel("Évènement")
-            ->setFileName("event.html.twig")
+            ->setLabel('Évènement')
+            ->setFileName('event.html.twig')
         ;
 
         $mailTemplate3 = new MailTemplate();
         $mailTemplate3
-            ->setLabel("Newsletter")
-            ->setFileName("newsletter.html.twig")
+            ->setLabel('Newsletter')
+            ->setFileName('newsletter.html.twig')
         ;
 
         $manager->persist($mailTemplate1);
@@ -348,9 +346,9 @@ class AppFixtures extends Fixture
         $newsletter1 = new Newsletter();
         $newsletter1
             ->setCreatedBy($userAdmin)
-            ->setCreatedAt(New \DateTimeImmutable())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setTemplate($mailTemplate3)
-            ->setObject("Découvrez nos plans adaptés à vos besoins !")
+            ->setObject('Découvrez nos plans adaptés à vos besoins !')
             ->setBody("
                 Bonjour {{ userNewsletter.user.firstname }},
 
@@ -364,15 +362,15 @@ class AppFixtures extends Fixture
 
                 L'équipe EPSI-WIS Alumni.
             ")
-            ->setCta("Découvrez nos offres")
+            ->setCta('Découvrez nos offres')
         ;
 
         $newsletter2 = new Newsletter();
         $newsletter2
             ->setCreatedBy($userAdmin)
-            ->setCreatedAt(New \DateTimeImmutable())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setTemplate($mailTemplate3)
-            ->setObject("Participez à notre prochain webinaire gratuit !")
+            ->setObject('Participez à notre prochain webinaire gratuit !')
             ->setBody("
                 Bonjour {{ userNewsletter.user.firstname }},
 
@@ -392,15 +390,15 @@ class AppFixtures extends Fixture
 
                 L'équipe EPSI-WIS Alumni.
             ")
-            ->setCta("Inscrivez-vous gratuitement")
+            ->setCta('Inscrivez-vous gratuitement')
         ;
 
         $newsletter3 = new Newsletter();
         $newsletter3
             ->setCreatedBy($userAdmin)
-            ->setCreatedAt(New \DateTimeImmutable())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setTemplate($mailTemplate3)
-            ->setObject("Votre plateforme évolue ! Découvrez les nouveautés.")
+            ->setObject('Votre plateforme évolue ! Découvrez les nouveautés.')
             ->setBody("
                 Bonjour {{ userNewsletter.user.firstname }},
 
@@ -414,7 +412,7 @@ class AppFixtures extends Fixture
 
                 L'équipe EPSI-WIS Alumni.
             ")
-            ->setCta("Explorez les nouveautés")
+            ->setCta('Explorez les nouveautés')
         ;
 
         $manager->persist($newsletter1);
@@ -428,11 +426,11 @@ class AppFixtures extends Fixture
         $evenement1 = new Event();
         $evenement1
             ->setCreatedBy($userAdmin)
-            ->setTitle("Hackathon des Innovateurs")
-            ->setPlace("349 Rue de la Cavalade, 34070 Montpellier")
+            ->setTitle('Hackathon des Innovateurs')
+            ->setPlace('349 Rue de la Cavalade, 34070 Montpellier')
             ->setStartAt(new \DateTimeImmutable('2025-03-15 10:00:00'))
             ->setEndAt(new \DateTimeImmutable('2025-03-17 18:00:00'))
-            ->setCreatedAt(New \DateTimeImmutable())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setPrivate(false)
         ;
 
@@ -440,21 +438,21 @@ class AppFixtures extends Fixture
         $evenement2
             ->setCreatedBy($userAdmin)
             ->setTitle("Conférence : L'Intelligence Artificielle et l'Éthique")
-            ->setPlace("349 Rue de la Cavalade, 34070 Montpellier")
+            ->setPlace('349 Rue de la Cavalade, 34070 Montpellier')
             ->setStartAt(new \DateTimeImmutable('2025-04-23 09:30:00'))
             ->setEndAt(new \DateTimeImmutable('2025-04-23 17:00:00'))
-            ->setCreatedAt(New \DateTimeImmutable())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setPrivate(false)
         ;
 
         $evenement3 = new Event();
         $evenement3
             ->setCreatedBy($userAdmin)
-            ->setTitle("Atelier de Création de Startups")
-            ->setPlace("349 Rue de la Cavalade, 34070 Montpellier")
+            ->setTitle('Atelier de Création de Startups')
+            ->setPlace('349 Rue de la Cavalade, 34070 Montpellier')
             ->setStartAt(new \DateTimeImmutable('2025-06-01 08:30:00'))
             ->setEndAt(new \DateTimeImmutable('2025-06-01 16:00:00'))
-            ->setCreatedAt(New \DateTimeImmutable())
+            ->setCreatedAt(new \DateTimeImmutable())
             ->setPrivate(true)
         ;
 

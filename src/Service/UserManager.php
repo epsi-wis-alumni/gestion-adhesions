@@ -2,16 +2,11 @@
 
 namespace App\Service;
 
-use App\Entity\Settings;
 use App\Entity\User;
-use App\Enum\DefaultSettings;
-use DateTimeImmutable;
-use LogicException;
-use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 final class UserManager
 {
-    public function delete(User $by, User $who, DateTimeImmutable $when = new DateTimeImmutable()): void
+    public function delete(User $by, User $who, \DateTimeImmutable $when = new \DateTimeImmutable()): void
     {
         $who
             ->setDeletedBy($by)
@@ -25,7 +20,7 @@ final class UserManager
             ->setRejectedBy(null)
             ->setRejectedAt(null)
             ->setApprovedBy($by)
-            ->setApprovedAt(new DateTimeImmutable())
+            ->setApprovedAt(new \DateTimeImmutable())
         ;
     }
 
@@ -35,14 +30,14 @@ final class UserManager
             ->setApprovedBy(null)
             ->setApprovedAt(null)
             ->setRejectedBy($by)
-            ->setRejectedAt(new DateTimeImmutable())
+            ->setRejectedAt(new \DateTimeImmutable())
         ;
     }
 
     public function addRole(User $to, string $role): void
     {
         if (!str_starts_with($role, 'ROLE_')) {
-            throw new LogicException('A role must start with "ROLE_", but "' . $role . '" given.');
+            throw new \LogicException('A role must start with "ROLE_", but "'.$role.'" given.');
         }
         $roles = $to->getRoles();
         $roles[] = $role;

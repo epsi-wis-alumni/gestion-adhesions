@@ -15,15 +15,14 @@ class NewsletterController extends AbstractController
     public function index(
         UserNewsletter $userNewsletter,
         ContainerBagInterface $params,
-        ): Response {
-
+    ): Response {
         $templateFileName = $userNewsletter->getNewsletter()->getTemplate()->getFileName();
 
-        if (!file_exists(realpath(__DIR__ . $params->get('mails_base_path') . $templateFileName))) {
+        if (!file_exists(realpath(__DIR__.$params->get('mails_base_path').$templateFileName))) {
             $userNewsletter = 'userNewsletter';
         }
 
-        return $this->render('mails/' . $templateFileName, [
+        return $this->render('mails/'.$templateFileName, [
             'userNewsletter' => $userNewsletter,
         ]);
     }

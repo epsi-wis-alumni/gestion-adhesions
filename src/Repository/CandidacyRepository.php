@@ -31,12 +31,12 @@ class CandidacyRepository extends ServiceEntityRepository
             ->orderBy('COUNT(v.id)', 'DESC')
             ->setParameter('electionId', $election->getId())
         ;
-        
+
         return $qb->getQuery()->getResult();
     }
 
     /**
-     * @return boolean Returns a boolean
+     * @return bool Returns a boolean
      */
     public function hasCandidated(User $user, Election $election): bool
     {

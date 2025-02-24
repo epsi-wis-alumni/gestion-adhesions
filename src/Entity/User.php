@@ -626,6 +626,7 @@ class User implements UserInterface
 
         return $this;
     }
+
     public function getSettings(): ?Settings
     {
         return $this->settings;
@@ -700,7 +701,7 @@ class User implements UserInterface
 
     public function hasCompleteInfo(): bool
     {
-        return !!$this->getCompany() && !!$this->getJobTitle();
+        return (bool) $this->getCompany() && (bool) $this->getJobTitle();
     }
 
     /**

@@ -76,7 +76,7 @@ class ElectionRepository extends ServiceEntityRepository
             ->setParameter('id', $id)
             ->setParameter('now', new \DateTimeImmutable())
             ->getQuery()
-            ->getOneOrNullResult() ? true : false;;
+            ->getOneOrNullResult() ? true : false;
     }
 
     /**
