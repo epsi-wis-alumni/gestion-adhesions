@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Trait\SoftDeletableTrait;
 use App\Enum\MembershipStatus;
+use App\Enum\MemberType;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Embedded;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+
+use function Symfony\Component\String\u;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -143,6 +146,9 @@ class User implements UserInterface
     #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'updatedBy')]
     private Collection $updatedEvents;
 
+    #[ORM\Column(enumType: MemberType::class, options: ['default' => MemberType::Undefined->value])]
+    private ?MemberType $type = null;
+
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
@@ -272,7 +278,10 @@ class User implements UserInterface
 
     public function getDisplayName(bool $reverse = false): string
     {
-        $names = [strtoupper($this->getLastname()), $this->getFirstname()];
+        $names = [
+            u($this->getLastname())->upper(),
+            u($this->getFirstname())->title(allWords: true),
+        ];
 
         if ($reverse) {
             $names = array_reverse($names);
@@ -790,6 +799,18 @@ class User implements UserInterface
                 $event->setUpdatedBy(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getType(): ?MemberType
+    {
+        return $this->type;
+    }
+
+    public function setType(MemberType $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }
