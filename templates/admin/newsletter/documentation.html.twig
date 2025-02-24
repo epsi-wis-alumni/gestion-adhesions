@@ -1,0 +1,79 @@
+{% extends 'admin_base.html.twig' %}
+{% import "macros/fontawesome.html.twig" as fa %}
+
+{% block title_admin %}
+  Documentation Newsletter
+{% endblock %}
+
+{% block admin_content %}
+  <div class="container">
+    <p>
+      Cette documentation va vous aider à comprendre comment fonctionne la syntaxe pour réaliser une newsletter, 
+      ainsi que les différentes étapes pour la structurer et la personnaliser selon vos besoins.
+    </p>
+
+    <p class="h3">Syntaxe</p>
+    <p>
+      Notre newsletter utilise un langage nommé "Markdown". Le "Markdown" est un langage simple qui permet de formater du texte de manière rapide et lisible, 
+      sans nécessiter de connaissances en programmation. Découvrez les <a href="https://www.markdownguide.org/cheat-sheet/" target="_blank" class="text-decoration-none">rapide bases</a> du markdown ainsi qu'une <a href="https://markdownguide.offshoot.io/basic-syntax/" target="_blank" class="text-decoration-none">documentation plus avancée.</a> 
+    </p>
+
+    <p class="h3">Personnalisation</p>
+    <p class="m-0">
+      Afin de pouvoir personnaliser la newsletter en utilisant les informations de l'utilisateur, 
+      telles que son nom ou son prénom, il vous faudra appliquer un formatage spécifique :
+    </p>
+    
+    <div class="d-flex align-items-center">
+      <div class="me-2 text-warning">
+        {{ fa.icon('warning', swap_opacity: true ) }}
+      </div>
+      <p class="m-0 text-secondary">
+        La correspondance des informations ne se fera que lors de l'envoi du mail, 
+        vous ne verrez pas les changements dans la section "Aperçu".</p>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center fw-bold my-4">
+      <p class="h5 bg-primary bg-opacity-75 rounded px-3 py-1 m-0">{{ '{{ userNewsletter.user.information }}' }}</p>
+    </div>
+
+    <p>Le terme "information" peut être remplacé par l'un des mots-clés suivants afin d'obtenir l'information voulue :</p>
+    <ul>
+      <li>
+        <strong>firstname : </strong> le prénom de l'utilisateur
+      </li>
+      <li>
+        <strong>lastname : </strong> le nom de l'utilisateur
+      </li>
+      <li>
+        <strong>displayName : </strong> le NOM et le Prénom de l'utilisateur
+      </li>
+      <li>
+        <strong>company : </strong> l'entreprise de l'utilisateur
+      </li>
+      <li>
+        <strong>jobTitle : </strong> le poste de l'utilisateur
+      </li>
+    </ul>
+
+    <div class="d-flex flex-column my-4">
+      <strong>Exemples :</strong>
+
+      <div class="d-flex align-items-center my-3">
+        <div class="w-50">
+          <div class="alert alert-secondary m-0">
+            Bonjour {{ '{{ userNewsletter.user.displayName }}' }} !
+          </div>
+        </div>
+        <div class="flex-shrink-1 px-2">
+          {{ fa.icon('arrow-right', swap_opacity: true )}}
+        </div>
+        <div class="w-50">
+          <div class="alert alert-secondary m-0">
+            Bonjour {{ user.displayName }} !
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

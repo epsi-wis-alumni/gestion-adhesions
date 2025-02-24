@@ -5,50 +5,21 @@ erDiagram
         string firstname
         string lastname
         string email
-        string password
         array roles
         string microsoftToken
         string googleToken
         string company "Nom de l'école pour un étudiant"
         string jobTitle
         datetime createdAt
-        
         User approvedBy
         datetime approvedAt
-        
         User rejectedBy
         datetime rejectedAt
+        User deletedBy
+        datetime deletedAt
     }
 
-    Subscription {
-        int id
-        string title
-        decimal amount
-        int discount
-        array features
-        int periodicity
-        date startAt
-        date endAt "nullable"
-    }
-
-    Transaction {
-        int id
-        int status
-        int type "don ou adhésion"
-        decimal amount
-        datetime createdAt
-        User user
-        string number
-        Subscription subscription
-    }
-
-    Plan {
-        int id
-        string name
-        string description
-        float yearly
-        boolean highlighted
-    }
+    Settings 1--1 User: ""
 
     Settings {
         int id
@@ -57,16 +28,46 @@ erDiagram
         bool allowNotifications "false"
     }
 
-    Newsletter {
+    Transaction 0+--1 User: ""
+
+    Transaction {
         int id
-        string object
-        string body
-        string cta
-        User createdBy
+        User user
+        Subscription subscription
+        decimal amount
+        int status
+        int type "don ou adhésion"
+        string invoice_file_path
         datetime createdAt
-        User sentBy
-        datetime sentAt
     }
+
+    Subscription 1--0+ Transaction: ""
+
+    Subscription {
+        int id
+        Plan plan
+        int discount
+    }
+
+    Plan 1--0+ Subscription: ""
+    
+    Plan {
+        int id
+        string name
+        string description
+        float price
+        boolean highlighted
+    }
+
+    Feature 0+--1 Plan: ""
+
+    Feature {
+        int id
+        string name
+        Plan plan
+    }
+
+    Election 0+--1 User: ""
 
     Election {
         int id
@@ -77,20 +78,31 @@ erDiagram
         datetime voteEndAt
     }
 
-    Candidate {
+    Candidacy 0+--1 User: ""
+    Candidacy 0+--1 Election: ""
+
+    Candidacy {
         int id
         User candidate
         Election election
         datetime candidatedAt
+        string presentation
     }
+
+    Vote 0+--1 User: ""
+    Vote 0+--1 Election: ""
+    Vote 0+--1 Candidacy: ""
 
     Vote {
         int id
         User voter
         Election election
-        Candidate candidate
+        Candidacy candidacy
         datetime votedAt
     }
+
+    Event 0+--1 User: ""
+    Event 0+--1 User: ""
 
     Event {
         int id
@@ -104,27 +116,38 @@ erDiagram
         User updateBy
         datetime updateAt
     }
-    
-    Settings 1--1 User: "Set"
-    
-    User 1--0+ Newsletter: "Create"
-    User 1--0+ Newsletter: "Send"
 
-    User 1--0+ Election: "Organize"
+    Newsletter 0+--1 User: ""
+    Newsletter 0+--1 User: ""
 
-    User 1--0+ Vote: "Vote"
-    User 1--0+ Candidate: "Candidate"
+    Newsletter {
+        int id
+        string object
+        string body
+        string cta
+        User createdBy
+        datetime createdAt
+        User sentBy
+        datetime sentAt
+        MailTemplate template
+    }
 
-    Vote 0+--1 Election: ""
-    Vote 0+--1 Candidate: ""
+    MailTemplate 1--0+ Newsletter: ""
 
-    Candidate 0+--1 Election: ""
+    MailTemplate {
+        int id
+        string label
+        string file_name
+    }
 
-    Transaction 0+--1 User: ""
-    Transaction 0+--1 Subscription: ""
+    UserNewsletter 1--0+ User: ""
+    UserNewsletter 1--0+ Newsletter: ""
 
-    Subscription 0+--1 Plan: ""
-
-    User 1--0+ Event: "Create"
-    User 1--0+ Event: "Participate"
+    UserNewsletter {
+        int id
+        User user
+        Newsletter Newsletter
+        datetime openAt
+        datetime sentAt
+    }
 ```
