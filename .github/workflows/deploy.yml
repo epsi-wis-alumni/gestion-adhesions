@@ -39,6 +39,7 @@ jobs:
       - name: Import assets
         run: |
           php bin/console sass:build
+          php bin/console minify:asset
           php bin/console assets:install
 
       - name: Optimize app
