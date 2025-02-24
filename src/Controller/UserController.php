@@ -117,29 +117,6 @@ final class UserController extends AbstractController
         ]);
     }
 
-    // #[Route('/invoice/{id}', name: 'app_user_invoice_show', methods: ['GET'])]
-    // public function showInvoice(
-    //     Transaction $transaction,
-    // ): Response {
-
-    //     $filePath = $transaction->getInvoice()->getFilePath();
-
-    //     if (!file_exists($filePath)) {
-    //         throw $this->createNotFoundException('La facture demandée est introuvable.');
-    //     }
-
-    //     $pdfContent = file_get_contents($filePath);
-
-    //     return new Response(
-    //         $pdfContent,
-    //         200,
-    //         [
-    //             'Content-Type' => 'application/pdf',
-    //             'Content-Disposition' => 'inline; filename="invoice_' . $transaction->getId() . '.pdf"',
-    //         ]
-    //     );
-    // }
-
     #[Route('/invoice/{id}', name: 'app_user_invoice_show', methods: ['GET'])]
     public function showInvoice(
         Transaction $transaction,
