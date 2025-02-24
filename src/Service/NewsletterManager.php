@@ -69,13 +69,13 @@ final class NewsletterManager
     ): void {
         $sender = $this->params->get('mailer_sender');
         $templateFileName = $userNewsletter->getNewsletter()->getTemplate()->getFileName();
-        $basePath = realpath(__DIR__ . $this->params->get('mails_base_path'));
-    
+        $basePath = realpath(__DIR__.$this->params->get('mails_base_path'));
+
         $finder = new Finder();
         $finder->files()->in($basePath)->name($templateFileName);
-    
-        $templatePath = $finder->hasResults() ? 'mails/' . $templateFileName : 'mails/newsletter.html.twig';
-    
+
+        $templatePath = $finder->hasResults() ? 'mails/'.$templateFileName : 'mails/newsletter.html.twig';
+
         $email = (new TemplatedEmail())
             ->from($sender)
             ->to($userNewsletter->getUser()->getEmail())
@@ -84,9 +84,8 @@ final class NewsletterManager
             ->context([
                 'userNewsletter' => $userNewsletter,
             ]);
-    
+
         $this->mailerInterface->send($email);
         $userNewsletter->setSentAt(new \DateTimeImmutable());
     }
-    
 }

@@ -10,8 +10,8 @@ use App\Repository\PlanRepository;
 use App\Repository\SubscriptionRepository;
 use App\Repository\TransactionRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Finder\Finder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -122,7 +122,7 @@ final class UserController extends AbstractController
         Transaction $transaction,
     ): Response {
         $filePath = $transaction->getInvoice()->getFilePath();
-        
+
         $finder = new Finder();
         $finder->files()->in(dirname($filePath))->name(basename($filePath));
 
