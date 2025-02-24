@@ -3,7 +3,9 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Enum\MemberType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -11,38 +13,48 @@ class CompleteProfileType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('firstname', null, [
-            'attr' => [
-                'class' => 'form-control',
-                'placeholder' => 'Ex : Jean-Marc',
-            ],
-            'row_attr' => ['class' => 'mb-3'],
-            'label' => 'Prénom',
-        ])
-                ->add('lastname', null, [
-                    'attr' => [
-                        'class' => 'form-control',
-                        'placeholder' => 'Ex : Dupont',
-                    ],
-                    'row_attr' => ['class' => 'mb-3'],
-                    'label' => 'Nom',
-                ])
-                ->add('company', null, [
-                    'attr' => [
-                        'class' => 'form-control',
-                        'placeholder' => 'Ex : EPSI-WIS Alumni',
-                    ],
-                    'row_attr' => ['class' => 'mb-3'],
-                    'label' => 'Entreprise',
-                ])
-                ->add('jobTitle', null, [
-                    'attr' => [
-                        'class' => 'form-control',
-                        'placeholder' => 'Ex : Data Scientist',
-                    ],
-                    'row_attr' => ['class' => 'mb-3'],
-                    'label' => 'Poste',
-                ])
+        $builder
+            ->add('firstname', null, [
+                'attr' => [
+                    'placeholder' => 'Prénom',
+                ],
+                'row_attr' => ['class' => 'mb-3'],
+                'label' => 'Prénom',
+            ])
+            ->add('lastname', null, [
+                'attr' => [
+                    'placeholder' => 'Nom',
+                ],
+                'row_attr' => ['class' => 'mb-3'],
+                'label' => 'Nom',
+            ])
+            ->add('company', null, [
+                'attr' => [
+                    'placeholder' => 'Entreprise',
+                ],
+                'row_attr' => ['class' => 'mb-3'],
+                'label' => 'Entreprise',
+            ])
+            ->add('jobTitle', null, [
+                'attr' => [
+                    'placeholder' => 'Poste',
+                ],
+                'row_attr' => ['class' => 'mb-3'],
+                'label' => 'Poste',
+            ])
+            ->add('type', EnumType::class, [
+                'class' => MemberType::class,
+                'expanded' => true,
+                'label' => 'Qui êtes-vous ?',
+                'row_attr' => ['class' => 'mb-3'],
+                'label_attr' => ['class' => 'radio-inline'],
+                'choice_filter' => fn (MemberType $type) => $type !== MemberType::Undefined,
+                'choice_label' => fn (MemberType $type) => match ($type) {
+                    MemberType::Student => 'Étudiant',
+                    MemberType::Alumni => 'Alumni',
+                    MemberType::Partner => 'Partenaire',
+                }
+            ])
         ;
     }
 
