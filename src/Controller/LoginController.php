@@ -23,7 +23,7 @@ class LoginController extends AbstractController
     public function complete(Request $request, #[CurrentUser()] User $currentUser, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CompleteProfileType::class, $currentUser, [
-            'attr' => ['id' => 'login-information-form']
+            'attr' => ['id' => 'login-information-form'],
         ]);
         $form->handleRequest($request);
 

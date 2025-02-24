@@ -27,7 +27,7 @@ class NewsletterController extends AbstractController
             throw $this->createNotFoundException('Le modèle de mail demandé est introuvable.');
         }
 
-        return $this->render('mails/' . $templateFileName, [
+        return $this->render('mails/'.$templateFileName, [
             'userNewsletter' => $userNewsletter,
         ]);
     }

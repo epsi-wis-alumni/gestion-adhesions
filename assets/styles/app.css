@@ -109,3 +109,24 @@ main {
 .cursor-pointer {
     cursor: pointer;
 }
+
+.drawing {
+    position: relative;
+    text-shadow: 0 0 1rem rgba(var(--bs-body-bg-rgb), .5);
+    z-index: 2;
+}
+.drawing::before {
+    content: '';
+    position: absolute;
+    top: -1rem;
+    left: -1rem;
+    right: -1rem;
+    bottom: -1rem;
+    background: url('../images/home/drawing.svg');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: -1;
+    transform: translate(0, 10%);
+    opacity: .8;
+}

@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ElectionRepository;
-use App\Repository\VoteRepository;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -49,7 +47,7 @@ class Election
     {
         $this->candidacies = new ArrayCollection();
         $this->votes = new ArrayCollection();
-        $this->setCreatedAt(new DateTimeImmutable());
+        $this->setCreatedAt(new \DateTimeImmutable());
     }
 
     public function getId(): ?int
@@ -179,11 +177,11 @@ class Election
 
     public function isClosed(): bool
     {
-        return $this->voteEndAt < new DateTimeImmutable();
+        return $this->voteEndAt < new \DateTimeImmutable();
     }
 
     public function isPending(): bool
     {
-        return $this->voteStartAt > new DateTimeImmutable();
+        return $this->voteStartAt > new \DateTimeImmutable();
     }
 }

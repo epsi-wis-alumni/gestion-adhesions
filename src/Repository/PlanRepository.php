@@ -20,7 +20,7 @@ class PlanRepository extends ServiceEntityRepository
     }
 
     /**
-     * Définit tous les plans comme non mis en avant (highlighted = false)
+     * Définit tous les plans comme non mis en avant (highlighted = false).
      */
     public function resetAllHighlighted(): void
     {

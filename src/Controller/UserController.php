@@ -2,19 +2,19 @@
 
 namespace App\Controller;
 
+use App\Entity\Transaction;
 use App\Entity\User;
 use App\Form\CompleteProfileType;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
-use App\Entity\Transaction;
 use App\Form\SettingsType;
 use App\Repository\PlanRepository;
 use App\Repository\SubscriptionRepository;
 use App\Repository\TransactionRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Finder\Finder;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 #[Route('/user')]
@@ -40,7 +40,7 @@ final class UserController extends AbstractController
             'form' => $form,
         ]);
     }
-        
+
     #[Route('/delete/{id}', name: 'app_user_delete', methods: ['POST'])]
     public function delete(
         Request $request,
@@ -102,7 +102,7 @@ final class UserController extends AbstractController
 
         foreach ($transactions as $transaction) {
             $subscription = $subscriptionRepository->findOneBy(['id' => $transaction->getSubscription()->getId()]);
-            
+
             if ($subscription) {
                 $invoices[] = [
                     'transaction' => $transaction,
@@ -162,7 +162,7 @@ final class UserController extends AbstractController
             200,
             [
                 'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'inline; filename="invoice_' . $transaction->getId() . '.pdf"',
+                'Content-Disposition' => 'inline; filename="invoice_'.$transaction->getId().'.pdf"',
             ]
         );
     }

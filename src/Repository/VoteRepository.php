@@ -19,7 +19,7 @@ class VoteRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return boolean Returns a boolean
+     * @return bool Returns a boolean
      */
     public function hasVoted(User $user, Election $election): bool
     {
@@ -29,6 +29,6 @@ class VoteRepository extends ServiceEntityRepository
             ->setParameter('user', $user)
             ->setParameter('election', $election)
             ->getQuery()
-            ->getOneOrNullResult() ? true : false;;
+            ->getOneOrNullResult() ? true : false;
     }
 }

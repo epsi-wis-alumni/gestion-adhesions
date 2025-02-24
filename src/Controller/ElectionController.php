@@ -11,7 +11,6 @@ use App\Repository\CandidacyRepository;
 use App\Repository\ElectionRepository;
 use App\Repository\VoteRepository;
 use App\Service\ElectionManager;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -51,7 +50,7 @@ class ElectionController extends AbstractController
         $step = $electionManager->getStep($election);
         $winners = $electionManager->getWinners($election);
         $candidacies = $election->getCandidacies();
-        
+
         return $this->render('election/show.html.twig', [
             'hasCandidated' => $candidacyRepository->hasCandidated($currentUser, $election),
             'hasVoted' => $voteRepository->hasVoted($currentUser, $election),
@@ -80,7 +79,7 @@ class ElectionController extends AbstractController
 
         $form = $this->createForm(CandidacyType::class, $candidacy);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             if (!$hasCandidated) {
                 $electionManager->candidate(user: $currentUser, candidacy: $candidacy, election: $election);
@@ -113,6 +112,7 @@ class ElectionController extends AbstractController
             $entityManager->persist($vote);
             $entityManager->flush();
         }
+
         return $this->redirectToRoute('app_election_index', [], Response::HTTP_SEE_OTHER);
     }
 }

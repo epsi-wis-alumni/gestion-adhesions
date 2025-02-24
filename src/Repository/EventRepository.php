@@ -29,7 +29,7 @@ class EventRepository extends ServiceEntityRepository
         ;
     }
 
-     /**
+    /**
      * @return Event[]
      */
     public function findPending(bool $onlyPublic = false): array
