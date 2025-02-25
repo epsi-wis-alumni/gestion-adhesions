@@ -111,7 +111,7 @@
         {% for event in events %}
           {% set step = (event.startAt >= date()) ? '1' : ((event.endAt >= date()) ? '2' : '3' ) %}
           <div class="col-sm-6 col-md-4">
-            {{ card.event(event, step) }}
+            {{ card.event(event, step, header_level = 2) }}
           </div>
         {% endfor %}
       </div>
