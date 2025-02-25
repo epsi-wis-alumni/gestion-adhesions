@@ -15,6 +15,16 @@ main {
     height: 2rem;
 }
 
+#main-navbar .nav-link {
+    --bs-nav-link-color: var(--bs-link-color);
+    --bs-nav-link-hover-color: var(--bs-link-hover-color);
+}
+
+#main-navbar .nav-link.active {
+    border-radius: .5rem;
+    background-color: var(--bs-primary-bg-subtle);
+}
+
 #main-footer-logo {
     max-height: 1.5rem;
 }
