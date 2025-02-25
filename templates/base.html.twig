@@ -18,9 +18,7 @@
         {% include "_main-navbar.html.twig" %}
         
         <main>
-            <turbo-frame id="main">
-                {% block body %}{% endblock %}
-            </turbo-frame>
+            {% block body %}{% endblock %}
         </main>
 
         {% include "_main-footer.html.twig" %}
