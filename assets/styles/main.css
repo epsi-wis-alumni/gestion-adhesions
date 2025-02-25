@@ -13,6 +13,7 @@ main {
 
 #main-navbar-logo {
     height: 2rem;
+    width: auto;
 }
 
 #main-navbar .nav-link {
@@ -26,7 +27,8 @@ main {
 }
 
 #main-footer-logo {
-    max-height: 1.5rem;
+    height: 1.5rem;
+    width: auto;
 }
 
 .table-responsive th {

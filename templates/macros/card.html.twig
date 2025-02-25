@@ -7,6 +7,7 @@
     election.voteStartAt|date('d/m/Y H:i'),
     election.voteEndAt|date('d/m/Y H:i'),
     progress.election(step),
+    header_level
   ) }}
 {% endmacro %}
 
@@ -19,6 +20,7 @@
     event.startAt|date('d/m/Y H:i'),
     event.endAt|date('d/m/Y H:i'),
     progress.event(step),
+    header_level
   ) }}
 {% endmacro %}
 
@@ -30,9 +32,9 @@
   <div class="card mb-4 h-100">
     <div class="card-body text-center d-flex flex-column">
       <div class="mb-auto">
-        <h3 class="card-title mb-0">
+        <h{{ header_level }} class="card-title mb-0">
           <a href="{{ dest_path }}" class="link-body-emphasis">{{ card_title }}</a>
-        </h3>
+        </h{{ header_level }}>
       </div>
       
       <div class="card-text text-secondary">
