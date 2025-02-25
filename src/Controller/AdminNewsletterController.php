@@ -104,8 +104,7 @@ final class AdminNewsletterController extends AbstractController
     #[Route('/documentation', name: 'app_admin_newsletter_documentation', methods: ['GET'])]
     public function documentation(
         #[CurrentUser()] User $currentUser,
-    ): Response
-    {
+    ): Response {
         return $this->render('admin/newsletter/documentation.html.twig', [
             'user' => $currentUser,
         ]);

@@ -11,6 +11,7 @@ use App\Repository\SubscriptionRepository;
 use App\Repository\TransactionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -30,8 +31,6 @@ final class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
-            return $this->redirectToRoute('app_user_profile', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('user/profile.html.twig', [
@@ -122,14 +121,19 @@ final class UserController extends AbstractController
     ): Response {
         $filePath = $transaction->getInvoice()->getFilePath();
 
-        if (!file_exists($filePath)) {
+        $finder = new Finder();
+        $finder->files()->in(dirname($filePath))->name(basename($filePath));
+
+        if (!$finder->hasResults()) {
             throw $this->createNotFoundException('La facture demandée est introuvable.');
         }
 
-        $pdfContent = file_get_contents($filePath);
+        foreach ($finder as $file) {
+            $contents = $file->getContents();
+        }
 
         return new Response(
-            $pdfContent,
+            $contents,
             200,
             [
                 'Content-Type' => 'application/pdf',
