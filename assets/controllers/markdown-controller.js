@@ -25,10 +25,6 @@ export default class extends Controller {
                 this.render();
                 this.adaptLayout();
             });
-
-            this.editorInstance.onDidContentSizeChange(() => {
-            });
-
         })
         .then(() => {
             this.adaptLayout(10);
