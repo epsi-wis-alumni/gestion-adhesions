@@ -8,7 +8,7 @@ on:
         required: true
         default: "delta"
 
-permissions: read-all
+permissions: write-all
 
 env:
   APP_ENV: prod
