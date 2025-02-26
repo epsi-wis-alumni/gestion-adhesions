@@ -32,13 +32,9 @@ class AdminNewsletterType extends AbstractType
             ])
             ->add('body', TextareaType::class, [
                 'attr' => [
-                    'class' => 'p-3',
+                    'class' => 'visually-hidden',
                     'data-markdown-target' => 'input',
                     'data-action' => 'input->markdown#render',
-                    'aria-label' => 'Type markdown into this box',
-                    'autocomplete' => 'off',
-                    'placeholder' => '# Corps de la Newsletter',
-                    'rows' => '8',
                 ],
                 'row_attr' => ['class' => 'mb-0'],
                 'label' => false,
