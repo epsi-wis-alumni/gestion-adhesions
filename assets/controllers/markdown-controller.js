@@ -19,6 +19,14 @@ export default class extends Controller {
             });
 
             const model = this.editorInstance.getModel();
+            const darkModePreference = window.matchMedia("(prefers-color-scheme: dark)");
+            
+            darkModePreference.addEventListener("change", e => {
+                const darkModeOn = e.matches;
+                monaco.editor.setTheme(darkModeOn ? 'vs-dark' : 'vs');
+            });
+
+            darkModePreference.matches ? monaco.editor.setTheme('vs-dark') : monaco.editor.setTheme('vs');
 
             model.onDidChangeContent(() => {
                 this.inputTarget.value = this.editorInstance.getValue();
@@ -28,6 +36,7 @@ export default class extends Controller {
         })
         .then(() => {
             this.adaptLayout(10);
+            this.render();
         });
     }
 
