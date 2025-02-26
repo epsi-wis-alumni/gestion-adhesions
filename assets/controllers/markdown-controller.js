@@ -1,41 +1,44 @@
 import { Controller } from '@hotwired/stimulus';
 import markdownit from 'markdown-it'
-import { editor } from 'monaco-editor';
+import loader from '@monaco-editor/loader';
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
     static targets = ['input', 'preview', 'editorContainer', 'editor'];
 
     connect() {
-        const model = editor.createModel(this.inputTarget.value, 'markdown');
-        
-        this.editorInstance = editor.create(this.editorTarget, {
-            model,
-            theme: 'vs-dark',
-            automaticLayout: true,
-            scrollBeyondLastLine: false,
-            onDidContentSizeChange: () => {
+        loader.init().then((monaco) => {
+            this.editorInstance = monaco.editor.create(this.editorTarget, {
+                value: this.inputTarget.value,
+                language: 'markdown',
+                automaticLayout: true,
+                scrollBeyondLastLine: false,
+                minimap: {
+                    enabled: false
+                },
+            });
+
+            const model = this.editorInstance.getModel();
+
+            model.onDidChangeContent(() => {
+                this.inputTarget.value = this.editorInstance.getValue();
+                this.render();
                 this.adaptLayout();
-            },
-        });
+            });
 
-        
-        model.onDidChangeContent(() => {
-            const value = model.getValue();
-            this.inputTarget.value = this.editorInstance.getValue();
-            this.render();
-        });
+            this.editorInstance.onDidContentSizeChange(() => {
+            });
 
-        this.editorInstance.onDidContentSizeChange(() => {
-            this.adaptLayout();
+        })
+        .then(() => {
+            this.adaptLayout(10);
         });
-
-        this.adaptLayout();
     }
 
-    adaptLayout() {
-        const height = this.editorInstance.getContentHeight() < 200 ? 200 : this.editorInstance.getContentHeight();
-        this.editorContainerTarget.style.height = `${height}px`;
+    adaptLayout(additionalHeight = 0) {
+        const contentHeight = this.editorInstance.getContentHeight();
+        const height = contentHeight < 200 ? 200 : contentHeight;
+        this.editorContainerTarget.style.height = `${height + additionalHeight}px`;
     }
     
     render() {

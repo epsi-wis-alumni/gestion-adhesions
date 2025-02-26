@@ -49,7 +49,10 @@ return [
     '@popperjs/core' => [
         'version' => '2.11.8',
     ],
-    'monaco-editor' => [
-        'version' => '0.52.2',
+    '@monaco-editor/loader' => [
+        'version' => '1.5.0',
+    ],
+    'state-local' => [
+        'version' => '1.0.7',
     ],
 ];

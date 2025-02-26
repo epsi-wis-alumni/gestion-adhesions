@@ -12,7 +12,7 @@
 
 <div class="tab-content align-items-stretch row mb-2" id="myTabContent" {{ stimulus_controller('markdown') }}>
   <div class="tab-pane fade show active col mb-0" id="write-tab-pane" role="tabpanel" aria-labelledby="write-tab" tabindex="0">
-    <div {{ stimulus_target('markdown', 'editorContainer') }}>
+    <div {{ stimulus_target('markdown', 'editorContainer') }} class="overflow-hidden">
       <div {{ stimulus_target('markdown', 'editor') }} class="h-100"></div>
     </div>
     {{ form_row(form.body) }}
