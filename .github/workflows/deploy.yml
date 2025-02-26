@@ -55,7 +55,7 @@ jobs:
           remote-host: ${{ secrets.FTP_SERVER }}
           remote-user: ${{ secrets.FTP_USER }}
           remote-password: ${{ secrets.FTP_PASSWORD }}
-          remote-protocol: ftps
+          remote-protocol: ftp
           remote-path: ./fr.epsi-wis-alumni/
           remote-port: 21
           sync-delta-excludes: |
