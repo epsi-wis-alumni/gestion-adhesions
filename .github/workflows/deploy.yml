@@ -50,16 +50,14 @@ jobs:
           composer dump-autoload --optimize --classmap-authoritative
       
       - name: Upload to hosting FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: milanmk/actions-file-deployer@1.16
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
-          server-dir: ./fr.epsi-wis-alumni/
-          log-level: 'minimal'
-          exclude: |
+          remote-host: ${{ secrets.FTP_SERVER }}
+          remote-user: ${{ secrets.FTP_USER }}
+          remote-password: ${{ secrets.FTP_PASSWORD }}
+          remote-protocol: ftps
+          remote-path: ./fr.epsi-wis-alumni/
+          remote-port: 21
+          sync-delta-excludes: |
             **/.git*
             **/.git*/**
-            **/var/cache/**
-            **/vendor/**
