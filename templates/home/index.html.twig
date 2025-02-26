@@ -9,15 +9,15 @@
 {% block body %}
 
   <section class="py-5">
-    <div class="container py-5">
+    <div class="container py-5 overflow-x-hidden">
       <div class="row g-5 align-items-center">
         <div class="col order-md-last">
           <img 
             class="img-fluid shadow-lg" 
-            src="{{ asset('images/home/epsi-wis-2-mydil@624x416.webp') }}" 
+            src="{{ asset('images/home/epsi-wis-2-mydil@2.webp') }}" 
             alt="Élèves de l'EPSI en classe"
-            width="624"
-            height="416"
+            width="1248"
+            height="832"
             style="border-radius: 67% 33% 14% 86% / 81% 24% 76% 19% ;"
           >
         </div>
@@ -43,15 +43,15 @@
   </section>
 
   <section class="py-5 bg-body">
-    <div class="container py-5">
+    <div class="container py-5 overflow-x-hidden">
       <div class="row g-5 align-items-center flex-row-reverse">
         <div class="col order-md-last">
           <img 
             class="img-fluid shadow-lg" 
-            src="{{ asset('images/home/epsi-wis-1-eleves-en-classe@624x416.webp') }}" 
+            src="{{ asset('images/home/epsi-wis-1-eleves-en-classe@2.webp') }}" 
             alt="Élèves de l'EPSI en classe"
-            width="624"
-            height="416"
+            width="1248"
+            height="832"
             style="border-radius: 19% 81% 50% 50% / 69% 53% 47% 31% ;"
           >
         </div>
@@ -77,15 +77,15 @@
   </section>
 
   <section class="py-5">
-    <div class="container py-5">
+    <div class="container py-5 overflow-x-hidden">
       <div class="row g-5 align-items-center mb-5">
         <div class="col order-md-last">
           <img 
             class="img-fluid shadow-lg" 
-            src="{{ asset('images/home/epsi-wis-3-eleves-cafeteria@624x416.webp') }}" 
+            src="{{ asset('images/home/epsi-wis-3-eleves-cafeteria@2.webp') }}" 
             alt="Élèves de l'EPSI en classe"
-            width="624"
-            height="416"
+            width="1248"
+            height="832"
             style="border-radius: 48% 52% 73% 27% / 30% 17% 83% 70% ;"
           >
         </div>
@@ -106,12 +106,12 @@
   </section>
 
   <section class="pb-5">
-    <div class="container pb-5">
+    <div class="container pb-5 overflow-x-hidden">
       <div class="row g-5 justify-content-center">
         {% for event in events %}
           {% set step = (event.startAt >= date()) ? '1' : ((event.endAt >= date()) ? '2' : '3' ) %}
           <div class="col-sm-6 col-md-4">
-            {{ card.event(event, step) }}
+            {{ card.event(event, step, header_level = 2) }}
           </div>
         {% endfor %}
       </div>
@@ -119,7 +119,7 @@
   </section>
 
   <section class="py-5 bg-body">
-    <div class="container py-5">
+    <div class="container py-5 overflow-x-hidden">
       <div class="row g-5 align-items-center justify-content-center text-center">
         <div class="col-md-6 d-flex flex-column gap-3">
           <h1 class="display-4 fw-bold lh-1">
@@ -135,7 +135,7 @@
   </section>
 
   <section class="py-5 bg-primary text-light" data-bs-theme="dark">
-    <div class="container py-5">
+    <div class="container py-5 overflow-x-hidden">
       <div class="row g-5 justify-content-center text-center">
         <div class="col-md-6 d-flex flex-column gap-3">
           <h1 class="display-4 fw-bold lh-1">
@@ -157,15 +157,15 @@
   </section>
 
   <section class="py-5 bg-body">
-    <div class="container py-5">
+    <div class="container py-5 overflow-x-hidden">
       <div class="row g-5 align-items-center">
         <div class="col order-md-last">
           <img 
             class="img-fluid shadow-lg" 
-            src="{{ asset('images/home/epsi-wis-4-membres-autour-dune-table@624x416.webp') }}" 
+            src="{{ asset('images/home/epsi-wis-4-membres-autour-dune-table@2.webp') }}" 
             alt="Élèves de l'EPSI en classe"
-            width="624"
-            height="416"
+            width="1248"
+            height="832"
             style="border-radius: 48% 52% 73% 27% / 30% 50% 50% 70% ;"
           >
         </div>
@@ -212,7 +212,7 @@
   <!-- Élections -->
   <div class="bg-body-primary">
     <h2 class="text-center pt-4">Évènements</h2>
-    <div class="container d-flex align-items-center justify-content-around my-5">
+    <div class="container row align-items-center justify-content-around my-5">
       {% for election in elections %}
         {% set step = (election.voteStartAt >= date()) ? '1' : ((election.voteEndAt >= date()) ? '2' : '3' ) %}
         <div class="col-sm-6 col-md-4 col-lg-3">
