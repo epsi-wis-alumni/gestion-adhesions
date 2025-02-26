@@ -11,10 +11,10 @@ trait SearchableTrait
         $alias = $qb->getRootAliases()[0];
 
         foreach ($haystack as $field) {
-            $paramName = $field . '_param';
+            $paramName = $field.'_param';
 
             $qb->orWhere("$alias.$field LIKE :$paramName")
-                ->setParameter($paramName, '%' . $needle . '%');
+                ->setParameter($paramName, '%'.$needle.'%');
         }
 
         return $qb;

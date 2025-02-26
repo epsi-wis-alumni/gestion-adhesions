@@ -13,14 +13,17 @@
     <div class="container-form my-5">
         {{ form_start(form) }}
             <div class="row">
-                <div class="col-md-6">{{ form_row(form.firstname) }}</div>
+                <div class="col-md-6">
+                    {{ form_row(form.firstname) }}
+                </div>
             
-
-                <div class="col-md-6">{{ form_row(form.lastname) }}</div>
+                <div class="col-md-6">
+                    {{ form_row(form.lastname) }}
+                </div>
             </div>
             
+            {{ form_row(form.type) }}
             {{ form_row(form.company) }}
-
             {{ form_row(form.jobTitle) }}
 
             <div class="text-end">

@@ -6,6 +6,9 @@
     {% include "admin/newsletter/markdown_editor.html.twig" with {
         'form' : form,
     }%}
+    <div class="mb-3">
+        <a href="{{ path('app_admin_newsletter_documentation') }}" target="_blank" class="text-decoration-none">Comment faire une newsletter {{ fa.icon('file-doc') }}</a>
+    </div>
     {{ form_row(form.cta) }}
     {{ form_row(form.template) }}
 

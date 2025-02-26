@@ -1,0 +1,63 @@
+name: Deploy to FTP
+
+on:
+  release:
+    types: [released]
+
+env:
+  APP_ENV: prod
+  APP_VERSION: ${{ github.ref_name }}
+
+jobs:
+  ftp_upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup PHP Action
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+
+      - name: Setup env
+        run: |
+          echo "APP_ENV=prod" >> .env.local
+          echo "APP_DEBUG=0" >> .env.local
+          echo "DATABASE_URL=${{ secrets.SYMFONY_DATABASE_URL }}" >> .env.prod.local
+          echo "MAILER_DSN=${{ secrets.SYMFONY_MAILER_DSN }}" >> .env.prod.local
+          echo "GOOGLE_CLIENT_ID=${{ secrets.OAUTH_GOOGLE_CLIENT_ID }}" >> .env.prod.local
+          echo "GOOGLE_CLIENT_SECRET=${{ secrets.OAUTH_GOOGLE_CLIENT_SECRET }}" >> .env.prod.local
+          echo "GITHUB_CLIENT_ID=${{ secrets.OAUTH_GITHUB_CLIENT_ID }}" >> .env.prod.local
+          echo "GITHUB_CLIENT_SECRET=${{ secrets.OAUTH_GITHUB_CLIENT_SECRET }}" >> .env.prod.local
+          
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@v2
+        with:
+          dependency-versions: locked
+          composer-options: "--ignore-platform-reqs --optimize-autoloader --no-dev"
+
+      - name: Import assets
+        run: |
+          php bin/console sass:build
+          php bin/console asset-map:compile
+          php bin/console assets:install
+
+      - name: Optimize app
+        run: |
+          composer dump-env prod
+          composer dump-autoload --optimize --classmap-authoritative
+      
+      - name: Upload to hosting FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          server-dir: ./fr.epsi-wis-alumni/
+          log-level: 'minimal'
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/var/cache/**
+            **/vendor/**

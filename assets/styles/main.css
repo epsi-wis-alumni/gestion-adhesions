@@ -13,10 +13,22 @@ main {
 
 #main-navbar-logo {
     height: 2rem;
+    width: auto;
+}
+
+#main-navbar .nav-link {
+    --bs-nav-link-color: var(--bs-link-color);
+    --bs-nav-link-hover-color: var(--bs-link-hover-color);
+}
+
+#main-navbar .nav-link.active {
+    border-radius: .5rem;
+    background-color: var(--bs-primary-bg-subtle);
 }
 
 #main-footer-logo {
-    max-height: 1.5rem;
+    height: 1.5rem;
+    width: auto;
 }
 
 .table-responsive th {
@@ -108,4 +120,25 @@ main {
 
 .cursor-pointer {
     cursor: pointer;
+}
+
+.drawing {
+    position: relative;
+    text-shadow: 0 0 1rem rgba(var(--bs-body-bg-rgb), .5);
+    z-index: 2;
+}
+.drawing::before {
+    content: '';
+    position: absolute;
+    top: -1rem;
+    left: -1rem;
+    right: -1rem;
+    bottom: -1rem;
+    background: url('../images/home/drawing.svg');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: -1;
+    transform: translate(0, 10%);
+    opacity: .8;
 }

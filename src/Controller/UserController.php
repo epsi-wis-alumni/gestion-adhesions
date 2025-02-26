@@ -2,19 +2,19 @@
 
 namespace App\Controller;
 
+use App\Entity\Transaction;
 use App\Entity\User;
 use App\Form\CompleteProfileType;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
-use App\Entity\Transaction;
 use App\Form\SettingsType;
 use App\Repository\PlanRepository;
 use App\Repository\SubscriptionRepository;
 use App\Repository\TransactionRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 #[Route('/user')]
@@ -31,8 +31,6 @@ final class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
-            return $this->redirectToRoute('app_user_profile', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('user/profile.html.twig', [
@@ -40,7 +38,7 @@ final class UserController extends AbstractController
             'form' => $form,
         ]);
     }
-        
+
     #[Route('/delete/{id}', name: 'app_user_delete', methods: ['POST'])]
     public function delete(
         Request $request,
@@ -102,7 +100,7 @@ final class UserController extends AbstractController
 
         foreach ($transactions as $transaction) {
             $subscription = $subscriptionRepository->findOneBy(['id' => $transaction->getSubscription()->getId()]);
-            
+
             if ($subscription) {
                 $invoices[] = [
                     'transaction' => $transaction,
@@ -117,35 +115,12 @@ final class UserController extends AbstractController
         ]);
     }
 
-    // #[Route('/invoice/{id}', name: 'app_user_invoice_show', methods: ['GET'])]
-    // public function showInvoice(
-    //     Transaction $transaction,
-    // ): Response {
-
-    //     $filePath = $transaction->getInvoice()->getFilePath();
-
-    //     if (!file_exists($filePath)) {
-    //         throw $this->createNotFoundException('La facture demandée est introuvable.');
-    //     }
-
-    //     $pdfContent = file_get_contents($filePath);
-
-    //     return new Response(
-    //         $pdfContent,
-    //         200,
-    //         [
-    //             'Content-Type' => 'application/pdf',
-    //             'Content-Disposition' => 'inline; filename="invoice_' . $transaction->getId() . '.pdf"',
-    //         ]
-    //     );
-    // }
-
     #[Route('/invoice/{id}', name: 'app_user_invoice_show', methods: ['GET'])]
     public function showInvoice(
         Transaction $transaction,
     ): Response {
         $filePath = $transaction->getInvoice()->getFilePath();
-        
+
         $finder = new Finder();
         $finder->files()->in(dirname($filePath))->name(basename($filePath));
 
@@ -162,7 +137,7 @@ final class UserController extends AbstractController
             200,
             [
                 'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'inline; filename="invoice_' . $transaction->getId() . '.pdf"',
+                'Content-Disposition' => 'inline; filename="invoice_'.$transaction->getId().'.pdf"',
             ]
         );
     }

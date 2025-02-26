@@ -32,11 +32,10 @@ final class AdminNewsletterController extends AbstractController
         EntityManagerInterface $entityManager,
         #[CurrentUser()] User $currentUser,
     ): Response {
-
         $newsletter = new Newsletter();
         $form = $this->createForm(AdminNewsletterType::class, $newsletter);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $newsletter->setCreatedBy($currentUser);
             $entityManager->persist($newsletter);
@@ -51,7 +50,7 @@ final class AdminNewsletterController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_admin_newsletter_show', methods: ['GET'])]
+    #[Route('/{id}/show', name: 'app_admin_newsletter_show', methods: ['GET'])]
     public function show(Newsletter $newsletter): Response
     {
         return $this->render('admin/newsletter/show.html.twig', [
@@ -66,7 +65,6 @@ final class AdminNewsletterController extends AbstractController
         EntityManagerInterface $entityManager,
         MailTemplateRepository $mailTemplateRepository,
     ): Response {
-
         $form = $this->createForm(AdminNewsletterType::class, $newsletter);
         $form->handleRequest($request);
 
@@ -99,6 +97,16 @@ final class AdminNewsletterController extends AbstractController
         Newsletter $newsletter,
     ): Response {
         $newsletterManager->send($newsletter);
+
         return $this->redirectToRoute('app_admin_newsletter_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/documentation', name: 'app_admin_newsletter_documentation', methods: ['GET'])]
+    public function documentation(
+        #[CurrentUser()] User $currentUser,
+    ): Response {
+        return $this->render('admin/newsletter/documentation.html.twig', [
+            'user' => $currentUser,
+        ]);
     }
 }

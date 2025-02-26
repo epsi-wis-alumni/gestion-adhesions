@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping\Embeddable;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Embeddable;
 
 #[Embeddable]
 class Settings

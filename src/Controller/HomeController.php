@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\ElectionRepository;
-use App\Repository\PlanRepository;
 use App\Repository\EventRepository;
+use App\Repository\PlanRepository;
 use App\Repository\UserRepository;
 use App\Service\Manager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,24 +17,24 @@ class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
     public function index(
-        #[CurrentUser()] User $currentUser,
+        #[CurrentUser()] ?User $currentUser,
         PlanRepository $planRepository,
         ElectionRepository $electionRepository,
         EventRepository $eventRepository,
         UserRepository $userRepository,
         Manager $manager,
     ): Response {
-        if (!$currentUser->hasCompleteInfo()) {
+        if ($currentUser && !$currentUser->hasCompleteInfo()) {
             return $this->redirectToRoute('app_complete_profile', [], Response::HTTP_SEE_OTHER);
         }
 
         $userCount = $userRepository->count();
-        
+
         $events = $manager->orderByStep($eventRepository->findLastest(3));
-        
+
         $elections = $manager->orderByStep($electionRepository->findLastest(3));
-        
-        $activePlan = $planRepository->findOneActivePlanByUser($currentUser);
+
+        $activePlan = $currentUser ? $planRepository->findOneActivePlanByUser($currentUser) : null;
         $plans = $planRepository->findAllSorted();
 
         return $this->render('home/index.html.twig', [
@@ -46,5 +46,11 @@ class HomeController extends AbstractController
             'activePlan' => $activePlan,
             'plans' => $plans,
         ]);
+    }
+
+    #[Route('/cgu', name: 'app_cgu')]
+    public function cgu(): Response
+    {
+        return $this->render('home/cgu.html.twig');
     }
 }

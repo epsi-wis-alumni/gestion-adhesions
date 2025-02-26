@@ -36,7 +36,7 @@ class AdminUserController extends AbstractController
             'users' => $users,
             'pages' => ceil($userCount / $perPage),
             'page' => $page,
-            'user_count' => $request->get('search') ? count($users) . "/" . $totalUserCount : $totalUserCount,
+            'user_count' => $request->get('search') ? count($users).'/'.$totalUserCount : $totalUserCount,
         ]);
     }
 
@@ -44,7 +44,7 @@ class AdminUserController extends AbstractController
     public function edit(Request $request, EntityManagerInterface $entityManager, User $user, UserManager $userManager): Response
     {
         $form = $this->createForm(AdminUserType::class, $user, [
-            'attr' => ['id' => 'admin_user_edit_form']
+            'attr' => ['id' => 'admin_user_edit_form'],
         ]);
         $form->handleRequest($request);
 

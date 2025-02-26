@@ -13,7 +13,7 @@ final class EventVoter extends Voter
     protected function supports(string $attribute, mixed $subject): bool
     {
         return in_array($attribute, [self::VIEW])
-            && $subject instanceof \App\Entity\Event;
+            && $subject instanceof Event;
     }
 
     /**
@@ -24,7 +24,7 @@ final class EventVoter extends Voter
         if (!$subject->isPrivate()) {
             return true;
         }
-        
+
         $user = $token->getUser();
         if (!$user) {
             return false;

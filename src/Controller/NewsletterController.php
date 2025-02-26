@@ -18,7 +18,7 @@ class NewsletterController extends AbstractController
         ContainerBagInterface $params,
     ): Response {
         $templateFileName = $userNewsletter->getNewsletter()->getTemplate()->getFileName();
-        $basePath = realpath(__DIR__ . $params->get('mails_base_path'));
+        $basePath = realpath(__DIR__.$params->get('mails_base_path'));
 
         $finder = new Finder();
         $finder->files()->in($basePath)->name($templateFileName);
@@ -27,7 +27,7 @@ class NewsletterController extends AbstractController
             throw $this->createNotFoundException('Le modèle de mail demandé est introuvable.');
         }
 
-        return $this->render('mails/' . $templateFileName, [
+        return $this->render('mails/'.$templateFileName, [
             'userNewsletter' => $userNewsletter,
         ]);
     }

@@ -3,11 +3,13 @@
 {% import "macros/image.html.twig" as image %}
 {% import "macros/navigation.html.twig" as navigation %}
 
-<header>
-  <nav class="navbar navbar-expand-lg bg-body border-bottom">
+<header class="sticky-top">
+  <nav class="navbar navbar-expand-lg bg-body border-bottom" id="main-navbar">
     <div class="container">
       {# ----- Logo ----- #}
-      <a class="navbar-brand me-5" href="{{ path('app_home') }}"><img id="main-navbar-logo" src="{{ asset('images/navbar/alumni.png') }}" alt="Logo alumni" /></a>
+      <a class="navbar-brand me-5" href="{{ path('app_home') }}" aria-label="Accueil">
+        <img id="main-navbar-logo" src="{{ asset('images/navbar/alumni@2.webp') }}" alt="Logo alumni" width="99" height="64" />
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -27,6 +29,20 @@
             path: path('app_event_index'),
             icon: fa.icon('calendar-star', size: 'lg'),
             check_path: 'app_event',
+          ) }}
+          
+          {{ navigation.nav_item(
+            label: 'Être adhérent',
+            path: '#',
+            icon: fa.icon('user-check', size: 'lg'),
+            check_path: 'null',
+          ) }}
+
+          {{ navigation.nav_item(
+            label: 'Être partenaire',
+            path: '#',
+            icon: fa.icon('handshake', size: 'lg'),
+            check_path: 'null',
           ) }}
         </ul>
 
@@ -119,8 +135,11 @@
           </ul>
         {% else %}
           <ul class="navbar-nav mb-2 mb-lg-0 list-unstyled">
+            <li class="nav-item me-1">
+              <a href="{{ path('app_login') }}" class="btn btn-warning">Connexion</a>
+            </li>
             <li class="nav-item">
-              <a href="{{ path('app_login') }}" class="nav-link">Connexion</a>
+              <a href="{{ path('app_login') }}" class="btn btn-primary">Nous contacter</a>
             </li>
           </ul>
         {% endif %}

@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Entity\Event;
 use App\Entity\User;
-use DateTimeImmutable;
 
 final class EventManager
 {
@@ -12,7 +11,7 @@ final class EventManager
     {
         $event
             ->setCreatedBy($user)
-            ->setCreatedAt(new DateTimeImmutable())
+            ->setCreatedAt(new \DateTimeImmutable())
         ;
     }
 
@@ -20,13 +19,13 @@ final class EventManager
     {
         $event
             ->setUpdatedBy($user)
-            ->setUpdatedAt(new DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable())
         ;
     }
 
     public function getStep(Event $event): int
     {
-        $now = new DateTimeImmutable();
+        $now = new \DateTimeImmutable();
 
         return $event->getStartAt() > $now
             ? 1 : ($event->getStartAt() < $now && $event->getEndAt() > $now
