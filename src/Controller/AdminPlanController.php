@@ -73,7 +73,7 @@ final class AdminPlanController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($plan->isHighlighted()) {
-                $planRepository->resetAllHighlighted();
+                $planRepository->resetAllHighlighted(ignored: $plan);
             }
 
             foreach ($originalFeatures as $feature) {

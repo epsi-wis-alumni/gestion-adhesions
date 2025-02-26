@@ -22,13 +22,22 @@ class PlanRepository extends ServiceEntityRepository
     /**
      * Définit tous les plans comme non mis en avant (highlighted = false).
      */
-    public function resetAllHighlighted(): void
+    public function resetAllHighlighted(?Plan $ignored = null): void
     {
-        $this->createQueryBuilder('p')
+        $qb = $this->createQueryBuilder('p')
             ->update()
             ->set('p.highlighted', ':highlighted')
             ->setParameter('highlighted', false)
-            ->getQuery()
+        ;
+
+        if ($ignored) {
+            $qb
+                ->where('p.id <> :planId')
+                ->setParameter('planId', $ignored->getId())
+            ;
+        }
+
+        $qb->getQuery()
             ->execute();
     }
 
