@@ -1,8 +1,12 @@
 name: Deploy to FTP
 
 on:
-  release:
-    types: [released]
+  workflow_dispatch:
+    inputs:
+      sync:
+        description: "File synchronization"
+        required: true
+        default: "delta"
 
 env:
   APP_ENV: prod
