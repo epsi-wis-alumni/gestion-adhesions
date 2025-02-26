@@ -65,5 +65,5 @@ jobs:
           remote-path: ./fr.epsi-wis-alumni/
           remote-port: 21
           sync-delta-excludes: |
-            **/.git*
-            **/.git*/**
+            .git*
+            .git*/**
