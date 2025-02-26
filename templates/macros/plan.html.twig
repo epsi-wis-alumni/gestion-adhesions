@@ -8,7 +8,7 @@
   <div class="card mb-4 {{ border }}">
     <div class="card-body">
 
-      <h3 class="card-title text-center mb-3" data-controller="tooltips">
+      <h3 class="card-title text-center mb-3"   {% if current %} {{ stimulus_controller('tooltip')}} {% endif %}>
         {{ title }} 
         
         {% if current %}

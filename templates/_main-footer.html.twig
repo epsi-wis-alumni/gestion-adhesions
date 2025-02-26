@@ -1,28 +1,49 @@
 {% import 'macros/fontawesome.html.twig' as fa %}
 
 <footer class="py-3 mt-auto bg-body border-top">
-  {# ----- Réseaux Sociaux ----- #}
-  <ul class="nav justify-content-center mb-3 text-capitalize px-0">
-    <li class="nav-item">
-      <a href="#" class="nav-link px-2 text-body-secondary" target="_blank">
-        {{ fa.icon('instagram', family: 'brands', size: 'xl') }}
-      </a>
-    </li>
-    <li class="nav-item">
-      <a href="#" class="nav-link px-2 text-body-secondary" target="_blank">
-        {{ fa.icon('linkedin', family: 'brands', size: 'xl') }}
-      </a>
-    </li>
-    <li class="nav-item">
-      <a href="#" class="nav-link px-2 text-body-secondary" target="_blank">
-        {{ fa.icon('facebook', family: 'brands', size: 'xl') }}
-      </a>
-    </li>
-  </ul>
+  <div class="container overflow-hidden">
+    <div class="row g-5">
+      <div class="col-auto">
+        <h1 class="h5">Liens utiles</h1>
+        <ul class="list-unstyled ps-2">
+          <li>
+            <a href="#" class="link-secondary link-underline-opacity-0">
+              {{ fa.icon('envelope', size: 'lg', fixed_width: true) }}
+              Contact
+            </a>
+          </li>
+          <li>
+            <a href="{{ path('app_cgu') }}" class="link-secondary link-underline-opacity-0">
+              {{ fa.icon('info-circle', size: 'lg', fixed_width: true) }}
+              CGU
+            </a>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="col-auto">
+        <h1 class="h5">Nos réseaux</h1>
+        <ul class="list-unstyled ps-2">
+          <li>
+            <a href="#" class="link-secondary link-underline-opacity-0" target="_blank" aria-label="Instragram">
+              {{ fa.icon('instagram', family: 'brands', size: 'lg', fixed_width: true) }}
+              Instagram
+            </a>
+          </li>
+          <li>
+            <a href="#" class="link-secondary link-underline-opacity-0" target="_blank" aria-label="LinkedIn">
+              {{ fa.icon('linkedin', family: 'brands', size: 'lg', fixed_width: true) }}
+              LinkedIn
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
   {# ----- Crédit ----- #}
   <div class="d-flex justify-content-center align-item-center gap-2">
     <p class="text-center text-body-secondary text-uppercase m-0">© {{ 'now'|date('Y') }} epsi-wis-alumni</p>
-    <a href="{{ path('app_home') }}"><img id="main-footer-logo" src="{{ asset('images/navbar/alumni.png') }}" alt="Logo alumni" /></a>
+    <a href="{{ path('app_home') }}"><img id="main-footer-logo" src="{{ asset('images/navbar/alumni@2.webp') }}" alt="Logo alumni" width="99" height="64" /></a>
   </div>
 </footer>

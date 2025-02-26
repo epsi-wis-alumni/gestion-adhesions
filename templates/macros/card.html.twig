@@ -1,4 +1,4 @@
-{% macro election(election, step) %}
+{% macro election(election, step, header_level = 3) %}
   {% import "macros/progress.html.twig" as progress %}
   {{ _self.generic(
     step,
@@ -7,10 +7,11 @@
     election.voteStartAt|date('d/m/Y H:i'),
     election.voteEndAt|date('d/m/Y H:i'),
     progress.election(step),
+    header_level
   ) }}
 {% endmacro %}
 
-{% macro event(event, step) %}
+{% macro event(event, step, header_level = 3) %}
   {% import "macros/progress.html.twig" as progress %}
   {{ _self.generic(
     step,
@@ -19,19 +20,22 @@
     event.startAt|date('d/m/Y H:i'),
     event.endAt|date('d/m/Y H:i'),
     progress.event(step),
+    header_level
   ) }}
 {% endmacro %}
 
-{% macro generic(step, dest_path, card_title, start_date, end_date, progress) %}
+{% macro generic(step, dest_path, card_title, start_date, end_date, progress, header_level = 3) %}
   {% import "macros/fontawesome.html.twig" as fa %}
 
   {% set accent = step == 1 ? 'secondary' : (step == 2 ? 'primary' : 'success') %}
 
-  <div class="card mb-4">
-    <div class="card-body text-center">
-      <h3 class="card-title mb-3">
-        <a href="{{ dest_path }}" class="link-body-emphasis">{{ card_title }}</a>
-      </h3>
+  <div class="card mb-4 h-100">
+    <div class="card-body text-center d-flex flex-column">
+      <div class="mb-auto">
+        <h{{ header_level }} class="card-title mb-0">
+          <a href="{{ dest_path }}" class="link-body-emphasis">{{ card_title }}</a>
+        </h{{ header_level }}>
+      </div>
       
       <div class="card-text text-secondary">
         {{ start_date }}
