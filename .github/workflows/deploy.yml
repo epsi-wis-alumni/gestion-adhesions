@@ -29,6 +29,8 @@ jobs:
           echo "GOOGLE_CLIENT_SECRET=${{ secrets.OAUTH_GOOGLE_CLIENT_SECRET }}" >> .env.prod.local
           echo "GITHUB_CLIENT_ID=${{ secrets.OAUTH_GITHUB_CLIENT_ID }}" >> .env.prod.local
           echo "GITHUB_CLIENT_SECRET=${{ secrets.OAUTH_GITHUB_CLIENT_SECRET }}" >> .env.prod.local
+          echo "LINKEDIN_CLIENT_ID=${{ secrets.OAUTH_LINKEDIN_CLIENT_ID }}" >> .env.prod.local
+          echo "LINKEDIN_CLIENT_SECRET=${{ secrets.OAUTH_LINKEDIN_CLIENT_SECRET }}" >> .env.prod.local
           
       - name: Install Composer dependencies
         uses: ramsey/composer-install@v2
