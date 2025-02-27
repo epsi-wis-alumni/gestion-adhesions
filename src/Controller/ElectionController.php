@@ -115,4 +115,15 @@ class ElectionController extends AbstractController
 
         return $this->redirectToRoute('app_election_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/{id}/candidacy/delete', name: 'app_election_candidacy_delete', methods: ['POST'])]
+    public function delete(Request $request, Candidacy $candidacy, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$candidacy->getId(), $request->getPayload()->getString('_token'))) {
+            $entityManager->remove($candidacy);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_election_index', [], Response::HTTP_SEE_OTHER);
+    }
 }
