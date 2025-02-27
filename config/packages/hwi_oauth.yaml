@@ -12,7 +12,7 @@ hwi_oauth:
             type:           linkedin
             client_id:      '%env(LINKEDIN_CLIENT_ID)%'
             client_secret:  '%env(LINKEDIN_CLIENT_SECRET)%'
-            scope:          "openid profile email"
+            scope:          "r_liteprofile r_emailaddress"
             options:
                csrf: true
                refresh_on_expire: true
