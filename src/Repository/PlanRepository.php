@@ -71,7 +71,9 @@ class PlanRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
 
-        [$plans[0], $plans[1]] = [$plans[1], $plans[0]];
+        if (count($plans) > 1) {
+            [$plans[0], $plans[1]] = [$plans[1], $plans[0]];
+        }
 
         return $plans;
     }
