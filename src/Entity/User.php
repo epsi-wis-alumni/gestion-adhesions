@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Trait\SoftDeletableTrait;
+use App\Entity\Trait\TimestampableTrait;
 use App\Enum\MembershipStatus;
 use App\Enum\MemberType;
 use App\Repository\UserRepository;
@@ -22,6 +23,7 @@ use function Symfony\Component\String\u;
 class User implements UserInterface
 {
     use SoftDeletableTrait;
+    use TimestampableTrait;
     public const ROLE_USER = 'ROLE_USER';
     public const ROLE_APPROVED = 'ROLE_APPROVED';
     public const ROLE_MEMBER = 'ROLE_MEMBER';
