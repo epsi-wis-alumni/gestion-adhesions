@@ -55,6 +55,7 @@ jobs:
         run: |
           composer dump-env prod
           composer dump-autoload --optimize --classmap-authoritative
+          php bin/console cache:warmup
       
       - name: Deploy with rsync
         uses: easingthemes/ssh-deploy@v5.1.0
