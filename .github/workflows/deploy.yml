@@ -57,15 +57,13 @@ jobs:
           composer dump-env prod
           composer dump-autoload --optimize --classmap-authoritative
       
-      - name: Upload to hosting FTP
-        uses: milanmk/actions-file-deployer@1.16
+      - name: Deploy with rsync
+        uses: easingthemes/ssh-deploy@v5.1.0
         with:
-          remote-host: ${{ secrets.FTP_SERVER }}
-          remote-user: ${{ secrets.FTP_USER }}
-          remote-password: ${{ secrets.FTP_PASSWORD }}
-          remote-protocol: ftp
-          remote-path: ./fr.epsi-wis-alumni/
-          remote-port: 21
-          sync-delta-excludes: |
-            .git*
-            .git*/**
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          # Updates are based on file hash, not time + size
+          ARGS: "-rlgoDzvc -i"
+          SOURCE: "./"
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USER }}
+          TARGET: ./fr.epsi-wis-alumni/
