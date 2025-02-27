@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "15a454121faf73ec3168a0d52b1e20d4",
+    "content-hash": "8e407cc8abfe7d25a90c6a5aed2fd629",
     "packages": [
         {
             "name": "composer/semver",
@@ -1600,16 +1600,16 @@
         },
         {
             "name": "hwi/oauth-bundle",
-            "version": "2.3.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/hwi/HWIOAuthBundle.git",
-                "reference": "3d42abc963485988789816c8585a10ad02b4fbc3"
+                "url": "https://github.com/d9beuD/HWIOAuthBundle.git",
+                "reference": "f35645584970b6cf9dca7716aa03e08806966cd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/3d42abc963485988789816c8585a10ad02b4fbc3",
-                "reference": "3d42abc963485988789816c8585a10ad02b4fbc3",
+                "url": "https://api.github.com/repos/d9beuD/HWIOAuthBundle/zipball/f35645584970b6cf9dca7716aa03e08806966cd6",
+                "reference": "f35645584970b6cf9dca7716aa03e08806966cd6",
                 "shasum": ""
             },
             "require": {
@@ -1653,6 +1653,7 @@
                 "symfony/property-access": "to use FOSUB integration with this bundle",
                 "symfony/twig-bundle": "to use the Twig hwi_oauth_* functions"
             },
+            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -1664,7 +1665,26 @@
                     "HWI\\Bundle\\OAuthBundle\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "HWI\\Bundle\\OAuthBundle\\Test\\": "src/Test/",
+                    "HWI\\Bundle\\OAuthBundle\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "csfixer": [
+                    "vendor/bin/php-cs-fixer fix --verbose --dry-run"
+                ],
+                "csfixer-fix": [
+                    "vendor/bin/php-cs-fixer fix --verbose"
+                ],
+                "phpunit": [
+                    "vendor/bin/phpunit"
+                ],
+                "phpstan": [
+                    "vendor/bin/phpstan"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -1690,13 +1710,11 @@
             "homepage": "https://github.com/hwi/HWIOAuthBundle",
             "keywords": [
                 "37signals",
-                "Authentication",
-                "Deezer",
-                "EVE Online",
                 "amazon",
                 "apple",
                 "asana",
                 "auth0",
+                "authentication",
                 "azure",
                 "bitbucket",
                 "bitly",
@@ -1704,10 +1722,12 @@
                 "bufferapp",
                 "clever",
                 "dailymotion",
+                "deezer",
                 "deviantart",
                 "discogs",
                 "disqus",
                 "dropbox",
+                "eve online",
                 "eventbrite",
                 "facebook",
                 "firewall",
@@ -1756,16 +1776,15 @@
                 "youtube"
             ],
             "support": {
-                "issues": "https://github.com/hwi/HWIOAuthBundle/issues",
-                "source": "https://github.com/hwi/HWIOAuthBundle/tree/2.3.0"
+                "source": "https://github.com/d9beuD/HWIOAuthBundle/tree/master"
             },
             "funding": [
                 {
-                    "url": "https://github.com/stloyd",
-                    "type": "github"
+                    "type": "github",
+                    "url": "https://github.com/stloyd"
                 }
             ],
-            "time": "2025-01-01T18:31:13+00:00"
+            "time": "2025-02-27T16:26:47+00:00"
         },
         {
             "name": "league/commonmark",
@@ -12277,7 +12296,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "hwi/oauth-bundle": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
