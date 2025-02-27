@@ -21,9 +21,6 @@ class Election
     private ?string $jobTitle = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
-
-    #[ORM\Column]
     private ?\DateTimeImmutable $voteStartAt = null;
 
     #[ORM\Column]
@@ -49,7 +46,6 @@ class Election
     {
         $this->candidacies = new ArrayCollection();
         $this->votes = new ArrayCollection();
-        $this->setCreatedAt(new \DateTimeImmutable());
     }
 
     public function getId(): ?int
@@ -65,18 +61,6 @@ class Election
     public function setJobTitle(string $jobTitle): static
     {
         $this->jobTitle = $jobTitle;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }

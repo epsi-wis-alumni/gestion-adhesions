@@ -100,9 +100,6 @@ class User implements UserInterface
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $avatar = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
-
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'approvedUsers')]
     private ?self $approvedBy = null;
 
@@ -181,12 +178,6 @@ class User implements UserInterface
         };
 
         return $this;
-    }
-
-    #[ORM\PrePersist]
-    public function onPrePersist(): void
-    {
-        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -544,18 +535,6 @@ class User implements UserInterface
     public function setAvatar(?string $avatar): static
     {
         $this->avatar = $avatar;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }

@@ -31,8 +31,6 @@ class Newsletter
     #[ORM\JoinColumn(nullable: false)]
     private ?User $createdBy = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'sentNewsletters')]
     private ?User $sentBy = null;
@@ -51,7 +49,6 @@ class Newsletter
 
     public function __construct()
     {
-        $this->setCreatedAt(new \DateTimeImmutable());
         $this->userNewsletters = new ArrayCollection();
     }
 
@@ -108,14 +105,10 @@ class Newsletter
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
-        $this->createdAt = $createdAt;
 
         return $this;
     }

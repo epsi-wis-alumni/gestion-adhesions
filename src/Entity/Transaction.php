@@ -29,9 +29,6 @@ class Transaction
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $amount = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
-
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     private ?User $user = null;
 
@@ -83,18 +80,6 @@ class Transaction
     public function setAmount(string $amount): static
     {
         $this->amount = $amount;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }
