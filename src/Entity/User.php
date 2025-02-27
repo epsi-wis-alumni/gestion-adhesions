@@ -149,6 +149,9 @@ class User implements UserInterface
     #[ORM\Column(enumType: MemberType::class, options: ['default' => MemberType::Undefined->value])]
     private ?MemberType $type = MemberType::Undefined;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $linkedinId = null;
+
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
@@ -176,6 +179,7 @@ class User implements UserInterface
         match ($resourceOwnerName) {
             'google' => $this->setGoogleId($response->getUserIdentifier()),
             'azure' => $this->setMicrosoftId($response->getUserIdentifier()),
+            'linkedin' => $this->setLinkedinId($response->getUserIdentifier()),
         };
 
         return $this;
@@ -811,6 +815,18 @@ class User implements UserInterface
     public function setType(MemberType $type): static
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getLinkedinId(): ?string
+    {
+        return $this->linkedinId;
+    }
+
+    public function setLinkedinId(?string $linkedinId): static
+    {
+        $this->linkedinId = $linkedinId;
 
         return $this;
     }
