@@ -146,7 +146,7 @@ class User implements UserInterface
     private Collection $updatedEvents;
 
     #[ORM\Column(enumType: MemberType::class, options: ['default' => MemberType::Undefined->value])]
-    private ?MemberType $type = null;
+    private ?MemberType $type = MemberType::Undefined;
 
     public function __construct()
     {

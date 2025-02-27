@@ -180,7 +180,23 @@
                           title: 'Êtes-vous sûr de vouloir voter ?',
                           continueButton: 'Voter'
                         ) }}
+                      {% endif %}
 
+                      {% if is_granted('ROLE_ADMIN') %}
+                        {% set modalDeleteId = 'confirmAlert-delete-' ~ candidacy.id %}
+                          <form method="post" action="{{ path('app_election_candidacy_delete', { id: candidacy.id }) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ candidacy.id) }}" />
+                            <a class="bg-transparent border-0 link-danger" data-bs-toggle="modal" data-bs-target="#{{ modalDeleteId }}" href="#">
+                              {{ fa.icon('trash-can') }}
+                            </a>
+                            {{ modal.confirm(
+                              id: modalDeleteId,
+                              title: 'Êtes-vous sur de supprimer ?',
+                              continueButton: 'Supprimer',
+                              type: 'submit',
+                              accent: 'danger',
+                            ) }}
+                          </form>
                       {% endif %}
                     </div>
                     

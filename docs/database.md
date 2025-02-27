@@ -10,6 +10,7 @@ erDiagram
         string googleToken
         string company "Nom de l'école pour un étudiant"
         string jobTitle
+        enum type "Undefined, Student, Alumni, Partner"
         datetime createdAt
         User approvedBy
         datetime approvedAt
