@@ -66,4 +66,4 @@ jobs:
           SOURCE: "./"
           REMOTE_HOST: ${{ secrets.SSH_HOST }}
           REMOTE_USER: ${{ secrets.SSH_USER }}
-          TARGET: ./fr.epsi-wis-alumni/
+          TARGET: ./websites/fr.epsi-wis-alumni/
