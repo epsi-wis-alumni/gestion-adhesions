@@ -70,8 +70,14 @@ class User implements UserInterface
     /**
      * @var Collection<int, Election>
      */
-    #[ORM\OneToMany(targetEntity: Election::class, mappedBy: 'createdBy')]
-    private Collection $elections;
+    #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'createdBy')]
+    private Collection $createdElections;
+
+    /**
+     * @var Collection<int, Election>
+     */
+    #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'updatedBy')]
+    private Collection $updatedElections;
 
     /**
      * @var Collection<int, Candidacy>
@@ -90,6 +96,12 @@ class User implements UserInterface
      */
     #[ORM\OneToMany(targetEntity: Newsletter::class, mappedBy: 'createdBy')]
     private Collection $createdNewsletters;
+
+    /**
+     * @var Collection<int, Newsletter>
+     */
+    #[ORM\OneToMany(targetEntity: Newsletter::class, mappedBy: 'updatedBy')]
+    private Collection $updatedNewsletters;
 
     /**
      * @var Collection<int, Newsletter>
@@ -151,11 +163,13 @@ class User implements UserInterface
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
-        $this->elections = new ArrayCollection();
+        $this->createdElections = new ArrayCollection();
+        $this->updatedElections = new ArrayCollection();
         $this->candidacies = new ArrayCollection();
         $this->votes = new ArrayCollection();
         $this->transactions = new ArrayCollection();
         $this->createdNewsletters = new ArrayCollection();
+        $this->updatedNewsletters = new ArrayCollection();
         $this->sentNewsletters = new ArrayCollection();
         $this->approvedUsers = new ArrayCollection();
         $this->rejectedUsers = new ArrayCollection();
@@ -380,27 +394,57 @@ class User implements UserInterface
     /**
      * @return Collection<int, Election>
      */
-    public function getElections(): Collection
+    public function getCreatedElections(): Collection
     {
-        return $this->elections;
+        return $this->createdElections;
     }
 
-    public function addElection(Election $election): static
+    public function addCreatedElection(Election $election): static
     {
-        if (!$this->elections->contains($election)) {
-            $this->elections->add($election);
+        if (!$this->createdElections->contains($election)) {
+            $this->createdElections->add($election);
             $election->setCreatedBy($this);
         }
 
         return $this;
     }
 
-    public function removeElection(Election $election): static
+    public function removeCreatedElection(Election $election): static
     {
-        if ($this->elections->removeElement($election)) {
+        if ($this->createdElections->removeElement($election)) {
             // set the owning side to null (unless already changed)
             if ($election->getCreatedBy() === $this) {
                 $election->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Election>
+     */
+    public function getUpdatedElections(): Collection
+    {
+        return $this->updatedElections;
+    }
+
+    public function addUpdatedElection(Election $election): static
+    {
+        if (!$this->updatedElections->contains($election)) {
+            $this->updatedElections->add($election);
+            $election->setUpdatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUpdatedElection(Election $election): static
+    {
+        if ($this->updatedElections->removeElement($election)) {
+            // set the owning side to null (unless already changed)
+            if ($election->getUpdatedBy() === $this) {
+                $election->setUpdatedBy(null);
             }
         }
 
@@ -488,6 +532,36 @@ class User implements UserInterface
     public function removeCreatedNewsletter(Newsletter $newsletter): static
     {
         if ($this->createdNewsletters->removeElement($newsletter)) {
+            // set the owning side to null (unless already changed)
+            if ($newsletter->getCreatedBy() === $this) {
+                $newsletter->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Newsletter>
+     */
+    public function getUpdatedNewsletters(): Collection
+    {
+        return $this->updatedNewsletters;
+    }
+
+    public function addUpdatedNewsletter(Newsletter $newsletter): static
+    {
+        if (!$this->updatedNewsletters->contains($newsletter)) {
+            $this->updatedNewsletters->add($newsletter);
+            $newsletter->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUpdatedNewsletter(Newsletter $newsletter): static
+    {
+        if ($this->updatedNewsletters->removeElement($newsletter)) {
             // set the owning side to null (unless already changed)
             if ($newsletter->getCreatedBy() === $this) {
                 $newsletter->setCreatedBy(null);

@@ -26,9 +26,11 @@ class Election
     #[ORM\Column]
     private ?\DateTimeImmutable $voteEndAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'elections')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(inversedBy: 'createdElections')]
     private ?User $createdBy = null;
+
+    #[ORM\ManyToOne(inversedBy: 'updatedElections')]
+    private ?User $updatedBy = null;
 
     /**
      * @var Collection<int, Candidacy>
@@ -97,6 +99,18 @@ class Election
     public function setCreatedBy(?User $createdBy): static
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getUpdatedBy(): ?User
+    {
+        return $this->updatedBy;
+    }
+
+    public function setUpdatedBy(?User $updatedBy): static
+    {
+        $this->updatedBy = $updatedBy;
 
         return $this;
     }

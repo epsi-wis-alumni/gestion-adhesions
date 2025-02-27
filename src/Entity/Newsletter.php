@@ -28,9 +28,10 @@ class Newsletter
     private ?string $cta = null;
 
     #[ORM\ManyToOne(inversedBy: 'createdNewsletters')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?User $createdBy = null;
 
+    #[ORM\ManyToOne(inversedBy: 'updatedNewsletters')]
+    private ?User $updatedBy = null;
 
     #[ORM\ManyToOne(inversedBy: 'sentNewsletters')]
     private ?User $sentBy = null;
@@ -105,10 +106,14 @@ class Newsletter
         return $this;
     }
 
+    public function getUpdatedBy(): ?User
     {
+        return $this->updatedBy;
     }
 
+    public function setUpdatedBy(?User $updatedBy): static
     {
+        $this->updatedBy = $updatedBy;
 
         return $this;
     }
