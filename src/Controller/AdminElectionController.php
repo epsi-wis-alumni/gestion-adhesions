@@ -6,6 +6,7 @@ use App\Entity\Election;
 use App\Entity\User;
 use App\Form\AdminElectionType;
 use App\Repository\ElectionRepository;
+use App\Service\ElectionManager;
 use App\Service\NotificationManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,6 +30,7 @@ final class AdminElectionController extends AbstractController
     public function new(
         Request $request,
         EntityManagerInterface $entityManager,
+        ElectionManager $electionManager,
         NotificationManager $notificationManager,
         #[CurrentUser()] User $currentUser,
     ): Response {
@@ -37,7 +39,7 @@ final class AdminElectionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $election->setCreatedBy($currentUser);
+            $electionManager->create($currentUser, $election);
             $entityManager->persist($election);
             $entityManager->flush();
 
@@ -63,12 +65,18 @@ final class AdminElectionController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_admin_election_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Election $election, EntityManagerInterface $entityManager): Response
-    {
+    public function edit(
+        Request $request,
+        Election $election,
+        ElectionManager $electionManager,
+        EntityManagerInterface $entityManager,
+        #[CurrentUser()] User $currentUser,
+    ): Response {
         $form = $this->createForm(AdminElectionType::class, $election);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $electionManager->update($currentUser, $election);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_admin_election_index', [], Response::HTTP_SEE_OTHER);

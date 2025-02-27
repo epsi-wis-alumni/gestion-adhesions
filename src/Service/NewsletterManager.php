@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Newsletter;
+use App\Entity\User;
 use App\Entity\UserNewsletter;
 use App\Repository\UserNewsletterRepository;
 use App\Repository\UserRepository;
@@ -25,6 +26,20 @@ final class NewsletterManager
         private LoggerInterface $logger,
         private ContainerBagInterface $params,
     ) {
+    }
+
+    public function create(User $user, Newsletter $newsletter): void
+    {
+        $newsletter
+            ->setCreatedBy($user)
+        ;
+    }
+
+    public function update(User $user, Newsletter $newsletter): void
+    {
+        $newsletter
+            ->setUpdatedBy($user)
+        ;
     }
 
     public function send(Newsletter $newsletter): void
