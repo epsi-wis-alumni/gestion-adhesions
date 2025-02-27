@@ -31,6 +31,7 @@ jobs:
         run: |
           echo "APP_ENV=prod" >> .env.local
           echo "APP_DEBUG=0" >> .env.local
+          touch .env.prod.local
           echo "DATABASE_URL=${{ secrets.SYMFONY_DATABASE_URL }}" >> .env.prod.local
           echo "MAILER_DSN=${{ secrets.SYMFONY_MAILER_DSN }}" >> .env.prod.local
           echo "GOOGLE_CLIENT_ID=${{ secrets.OAUTH_GOOGLE_CLIENT_ID }}" >> .env.prod.local
