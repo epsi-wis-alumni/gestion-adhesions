@@ -10,6 +10,7 @@ use App\Form\CandidacyType;
 use App\Repository\CandidacyRepository;
 use App\Repository\ElectionRepository;
 use App\Repository\VoteRepository;
+use App\Security\Voter\CandidacyVoter;
 use App\Service\ElectionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
@@ -18,6 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/election')]
 class ElectionController extends AbstractController
@@ -117,6 +119,7 @@ class ElectionController extends AbstractController
     }
 
     #[Route('/{id}/candidacy/delete', name: 'app_election_candidacy_delete', methods: ['POST'])]
+    #[IsGranted(CandidacyVoter::DELETE, 'candidacy')]
     public function delete(Request $request, Candidacy $candidacy, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$candidacy->getId(), $request->getPayload()->getString('_token'))) {
