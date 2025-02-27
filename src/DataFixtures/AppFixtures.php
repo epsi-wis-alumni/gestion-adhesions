@@ -13,7 +13,6 @@ use App\Entity\Subscription;
 use App\Entity\Transaction;
 use App\Entity\User;
 use App\Entity\Vote;
-use App\Enum\MemberType;
 use App\Service\UserManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -45,7 +44,6 @@ class AppFixtures extends Fixture
             ->setAvatar($_ENV['USER_AVATAR'])
             ->setCompany('EPSI')
             ->setJobTitle('Secrétaire')
-            ->setType(MemberType::Undefined)
             ->setCreatedAt(new \DateTimeImmutable())
         ;
         $this->userManager->addRole($userPerso, 'ROLE_ADMIN');
@@ -55,7 +53,6 @@ class AppFixtures extends Fixture
             ->setFirstname('Admin')
             ->setLastname('ADMIN')
             ->setEmail('admin@gmail.com')
-            ->setType(MemberType::Undefined)
             ->setCreatedAt(new \DateTimeImmutable())
         ;
         // $this->userManager->approve($userAdmin, $userAdmin);
@@ -66,7 +63,6 @@ class AppFixtures extends Fixture
             ->setFirstname('Candidacy1')
             ->setLastname('CANDIDATE1')
             ->setEmail('candidacy1@gmail.com')
-            ->setType(MemberType::Undefined)
             ->setCreatedAt(new \DateTimeImmutable())
         ;
         $this->userManager->approve($userCandidacy1, $userAdmin);
@@ -76,7 +72,6 @@ class AppFixtures extends Fixture
             ->setFirstname('Candidacy2')
             ->setLastname('CANDIDATE2')
             ->setEmail('candidacy2@gmail.com')
-            ->setType(MemberType::Undefined)
             ->setCreatedAt(new \DateTimeImmutable())
         ;
         $this->userManager->approve($userCandidacy2, $userAdmin);
@@ -86,7 +81,6 @@ class AppFixtures extends Fixture
             ->setFirstname('Voter1')
             ->setLastname('VOTER1')
             ->setEmail('voter1@gmail.com')
-            ->setType(MemberType::Undefined)
             ->setCreatedAt(new \DateTimeImmutable())
         ;
         $this->userManager->approve($userVoter1, $userAdmin);
