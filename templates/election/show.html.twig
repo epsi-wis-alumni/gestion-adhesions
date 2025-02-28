@@ -182,7 +182,7 @@
                         ) }}
                       {% endif %}
 
-                      {% if is_granted('ROLE_ADMIN') %}
+                      {% if is_granted('CANDIDACY_DELETE', candidacy) %}
                         {% set modalDeleteId = 'confirmAlert-delete-' ~ candidacy.id %}
                           <form method="post" action="{{ path('app_election_candidacy_delete', { id: candidacy.id }) }}">
                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ candidacy.id) }}" />
@@ -191,7 +191,7 @@
                             </a>
                             {{ modal.confirm(
                               id: modalDeleteId,
-                              title: 'Êtes-vous sur de supprimer ?',
+                              title: 'Voulez vous vraiment supprimer la candidature ?',
                               continueButton: 'Supprimer',
                               type: 'submit',
                               accent: 'danger',
