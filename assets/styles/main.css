@@ -126,6 +126,7 @@ main {
     position: relative;
     text-shadow: 0 0 1rem rgba(var(--bs-body-bg-rgb), .5);
     z-index: 2;
+    display: inline-block;
 }
 .drawing::before {
     content: '';
@@ -141,4 +142,8 @@ main {
     z-index: -1;
     transform: translate(0, 10%);
     opacity: .8;
+}
+
+.alert p:last-child {
+    margin-bottom: 0;
 }

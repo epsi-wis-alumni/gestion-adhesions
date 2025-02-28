@@ -55,6 +55,20 @@ jobs:
         run: |
           composer dump-env prod
           composer dump-autoload --optimize --classmap-authoritative
+          php bin/console cache:warmup
+
+          # Optimize PHP
+          touch public/php.ini
+          echo "opcache.preload=${{ secrets.APP_PATH }}/config/preload.php" >> public/php.ini
+          echo "opcache.preload_user=www-data" >> public/php.ini
+          echo "opcache.memory_consumption=256" >> public/php.ini
+          echo "opcache.max_accelerated_files=20000" >> public/php.ini
+          echo "opcache.validate_timestamps=0" >> public/php.ini
+          echo "realpath_cache_size=8192K" >> public/php.ini
+          echo "realpath_cache_ttl=600" >> public/php.ini
+
+          # Register custom public/php.ini in public/.htaccess
+          echo "suPHP_ConfigPath ${{ secrets.APP_PATH }}/public/" >> public/.htaccess
       
       - name: Deploy with rsync
         uses: easingthemes/ssh-deploy@v5.1.0
@@ -65,5 +79,5 @@ jobs:
           SOURCE: "./"
           REMOTE_HOST: ${{ secrets.SSH_HOST }}
           REMOTE_USER: ${{ secrets.SSH_USER }}
-          TARGET: ./websites/fr.epsi-wis-alumni/
+          TARGET: ${{ secrets.APP_PATH }}/
           EXCLUDE: ".git*"
