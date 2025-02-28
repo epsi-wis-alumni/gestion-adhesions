@@ -16,7 +16,7 @@ class Candidacy
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'datetime_immutable', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $candidatedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'candidacies')]

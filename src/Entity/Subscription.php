@@ -15,7 +15,7 @@ class Subscription
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ['default' => 0])]
     private ?int $discount = null;
 
     /**

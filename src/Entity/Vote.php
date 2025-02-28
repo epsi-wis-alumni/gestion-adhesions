@@ -13,7 +13,7 @@ class Vote
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'datetime_immutable', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $votedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'votes')]
