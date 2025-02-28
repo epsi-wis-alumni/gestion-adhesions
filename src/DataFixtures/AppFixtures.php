@@ -383,7 +383,6 @@ class AppFixtures extends Fixture
         $newsletter3 = new Newsletter();
         $newsletter3
             ->setCreatedBy($userAdmin)
-            ->setCreatedAt(new \DateTimeImmutable())
             ->setTemplate($mailTemplate3)
             ->setObject('Votre plateforme évolue ! Découvrez les nouveautés.')
             ->setBody("
@@ -417,7 +416,6 @@ class AppFixtures extends Fixture
             ->setPlace('349 Rue de la Cavalade, 34070 Montpellier')
             ->setStartAt(new \DateTimeImmutable('2025-03-15 10:00:00'))
             ->setEndAt(new \DateTimeImmutable('2025-03-17 18:00:00'))
-            ->setCreatedAt(new \DateTimeImmutable())
             ->setPrivate(false)
         ;
 
@@ -428,7 +426,6 @@ class AppFixtures extends Fixture
             ->setPlace('349 Rue de la Cavalade, 34070 Montpellier')
             ->setStartAt(new \DateTimeImmutable('2025-04-23 09:30:00'))
             ->setEndAt(new \DateTimeImmutable('2025-04-23 17:00:00'))
-            ->setCreatedAt(new \DateTimeImmutable())
             ->setPrivate(false)
         ;
 
@@ -439,7 +436,6 @@ class AppFixtures extends Fixture
             ->setPlace('349 Rue de la Cavalade, 34070 Montpellier')
             ->setStartAt(new \DateTimeImmutable('2025-06-01 08:30:00'))
             ->setEndAt(new \DateTimeImmutable('2025-06-01 16:00:00'))
-            ->setCreatedAt(new \DateTimeImmutable())
             ->setPrivate(true)
         ;
 
