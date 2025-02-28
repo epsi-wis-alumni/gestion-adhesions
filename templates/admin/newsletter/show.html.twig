@@ -4,6 +4,8 @@
   Newsletter
 {% endblock %}
 
+{% set date_format = 'd/m/Y H:i' %}
+
 {% block admin_content %}
   <h1>Newsletter</h1>
 
@@ -22,8 +24,11 @@
   <div class="form-control mb-4">{{ newsletter.cta }}</div>
 
   <div class="mb-2 ms-1">Date de création :</div>
-  <div class="form-control mb-4">{{ newsletter.createdAt|date('m-d-Y') }}</div>
+  <div class="form-control mb-4">{{ newsletter.createdAt|date(date_format) }}</div>
+
+  <div class="mb-2 ms-1">Dernière mise à jour :</div>
+  <div class="form-control mb-4">{{ newsletter.updatedAt ? newsletter.updatedAt|date(date_format) : 'Aucune mise à jour' }}</div>
 
   <div class="mb-2 ms-1">Date d'envoie :</div>
-  <div class="form-control mb-4">{{ newsletter.sendAt ? newsletter.sendAt|date('m-d-Y') : 'Non envoyé' }}</div>
+  <div class="form-control mb-4">{{ newsletter.sendAt ? newsletter.sendAt|date(date_format) : 'Non envoyé' }}</div>
 {% endblock %}
