@@ -151,3 +151,7 @@ main {
 .text-truncate-td {
     max-width: 16rem;
 }
+
+.error-page {
+    text-shadow: rgba(var(--bs-dark-rgb)) 2px 0px;
+}

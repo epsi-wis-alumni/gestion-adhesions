@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% import "macros/fontawesome.html.twig" as fa %}
+
+{% block body %}
+  <div class="container my-5 text-center">
+    <h1 class="text-uppercase text-danger error-page display-1 fw-bold">404</h1>
+    <h2 class="text-uppercase text-danger error-page">Oups ! Page non trouvée</h2>
+
+    <p>
+      La page demandée est introuvable. Vérifiez s'il y a une erreur dans l'URL.
+    </p>
+    <a class="btn btn-primary" href="{{ path('app_home') }}">{{ fa.icon('house') }} Accueil</a>
+  </div>
+{% endblock %}
