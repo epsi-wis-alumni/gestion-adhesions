@@ -182,7 +182,7 @@
                         ) }}
                       {% endif %}
 
-                      {% if is_granted('ROLE_ADMIN') or (app.user == candidacy.candidate and election.isPending) %}
+                      {% if is_granted('CANDIDACY_DELETE', candidacy) %}
                         {% set modalDeleteId = 'confirmAlert-delete-' ~ candidacy.id %}
                           <form method="post" action="{{ path('app_election_candidacy_delete', { id: candidacy.id }) }}">
                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ candidacy.id) }}" />
