@@ -71,13 +71,13 @@ class User implements UserInterface
     /**
      * @var Collection<int, Election>
      */
-    #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'createdBy')]
+    #[ORM\OneToMany(targetEntity: Election::class, mappedBy: 'createdBy')]
     private Collection $createdElections;
 
     /**
      * @var Collection<int, Election>
      */
-    #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'updatedBy')]
+    #[ORM\OneToMany(targetEntity: Election::class, mappedBy: 'updatedBy')]
     private Collection $updatedElections;
 
     /**
