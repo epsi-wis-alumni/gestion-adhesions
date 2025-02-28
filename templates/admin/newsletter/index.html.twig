@@ -39,11 +39,11 @@
         <tbody>
           {% for newsletter in newsletters %}
             <tr>
-              <td>{{ newsletter.id }}</td>
-              <td>{{ newsletter.object }}</td>
-              {% set words = newsletter.body|split(' ') %}
-              {% set truncated_body = words|slice(0, 6)|join(' ') ~ ' ...' %}
-              <td>{{ truncated_body }}</td>
+              <td>
+                <div class="text-truncate text-truncate-td">
+                  {{ newsletter.object }}
+                </div>
+              </td>
               <td>{{ newsletter.cta }}</td>
               <td>{{ newsletter.createdAt|date(date_format)}}</td>
               <td>{{ newsletter.updatedAt ? newsletter.updatedAt|date(date_format) : '' }}</td>
