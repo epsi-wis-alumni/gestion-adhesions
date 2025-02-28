@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+{% import "macros/fontawesome.html.twig" as fa %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="h2 text-center mt-5">
+        {% if activePlan %}
+            Vous êtes un(e) adhérent(e) actif(ve) de l'EPSI-WIS-Alumni
+        {% else %}
+            Devenir adhérent de l'EPSI-WIS-Alumni
+        {% endif %}
+    </div>
+    {% include "/plan/_plan.html.twig" %}
+</div>
+{% endblock %}
