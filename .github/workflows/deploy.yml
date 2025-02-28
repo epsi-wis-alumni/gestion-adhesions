@@ -1,4 +1,4 @@
-name: Deploy to FTP
+name: Deploy with rsync
 
 on:
   workflow_dispatch:
@@ -19,8 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       
       - name: Setup PHP Action
         uses: shivammathur/setup-php@v2
@@ -31,6 +29,7 @@ jobs:
         run: |
           echo "APP_ENV=prod" >> .env.local
           echo "APP_DEBUG=0" >> .env.local
+          touch .env.prod.local
           echo "DATABASE_URL=${{ secrets.SYMFONY_DATABASE_URL }}" >> .env.prod.local
           echo "MAILER_DSN=${{ secrets.SYMFONY_MAILER_DSN }}" >> .env.prod.local
           echo "GOOGLE_CLIENT_ID=${{ secrets.OAUTH_GOOGLE_CLIENT_ID }}" >> .env.prod.local
@@ -56,14 +55,26 @@ jobs:
         run: |
           composer dump-env prod
           composer dump-autoload --optimize --classmap-authoritative
+          php bin/console cache:warmup
+
+          # Copy .htaccess
+          cp docker/apache/.htaccess public/.htaccess
+
+          # Optimize PHP
+          cp docker/apache/php_prod.ini public/php.ini
+          echo "opcache.preload=${{ secrets.APP_PATH }}/config/preload.php" >> public/php.ini
+
+          # Register custom public/php.ini in public/.htaccess
+          echo "suPHP_ConfigPath ${{ secrets.APP_PATH }}/public/" >> public/.htaccess
       
       - name: Deploy with rsync
         uses: easingthemes/ssh-deploy@v5.1.0
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           # Updates are based on file hash, not time + size
-          ARGS: "-rlgoDzvc -i"
+          ARGS: "-rlgoDzvc -i --delete"
           SOURCE: "./"
           REMOTE_HOST: ${{ secrets.SSH_HOST }}
           REMOTE_USER: ${{ secrets.SSH_USER }}
-          TARGET: ./fr.epsi-wis-alumni/
+          TARGET: ${{ secrets.APP_PATH }}/
+          EXCLUDE: ".git*"

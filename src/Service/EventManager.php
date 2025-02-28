@@ -11,7 +11,6 @@ final class EventManager
     {
         $event
             ->setCreatedBy($user)
-            ->setCreatedAt(new \DateTimeImmutable())
         ;
     }
 
@@ -19,7 +18,6 @@ final class EventManager
     {
         $event
             ->setUpdatedBy($user)
-            ->setUpdatedAt(new \DateTimeImmutable())
         ;
     }
 

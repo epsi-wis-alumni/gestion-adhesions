@@ -4,33 +4,31 @@
   Élection
 {% endblock %}
 
+{% set date_format = 'd/m/Y H:i' %}
+
 {% block admin_content %}
   <div class="table-responsive border rounded">
     <table class="table table-striped mb-0">
       <tbody>
         <tr>
-          <th>Id</th>
-          <td>{{ election.id }}</td>
-        </tr>
-        <tr>
-          <th>JobTitle</th>
+          <th>Poste</th>
           <td>{{ election.jobTitle }}</td>
         </tr>
         <tr>
-          <th>CreatedAt</th>
-          <td>{{ election.createdAt ? election.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+          <th>Début vote</th>
+          <td>{{ election.voteStartAt ? election.voteStartAt|date(date_format) : '' }}</td>
         </tr>
         <tr>
-          <th>CreatedBy</th>
-          <td>{{ election.createdBy.id }}</td>
+          <th>Fin vote</th>
+          <td>{{ election.voteEndAt ? election.voteEndAt|date(date_format) : '' }}</td>
         </tr>
         <tr>
-          <th>VoteStartAt</th>
-          <td>{{ election.voteStartAt ? election.voteStartAt|date('Y-m-d H:i:s') : '' }}</td>
+          <th>Date de création</th>
+          <td>{{ election.createdAt ? election.createdAt|date(date_format) : '' }}</td>
         </tr>
-        <tr>
-          <th class="border-0">VoteEndAt</th>
-          <td>{{ election.voteEndAt ? election.voteEndAt|date('Y-m-d H:i:s') : '' }}</td>
+         <tr>
+          <th class="border-0">Dernière mise à jour</th>
+          <td>{{ election.updatedAt ? election.updatedAt|date(date_format) : 'Aucune mise à jour' }}</td>
         </tr>
       </tbody>
     </table>

@@ -6,8 +6,23 @@
 {% endblock %}
 
 {% block body %}
-  <div class="container">
-    <div class="mx-auto" style="max-width: 24rem;">
+  <div class="container my-5">
+    <div class="container-form">
+      <div class="alert alert-primary mb-4">
+        <div class="row g-2">
+          <div class="col-auto p-1">
+            {{ fa.icon('info-circle', size: 'xl') }}
+          </div>
+      
+          <div class="col">
+            <h1 class="h5">Informations complémentaires requises</h1>
+            <p class="mb-0">
+              Veuillez compléter tous les champs si dessous. Si vous êtes un élève, mettez le nom de votre école dans le champ "Entreprise".
+            </p>
+          </div>
+        </div>
+      </div>
+
       {{ form_start(form) }}
         <div class="row">
           <div class="col-md-6">
@@ -17,6 +32,7 @@
             {{ form_row(form.lastname) }}
           </div>
         </div>
+        {{ form_row(form.type) }}
         {{ form_row(form.company) }}
         {{ form_row(form.jobTitle) }}
         <div class="text-end">

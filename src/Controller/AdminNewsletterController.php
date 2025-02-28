@@ -30,6 +30,7 @@ final class AdminNewsletterController extends AbstractController
     public function new(
         Request $request,
         EntityManagerInterface $entityManager,
+        NewsletterManager $newsletterManager,
         #[CurrentUser()] User $currentUser,
     ): Response {
         $newsletter = new Newsletter();
@@ -37,7 +38,7 @@ final class AdminNewsletterController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $newsletter->setCreatedBy($currentUser);
+            $newsletterManager->create($currentUser, $newsletter);
             $entityManager->persist($newsletter);
             $entityManager->flush();
 
@@ -62,13 +63,15 @@ final class AdminNewsletterController extends AbstractController
     public function edit(
         Request $request,
         Newsletter $newsletter,
+        NewsletterManager $newsletterManager,
         EntityManagerInterface $entityManager,
-        MailTemplateRepository $mailTemplateRepository,
+        #[CurrentUser()] User $currentUser,
     ): Response {
         $form = $this->createForm(AdminNewsletterType::class, $newsletter);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $newsletterManager->update($currentUser, $newsletter);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_admin_newsletter_index', [], Response::HTTP_SEE_OTHER);

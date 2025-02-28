@@ -1,0 +1,11 @@
+{% from "macros/alert.html.twig" import alert %}
+    {% set flashes = app.flashes %}
+    {% if flashes|length %}
+        <div class="mb-3">
+            {% for label, messages in flashes %}
+                {% for message in messages %}
+                    {{ alert(variant: label, content: message, dismissible: true) }}
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% endif %}

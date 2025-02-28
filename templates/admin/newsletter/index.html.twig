@@ -31,6 +31,7 @@
             <th>Corps</th>
             <th>CTA</th>
             <th>Création</th>
+            <th>Modification</th>
             <th>Envoi</th>
             <th>Actions</th>
           </tr>
@@ -45,6 +46,7 @@
               <td>{{ truncated_body }}</td>
               <td>{{ newsletter.cta }}</td>
               <td>{{ newsletter.createdAt|date(date_format)}}</td>
+              <td>{{ newsletter.updatedAt ? newsletter.updatedAt|date(date_format) : '' }}</td>
               <td>{{ newsletter.sendAt ? newsletter.sendAt|date(date_format) : '' }}</td>
               <td>
                 <div class="d-flex align-items-center gap-2">
@@ -70,7 +72,7 @@
             </tr>
           {% else %}
             <tr>
-              <td colspan="7">Aucune Newsletters</td>
+              <td colspan="8">Aucune Newsletter</td>
             </tr>
           {% endfor %}
         </tbody>

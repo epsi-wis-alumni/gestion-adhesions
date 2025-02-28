@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\TimestampableTrait;
 use App\Repository\NewsletterRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,8 +10,10 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: NewsletterRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Newsletter
 {
+    use TimestampableTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -26,11 +29,10 @@ class Newsletter
     private ?string $cta = null;
 
     #[ORM\ManyToOne(inversedBy: 'createdNewsletters')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?User $createdBy = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    #[ORM\ManyToOne(inversedBy: 'updatedNewsletters')]
+    private ?User $updatedBy = null;
 
     #[ORM\ManyToOne(inversedBy: 'sentNewsletters')]
     private ?User $sentBy = null;
@@ -49,7 +51,6 @@ class Newsletter
 
     public function __construct()
     {
-        $this->setCreatedAt(new \DateTimeImmutable());
         $this->userNewsletters = new ArrayCollection();
     }
 
@@ -106,14 +107,14 @@ class Newsletter
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getUpdatedBy(): ?User
     {
-        return $this->createdAt;
+        return $this->updatedBy;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setUpdatedBy(?User $updatedBy): static
     {
-        $this->createdAt = $createdAt;
+        $this->updatedBy = $updatedBy;
 
         return $this;
     }

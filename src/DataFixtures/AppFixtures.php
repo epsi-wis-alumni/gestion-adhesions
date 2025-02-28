@@ -13,7 +13,6 @@ use App\Entity\Subscription;
 use App\Entity\Transaction;
 use App\Entity\User;
 use App\Entity\Vote;
-use App\Enum\MemberType;
 use App\Service\UserManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -45,8 +44,6 @@ class AppFixtures extends Fixture
             ->setAvatar($_ENV['USER_AVATAR'])
             ->setCompany('EPSI')
             ->setJobTitle('Secrétaire')
-            ->setType(MemberType::Undefined)
-            ->setCreatedAt(new \DateTimeImmutable())
         ;
         $this->userManager->addRole($userPerso, 'ROLE_ADMIN');
 
@@ -55,8 +52,6 @@ class AppFixtures extends Fixture
             ->setFirstname('Admin')
             ->setLastname('ADMIN')
             ->setEmail('admin@gmail.com')
-            ->setType(MemberType::Undefined)
-            ->setCreatedAt(new \DateTimeImmutable())
         ;
         // $this->userManager->approve($userAdmin, $userAdmin);
         $this->userManager->addRole($userAdmin, 'ROLE_ADMIN');
@@ -66,8 +61,6 @@ class AppFixtures extends Fixture
             ->setFirstname('Candidacy1')
             ->setLastname('CANDIDATE1')
             ->setEmail('candidacy1@gmail.com')
-            ->setType(MemberType::Undefined)
-            ->setCreatedAt(new \DateTimeImmutable())
         ;
         $this->userManager->approve($userCandidacy1, $userAdmin);
 
@@ -76,8 +69,6 @@ class AppFixtures extends Fixture
             ->setFirstname('Candidacy2')
             ->setLastname('CANDIDATE2')
             ->setEmail('candidacy2@gmail.com')
-            ->setType(MemberType::Undefined)
-            ->setCreatedAt(new \DateTimeImmutable())
         ;
         $this->userManager->approve($userCandidacy2, $userAdmin);
 
@@ -86,8 +77,6 @@ class AppFixtures extends Fixture
             ->setFirstname('Voter1')
             ->setLastname('VOTER1')
             ->setEmail('voter1@gmail.com')
-            ->setType(MemberType::Undefined)
-            ->setCreatedAt(new \DateTimeImmutable())
         ;
         $this->userManager->approve($userVoter1, $userAdmin);
 
@@ -107,9 +96,7 @@ class AppFixtures extends Fixture
 
         $election1 = new Election();
         $election1
-            ->setCreatedAt($yesterday)
             ->setCreatedBy($userAdmin)
-
             ->setJobTitle('Secrétaire')
             ->setVoteStartAt($yesterday)
             ->setVoteEndAt($yesterday->modify('+1 hour'))
@@ -117,9 +104,7 @@ class AppFixtures extends Fixture
 
         $election2 = new Election();
         $election2
-            ->setCreatedAt($yesterday)
             ->setCreatedBy($userAdmin)
-
             ->setJobTitle('Trésorier')
             ->setVoteStartAt($today)
             ->setVoteEndAt($today->modify('next day midnight -1 minute'))
@@ -127,9 +112,7 @@ class AppFixtures extends Fixture
 
         $election3 = new Election();
         $election3
-            ->setCreatedAt($yesterday)
             ->setCreatedBy($userAdmin)
-
             ->setJobTitle('Président')
             ->setVoteStartAt($tomorrow)
             ->setVoteEndAt($tomorrow->modify('next day midnight -1 minute'))
@@ -352,7 +335,6 @@ class AppFixtures extends Fixture
         $newsletter1 = new Newsletter();
         $newsletter1
             ->setCreatedBy($userAdmin)
-            ->setCreatedAt(new \DateTimeImmutable())
             ->setTemplate($mailTemplate3)
             ->setObject('Découvrez nos plans adaptés à vos besoins !')
             ->setBody("
@@ -374,7 +356,6 @@ class AppFixtures extends Fixture
         $newsletter2 = new Newsletter();
         $newsletter2
             ->setCreatedBy($userAdmin)
-            ->setCreatedAt(new \DateTimeImmutable())
             ->setTemplate($mailTemplate3)
             ->setObject('Participez à notre prochain webinaire gratuit !')
             ->setBody("
@@ -402,7 +383,6 @@ class AppFixtures extends Fixture
         $newsletter3 = new Newsletter();
         $newsletter3
             ->setCreatedBy($userAdmin)
-            ->setCreatedAt(new \DateTimeImmutable())
             ->setTemplate($mailTemplate3)
             ->setObject('Votre plateforme évolue ! Découvrez les nouveautés.')
             ->setBody("
@@ -436,7 +416,6 @@ class AppFixtures extends Fixture
             ->setPlace('349 Rue de la Cavalade, 34070 Montpellier')
             ->setStartAt(new \DateTimeImmutable('2025-03-15 10:00:00'))
             ->setEndAt(new \DateTimeImmutable('2025-03-17 18:00:00'))
-            ->setCreatedAt(new \DateTimeImmutable())
             ->setPrivate(false)
         ;
 
@@ -447,7 +426,6 @@ class AppFixtures extends Fixture
             ->setPlace('349 Rue de la Cavalade, 34070 Montpellier')
             ->setStartAt(new \DateTimeImmutable('2025-04-23 09:30:00'))
             ->setEndAt(new \DateTimeImmutable('2025-04-23 17:00:00'))
-            ->setCreatedAt(new \DateTimeImmutable())
             ->setPrivate(false)
         ;
 
@@ -458,7 +436,6 @@ class AppFixtures extends Fixture
             ->setPlace('349 Rue de la Cavalade, 34070 Montpellier')
             ->setStartAt(new \DateTimeImmutable('2025-06-01 08:30:00'))
             ->setEndAt(new \DateTimeImmutable('2025-06-01 16:00:00'))
-            ->setCreatedAt(new \DateTimeImmutable())
             ->setPrivate(true)
         ;
 

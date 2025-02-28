@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Trait\SoftDeletableTrait;
+use App\Entity\Trait\TimestampableTrait;
 use App\Enum\MembershipStatus;
 use App\Enum\MemberType;
 use App\Repository\UserRepository;
@@ -22,6 +23,7 @@ use function Symfony\Component\String\u;
 class User implements UserInterface
 {
     use SoftDeletableTrait;
+    use TimestampableTrait;
     public const ROLE_USER = 'ROLE_USER';
     public const ROLE_APPROVED = 'ROLE_APPROVED';
     public const ROLE_MEMBER = 'ROLE_MEMBER';
@@ -68,8 +70,14 @@ class User implements UserInterface
     /**
      * @var Collection<int, Election>
      */
-    #[ORM\OneToMany(targetEntity: Election::class, mappedBy: 'createdBy')]
-    private Collection $elections;
+    #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'createdBy')]
+    private Collection $createdElections;
+
+    /**
+     * @var Collection<int, Election>
+     */
+    #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'updatedBy')]
+    private Collection $updatedElections;
 
     /**
      * @var Collection<int, Candidacy>
@@ -92,14 +100,17 @@ class User implements UserInterface
     /**
      * @var Collection<int, Newsletter>
      */
+    #[ORM\OneToMany(targetEntity: Newsletter::class, mappedBy: 'updatedBy')]
+    private Collection $updatedNewsletters;
+
+    /**
+     * @var Collection<int, Newsletter>
+     */
     #[ORM\OneToMany(targetEntity: Newsletter::class, mappedBy: 'sentBy')]
     private Collection $sentNewsletters;
 
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $avatar = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'approvedUsers')]
     private ?self $approvedBy = null;
@@ -147,16 +158,21 @@ class User implements UserInterface
     private Collection $updatedEvents;
 
     #[ORM\Column(enumType: MemberType::class, options: ['default' => MemberType::Undefined->value])]
-    private ?MemberType $type = null;
+    private ?MemberType $type = MemberType::Undefined;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $linkedinId = null;
 
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
-        $this->elections = new ArrayCollection();
+        $this->createdElections = new ArrayCollection();
+        $this->updatedElections = new ArrayCollection();
         $this->candidacies = new ArrayCollection();
         $this->votes = new ArrayCollection();
         $this->transactions = new ArrayCollection();
         $this->createdNewsletters = new ArrayCollection();
+        $this->updatedNewsletters = new ArrayCollection();
         $this->sentNewsletters = new ArrayCollection();
         $this->approvedUsers = new ArrayCollection();
         $this->rejectedUsers = new ArrayCollection();
@@ -176,15 +192,10 @@ class User implements UserInterface
         match ($resourceOwnerName) {
             'google' => $this->setGoogleId($response->getUserIdentifier()),
             'azure' => $this->setMicrosoftId($response->getUserIdentifier()),
+            'linkedin' => $this->setLinkedinId($response->getUserIdentifier()),
         };
 
         return $this;
-    }
-
-    #[ORM\PrePersist]
-    public function onPrePersist(): void
-    {
-        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -387,27 +398,57 @@ class User implements UserInterface
     /**
      * @return Collection<int, Election>
      */
-    public function getElections(): Collection
+    public function getCreatedElections(): Collection
     {
-        return $this->elections;
+        return $this->createdElections;
     }
 
-    public function addElection(Election $election): static
+    public function addCreatedElection(Election $election): static
     {
-        if (!$this->elections->contains($election)) {
-            $this->elections->add($election);
+        if (!$this->createdElections->contains($election)) {
+            $this->createdElections->add($election);
             $election->setCreatedBy($this);
         }
 
         return $this;
     }
 
-    public function removeElection(Election $election): static
+    public function removeCreatedElection(Election $election): static
     {
-        if ($this->elections->removeElement($election)) {
+        if ($this->createdElections->removeElement($election)) {
             // set the owning side to null (unless already changed)
             if ($election->getCreatedBy() === $this) {
                 $election->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Election>
+     */
+    public function getUpdatedElections(): Collection
+    {
+        return $this->updatedElections;
+    }
+
+    public function addUpdatedElection(Election $election): static
+    {
+        if (!$this->updatedElections->contains($election)) {
+            $this->updatedElections->add($election);
+            $election->setUpdatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUpdatedElection(Election $election): static
+    {
+        if ($this->updatedElections->removeElement($election)) {
+            // set the owning side to null (unless already changed)
+            if ($election->getUpdatedBy() === $this) {
+                $election->setUpdatedBy(null);
             }
         }
 
@@ -507,6 +548,36 @@ class User implements UserInterface
     /**
      * @return Collection<int, Newsletter>
      */
+    public function getUpdatedNewsletters(): Collection
+    {
+        return $this->updatedNewsletters;
+    }
+
+    public function addUpdatedNewsletter(Newsletter $newsletter): static
+    {
+        if (!$this->updatedNewsletters->contains($newsletter)) {
+            $this->updatedNewsletters->add($newsletter);
+            $newsletter->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUpdatedNewsletter(Newsletter $newsletter): static
+    {
+        if ($this->updatedNewsletters->removeElement($newsletter)) {
+            // set the owning side to null (unless already changed)
+            if ($newsletter->getCreatedBy() === $this) {
+                $newsletter->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Newsletter>
+     */
     public function getSentNewsletters(): Collection
     {
         return $this->sentNewsletters;
@@ -542,18 +613,6 @@ class User implements UserInterface
     public function setAvatar(?string $avatar): static
     {
         $this->avatar = $avatar;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -811,6 +870,18 @@ class User implements UserInterface
     public function setType(MemberType $type): static
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getLinkedinId(): ?string
+    {
+        return $this->linkedinId;
+    }
+
+    public function setLinkedinId(?string $linkedinId): static
+    {
+        $this->linkedinId = $linkedinId;
 
         return $this;
     }
