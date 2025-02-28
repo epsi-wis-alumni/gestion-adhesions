@@ -14,14 +14,13 @@ final class PlanController extends AbstractController
 {
     #[Route(name: 'app_plan', methods: ['GET'])]
     public function plan(
-        #[CurrentUser()] User $currentUser,
+        #[CurrentUser()] ?User $currentUser,
         PlanRepository $planRepository,
     ): Response {
-        $activePlan = $planRepository->findOneActivePlanByUser($currentUser);
+        $activePlan = $currentUser ? $planRepository->findOneActivePlanByUser($currentUser) : null;
         $plans = $planRepository->findAllSorted();
 
         return $this->render('plan/plan.html.twig', [
-            'currentUser' => $currentUser,
             'activePlan' => $activePlan,
             'plans' => $plans,
         ]);
