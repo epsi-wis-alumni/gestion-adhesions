@@ -7,6 +7,7 @@ parameters:
     mailer_sender: '%env(MAILER_SENDER)%'
     invoice_base_path: '/../../public/assets/upload/invoices/'
     mails_base_path: '/../../templates/mails/'
+    .container.dumper.inline_factories: true
 
 services:
     # default configuration for services in *this* file

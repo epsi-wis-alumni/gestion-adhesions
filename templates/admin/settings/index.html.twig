@@ -1,0 +1,16 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}Hello AdminSettingsController!{% endblock %}
+
+{% block admin_content %}
+  <section>
+    <h2 class="h3 border-bottom mb-3">Cache et performances</h2>
+
+    <p>
+      Après chaque déploiement, vous devez vider et régénérer le cache d'OPcache. Sinon, vous ne verrez pas les mises à jour apportées dans l'application. Étant donné qu'en PHP, la CLI et les processus Web ne partagent pas le même OPcache, vous ne pouvez effacer l'OPcache du serveur Web qu'en l'exécutant depuis le web.
+    </p>
+    <a href="{{ path('app_admin_settings_empty_cache') }}" class="btn btn-secondary">
+      Vider le cache
+    </a>
+  </section>
+{% endblock %}
