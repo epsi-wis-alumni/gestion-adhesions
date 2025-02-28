@@ -28,6 +28,7 @@
             <th>Id</th>
             <th>Poste</th>
             <th>Création</th>
+            <th>Modification</th>
             <th>Début vote</th>
             <th>Fin vote</th>
             <th>Actions</th>
@@ -39,6 +40,7 @@
               <td>{{ election.id }}</td>
               <td>{{ election.jobTitle }}</td>
               <td>{{ election.createdAt ? election.createdAt|date(date_format) : '' }}</td>
+              <td>{{ election.updatedAt ? election.updatedAt|date(date_format) : '' }}</td>
               <td>{{ election.voteStartAt ? election.voteStartAt|date(date_format) : '' }}</td>
               <td>{{ election.voteEndAt ? election.voteEndAt|date(date_format) : '' }}</td>
               <td>
@@ -55,7 +57,7 @@
             </tr>
           {% else %}
             <tr>
-              <td colspan="6">Aucune Élection</td>
+              <td colspan="7">Aucune Élection</td>
             </tr>
           {% endfor %}
         </tbody>

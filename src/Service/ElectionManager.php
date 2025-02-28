@@ -17,6 +17,20 @@ final class ElectionManager
     ) {
     }
 
+    public function create(User $user, Election $election): void
+    {
+        $election
+            ->setCreatedBy($user)
+        ;
+    }
+
+    public function update(User $user, Election $election): void
+    {
+        $election
+            ->setUpdatedBy($user)
+        ;
+    }
+
     public function candidate(User $user, Candidacy $candidacy, Election $election): void
     {
         $candidacy

@@ -25,13 +25,13 @@
       <table class="table table-striped mb-0">
         <thead class="table-bordered">
           <tr>
-            <th>Id</th>
-            <th>Title</th>
+            <th>Titre</th>
             <th>Lieu</th>
             <th>Début</th>
             <th>Fin</th>
             <th>Privé</th>
             <th>Création</th>
+            <th>Modification</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -47,6 +47,7 @@
                 {{ event.private ? fa.icon('check') : fa.icon('xmark') }}
               </td>
               <td>{{ event.createdAt ? event.createdAt|date(date_format) : '' }}</td>
+              <td>{{ event.updatedAt ? event.updatedAt|date(date_format) : '' }}</td>
               <td>
                 <div class="d-flex align-items-center gap-2">
                   <a class="link-primary" href="{{ path('app_admin_event_edit', { id: event.id }) }}">
@@ -61,7 +62,7 @@
             </tr>
           {% else %}
             <tr>
-              <td colspan="7">Aucun Évènements</td>
+              <td colspan="8">Aucun Évènement</td>
             </tr>
           {% endfor %}
         </tbody>
