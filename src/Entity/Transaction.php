@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: TransactionRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Transaction
 {
     use TimestampableTrait;
