@@ -69,7 +69,12 @@
                   ) }}
                 </div>
               </td>
-              <td>{{ user.displayName }}{{ user.hasRole('ROLE_ADMIN') ? fa.icon('crown', additional_classes: ['text-warning']) : '' }}</td>
+              <td>
+                {{ user.displayName }}
+                {% if user.hasRole('ROLE_ADMIN') %}
+                  {{ fa.icon('crown', additional_classes: ['text-warning']) }}
+                {% endif %}
+              </td>
               <td>
                 <a href="mailto:{{ user.email }}">{{ user.email }}</a>
               </td>
