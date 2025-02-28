@@ -54,7 +54,7 @@
                 {{ event.private ? fa.icon('check') : fa.icon('xmark') }}
               </td>
               <td>{{ event.createdAt ? event.createdAt|date(date_format) : '' }}</td>
-              <td>{{ event.updatedAt ? event.updatedAt|date(date_format) : '' }}</td>
+              <td>{{ event.updatedAt ? event.updatedAt|date(date_format) : 'Aucune' }}</td>
               <td>
                 <div class="d-flex align-items-center gap-2">
                   <a class="link-primary" href="{{ path('app_admin_event_edit', { id: event.id }) }}">

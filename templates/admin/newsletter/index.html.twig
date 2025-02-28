@@ -44,6 +44,8 @@
               </td>
               <td>{{ newsletter.cta }}</td>
               <td>{{ newsletter.createdAt|date(date_format)}}</td>
+              <td>{{ newsletter.updatedAt ? newsletter.updatedAt|date(date_format) : 'Aucune' }}</td>
+              <td>{{ newsletter.sendAt ? newsletter.sendAt|date(date_format) : 'Aucun' }}</td>
               <td>
                 <div class="d-flex align-items-center gap-2">
                   {% set modalId = 'confirmAlert-' ~ newsletter.id %}

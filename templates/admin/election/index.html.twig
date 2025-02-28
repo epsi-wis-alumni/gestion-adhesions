@@ -26,10 +26,10 @@
         <thead class="table-bordered">
           <tr>
             <th>Poste</th>
-            <th>Création</th>
-            <th>Modification</th>
             <th>Début vote</th>
             <th>Fin vote</th>
+            <th>Création</th>
+            <th>Modification</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -37,10 +37,10 @@
           {% for election in elections %}
             <tr>
               <td>{{ election.jobTitle }}</td>
-              <td>{{ election.createdAt ? election.createdAt|date(date_format) : '' }}</td>
-              <td>{{ election.updatedAt ? election.updatedAt|date(date_format) : '' }}</td>
               <td>{{ election.voteStartAt ? election.voteStartAt|date(date_format) : '' }}</td>
               <td>{{ election.voteEndAt ? election.voteEndAt|date(date_format) : '' }}</td>
+              <td>{{ election.createdAt ? election.createdAt|date(date_format) : '' }}</td>
+              <td>{{ election.updatedAt ? election.updatedAt|date(date_format) : 'Aucune' }}</td>
               <td>
                 <div class="d-flex align-items-center gap-2">
                   <a class="link-primary" href="{{ path('app_admin_election_edit', { id: election.id }) }}">
