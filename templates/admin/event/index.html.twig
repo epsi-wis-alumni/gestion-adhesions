@@ -48,12 +48,12 @@
                   {{ event.place }}
                 </div>
               </td>
-              <td>{{ event.startAt ? event.startAt|date(date_format) : '' }}</td>
-              <td>{{ event.endAt ? event.endAt|date(date_format) : '' }}</td>
+              <td>{{ event.startAt|date(date_format) }}</td>
+              <td>{{ event.endAt|date(date_format) }}</td>
               <td class="ps-4">
                 {{ event.private ? fa.icon('check') : fa.icon('xmark') }}
               </td>
-              <td>{{ event.createdAt ? event.createdAt|date(date_format) : '' }}</td>
+              <td>{{ event.createdAt|date(date_format) }}</td>
               <td>{{ event.updatedAt ? event.updatedAt|date(date_format) : 'Aucune' }}</td>
               <td>
                 <div class="d-flex align-items-center gap-2">

@@ -16,15 +16,15 @@
         </tr>
         <tr>
           <th>Début vote</th>
-          <td>{{ election.voteStartAt ? election.voteStartAt|date(date_format) : '' }}</td>
+          <td>{{ election.voteStartAt|date(date_format) }}</td>
         </tr>
         <tr>
           <th>Fin vote</th>
-          <td>{{ election.voteEndAt ? election.voteEndAt|date(date_format) : '' }}</td>
+          <td>{{ election.voteEndAt|date(date_format) }}</td>
         </tr>
         <tr>
           <th>Date de création</th>
-          <td>{{ election.createdAt ? election.createdAt|date(date_format) : '' }}</td>
+          <td>{{ election.createdAt|date(date_format) }}</td>
         </tr>
          <tr>
           <th class="border-0">Dernière mise à jour</th>

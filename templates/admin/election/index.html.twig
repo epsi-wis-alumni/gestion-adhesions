@@ -37,9 +37,9 @@
           {% for election in elections %}
             <tr>
               <td>{{ election.jobTitle }}</td>
-              <td>{{ election.voteStartAt ? election.voteStartAt|date(date_format) : '' }}</td>
-              <td>{{ election.voteEndAt ? election.voteEndAt|date(date_format) : '' }}</td>
-              <td>{{ election.createdAt ? election.createdAt|date(date_format) : '' }}</td>
+              <td>{{ election.voteStartAt|date(date_format) }}</td>
+              <td>{{ election.voteEndAt|date(date_format) }}</td>
+              <td>{{ election.createdAt|date(date_format) }}</td>
               <td>{{ election.updatedAt ? election.updatedAt|date(date_format) : 'Aucune' }}</td>
               <td>
                 <div class="d-flex align-items-center gap-2">
