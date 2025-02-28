@@ -34,8 +34,11 @@
             {% for plan in plans %}
                 <tr>
                     <td>{{ plan.name }}</td>
-                    <td>{{ plan.description }}</td>
-                    {# <td>{{ plan.features[0].name }} ...</td> #}
+                    <td>
+                        <div class="text-truncate text-truncate-td">
+                            {{ plan.description }}
+                        </div>
+                    </td>
                     <td>{{ plan.features is not empty ? plan.features[0].name ~ '...' : 'Aucun avantages disponibles' }}</td>
                     <td>{{ plan.price }} €</td>
                     <td>
@@ -52,7 +55,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="4">no records found</td>
+                    <td colspan="5">Aucun Plan</td>
                 </tr>
             {% endfor %}
             </tbody>

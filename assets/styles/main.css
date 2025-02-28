@@ -147,3 +147,7 @@ main {
 .alert p:last-child {
     margin-bottom: 0;
 }
+
+.text-truncate-td {
+    max-width: 16rem;
+}
