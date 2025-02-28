@@ -28,7 +28,7 @@ class Event
     #[ORM\Column]
     private ?\DateTimeImmutable $endAt = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private ?bool $private = null;
 
     #[ORM\ManyToOne(inversedBy: 'createdEvents')]

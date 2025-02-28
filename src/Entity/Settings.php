@@ -8,16 +8,16 @@ use Doctrine\ORM\Mapping\Embeddable;
 #[Embeddable]
 class Settings
 {
-    #[ORM\Column]
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private ?bool $newsletterAllowed = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private ?bool $notificationsAllowed = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private ?bool $electionNotificationsAllowed = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private ?bool $eventNotificationsAllowed = null;
 
     public function __construct()
