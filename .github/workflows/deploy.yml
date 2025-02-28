@@ -57,15 +57,12 @@ jobs:
           composer dump-autoload --optimize --classmap-authoritative
           php bin/console cache:warmup
 
+          # Copy .htaccess
+          cp docker/apache/.htaccess public/.htaccess
+
           # Optimize PHP
-          touch public/php.ini
+          cp docker/apache/php_prod.ini public/php.ini
           echo "opcache.preload=${{ secrets.APP_PATH }}/config/preload.php" >> public/php.ini
-          echo "opcache.preload_user=www-data" >> public/php.ini
-          echo "opcache.memory_consumption=256" >> public/php.ini
-          echo "opcache.max_accelerated_files=20000" >> public/php.ini
-          echo "opcache.validate_timestamps=0" >> public/php.ini
-          echo "realpath_cache_size=8192K" >> public/php.ini
-          echo "realpath_cache_ttl=600" >> public/php.ini
 
           # Register custom public/php.ini in public/.htaccess
           echo "suPHP_ConfigPath ${{ secrets.APP_PATH }}/public/" >> public/.htaccess
