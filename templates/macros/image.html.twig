@@ -1,7 +1,7 @@
 {% macro avatar(path, alt, size = 'md', additional_classes = []) %}
   {% import "macros/fontawesome.html.twig" as fa %}
   
-  {%- set classes = ['avatar', 'avatar-' ~ size, 'link-primary'] -%}
+  {%- set classes = ['avatar', 'avatar-' ~ size, 'link-primary', 'lh-1'] -%}
   {%- set classes = classes|merge(additional_classes) -%}
   {%- set icon_size = 'fa-' ~ size %}
 
