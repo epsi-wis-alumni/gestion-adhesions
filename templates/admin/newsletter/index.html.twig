@@ -26,9 +26,7 @@
       <table class="table table-striped mb-0">
         <thead class="table-bordered">
           <tr>
-            <th>Id</th>
             <th>Objet</th>
-            <th>Corps</th>
             <th>CTA</th>
             <th>Création</th>
             <th>Modification</th>
@@ -46,8 +44,6 @@
               </td>
               <td>{{ newsletter.cta }}</td>
               <td>{{ newsletter.createdAt|date(date_format)}}</td>
-              <td>{{ newsletter.updatedAt ? newsletter.updatedAt|date(date_format) : '' }}</td>
-              <td>{{ newsletter.sendAt ? newsletter.sendAt|date(date_format) : '' }}</td>
               <td>
                 <div class="d-flex align-items-center gap-2">
                   {% set modalId = 'confirmAlert-' ~ newsletter.id %}
