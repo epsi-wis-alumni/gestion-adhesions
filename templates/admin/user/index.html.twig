@@ -94,7 +94,7 @@
 
                   <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                     <a class="btn btn-sm btn-primary" href="{{ path('app_admin_user_approve', { id: user.id }) }}">
-                      {{ fa.icon('check', swap_opacity: true) }}
+                      {{ fa.icon('check') }}
                       Accepter
                     </a>
                     <div class="btn-group" role="group">
@@ -105,13 +105,13 @@
                         {{ dropdown.item(
                           label: 'Accepter',
                           path: path('app_admin_user_approve', { id: user.id }),
-                          icon: fa.icon('check', fixed_width: true, swap_opacity: true),
+                          icon: fa.icon('check', fixed_width: true),
                         ) }}
 
                         {{ dropdown.item(
                           label: 'Rejeter',
                           path: path('app_admin_user_reject', { id: user.id }),
-                          icon: fa.icon('xmark', fixed_width: true, swap_opacity: true),
+                          icon: fa.icon('xmark', fixed_width: true),
                           destructive: true,
                         ) }}
                       </ul>

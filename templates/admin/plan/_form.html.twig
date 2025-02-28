@@ -13,7 +13,7 @@
       <div class="d-flex align-items-center mb-2">
         <h3 class="mb-0">Privilège</h3>
         <a class="ms-auto me-0" type="button" {{ stimulus_action('form-collection', 'addCollectionElement') }}>
-          {{ fa.icon('add', size: 'lg', swap_opacity: true) }}
+          {{ fa.icon('plus', size: 'lg') }}
         </a>
       </div>
       <ul class="features list-unstyled ps-3" {{ stimulus_target('form-collection', 'collectionContainer') }}>
