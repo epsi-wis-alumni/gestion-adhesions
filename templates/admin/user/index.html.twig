@@ -70,7 +70,9 @@
                 </div>
               </td>
               <td>{{ user.displayName }}{{ user.hasRole('ROLE_ADMIN') ? fa.icon('crown', additional_classes: ['text-warning']) : '' }}</td>
-              <td>{{ user.email }}</td>
+              <td>
+                <a href="mailto:{{ user.email }}">{{ user.email }}</a>
+              </td>
               <td>{{ user.company }}</td>
               <td>{{ user.jobTitle }}</td>
               <td>{{ user.createdAt|date('d/m/Y') }}</td>
