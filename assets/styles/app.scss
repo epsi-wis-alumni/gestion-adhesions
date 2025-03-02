@@ -5,6 +5,7 @@ $enable-shadows: true;
 $primary: #4B4B99;
 $tooltip-color: var(--primary);
 $tooltip-bg: $primary;
+$modal-fade-transform: scale(.8);
 
 @import "../../vendor/twbs/bootstrap/scss/variables";
 @import "../../vendor/twbs/bootstrap/scss/variables-dark";
