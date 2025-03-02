@@ -31,6 +31,10 @@ main {
     width: auto;
 }
 
+.table-responsive .table {
+    margin-bottom: 0;
+}
+
 .table-responsive th {
     border-top-width: 0;
 }
