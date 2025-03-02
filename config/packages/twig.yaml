@@ -9,6 +9,7 @@ twig:
         invoice_address: '%env(INVOICE_ADDRESS)%'
         base_title: '%env(BASE_TITLE)%'
         base_title_admin: '%env(BASE_TITLE_ADMIN)%'
+        social_media: '%social_media%'
 
 when@test:
     twig:

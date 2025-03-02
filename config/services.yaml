@@ -8,6 +8,9 @@ parameters:
     invoice_base_path: '/../../public/assets/upload/invoices/'
     mails_base_path: '/../../templates/mails/'
     .container.dumper.inline_factories: true
+    social_media:
+        instagram: https://www.instagram.com/alumni.montpellier
+        linkedin: https://www.linkedin.com/company/alumni-epsi-wis-montpellier
 
 services:
     # default configuration for services in *this* file
