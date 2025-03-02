@@ -53,4 +53,24 @@ final class AdminSettingsController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/mail-template/{id}/edit', name: 'app_admin_settings_mailtemplate_edit', methods: ['GET', 'POST'])]
+    public function editMailTemplate(MailTemplate $mailTemplate, Request $request, EntityManagerInterface $entityManager)
+    {
+        $form = $this->createForm(MailTemplateType::class, $mailTemplate);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Le modèle a bien été modifié.');
+
+            return $this->redirectToRoute('app_admin_settings', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('/admin/mail-template/edit.html.twig', [
+            'form' => $form,
+        ]);
+    }
 }

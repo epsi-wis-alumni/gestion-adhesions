@@ -1,4 +1,5 @@
 {% extends 'admin_base.html.twig' %}
+{% import 'macros/fontawesome.html.twig' as fa %}
 
 {% block title %}Paramètres{% endblock %}
 
@@ -40,7 +41,9 @@
               <td>{{ template.fileName }}</td>
               <td>
                 <div class="d-flex gap-2">
-
+                  <a href="{{ path('app_admin_settings_mailtemplate_edit', { id: template.id }) }}">
+                    {{ fa.icon('edit') }}
+                  </a>
                 </div>
               </td>
             </tr>

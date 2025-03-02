@@ -1,0 +1,13 @@
+{% extends 'admin_base.html.twig' %}
+{% import 'macros/fontawesome.html.twig' as fa %}
+
+{% block title %}
+    Modifier le modèle
+{% endblock %}
+
+{% block admin_content %}
+    <div class="container-form">
+        <h2>Modifier le modèle</h2>
+        {% include 'admin/mail-template/_form.html.twig' %}
+    </div>
+{% endblock %}
