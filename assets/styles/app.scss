@@ -3,8 +3,8 @@
 $color-mode-type: media-query;
 $enable-shadows: true;
 $primary: #4B4B99;
-$tooltip-color: var(--primary);
-$tooltip-bg: $primary;
+$tooltip-color: #ffffff;
+$tooltip-bg: var(--bs-primary-bg);
 $modal-fade-transform: scale(.8);
 
 @import "../../vendor/twbs/bootstrap/scss/variables";
