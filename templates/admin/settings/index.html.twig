@@ -44,6 +44,8 @@
                   <a href="{{ path('app_admin_settings_mailtemplate_edit', { id: template.id }) }}">
                     {{ fa.icon('edit') }}
                   </a>
+
+                  {{ include('admin/mail-template/_delete.html.twig') }}
                 </div>
               </td>
             </tr>

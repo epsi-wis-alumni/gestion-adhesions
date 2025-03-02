@@ -27,9 +27,13 @@ class MailTemplate
     #[ORM\OneToMany(targetEntity: Newsletter::class, mappedBy: 'template')]
     private Collection $newsletters;
 
+    #[ORM\Column(options: ['default' => 0])]
+    private ?bool $deleted = null;
+
     public function __construct()
     {
         $this->newsletters = new ArrayCollection();
+        $this->deleted = false;
     }
 
     public function getId(): ?int
@@ -87,6 +91,18 @@ class MailTemplate
                 $newsletter->setTemplate(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isDeleted(): ?bool
+    {
+        return $this->deleted;
+    }
+
+    public function setDeleted(bool $deleted): static
+    {
+        $this->deleted = $deleted;
 
         return $this;
     }

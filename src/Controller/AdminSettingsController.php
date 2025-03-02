@@ -18,7 +18,7 @@ final class AdminSettingsController extends AbstractController
     public function index(MailTemplateRepository $mailTemplateRepository): Response
     {
         return $this->render('admin/settings/index.html.twig', [
-            'mailTemplates' => $mailTemplateRepository->findAll(),
+            'mailTemplates' => $mailTemplateRepository->findBy(['deleted' => false]),
         ]);
     }
 
@@ -72,5 +72,18 @@ final class AdminSettingsController extends AbstractController
         return $this->render('/admin/mail-template/edit.html.twig', [
             'form' => $form,
         ]);
+    }
+
+    #[Route('/mail-template/{id}/delete', name: 'app_admin_settings_mailtemplate_delete', methods: ['POST'])]
+    public function deleteMailTemplate(MailTemplate $mailTemplate, Request $request, EntityManagerInterface $entityManager)
+    {
+        if ($this->isCsrfTokenValid('delete'.$mailTemplate->getId(), $request->getPayload()->getString('_token'))) {
+            $mailTemplate->setDeleted(true);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Le modèle a bien été supprimé.');
+        }
+
+        return $this->redirectToRoute('app_admin_settings', [], Response::HTTP_SEE_OTHER);
     }
 }
