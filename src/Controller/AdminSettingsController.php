@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\MailTemplateRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -10,10 +11,10 @@ use Symfony\Component\Routing\Attribute\Route;
 final class AdminSettingsController extends AbstractController
 {
     #[Route('/', name: 'app_admin_settings')]
-    public function index(): Response
+    public function index(MailTemplateRepository $mailTemplateRepository): Response
     {
         return $this->render('admin/settings/index.html.twig', [
-            'controller_name' => 'AdminSettingsController',
+            'mailTemplates' => $mailTemplateRepository->findAll(),
         ]);
     }
 
