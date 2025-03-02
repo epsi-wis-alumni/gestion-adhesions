@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Entity\MailTemplate;
 use App\Form\MailTemplateType;
 use App\Repository\MailTemplateRepository;
+use App\Service\MailTemplateManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -15,10 +17,11 @@ use Symfony\Component\Routing\Attribute\Route;
 final class AdminSettingsController extends AbstractController
 {
     #[Route('/', name: 'app_admin_settings')]
-    public function index(MailTemplateRepository $mailTemplateRepository): Response
+    public function index(MailTemplateRepository $mailTemplateRepository, MailTemplateManager $mailTemplateManager): Response
     {
         return $this->render('admin/settings/index.html.twig', [
             'mailTemplates' => $mailTemplateRepository->findBy(['deleted' => false]),
+            'unusedTemplates' => $mailTemplateManager->getUnusedTemplateFiles(),
         ]);
     }
 
@@ -33,7 +36,7 @@ final class AdminSettingsController extends AbstractController
     }
 
     #[Route('/mail-template/new', name: 'app_admin_settings_mailtemplate_new', methods: ['GET', 'POST'])]
-    public function newMailTemplate(Request $request, EntityManagerInterface $entityManager)
+    public function newMailTemplate(Request $request, EntityManagerInterface $entityManager, MailTemplateManager $mailTemplateManager)
     {
         $mailTemplate = new MailTemplate();
         $form = $this->createForm(MailTemplateType::class, $mailTemplate);
@@ -51,6 +54,7 @@ final class AdminSettingsController extends AbstractController
 
         return $this->render('/admin/mail-template/new.html.twig', [
             'form' => $form,
+            'unusedTemplates' => $mailTemplateManager->getUnusedTemplateFiles(),
         ]);
     }
 

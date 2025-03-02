@@ -6,8 +6,20 @@
 {% endblock %}
 
 {% block admin_content %}
-    <div class="container-form">
-        <h2>Nouveau modèle</h2>
-        {% include 'admin/mail-template/_form.html.twig' %}
-    </div>
+  <div class="container-form">
+    <h2>Nouveau modèle</h2>
+
+    {% if unusedTemplates|length > 0 %}
+      <div class="text-secondary">
+        <p>Les fichiers suivants n'ont pas encore été renseignés dans la base de données :</p>
+        <ul>
+          {% for template in unusedTemplates %}
+            <li><span class="user-select-all">{{ template }}</span></li>
+          {% endfor %}
+      </ul>
+      </div>
+    {% endif %}
+
+    {% include 'admin/mail-template/_form.html.twig' %}
+  </div>
 {% endblock %}

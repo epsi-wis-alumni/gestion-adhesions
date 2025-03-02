@@ -55,11 +55,23 @@
                 Aucun modèle trouvé.
               </td>
             </tr>
-          
           {% endfor %}
         </tbody>
       </table>
     </div>
+
+    {% if unusedTemplates|length > 0 %}
+      <div class="alert alert-warning">
+        <div class="row g-2">
+          <div class="col-auto">
+            {{ fa.icon('warning') }}
+          </div>
+          <div class="col">
+            Des templates inutilisés ont été trouvés.
+          </div>
+        </div>
+      </div>
+    {% endif %}
 
     <a href="{{ path('app_admin_settings_mailtemplate_new') }}" class="btn btn-secondary">Nouveau modèle</a>
   </section>
