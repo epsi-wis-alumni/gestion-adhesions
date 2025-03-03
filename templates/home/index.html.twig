@@ -211,7 +211,7 @@
 
   <!-- Élections -->
   <div class="bg-body-primary">
-    <h2 class="text-center pt-4">Évènements</h2>
+    <h2 class="text-center pt-4">Élections</h2>
     <div class="container row align-items-center justify-content-around my-5">
       {% for election in elections %}
         {% set step = (election.voteStartAt >= date()) ? '1' : ((election.voteEndAt >= date()) ? '2' : '3' ) %}
