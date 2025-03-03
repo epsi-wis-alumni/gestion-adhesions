@@ -30,8 +30,7 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        // $product = new Product();
-        // $manager->persist($product);
+        $faker = \Faker\Factory::create();
 
         // USERS
 
@@ -49,34 +48,34 @@ class AppFixtures extends Fixture
 
         $userAdmin = new User();
         $userAdmin
-            ->setFirstname('Admin')
-            ->setLastname('ADMIN')
-            ->setEmail('admin@gmail.com')
+            ->setFirstname($faker->firstName())
+            ->setLastname($faker->lastName())
+            ->setEmail($faker->email())
         ;
         // $this->userManager->approve($userAdmin, $userAdmin);
         $this->userManager->addRole($userAdmin, 'ROLE_ADMIN');
 
         $userCandidacy1 = new User();
         $userCandidacy1
-            ->setFirstname('Candidacy1')
-            ->setLastname('CANDIDATE1')
-            ->setEmail('candidacy1@gmail.com')
+            ->setFirstname($faker->firstName())
+            ->setLastname($faker->lastName())
+            ->setEmail($faker->email())
         ;
         $this->userManager->approve($userCandidacy1, $userAdmin);
 
         $userCandidacy2 = new User();
         $userCandidacy2
-            ->setFirstname('Candidacy2')
-            ->setLastname('CANDIDATE2')
-            ->setEmail('candidacy2@gmail.com')
+            ->setFirstname($faker->firstName())
+            ->setLastname($faker->lastName())
+            ->setEmail($faker->email())
         ;
         $this->userManager->approve($userCandidacy2, $userAdmin);
 
         $userVoter1 = new User();
         $userVoter1
-            ->setFirstname('Voter1')
-            ->setLastname('VOTER1')
-            ->setEmail('voter1@gmail.com')
+            ->setFirstname($faker->firstName())
+            ->setLastname($faker->lastName())
+            ->setEmail($faker->email())
         ;
         $this->userManager->approve($userVoter1, $userAdmin);
 
