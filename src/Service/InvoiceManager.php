@@ -35,7 +35,7 @@ final class InvoiceManager
         string $html,
         Transaction $transaction,
     ): string {
-        $directory = __DIR__.$this->params->get('invoice_base_path');
+        $directory = $this->params->get('invoice_base_path');
         $filename = 'invoice_'.$transaction->getId().'.pdf';
 
         if (!is_dir($directory)) {

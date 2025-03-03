@@ -478,7 +478,7 @@ class AppFixtures extends Fixture
             ->setStatus(1)
             ->setType(1)
             ->setAmount(5.00)
-            ->setCreatedAt(new \DateTimeImmutable())
+            ->setCreatedAt()
         ;
 
         $transaction2 = new Transaction();
@@ -488,7 +488,7 @@ class AppFixtures extends Fixture
             ->setStatus(1)
             ->setType(1)
             ->setAmount(15.00)
-            ->setCreatedAt(new \DateTimeImmutable())
+            ->setCreatedAt()
         ;
 
         $transaction3 = new Transaction();
@@ -498,7 +498,7 @@ class AppFixtures extends Fixture
             ->setStatus(1)
             ->setType(1)
             ->setAmount(60.00)
-            ->setCreatedAt(new \DateTimeImmutable())
+            ->setCreatedAt()
         ;
 
         $manager->persist($transaction1);

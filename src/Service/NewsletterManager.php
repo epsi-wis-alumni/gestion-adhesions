@@ -84,7 +84,7 @@ final class NewsletterManager
     ): void {
         $sender = $this->params->get('mailer_sender');
         $templateFileName = $userNewsletter->getNewsletter()->getTemplate()->getFileName();
-        $basePath = realpath(__DIR__.$this->params->get('mails_base_path'));
+        $basePath = realpath($this->params->get('mails_base_path'));
 
         $finder = new Finder();
         $finder->files()->in($basePath)->name($templateFileName);
