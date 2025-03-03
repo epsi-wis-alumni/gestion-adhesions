@@ -75,11 +75,7 @@
                   <div class="card text-start">
                     <div class="card-body">
                       <div class="display-5 text-secondary fw-bold mb-3">
-                        {% if votecount == 0 %}
-                          0
-                        {% else %}
-                          {{ winner.votes|length / voteCount * 100 }}
-                        {% endif %} %
+                        {{ votecount ? winner.votes|length / voteCount * 100 : 0 }} %
                       </div>
                       <h5 class="card-title">{{ winner.candidate.displayName }}</h5>
                       <div 
@@ -91,11 +87,7 @@
                         aria-valuemax="{{ voteCount }}"
                       >
                         <div class="progress-bar bg-success" style="width: {{ {% if votecount == 0 %} 0 {% else %} winner.votes|length / voteCount * 100 {% endif %} }}%;">
-                          {% if condition %}
-                            0
-                          {% else %}
-                            {{ winner.votes|length }} / {{ voteCount }}
-                          {% endif %} votes
+                          {{ winner.votes|length }} / {{ voteCount }}
                         </div>
                       </div>
                     </div>
@@ -148,11 +140,7 @@
                   
                   {% if election.isClosed %}
                     <td {% if candidacy in winners %}class="text-success fw-bold"{% endif %}>
-                      {% if votecount == 0 %}
-                        0
-                      {% else %}
-                        {{ (candidacy.votes|length / voteCount * 100)|round(2) }}
-                      {% endif %} %
+                      {{ votecount ? (candidacy.votes|length / voteCount * 100)|round(2) : 0 }} %
                       <div 
                         class="progress" 
                         role="progressbar" 
@@ -162,11 +150,7 @@
                         aria-valuemax="{{ voteCount }}"
                       >
                         <div class="progress-bar bg-{{ candidacy in winners ? 'success':'secondary' }}" style="width: {{ {% if votecount == 0 %} 0 {% else %} winner.votes|length / voteCount * 100 {% endif %} }}%;">
-                          {% if condition %}
-                            0
-                          {% else %}
-                            {{ winner.votes|length }} / {{ voteCount }}
-                          {% endif %} votes
+                          {{ candidacy.votes|length }} / {{ voteCount }} votes
                         </div>
                       </div>
                     </td>
