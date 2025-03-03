@@ -30,20 +30,22 @@
             icon: fa.icon('calendar-star', size: 'lg'),
             check_path: 'app_event',
           ) }}
-          
-          {{ navigation.nav_item(
-            label: 'Être adhérent',
-            path: path('app_plan'),
-            icon: fa.icon('user-check', size: 'lg'),
-            check_path: 'null',
-          ) }}
 
-          {{ navigation.nav_item(
-            label: 'Être partenaire',
-            path: '#',
-            icon: fa.icon('handshake', size: 'lg'),
-            check_path: 'null',
-          ) }}
+          {% if not is_granted('ROLE_USER') %}
+            {{ navigation.nav_item(
+              label: 'Être adhérent',
+              path: path('app_plan'),
+              icon: fa.icon('user-check', size: 'lg'),
+              check_path: 'null',
+            ) }}
+
+            {{ navigation.nav_item(
+              label: 'Être partenaire',
+              path: '#',
+              icon: fa.icon('handshake', size: 'lg'),
+              check_path: 'null',
+            ) }}
+          {% endif %}
         </ul>
 
         {# ----- Bouton de droite ----- #}
