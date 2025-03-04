@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="xFcD5cP" resname="header.connecting">
+        <source>header.connecting</source>
+        <target>Connexion en cours</target>
+      </trans-unit>
+      <trans-unit id="BO9fH69" resname="header.success">
+        <source>header.success</source>
+        <target>Connexion réussie avec le compte '%name%' !</target>
+      </trans-unit>
+      <trans-unit id="FCq2RsZ" resname="header.register">
+        <source>header.register</source>
+        <target>S'inscrire avec le compte '%name%'</target>
+      </trans-unit>
+      <trans-unit id="uHPueSh" resname="header.registration_success">
+        <source>header.registration_success</source>
+        <target>Enregistrement et connexion du compte '%username%' réussis !</target>
+      </trans-unit>
+      <trans-unit id="ToUWBpM" resname="connect.confirm.cancel">
+        <source>connect.confirm.cancel</source>
+        <target>Annuler</target>
+      </trans-unit>
+      <trans-unit id="KjtPgcb" resname="connect.confirm.submit">
+        <source>connect.confirm.submit</source>
+        <target>Connecter le compte</target>
+      </trans-unit>
+      <trans-unit id="kwhH9aC" resname="connect.confirm.text">
+        <source>connect.confirm.text</source>
+        <target>Êtes-vous sûr de vouloir connecter votre compte %service% avec votre compte '%name%' ?</target>
+      </trans-unit>
+      <trans-unit id="l.4.Qpv" resname="connect.registration.cancel">
+        <source>connect.registration.cancel</source>
+        <target>Annuler</target>
+      </trans-unit>
+      <trans-unit id="9qLryAg" resname="connect.registration.submit">
+        <source>connect.registration.submit</source>
+        <target>Enregistrer le compte</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
