@@ -41,6 +41,7 @@ RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | s
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN echo "alias sc='symfony console'" >> ~/.bashrc
+RUN echo "alias dfl='symfony console doctrine:database:drop --force && symfony console doctrine:database:create && symfony console d:s:u --force -n && symfony console doctrine:fixtures:load -n'" >> ~/.bashrc
 
 # Configure Apache
 ADD docker/apache/entrypoint.sh /entrypoint.sh
