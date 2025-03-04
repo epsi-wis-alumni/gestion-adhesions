@@ -50,7 +50,7 @@
     <h2 class="my-5">À propos</h2>
     <div class="row mb-5">
       <div class="col">
-        <p style="text-align: justify">{{ event.description|raw }}</p>
+        <div style="text-align: justify">{{ event.description|markdown_to_html }}</div>
       </div>
     </div>
   </div>
