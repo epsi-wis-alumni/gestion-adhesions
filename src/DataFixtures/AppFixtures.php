@@ -418,27 +418,31 @@ class AppFixtures extends Fixture
             ->setPrivate(false)
             ->setImageFileName("")
             ->setDescription(
-                "La conférence \"L'Intelligence Artificielle et l'Éthique\" explore 
-                les enjeux fondamentaux de l'IA dans notre société. Elle réunit 
-                des experts de renommée mondiale, chercheurs, philosophes, et 
-                professionnels pour débattre des dilemmes éthiques liés au 
-                développement et à l’utilisation de cette technologie.<br><br>
-                L'événement propose une série de présentations, de tables rondes 
-                et de débats interactifs pour éclairer des questions essentielles. 
-                Quels sont les impacts de l’IA sur la vie privée ? Comment prévenir 
-                les discriminations algorithmiques ? Quelle responsabilité attribuer 
-                aux systèmes intelligents ? Ces problématiques seront abordées 
-                avec profondeur et pragmatisme.<br><br>
-                Les participants auront l’opportunité d’interagir directement avec 
-                les intervenants pour poser des questions et partager leurs points 
-                de vue. 
-                Cette conférence s’adresse à un large public : professionnels de 
-                la technologie, décideurs, chercheurs, étudiants et citoyens 
-                curieux des défis posés par l'IA.<br><br>
-                Rejoignez-nous pour une réflexion commune sur la manière d’intégrer 
-                l’intelligence artificielle dans notre société, tout en respectant 
-                les valeurs fondamentales et en assurant un avenir responsable et 
-                équitable."
+"La conférence \"L'Intelligence Artificielle et l'Éthique\" explore 
+les enjeux fondamentaux de l'IA dans notre société. Elle réunit 
+des experts de renommée mondiale, chercheurs, philosophes, et 
+professionnels pour débattre des dilemmes éthiques liés au 
+développement et à l’utilisation de cette technologie.
+
+L'événement propose une série de présentations, de tables rondes 
+et de débats interactifs pour éclairer des questions essentielles. 
+Quels sont les impacts de l’IA sur la vie privée ? Comment prévenir 
+les discriminations algorithmiques ? Quelle responsabilité attribuer 
+aux systèmes intelligents ? Ces problématiques seront abordées 
+avec profondeur et pragmatisme.
+
+Les participants auront l’opportunité d’interagir directement avec 
+les intervenants pour poser des questions et partager leurs points 
+de vue.
+
+Cette conférence s’adresse à un large public : professionnels de 
+la technologie, décideurs, chercheurs, étudiants et citoyens 
+curieux des défis posés par l'IA.
+
+Rejoignez-nous pour une réflexion commune sur la manière d’intégrer 
+l’intelligence artificielle dans notre société, tout en respectant 
+les valeurs fondamentales et en assurant un avenir responsable et 
+équitable."
             );
 
         $evenement2 = new Event();
@@ -451,27 +455,31 @@ class AppFixtures extends Fixture
             ->setPrivate(false)
             ->setImageFileName("")
             ->setDescription(
-                "La conférence \"L'Intelligence Artificielle et l'Éthique\" explore 
-                les enjeux fondamentaux de l'IA dans notre société. Elle réunit 
-                des experts de renommée mondiale, chercheurs, philosophes, et 
-                professionnels pour débattre des dilemmes éthiques liés au 
-                développement et à l’utilisation de cette technologie.<br><br>
-                L'événement propose une série de présentations, de tables rondes 
-                et de débats interactifs pour éclairer des questions essentielles. 
-                Quels sont les impacts de l’IA sur la vie privée ? Comment prévenir 
-                les discriminations algorithmiques ? Quelle responsabilité attribuer 
-                aux systèmes intelligents ? Ces problématiques seront abordées 
-                avec profondeur et pragmatisme.<br><br>
-                Les participants auront l’opportunité d’interagir directement avec 
-                les intervenants pour poser des questions et partager leurs points 
-                de vue. 
-                Cette conférence s’adresse à un large public : professionnels de 
-                la technologie, décideurs, chercheurs, étudiants et citoyens 
-                curieux des défis posés par l'IA.<br><br>
-                Rejoignez-nous pour une réflexion commune sur la manière d’intégrer 
-                l’intelligence artificielle dans notre société, tout en respectant 
-                les valeurs fondamentales et en assurant un avenir responsable et 
-                équitable."
+"La conférence \"L'Intelligence Artificielle et l'Éthique\" explore 
+les enjeux fondamentaux de l'IA dans notre société. Elle réunit 
+des experts de renommée mondiale, chercheurs, philosophes, et 
+professionnels pour débattre des dilemmes éthiques liés au 
+développement et à l’utilisation de cette technologie.
+
+L'événement propose une série de présentations, de tables rondes 
+et de débats interactifs pour éclairer des questions essentielles. 
+Quels sont les impacts de l’IA sur la vie privée ? Comment prévenir 
+les discriminations algorithmiques ? Quelle responsabilité attribuer 
+aux systèmes intelligents ? Ces problématiques seront abordées 
+avec profondeur et pragmatisme.
+
+Les participants auront l’opportunité d’interagir directement avec 
+les intervenants pour poser des questions et partager leurs points 
+de vue. 
+
+Cette conférence s’adresse à un large public : professionnels de 
+la technologie, décideurs, chercheurs, étudiants et citoyens 
+curieux des défis posés par l'IA.
+
+Rejoignez-nous pour une réflexion commune sur la manière d’intégrer 
+l’intelligence artificielle dans notre société, tout en respectant 
+les valeurs fondamentales et en assurant un avenir responsable et 
+équitable."
             );
 
         $evenement3 = new Event();
@@ -484,26 +492,29 @@ class AppFixtures extends Fixture
             ->setPrivate(true)
             ->setImageFileName("")
             ->setDescription(
-                "L'Atelier de Création de Startups est une expérience immersive 
-                conçue pour transformer des idées en entreprises concrètes. Cet 
-                atelier s’adresse aux aspirants entrepreneurs, étudiants, 
-                professionnels et passionnés souhaitant découvrir les bases de 
-                l’entrepreneuriat.<br><br>
-                Sur une journée ou un week-end, les participants forment des 
-                équipes et suivent un processus structuré pour développer leurs 
-                projets. À travers des étapes clés, comme l’identification des 
-                problèmes, l’élaboration d’un business model, et la création d’un 
-                prototype, cet atelier fournit un cadre pratique et stimulant.<br><br>
-                Des mentors expérimentés, issus de divers secteurs, sont présents 
-                pour guider les participants et partager leurs conseils. Ils aident 
-                à surmonter les obstacles, affiner les idées et comprendre les 
-                réalités du marché. L’atelier inclut également des sessions de 
-                pitch, où les équipes présentent leurs projets à un panel d’experts 
-                et reçoivent des retours constructifs.<br><br>
-                Participer à cet atelier, c’est acquérir des compétences en 
-                entrepreneuriat, enrichir son réseau professionnel et, surtout, 
-                vivre l’excitation de créer une startup. C’est une porte d’entrée 
-                idéale pour se lancer dans l’aventure entrepreneuriale."
+"L'Atelier de Création de Startups est une expérience immersive 
+conçue pour transformer des idées en entreprises concrètes. Cet 
+atelier s’adresse aux aspirants entrepreneurs, étudiants, 
+professionnels et passionnés souhaitant découvrir les bases de 
+l’entrepreneuriat.
+
+Sur une journée ou un week-end, les participants forment des 
+équipes et suivent un processus structuré pour développer leurs 
+projets. À travers des étapes clés, comme l’identification des 
+problèmes, l’élaboration d’un business model, et la création d’un 
+prototype, cet atelier fournit un cadre pratique et stimulant.
+
+Des mentors expérimentés, issus de divers secteurs, sont présents 
+pour guider les participants et partager leurs conseils. Ils aident 
+à surmonter les obstacles, affiner les idées et comprendre les 
+réalités du marché. L’atelier inclut également des sessions de 
+pitch, où les équipes présentent leurs projets à un panel d’experts 
+et reçoivent des retours constructifs.
+
+Participer à cet atelier, c’est acquérir des compétences en 
+entrepreneuriat, enrichir son réseau professionnel et, surtout, 
+vivre l’excitation de créer une startup. C’est une porte d’entrée 
+idéale pour se lancer dans l’aventure entrepreneuriale."
             );
 
         $manager->persist($evenement1);
