@@ -15,31 +15,35 @@
       <tbody>
         <tr>
           <th>Titre</th>
-          <td>{{ event.title }}</td>
+          <td class="align-middle">{{ event.title }}</td>
         </tr>
         <tr>
           <th>Lieu</th>
-          <td>{{ event.place }}</td>
+          <td class="align-middle">{{ event.place }}</td>
         </tr>
         <tr>
           <th>Date de début</th>
-          <td>{{ event.startAt|date(date_format) }}</td>
+          <td class="align-middle">{{ event.startAt|date(date_format) }}</td>
         </tr>
         <tr>
           <th>Date de fin</th>
-          <td>{{ event.endAt|date(date_format) }}</td>
+          <td class="align-middle">{{ event.endAt|date(date_format) }}</td>
         </tr>
         <tr>
           <th>Privé</th>
-          <td>{{ event.private ? fa.icon('check') : fa.icon('xmark') }}</td>
+          <td class="align-middle">{{ event.private ? fa.icon('check') : fa.icon('xmark') }}</td>
         </tr>
         <tr>
           <th>Date de création</th>
-          <td>{{ event.createdAt|date(date_format) }}</td>
+          <td class="align-middle">{{ event.createdAt|date(date_format) }}</td>
         </tr>
         <tr>
-          <th class="border-0">Dernière mise à jour</th>
-          <td>{{ event.updatedAt ? event.updatedAt|date(date_format) : 'Aucune mise à jour' }}</td>
+          <th>Dernière mise à jour</th>
+          <td class="align-middle">{{ event.updatedAt ? event.updatedAt|date(date_format) : 'Aucune mise à jour' }}</td>
+        </tr>
+        <tr>
+          <th class="border-0">Description</th>
+          <td class="align-middle" style="text-align: justify">{{ event.description|raw }}</td>
         </tr>
       </tbody>
     </table>

@@ -5,8 +5,10 @@ namespace App\Form;
 use App\Entity\Event;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class AdminEventType extends AbstractType
 {
@@ -15,7 +17,6 @@ class AdminEventType extends AbstractType
         $builder
             ->add('title', null, [
                 'attr' => [
-                    'class' => 'form-control',
                     'placeholder' => 'Ex : Soirée d\'ouverture',
                 ],
                 'row_attr' => ['class' => 'mb-3'],
@@ -23,11 +24,17 @@ class AdminEventType extends AbstractType
             ])
             ->add('place', null, [
                 'attr' => [
-                    'class' => 'form-control',
                     'placeholder' => 'Ex : 349 rue de la Cavalade Montpellier 34000',
                 ],
                 'row_attr' => ['class' => 'mb-3'],
                 'label' => 'Lieu',
+            ])
+            ->add('description', null, [
+                'attr' => [
+                    'rows' => '5',
+                ],
+                'row_attr' => ['class' => 'mb-3'],
+                'label' => 'Description',
             ])
             ->add('startAt', null, [
                 'row_attr' => ['class' => 'mb-3'],
@@ -36,6 +43,20 @@ class AdminEventType extends AbstractType
             ->add('endAt', null, [
                 'row_attr' => ['class' => 'mb-3'],
                 'label' => 'Date de fin',
+            ])
+            ->add('image', FileType::class, [
+                'attr' => [
+                    'accept' => ".webp,.jpg,.jpeg,.png,.svg,.WEBP,.JPG,.JPEG,.PNG,.SVG"
+                ],
+                'row_attr' => ['class' => 'mb-3'],
+                'label' => 'Image',
+                'required' => false,
+                'mapped' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                    ])
+                ],
             ])
             ->add('private', CheckboxType::class, [
                 'label' => 'Privé',

@@ -40,6 +40,10 @@ final class AdminEventController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $eventManager->create($currentUser, $event);
+
+            $uploadedFile = $form->get('image')->getData();
+            $eventManager->setImage($uploadedFile, $event);
+
             $entityManager->persist($event);
             $entityManager->flush();
 
@@ -77,6 +81,10 @@ final class AdminEventController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $eventManager->update($currentUser, $event);
+
+            $uploadedFile = $form->get('image')->getData();
+            $eventManager->setImage($uploadedFile, $event);
+            
             $entityManager->flush();
 
             return $this->redirectToRoute('app_admin_event_index', [], Response::HTTP_SEE_OTHER);
