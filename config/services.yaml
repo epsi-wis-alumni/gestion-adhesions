@@ -7,6 +7,7 @@ parameters:
     mailer_sender: '%env(MAILER_SENDER)%'
     invoice_base_path: '%kernel.project_dir%/public/assets/upload/invoices/'
     mails_base_path: '%kernel.project_dir%/templates/mails/'
+    event_image_base_path: '%kernel.project_dir%/public/assets/upload/event/images/'
     .container.dumper.inline_factories: true
     social_media:
         instagram: https://www.instagram.com/alumni.montpellier
