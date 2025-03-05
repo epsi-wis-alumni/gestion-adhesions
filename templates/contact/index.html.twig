@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Contact
+{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <h1>Restons en <span class="drawing">contact</span> !</h1>
+                <div class="d-flex flex-column gy-3 align-items-start">
+                    <div class="my-2">{{ alumni_adress }}</div>
+                    <div class="my-2">
+                        <a href="mailto:{{ alumni_mail }}">{{ alumni_mail }}</a>
+                    </div>
+                    <div class="my-2">
+                        <a href="tel:{{ alumni_tel|replace({' ': ''}) }}">{{ alumni_tel }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
+{% endblock %}
