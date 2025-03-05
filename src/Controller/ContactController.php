@@ -20,6 +20,9 @@ final class ContactController extends AbstractController
     ): Response {
         $form = $this->createForm(ContactType::class, null);
         $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
             $contactManager->sendMail($form->getData());
 
             return $this->redirectToRoute('app_contact', [], Response::HTTP_SEE_OTHER);
