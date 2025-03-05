@@ -15,7 +15,7 @@ env:
   APP_VERSION: ${{ github.ref_name }}
 
 jobs:
-  ftp_upload:
+  rsync_upload:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
