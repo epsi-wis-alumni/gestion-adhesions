@@ -159,3 +159,7 @@ main {
 .error-page {
     text-shadow: rgba(var(--bs-dark-rgb)) 2px 0px;
 }
+
+#admin-navbar {
+    margin-bottom: -1.5px;
+}

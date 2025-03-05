@@ -1,46 +1,48 @@
 {% import "macros/fontawesome.html.twig" as fa %}
 {% import "macros/navigation.html.twig" as navigation %}
 
-<ul class="nav nav-tabs" style="margin-bottom: -1px;">
-  {{ navigation.nav_item(
-    label: 'Utilisateurs',
-    path: path('app_admin_user_index'),
-    icon: fa.icon('user', size: 'lg'),
-    check_path: 'app_admin_user',
-  ) }}
-  
-  {{ navigation.nav_item(
-    label: 'Élections',
-    path: path('app_admin_election_index'),
-    icon: fa.icon('check-to-slot', size: 'lg'),
-    check_path: 'app_admin_election',
-  ) }}
-  
-  {{ navigation.nav_item(
-    label: 'Évènements',
-    path: path('app_admin_event_index'),
-    icon: fa.icon('calendar-star', size: 'lg'),
-    check_path: 'app_admin_event',
-  ) }}
-  
-  {{ navigation.nav_item(
-    label: 'Newsletters',
-    path: path('app_admin_newsletter_index'),
-    icon: fa.icon('envelope', size: 'lg'),
-    check_path: 'app_admin_newsletter',
-  ) }}
-  
-  {{ navigation.nav_item(
-    label: 'Plans',
-    path: path('app_admin_plan_index'),
-    icon: fa.icon('face-tongue-money', size: 'lg'),
-    check_path: 'app_admin_plan',
-  ) }}
+<nav class="overflow-x-auto" id="admin-navbar">
+  <ul class="nav nav-tabs text-nowrap flex-nowrap">
+    {{ navigation.nav_item(
+      label: 'Utilisateurs',
+      path: path('app_admin_user_index'),
+      icon: fa.icon('user', size: 'lg'),
+      check_path: 'app_admin_user',
+    ) }}
+    
+    {{ navigation.nav_item(
+      label: 'Élections',
+      path: path('app_admin_election_index'),
+      icon: fa.icon('check-to-slot', size: 'lg'),
+      check_path: 'app_admin_election',
+    ) }}
+    
+    {{ navigation.nav_item(
+      label: 'Évènements',
+      path: path('app_admin_event_index'),
+      icon: fa.icon('calendar-star', size: 'lg'),
+      check_path: 'app_admin_event',
+    ) }}
+    
+    {{ navigation.nav_item(
+      label: 'Newsletters',
+      path: path('app_admin_newsletter_index'),
+      icon: fa.icon('envelope', size: 'lg'),
+      check_path: 'app_admin_newsletter',
+    ) }}
+    
+    {{ navigation.nav_item(
+      label: 'Plans',
+      path: path('app_admin_plan_index'),
+      icon: fa.icon('face-tongue-money', size: 'lg'),
+      check_path: 'app_admin_plan',
+    ) }}
 
-  {{ navigation.nav_item(
-    label: 'Paramètres',
-    path: path('app_admin_settings'),
-    icon: fa.icon('cog', size: 'lg'),
-    check_path: 'app_admin_settings',
-  ) }}
-</ul>
+    {{ navigation.nav_item(
+      label: 'Paramètres',
+      path: path('app_admin_settings'),
+      icon: fa.icon('cog', size: 'lg'),
+      check_path: 'app_admin_settings',
+    ) }}
+  </ul>
+</nav>
