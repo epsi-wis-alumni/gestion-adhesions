@@ -4,10 +4,12 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Embeddable;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[Embeddable]
 class Invoice
 {
+    #[Assert\NotBlank()]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $filePath = null;
 

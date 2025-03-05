@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Entity\Trait\TimestampableTrait;
 use App\Repository\EventRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -16,15 +17,20 @@ class Event
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank()]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
-
+    
+    #[Assert\NotBlank()]
     #[ORM\Column(length: 255)]
     private ?string $place = null;
 
+    #[Assert\DateTime()]
     #[ORM\Column]
     private ?\DateTimeImmutable $startAt = null;
 
+    #[Assert\DateTime()]
+    #[Assert\GreaterThan(propertyPath: 'startAt')]
     #[ORM\Column]
     private ?\DateTimeImmutable $endAt = null;
 
