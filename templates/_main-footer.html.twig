@@ -1,49 +1,59 @@
 {% import 'macros/fontawesome.html.twig' as fa %}
 
-<footer class="py-3 mt-auto bg-body border-top">
+<footer class="py-5 mt-auto bg-primary text-bg-primary border-top">
   <div class="container overflow-hidden">
-    <div class="row g-5">
+    <div class="row g-5 mb-3" id="footer-links">
       <div class="col-auto">
         <h1 class="h5">Liens utiles</h1>
         <ul class="list-unstyled ps-2">
           <li>
-            <a href="#" class="link-secondary link-underline-opacity-0">
+            <a href="#" class="link-light link-underline-opacity-0">
               {{ fa.icon('envelope', size: 'lg', fixed_width: true) }}
               Contact
             </a>
           </li>
           <li>
-            <a href="{{ path('app_cgu') }}" class="link-secondary link-underline-opacity-0">
+            <a href="{{ path('app_cgu') }}" class="link-light link-underline-opacity-0">
               {{ fa.icon('info-circle', size: 'lg', fixed_width: true) }}
               CGU
             </a>
           </li>
         </ul>
       </div>
-      
+
       <div class="col-auto">
         <h1 class="h5">Nos réseaux</h1>
         <ul class="list-unstyled ps-2">
           <li>
-            <a href="{{ social_media.instagram }}" class="link-secondary link-underline-opacity-0" target="_blank" aria-label="Instragram">
+            <a href="{{ social_media.instagram }}" class="link-light link-underline-opacity-0" target="_blank" aria-label="Instragram">
               {{ fa.icon('instagram', family: 'brands', size: 'lg', fixed_width: true) }}
               Instagram
             </a>
           </li>
           <li>
-            <a href="{{ social_media.linkedin }}" class="link-secondary link-underline-opacity-0" target="_blank" aria-label="LinkedIn">
+            <a href="{{ social_media.linkedin }}" class="link-light link-underline-opacity-0" target="_blank" aria-label="LinkedIn">
               {{ fa.icon('linkedin', family: 'brands', size: 'lg', fixed_width: true) }}
               LinkedIn
             </a>
           </li>
         </ul>
       </div>
+
+      <div class="col-auto">
+        <h1 class="h5">Nous rejoindre</h1>
+        <p class="mb-2">
+          Si vous cherchez un réseau actif et motivant, c'est ici qu'il faut être.
+        </p>
+        <a href="{{ path('app_plan') }}" class="btn btn-sm btn-warning">
+          Adhérer
+          {{ fa.icon('arrow-right-long') }}
+        </a>
+      </div>
     </div>
   </div>
 
   {# ----- Crédit ----- #}
   <div class="d-flex justify-content-center align-item-center gap-2">
-    <p class="text-center text-body-secondary text-uppercase m-0">© {{ 'now'|date('Y') }} epsi-wis-alumni</p>
-    <a href="{{ path('app_home') }}"><img id="main-footer-logo" src="{{ asset('images/navbar/alumni@2.webp') }}" alt="Logo alumni" width="99" height="64" /></a>
+    <p class="text-center text-light text-uppercase m-0">© {{ 'now'|date('Y') }} epsi-wis-alumni</p>
   </div>
 </footer>
