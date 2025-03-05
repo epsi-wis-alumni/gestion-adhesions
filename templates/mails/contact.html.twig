@@ -1,0 +1,17 @@
+{% extends 'mail_base.html.twig' %}
+
+{% block mail_content %}
+  <div class="container my-2">
+    <h2 class="">Infos :</h2>
+    <ul>
+      <li>Civilité : {{ form.civility == "M" ? "Monsieur" : (form.civility == "Mme" ? "Madame" : "Autre" ) }}</li>
+      <li>Prénom : {{ form.firstname }}</li>
+      <li>Nom : {{ form.lastname }}</li>
+      <li>Téléphone : <a href="mailto:{{ form.email }}"></a>{{ form.email }}</li>
+      <li>E-mail : <a href="tel:{{ form.tel }}">{{ form.tel }}</a></li>
+    </ul>
+    <br/>
+    <h2 class="">Message :</h2>
+    <div class="">{{ form.message }}</div>
+  </div>
+{% endblock %}
