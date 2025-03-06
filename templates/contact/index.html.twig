@@ -5,23 +5,35 @@
 {% endblock %}
 
 {% block body %}
-<div class="container my-5">
-    <div class="row">
-        <div class="col">
-            <div class="row">
-                <h1>Restons en <span class="drawing">contact</span> !</h1>
-                <div class="d-flex flex-column gy-3 align-items-start">
-                    <div class="my-2">{{ alumni_adress }}</div>
-                    <div class="my-2">
-                        <a href="mailto:{{ alumni_mail }}">{{ alumni_mail }}</a>
-                    </div>
-                    <div class="my-2">
-                        <a href="tel:{{ alumni_tel|replace({' ': ''}) }}">{{ alumni_tel }}</a>
-                    </div>
+<div class="container my-5 position-relative">
+    <div class="row" style="margin-bottom: 22.5%;">
+        <div class="col d-flex flex-column mb-5 ms-2 justify-content-center z-1">
+            <h1 class="mt-0 mb-5 display-4 fw-bold lh-1">Restons en <span class="drawing">contact</span>.</h1>
+            <div class="row gap-3 ps-3">
+                <div>{{ alumni_adress }}</div>
+                <div>
+                    <a href="mailto:{{ alumni_mail }}">{{ alumni_mail }}</a>
+                </div>
+                <div>
+                    <a href="tel:{{ alumni_tel|replace({' ': ''}) }}">{{ alumni_tel }}</a>
                 </div>
             </div>
         </div>
-        <div class="col"></div>
+        <div class="col z-1 bg-body-tertiary me-5 p-4 rounded-4 shadow-lg border border-primary">
+            {% include "contact/_form.html.twig" %}
+        </div>
+        <div class="col position-absolute z-0" style="bottom: 0;">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2889.2568567154626!2d3.9096451124944194!3d43.601193255671376!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12b6a57b6f8cb8a9%3A0x42f0e76b9c549d63!2s349%20Rue%20de%20la%20Cavalade%2C%2034965%20Montpellier!5e0!3m2!1sfr!2sfr!4v1741181732107!5m2!1sfr!2sfr" 
+                width="100%" 
+                height="400" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                class="rounded-2"
+            >
+            </iframe>
+        </div>
     </div>
 </div>
 {% endblock %}
