@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CandidacyRepository::class)]
 class Candidacy
@@ -32,6 +33,7 @@ class Candidacy
     #[ORM\OneToMany(targetEntity: Vote::class, mappedBy: 'candidacy')]
     private Collection $votes;
 
+    #[Assert\NotBlank()]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $presentation = null;
 
