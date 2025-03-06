@@ -1,0 +1,17 @@
+{% import 'macros/fontawesome.html.twig' as fa %}
+{% import "macros/modal.html.twig" as modal %}
+
+{% set modalDeleteId = 'confirmAlert-delete-' ~ template.id %}
+<form method="post" action="{{ path('app_admin_settings_mailtemplate_delete', { id: template.id }) }}">
+  <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ template.id) }}" />
+  <a class="bg-transparent border-0 link-danger" data-bs-toggle="modal" data-bs-target="#{{ modalDeleteId }}" href="#">
+    {{ fa.icon('trash-can') }}
+  </a>
+  {{ modal.confirm(
+    id: modalDeleteId,
+    title: 'Êtes-vous sûr de vouloir supprimer ?',
+    continueButton: 'Supprimer',
+    type: 'submit',
+    accent: 'danger',
+  ) }}
+</form>

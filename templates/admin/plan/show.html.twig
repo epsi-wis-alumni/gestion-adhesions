@@ -24,9 +24,11 @@
                     </th>
                     <td>
                         <ul class="m-0 ps-3">
-                            {% for feature in plan.features %}
-                                <li>{{ feature.name }}</li>
-                            {% endfor %}
+                            {% if plan.features is not empty %}
+                                {% for feature in plan.features %}
+                                    <li>{{ feature.name }}</li>
+                                {% endfor %}
+                            {% endif %}
                         </ul>
                     </td>
                 </tr>

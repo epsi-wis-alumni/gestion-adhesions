@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% import "macros/fontawesome.html.twig" as fa %}
+
+{% block body %}
+  <div class="container my-5 text-center">
+    <h1 class="text-uppercase text-danger error-page display-1 fw-bold">{{ exception.statusCode }} </h1>
+    <h2 class="text-uppercase text-danger error-page">{{ exception.message }}</h2>
+
+    <p>
+      Une erreur est survenue. Veuillez nos excuses pour la gêne occasionnée.
+    </p>
+    <a class="btn btn-primary" href="{{ path('app_home') }}">{{ fa.icon('house') }} Accueil</a>
+  </div>
+{% endblock %}

@@ -69,17 +69,24 @@
                   ) }}
                 </div>
               </td>
-              <td>{{ user.displayName }}{{ user.hasRole('ROLE_ADMIN') ? fa.icon('crown', additional_classes: ['text-warning']) : '' }}</td>
-              <td>{{ user.email }}</td>
+              <td>
+                {{ user.displayName }}
+                {% if user.hasRole('ROLE_ADMIN') %}
+                  {{ fa.icon('crown', additional_classes: ['text-warning']) }}
+                {% endif %}
+              </td>
+              <td>
+                <a href="mailto:{{ user.email }}">{{ user.email }}</a>
+              </td>
               <td>{{ user.company }}</td>
               <td>{{ user.jobTitle }}</td>
               <td>{{ user.createdAt|date('d/m/Y') }}</td>
-              <td>{{ user.lastTransaction ? user.lastTransaction.status : fa.icon('xmark') }}</td>
+              <td>{{ user.lastTransaction ? user.lastTransaction.status : 'Aucune' }}</td>
               <td>
                 <span class="badge text-bg-{{ user.statusColor}}">{{ user.statusLabel }}</span>
               </td>
               <td>
-                <div class="d-flex align-items-center gap-1">
+                <div class="d-flex align-items-center gap-2">
                   <a class="link-primary" href="{{ path('app_admin_user_edit', { id: user.id }) }}">
                     {{ fa.icon('pen-to-square') }}
                   </a>
@@ -87,7 +94,7 @@
 
                   <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                     <a class="btn btn-sm btn-primary" href="{{ path('app_admin_user_approve', { id: user.id }) }}">
-                      {{ fa.icon('check', swap_opacity: true) }}
+                      {{ fa.icon('check') }}
                       Accepter
                     </a>
                     <div class="btn-group" role="group">
@@ -98,13 +105,13 @@
                         {{ dropdown.item(
                           label: 'Accepter',
                           path: path('app_admin_user_approve', { id: user.id }),
-                          icon: fa.icon('check', fixed_width: true, swap_opacity: true),
+                          icon: fa.icon('check', fixed_width: true),
                         ) }}
 
                         {{ dropdown.item(
                           label: 'Rejeter',
                           path: path('app_admin_user_reject', { id: user.id }),
-                          icon: fa.icon('xmark', fixed_width: true, swap_opacity: true),
+                          icon: fa.icon('xmark', fixed_width: true),
                           destructive: true,
                         ) }}
                       </ul>

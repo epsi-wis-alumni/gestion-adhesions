@@ -19,7 +19,7 @@ use Doctrine\Persistence\ObjectManager;
 
 /**
  * Reload the database with some data
- * symfony console doctrine:database:drop --force && symfony console doctrine:database:create && symfony console d:m:m -n && symfony console doctrine:fixtures:load -n.
+ * symfony console doctrine:database:drop --force && symfony console doctrine:database:create && symfony console d:s:u --force -n && symfony console doctrine:fixtures:load -n.
  */
 class AppFixtures extends Fixture
 {
@@ -30,8 +30,7 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        // $product = new Product();
-        // $manager->persist($product);
+        $faker = \Faker\Factory::create();
 
         // USERS
 
@@ -44,44 +43,39 @@ class AppFixtures extends Fixture
             ->setAvatar($_ENV['USER_AVATAR'])
             ->setCompany('EPSI')
             ->setJobTitle('Secrétaire')
-            ->setCreatedAt(new \DateTimeImmutable())
         ;
         $this->userManager->addRole($userPerso, 'ROLE_ADMIN');
 
         $userAdmin = new User();
         $userAdmin
-            ->setFirstname('Admin')
-            ->setLastname('ADMIN')
-            ->setEmail('admin@gmail.com')
-            ->setCreatedAt(new \DateTimeImmutable())
+            ->setFirstname($faker->firstName())
+            ->setLastname($faker->lastName())
+            ->setEmail($faker->email())
         ;
         // $this->userManager->approve($userAdmin, $userAdmin);
         $this->userManager->addRole($userAdmin, 'ROLE_ADMIN');
 
         $userCandidacy1 = new User();
         $userCandidacy1
-            ->setFirstname('Candidacy1')
-            ->setLastname('CANDIDATE1')
-            ->setEmail('candidacy1@gmail.com')
-            ->setCreatedAt(new \DateTimeImmutable())
+            ->setFirstname($faker->firstName())
+            ->setLastname($faker->lastName())
+            ->setEmail($faker->email())
         ;
         $this->userManager->approve($userCandidacy1, $userAdmin);
 
         $userCandidacy2 = new User();
         $userCandidacy2
-            ->setFirstname('Candidacy2')
-            ->setLastname('CANDIDATE2')
-            ->setEmail('candidacy2@gmail.com')
-            ->setCreatedAt(new \DateTimeImmutable())
+            ->setFirstname($faker->firstName())
+            ->setLastname($faker->lastName())
+            ->setEmail($faker->email())
         ;
         $this->userManager->approve($userCandidacy2, $userAdmin);
 
         $userVoter1 = new User();
         $userVoter1
-            ->setFirstname('Voter1')
-            ->setLastname('VOTER1')
-            ->setEmail('voter1@gmail.com')
-            ->setCreatedAt(new \DateTimeImmutable())
+            ->setFirstname($faker->firstName())
+            ->setLastname($faker->lastName())
+            ->setEmail($faker->email())
         ;
         $this->userManager->approve($userVoter1, $userAdmin);
 
@@ -101,9 +95,7 @@ class AppFixtures extends Fixture
 
         $election1 = new Election();
         $election1
-            ->setCreatedAt($yesterday)
             ->setCreatedBy($userAdmin)
-
             ->setJobTitle('Secrétaire')
             ->setVoteStartAt($yesterday)
             ->setVoteEndAt($yesterday->modify('+1 hour'))
@@ -111,9 +103,7 @@ class AppFixtures extends Fixture
 
         $election2 = new Election();
         $election2
-            ->setCreatedAt($yesterday)
             ->setCreatedBy($userAdmin)
-
             ->setJobTitle('Trésorier')
             ->setVoteStartAt($today)
             ->setVoteEndAt($today->modify('next day midnight -1 minute'))
@@ -121,9 +111,7 @@ class AppFixtures extends Fixture
 
         $election3 = new Election();
         $election3
-            ->setCreatedAt($yesterday)
             ->setCreatedBy($userAdmin)
-
             ->setJobTitle('Président')
             ->setVoteStartAt($tomorrow)
             ->setVoteEndAt($tomorrow->modify('next day midnight -1 minute'))
@@ -346,7 +334,6 @@ class AppFixtures extends Fixture
         $newsletter1 = new Newsletter();
         $newsletter1
             ->setCreatedBy($userAdmin)
-            ->setCreatedAt(new \DateTimeImmutable())
             ->setTemplate($mailTemplate3)
             ->setObject('Découvrez nos plans adaptés à vos besoins !')
             ->setBody("
@@ -368,7 +355,6 @@ class AppFixtures extends Fixture
         $newsletter2 = new Newsletter();
         $newsletter2
             ->setCreatedBy($userAdmin)
-            ->setCreatedAt(new \DateTimeImmutable())
             ->setTemplate($mailTemplate3)
             ->setObject('Participez à notre prochain webinaire gratuit !')
             ->setBody("
@@ -396,7 +382,6 @@ class AppFixtures extends Fixture
         $newsletter3 = new Newsletter();
         $newsletter3
             ->setCreatedBy($userAdmin)
-            ->setCreatedAt(new \DateTimeImmutable())
             ->setTemplate($mailTemplate3)
             ->setObject('Votre plateforme évolue ! Découvrez les nouveautés.')
             ->setBody("
@@ -430,7 +415,6 @@ class AppFixtures extends Fixture
             ->setPlace('349 Rue de la Cavalade, 34070 Montpellier')
             ->setStartAt(new \DateTimeImmutable('2025-03-15 10:00:00'))
             ->setEndAt(new \DateTimeImmutable('2025-03-17 18:00:00'))
-            ->setCreatedAt(new \DateTimeImmutable())
             ->setPrivate(false)
         ;
 
@@ -441,7 +425,6 @@ class AppFixtures extends Fixture
             ->setPlace('349 Rue de la Cavalade, 34070 Montpellier')
             ->setStartAt(new \DateTimeImmutable('2025-04-23 09:30:00'))
             ->setEndAt(new \DateTimeImmutable('2025-04-23 17:00:00'))
-            ->setCreatedAt(new \DateTimeImmutable())
             ->setPrivate(false)
         ;
 
@@ -452,7 +435,6 @@ class AppFixtures extends Fixture
             ->setPlace('349 Rue de la Cavalade, 34070 Montpellier')
             ->setStartAt(new \DateTimeImmutable('2025-06-01 08:30:00'))
             ->setEndAt(new \DateTimeImmutable('2025-06-01 16:00:00'))
-            ->setCreatedAt(new \DateTimeImmutable())
             ->setPrivate(true)
         ;
 
@@ -495,7 +477,7 @@ class AppFixtures extends Fixture
             ->setStatus(1)
             ->setType(1)
             ->setAmount(5.00)
-            ->setCreatedAt(new \DateTimeImmutable())
+            ->setCreatedAt()
         ;
 
         $transaction2 = new Transaction();
@@ -505,7 +487,7 @@ class AppFixtures extends Fixture
             ->setStatus(1)
             ->setType(1)
             ->setAmount(15.00)
-            ->setCreatedAt(new \DateTimeImmutable())
+            ->setCreatedAt()
         ;
 
         $transaction3 = new Transaction();
@@ -515,7 +497,7 @@ class AppFixtures extends Fixture
             ->setStatus(1)
             ->setType(1)
             ->setAmount(60.00)
-            ->setCreatedAt(new \DateTimeImmutable())
+            ->setCreatedAt()
         ;
 
         $manager->persist($transaction1);

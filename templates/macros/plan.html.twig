@@ -28,7 +28,7 @@
 
       {% for feature in features %}
         <div class="d-flex align-items-center gap-2 mb-2 lh-1">
-          {{ fa.icon('arrow-right', swap_opacity: true) }}
+          {{ fa.icon('arrow-right') }}
           <div>
             {{ feature.name }}
           </div>
@@ -42,7 +42,7 @@
       <div class="text-center">
           <a href="{{ path }}" class="btn btn-{{ accent }}">
             {{ fa.icon('circle-info') }}
-            Consulter
+            Choisir
           </a>
       </div>
     </div>

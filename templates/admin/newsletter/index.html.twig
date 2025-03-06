@@ -16,7 +16,7 @@
 
         <div class="col-auto">
           <a href="{{ path('app_admin_newsletter_new') }}" class="btn btn-primary">
-            {{ fa.icon('plus', swap_opacity: true) }}
+            {{ fa.icon('plus') }}
             Ajouter
           </a>
         </div>
@@ -26,11 +26,10 @@
       <table class="table table-striped mb-0">
         <thead class="table-bordered">
           <tr>
-            <th>Id</th>
             <th>Objet</th>
-            <th>Corps</th>
             <th>CTA</th>
             <th>Création</th>
+            <th>Modification</th>
             <th>Envoi</th>
             <th>Actions</th>
           </tr>
@@ -38,14 +37,15 @@
         <tbody>
           {% for newsletter in newsletters %}
             <tr>
-              <td>{{ newsletter.id }}</td>
-              <td>{{ newsletter.object }}</td>
-              {% set words = newsletter.body|split(' ') %}
-              {% set truncated_body = words|slice(0, 6)|join(' ') ~ ' ...' %}
-              <td>{{ truncated_body }}</td>
+              <td>
+                <div class="text-truncate text-truncate-td">
+                  {{ newsletter.object }}
+                </div>
+              </td>
               <td>{{ newsletter.cta }}</td>
               <td>{{ newsletter.createdAt|date(date_format)}}</td>
-              <td>{{ newsletter.sendAt ? newsletter.sendAt|date(date_format) : '' }}</td>
+              <td>{{ newsletter.updatedAt ? newsletter.updatedAt|date(date_format) : 'Aucune' }}</td>
+              <td>{{ newsletter.sendAt ? newsletter.sendAt|date(date_format) : 'Aucun' }}</td>
               <td>
                 <div class="d-flex align-items-center gap-2">
                   {% set modalId = 'confirmAlert-' ~ newsletter.id %}
@@ -55,7 +55,7 @@
                   {{ modal.confirm(
                     id: modalId,
                     path: path('app_admin_newsletter_send', { id: newsletter.id }),
-                    title: 'Êtes-vous sur d\'envoyer ?',
+                    title: 'Êtes-vous sûr d\'envoyer ?',
                     continueButton: 'Envoyer'
                   ) }}
                   <a class="link-primary" href="{{ path('app_admin_newsletter_edit', { id: newsletter.id }) }}">
@@ -70,7 +70,7 @@
             </tr>
           {% else %}
             <tr>
-              <td colspan="7">Aucune Newsletters</td>
+              <td colspan="6">Aucune Newsletter</td>
             </tr>
           {% endfor %}
         </tbody>

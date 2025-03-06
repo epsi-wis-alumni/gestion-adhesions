@@ -1,0 +1,25 @@
+{% macro alert(content, variant = 'secondary', dismissible = false) %}
+    {% import 'macros/fontawesome.html.twig' as fa %}
+        {% set icon = 'icon-circle' %}
+
+        {% if variant == 'success' %}
+            {% set icon = 'check' %}
+        {% elseif variant == 'danger' %}
+            {% set icon = 'xmark' %}        
+        {% elseif variant == 'warning' %}
+            {% set icon = 'circle-exclamation' %}
+        {% endif %}
+    <div class="alert alert-{{ variant }} {{ dismissible ? 'alert-dismissible fade show':''}}" role="alert">
+        <div class="row g-3">
+            <div class="col-auto">
+                {{ fa.icon(icon) }}
+            </div>
+            <div class="col">
+                {{ content | markdown_to_html }}
+            </div>
+        </div>
+        {% if dismissible %}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        {% endif %}
+    </div>
+{% endmacro %}

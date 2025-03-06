@@ -4,11 +4,14 @@ twig:
     paths:
         '%kernel.project_dir%/assets/styles': styles
     globals:
-        invoice_name: '%env(INVOICE_NAME)%'
-        invoice_tel: '%env(INVOICE_TEL)%'
-        invoice_address: '%env(INVOICE_ADDRESS)%'
+        alumni_name: '%env(ALUMNI_NAME)%'
+        alumni_tel: '%env(ALUMNI_TEL)%'
+        alumni_mail: '%env(ALUMNI_EMAIL)%'
+        alumni_adress: '%env(ALUMNI_ADDRESS)%'
+
         base_title: '%env(BASE_TITLE)%'
         base_title_admin: '%env(BASE_TITLE_ADMIN)%'
+        social_media: '%social_media%'
 
 when@test:
     twig:

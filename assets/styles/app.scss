@@ -3,8 +3,9 @@
 $color-mode-type: media-query;
 $enable-shadows: true;
 $primary: #4B4B99;
-$tooltip-color: var(--primary);
-$tooltip-bg: $primary;
+$tooltip-color: #ffffff;
+$tooltip-bg: var(--bs-primary-bg);
+$modal-fade-transform: scale(.8);
 
 @import "../../vendor/twbs/bootstrap/scss/variables";
 @import "../../vendor/twbs/bootstrap/scss/variables-dark";
@@ -48,3 +49,9 @@ $tooltip-bg: $primary;
 
 // 7. Optionally include utilities API last to generate classes based on the Sass map in `_utilities.scss`
 @import "../../vendor/twbs/bootstrap/scss/utilities/api";
+
+@include media-breakpoint-up(md) {
+    #footer-links p {
+        max-width: 24rem;
+    }
+}

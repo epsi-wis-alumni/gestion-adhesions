@@ -1,8 +1,14 @@
-name: Deploy to FTP
+name: Deploy with rsync
 
 on:
-  release:
-    types: [released]
+  workflow_dispatch:
+    inputs:
+      sync:
+        description: "File synchronization"
+        required: true
+        default: "delta"
+
+permissions: write-all
 
 env:
   APP_ENV: prod
@@ -23,12 +29,15 @@ jobs:
         run: |
           echo "APP_ENV=prod" >> .env.local
           echo "APP_DEBUG=0" >> .env.local
+          touch .env.prod.local
           echo "DATABASE_URL=${{ secrets.SYMFONY_DATABASE_URL }}" >> .env.prod.local
           echo "MAILER_DSN=${{ secrets.SYMFONY_MAILER_DSN }}" >> .env.prod.local
           echo "GOOGLE_CLIENT_ID=${{ secrets.OAUTH_GOOGLE_CLIENT_ID }}" >> .env.prod.local
           echo "GOOGLE_CLIENT_SECRET=${{ secrets.OAUTH_GOOGLE_CLIENT_SECRET }}" >> .env.prod.local
           echo "GITHUB_CLIENT_ID=${{ secrets.OAUTH_GITHUB_CLIENT_ID }}" >> .env.prod.local
           echo "GITHUB_CLIENT_SECRET=${{ secrets.OAUTH_GITHUB_CLIENT_SECRET }}" >> .env.prod.local
+          echo "LINKEDIN_CLIENT_ID=${{ secrets.OAUTH_LINKEDIN_CLIENT_ID }}" >> .env.prod.local
+          echo "LINKEDIN_CLIENT_SECRET=${{ secrets.OAUTH_LINKEDIN_CLIENT_SECRET }}" >> .env.prod.local
           
       - name: Install Composer dependencies
         uses: ramsey/composer-install@v2
@@ -46,18 +55,26 @@ jobs:
         run: |
           composer dump-env prod
           composer dump-autoload --optimize --classmap-authoritative
+          php bin/console cache:warmup
+
+          # Copy .htaccess
+          cp docker/apache/.htaccess public/.htaccess
+
+          # Optimize PHP
+          cp docker/apache/php_prod.ini public/php.ini
+          echo "opcache.preload=${{ secrets.APP_PATH }}/config/preload.php" >> public/php.ini
+
+          # Register custom public/php.ini in public/.htaccess
+          echo "suPHP_ConfigPath ${{ secrets.APP_PATH }}/public/" >> public/.htaccess
       
-      - name: Upload to hosting FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: Deploy with rsync
+        uses: easingthemes/ssh-deploy@v5.1.0
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
-          server-dir: ./fr.epsi-wis-alumni/
-          log-level: 'minimal'
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/var/cache/**
-            **/vendor/**
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          # Updates are based on file hash, not time + size
+          ARGS: "-rlgoDzvc -i --delete"
+          SOURCE: "./"
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USER }}
+          TARGET: ${{ secrets.APP_PATH }}/
+          EXCLUDE: ".git*"

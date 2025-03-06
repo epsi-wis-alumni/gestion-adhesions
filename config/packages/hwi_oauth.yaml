@@ -9,13 +9,14 @@ hwi_oauth:
                csrf: true
                refresh_on_expire: true
         linkedin:
-            type:           linkedin
-            client_id:      <client_id>
-            client_secret:  <client_secret>
-            scope:          <scope>
+            type:           linkedin_openid
+            client_id:      '%env(LINKEDIN_CLIENT_ID)%'
+            client_secret:  '%env(LINKEDIN_CLIENT_SECRET)%'
+            scope:          "openid profile email"
             options:
                csrf: true
                refresh_on_expire: true
+
         azure:
             type:          azure
             client_id:     <client_id>

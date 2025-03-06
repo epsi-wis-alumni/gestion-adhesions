@@ -19,9 +19,9 @@ security:
             provider: app_user_provider
             oauth:
                 resource_owners:
-                    google:          google_login
-                    linkedin: "/login/check-linkedin"
-                    azure:           "/login/check-azure"
+                    google: google_login
+                    linkedin: linkedin_login
+                    azure: azure_login
                 login_path:   /login
                 use_forward:  true
                 failure_path: hwi_oauth_connect_registration
@@ -48,7 +48,7 @@ security:
         ROLE_ADMIN: ROLE_MEMBER
 
     access_control:
-        - { path: ^/(login|connect|event|$|cgu), roles: PUBLIC_ACCESS }
+        - { path: ^/(login|connect|event|$|cgu|plan), roles: PUBLIC_ACCESS }
         - { path: ^/(complete-profile|user|logout), roles: ROLE_USER }
         - { path: ^/contribute, roles: ROLE_APPROVED }
         - { path: ^/admin, roles: ROLE_ADMIN }

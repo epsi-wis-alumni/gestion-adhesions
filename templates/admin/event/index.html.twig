@@ -15,7 +15,7 @@
 
       <div class="col-auto">
         <a href="{{ path('app_admin_event_new') }}" class="btn btn-primary">
-          {{ fa.icon('plus', swap_opacity: true) }}
+          {{ fa.icon('plus') }}
           Ajouter
         </a>
       </div>
@@ -25,28 +25,36 @@
       <table class="table table-striped mb-0">
         <thead class="table-bordered">
           <tr>
-            <th>Id</th>
-            <th>Title</th>
+            <th>Titre</th>
             <th>Lieu</th>
             <th>Début</th>
             <th>Fin</th>
             <th>Privé</th>
             <th>Création</th>
+            <th>Modification</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {% for event in events %}
             <tr>
-              <td>{{ event.id }}</td>
-              <td>{{ event.title }}</td>
-              <td>{{ event.place }}</td>
-              <td>{{ event.startAt ? event.startAt|date(date_format) : '' }}</td>
-              <td>{{ event.endAt ? event.endAt|date(date_format) : '' }}</td>
+              <td>
+                <div class="text-truncate text-truncate-td">
+                  {{ event.title }}
+                </div>
+              </td>
+              <td>
+                <div class="text-truncate text-truncate-td">
+                  {{ event.place }}
+                </div>
+              </td>
+              <td>{{ event.startAt|date(date_format) }}</td>
+              <td>{{ event.endAt|date(date_format) }}</td>
               <td class="ps-4">
                 {{ event.private ? fa.icon('check') : fa.icon('xmark') }}
               </td>
-              <td>{{ event.createdAt ? event.createdAt|date(date_format) : '' }}</td>
+              <td>{{ event.createdAt|date(date_format) }}</td>
+              <td>{{ event.updatedAt ? event.updatedAt|date(date_format) : 'Aucune' }}</td>
               <td>
                 <div class="d-flex align-items-center gap-2">
                   <a class="link-primary" href="{{ path('app_admin_event_edit', { id: event.id }) }}">
@@ -61,7 +69,7 @@
             </tr>
           {% else %}
             <tr>
-              <td colspan="7">Aucun Évènements</td>
+              <td colspan="8">Aucun Évènement</td>
             </tr>
           {% endfor %}
         </tbody>

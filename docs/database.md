@@ -10,7 +10,9 @@ erDiagram
         string googleToken
         string company "Nom de l'école pour un étudiant"
         string jobTitle
+        enum type "Undefined, Student, Alumni, Partner"
         datetime createdAt
+        datetime updatedAt
         User approvedBy
         datetime approvedAt
         User rejectedBy
@@ -39,6 +41,7 @@ erDiagram
         int type "don ou adhésion"
         string invoice_file_path
         datetime createdAt
+        datetime updatedAt
     }
 
     Subscription 1--0+ Transaction: ""
@@ -68,12 +71,15 @@ erDiagram
     }
 
     Election 0+--1 User: ""
+    Election 0+--1 User: ""
 
     Election {
         int id
         string jobTitle
         User createdBy
         datetime createdAt
+        User updatedBy
+        datetime updatedAt
         datetime voteStartAt
         datetime voteEndAt
     }
@@ -119,6 +125,7 @@ erDiagram
 
     Newsletter 0+--1 User: ""
     Newsletter 0+--1 User: ""
+    Newsletter 0+--1 User: ""
 
     Newsletter {
         int id
@@ -127,6 +134,8 @@ erDiagram
         string cta
         User createdBy
         datetime createdAt
+        User updateBy
+        datetime updateAt
         User sentBy
         datetime sentAt
         MailTemplate template

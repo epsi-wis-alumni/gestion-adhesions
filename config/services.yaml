@@ -4,10 +4,18 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    mailer_sender: '%env(MAILER_SENDER)%'
-    invoice_base_path: '/../../public/assets/upload/invoices/'
-    mails_base_path: '/../../templates/mails/'
     stripe_api_key: '%env(STRIPE_API_KEY)%'
+
+    mailer_sender: '%env(MAILER_SENDER)%'
+    mailer_contact: '%env(MAILER_CONTACT)%'
+
+    invoice_base_path: '%kernel.project_dir%/public/assets/upload/invoices/'
+    mails_base_path: '%kernel.project_dir%/templates/mails/'
+    
+    .container.dumper.inline_factories: true
+    social_media:
+        instagram: https://www.instagram.com/alumni.montpellier
+        linkedin: https://www.linkedin.com/company/alumni-epsi-wis-montpellier
 
 services:
     # default configuration for services in *this* file

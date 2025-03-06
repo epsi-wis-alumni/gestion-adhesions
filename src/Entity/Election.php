@@ -2,14 +2,17 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\TimestampableTrait;
 use App\Repository\ElectionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ElectionRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Election
 {
+    use TimestampableTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -19,17 +22,16 @@ class Election
     private ?string $jobTitle = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
-
-    #[ORM\Column]
     private ?\DateTimeImmutable $voteStartAt = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $voteEndAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'elections')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(inversedBy: 'createdElections')]
     private ?User $createdBy = null;
+
+    #[ORM\ManyToOne(inversedBy: 'updatedElections')]
+    private ?User $updatedBy = null;
 
     /**
      * @var Collection<int, Candidacy>
@@ -47,7 +49,6 @@ class Election
     {
         $this->candidacies = new ArrayCollection();
         $this->votes = new ArrayCollection();
-        $this->setCreatedAt(new \DateTimeImmutable());
     }
 
     public function getId(): ?int
@@ -63,18 +64,6 @@ class Election
     public function setJobTitle(string $jobTitle): static
     {
         $this->jobTitle = $jobTitle;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -111,6 +100,18 @@ class Election
     public function setCreatedBy(?User $createdBy): static
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getUpdatedBy(): ?User
+    {
+        return $this->updatedBy;
+    }
+
+    public function setUpdatedBy(?User $updatedBy): static
+    {
+        $this->updatedBy = $updatedBy;
 
         return $this;
     }
