@@ -5,11 +5,10 @@ namespace App\Controller;
 use App\Entity\Subscription;
 use App\Entity\Transaction;
 use App\Entity\User;
-use App\Repository\TransactionRepository;
 use App\Service\InvoiceManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Stripe\BillingPortal\Session;
 use Stripe\Stripe;
-use Stripe\Checkout\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -17,7 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
-
 
 #[Route('/order')]
 class PaymentController extends AbstractController
@@ -47,7 +45,7 @@ class PaymentController extends AbstractController
             )
             ->setStatus(0)
             ->setType(0)
-            ->setCreatedAt(createdAt: new \DateTimeImmutable())
+            ->setCreatedAt()
         ;
 
         $this->entityManager->persist($transaction);
