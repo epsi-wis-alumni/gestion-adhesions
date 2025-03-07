@@ -6,6 +6,7 @@
 parameters:
     stripe_api_public_key: '%env(STRIPE_API_PUBLIC_KEY)%'
     stripe_api_private_key: '%env(STRIPE_API_PRIVATE_KEY)%'
+    stripe_webhook_secret: '%env(STRIPE_WEBHOOK_SECRET)%'
 
     mailer_sender: '%env(MAILER_SENDER)%'
     mailer_contact: '%env(MAILER_CONTACT)%'
