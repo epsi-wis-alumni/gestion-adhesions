@@ -6,4 +6,18 @@
 {% endblock %}
 
 {% block body %}
+  <div class="container my-5">
+    <div class="row">
+      <h1 class="text-center">
+        Votre paiement de 
+        {{ session.amount_total / 100}} 
+        {{ session.currency == "eur" ? "€" : session.curency }}
+        à bien été accepté.
+      </h1>
+      <div class="text-center mt-5">Votre facture est dès à présent disponible dans <a href="{{ path('app_user_invoice') }}">votre espace</a></div>
+      <div class="col d-flex align-items-center justify-content-center">
+        <a href="{{ path('app_home') }}" class="btn btn-primary mt-5">Retour à l'accueil</a>
+      </div>
+    </div>
+  </div>
 {% endblock %}

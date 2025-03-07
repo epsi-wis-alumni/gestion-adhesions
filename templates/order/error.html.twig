@@ -6,4 +6,13 @@
 {% endblock %}
 
 {% block body %}
-{% endblock %}
+  <div class="container my-5">
+    <div class="row">
+      <h1 class="text-center">Une erreur s'est produite lors du paiement</h1>
+      <div class="mt-5 text-center">Pas d'inquiétude, vous n'avez pas été débité !</div>
+      <div class="col d-flex align-items-center justify-content-center">
+          <a href="{{ path('app_home') }}" class="btn btn-primary mt-5">Retour à l'accueil</a>
+        </div>
+    </div>
+  </div>
+  {% endblock %}
