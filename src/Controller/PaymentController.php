@@ -96,4 +96,55 @@ class PaymentController extends AbstractController
             'transaction' => $transaction,
         ]);
     }
+
+    #[Route('/webhook', name: 'app_payment_webhook', methods: ['POST'])]
+    public function stripeWebhook(
+        Request $request, 
+        InvoiceManager $invoiceManager,
+        TransactionRepository $transactionRepository,
+        EntityManagerInterface $entityManager,
+    ): Response {
+        $payload = $request->getContent();
+        $signature = $request->headers->get('Stripe-Signature');
+        $endpointSecret = $this->params->get('stripe_webhook_secret');
+
+        $sessionId = "";
+
+        try {
+            $event = \Stripe\Webhook::constructEvent(
+                $payload,
+                $signature,
+                $endpointSecret
+            );
+        } catch (\UnexpectedValueException $e) {
+            return new Response('Invalid payload', Response::HTTP_BAD_REQUEST);
+        } catch (\Stripe\Exception\SignatureVerificationException $e) {
+            return new Response('Invalid signature', Response::HTTP_BAD_REQUEST);
+        }
+
+        if ($event->type === 'checkout.session.completed') {
+            $sessionId = $event->data->object->id;
+            $transaction = $transactionRepository->findOneBy(['sessionId' => $sessionId]);
+            if ($event->data->object->payment_status === "paid") {
+                $transaction->setStatus(TransactionStatus::Completed);
+                $entityManager->flush();
+
+                $html = $this->render('invoice/invoice.html.twig', [
+                    'transaction' => $transaction,
+                ]);
+                $invoiceManager->create(
+                    html: $html,
+                    transaction: $transaction
+                );
+            }
+            if ($event->data->object->payment_status === "unpaid") {
+                $transaction->setStatus(TransactionStatus::Failed);
+                $entityManager->flush();
+            }
+        }
+
+        $entityManager->flush();
+
+        return new Response('Webhook handled', Response::HTTP_OK);
+    }
 }
