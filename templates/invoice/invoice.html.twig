@@ -40,12 +40,12 @@
       <tbody>
         <tr>
           <td>{{ transaction.subscription.plan.description }}</td>
-          <td>{{ transaction.amount }} €</td>
+          <td>{{ transaction.amount|number_format(2, '.', ' ') }} €</td>
         </tr>
       </tbody>
     </table>
     <div class="total">
-      <strong>Total payé : {{ transaction.amount }} €</strong>
+      <strong>Total payé : {{ transaction.amount|number_format(2, '.', ' ') }} €</strong>
     </div>
     <div class="footer">
       <p>
