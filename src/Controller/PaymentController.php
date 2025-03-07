@@ -48,7 +48,6 @@ class PaymentController extends AbstractController
 
             // dd($session);
             $transaction->setSessionId($session->id);
-            $transaction->setStripeSubscriptionId($session->subscription);
             $transaction->setStatus(TransactionStatus::Pending);
 
             $this->entityManager->flush();
@@ -64,24 +63,19 @@ class PaymentController extends AbstractController
     #[Route('/success/{id}', name: 'app_payment_success')]
     public function stripeSuccess(
         Transaction $transaction,
-        #[CurrentUser()] User $currentUser,
         InvoiceManager $invoiceManager,
     ): Response {
-        $transaction->setStatus(1);
-        $this->entityManager->flush();
+        try {
+            $session = Session::retrieve($transaction->getSessionId());
 
-        $html = $this->render('invoice/invoice.html.twig', [
-            'transaction' => $transaction,
-            'user' => $currentUser,
-        ]);
-        $invoiceManager->create(
-            html: $html,
-            transaction: $transaction
-        );
-
-        return $this->render('order/success.html.twig', [
-            'transaction' => $transaction,
-        ]);
+            return $this->render('order/success.html.twig', [
+                'session' => $session,
+            ]);
+        } catch (\Exception $e) {
+            return $this->render('order/error.html.twig', [
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     #[Route('/error/{id}', name: 'app_payment_error')]
