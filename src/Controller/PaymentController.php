@@ -79,10 +79,18 @@ class PaymentController extends AbstractController
     }
 
     #[Route('/error/{id}', name: 'app_payment_error')]
-    public function stripeError(Transaction $transaction): Response
-    {
-        $transaction->setStatus(2);
-        $this->entityManager->flush();
+    public function stripeError(
+        Transaction $transaction
+    ): Response {
+        try {
+            $session = Session::retrieve($transaction->getSessionId());
+            $session->expire();
+        } catch (\Exception $e) {
+            return $this->render('order/error.html.twig', [
+                'error' => $e->getMessage(),
+                'transaction' => $transaction,
+            ]);
+        }
 
         return $this->render('order/error.html.twig', [
             'transaction' => $transaction,
