@@ -22,8 +22,8 @@ class ContactType extends AbstractType
                     'Mme' => 'Mme',
                     'Autre' => 'Autre',
                 ],
-                'attr' => [
-                    'class' => 'd-flex gap-4 w-100',
+                'label_attr' => [
+                    'class' => 'radio-inline',
                 ],
                 'expanded' => true,
                 'multiple' => false,
