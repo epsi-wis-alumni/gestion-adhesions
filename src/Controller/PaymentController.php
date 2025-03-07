@@ -5,13 +5,17 @@ namespace App\Controller;
 use App\Entity\Subscription;
 use App\Entity\Transaction;
 use App\Entity\User;
+use App\Enum\TransactionStatus;
+use App\Repository\TransactionRepository;
 use App\Service\InvoiceManager;
+use App\Service\PaymentManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Stripe\BillingPortal\Session;
+use Psr\Log\LoggerInterface;
 use Stripe\Stripe;
+use Stripe\Checkout\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -24,72 +28,39 @@ class PaymentController extends AbstractController
         private EntityManagerInterface $entityManager,
         private UrlGeneratorInterface $urlGenerator,
         private ContainerBagInterface $params,
-    ) {}
+    ) {
+        Stripe::setApiKey($this->params->get('stripe_api_private_key'));
+    }
 
-    #[Route('/create-session-stripe/{id}', name: 'app_payment', methods: ['POST'])]
-    public function createStripeSession(
+    #[Route('/subscription/{id}', name: 'app_payment', methods: ['GET'])]
+    public function create(
         Subscription $subscription,
-        #[CurrentUser()] User $currentUser
-    ): RedirectResponse {
-        if (!$subscription) {
-            return $this->redirectToRoute('app_user_plan'); 
-        }
-
-        $transaction = new Transaction();
-        $transaction
-            ->setSubscription($subscription)
-            ->setAmount(
-                $subscription->getPlan()->getPrice() - 
-                $subscription->getPlan()->getPrice() * 
-                $subscription->getDiscount()
-            )
-            ->setStatus(0)
-            ->setType(0)
-            ->setCreatedAt()
-        ;
+        PaymentManager $paymentManager,
+        #[CurrentUser()] User $currentUser,
+    ): Response {
+        $transaction = $paymentManager->createTransation($currentUser, $subscription);
 
         $this->entityManager->persist($transaction);
         $this->entityManager->flush();
 
-        $planStripe = [
-            [
-                'price_data' => [
-                    'currency' => 'eur',
-                    'unit_amount' => $transaction->getAmount() * 100, // Convert to centimes - Need Integer
-                    'product_data' => [
-                        'name' => $subscription->getPlan()->getName(),
-                    ],
-                ],
-                'quantity' => 1,
-            ],
-        ];
+        try {
+            $session = $paymentManager->createSession($currentUser, $transaction);
 
-        $apiKey = $this->params->get('stripe_api_key');
+            // dd($session);
+            $transaction->setSessionId($session->id);
+            $transaction->setStripeSubscriptionId($session->subscription);
+            $transaction->setStatus(TransactionStatus::Pending);
 
-        Stripe::setApiKey($apiKey); 
+            $this->entityManager->flush();
+        } catch (\Exception $e) {
+            $this->addFlash('error', 'Erreur lors de la création de la session Stripe.');
+            
+            return $this->redirectToRoute('app_payment_error', ['id' => $transaction->getId()]);
+        }
 
-        $checkoutSession = Session::create([
-            'customer_email' => $currentUser->getEmail(),
-            'payment_method_types' => ['card'],
-            'line_items' => [
-                $planStripe,
-            ],
-            'mode' => 'payment',
-            'success_url' => $this->urlGenerator->generate(
-                'app_payment_success',
-                ['id' => $transaction->getId()],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            ),
-            'cancel_url' => $this->urlGenerator->generate(
-                'app_payment_error',
-                ['id' => $transaction->getId()],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            ),
-        ]);
-
-        return new RedirectResponse($checkoutSession->url);
+        return $this->redirect($session->url, Response::HTTP_SEE_OTHER);
     }
-
+    
     #[Route('/success/{id}', name: 'app_payment_success')]
     public function stripeSuccess(
         Transaction $transaction,
