@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use App\Entity\Trait\TimestampableTrait;
+use App\Enum\TransactionStatus;
 use App\Repository\TransactionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Embedded;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TransactionRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -21,8 +23,9 @@ class Transaction
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[ORM\Column]
-    private ?int $status = null;
+    #[Assert\NotBlank()]
+    #[ORM\Column(enumType: TransactionStatus::class, options: ['default' => TransactionStatus::Create->value])]
+    private ?TransactionStatus $status = TransactionStatus::Create;
 
     #[ORM\Column]
     private ?int $type = null;
@@ -39,6 +42,9 @@ class Transaction
     #[Embedded(class: Invoice::class)]
     private Invoice $invoice;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $sessionId = null;
+
     public function __construct()
     {
         $this->invoice = new Invoice();
@@ -49,12 +55,12 @@ class Transaction
         return $this->id;
     }
 
-    public function getStatus(): ?int
+    public function getStatus(): ?TransactionStatus
     {
         return $this->status;
     }
 
-    public function setStatus(int $status): static
+    public function setStatus(TransactionStatus $status): static
     {
         $this->status = $status;
 
@@ -117,6 +123,18 @@ class Transaction
     public function setInvoice(?Invoice $invoice): self
     {
         $this->invoice = $invoice;
+
+        return $this;
+    }
+
+    public function getSessionId(): ?string
+    {
+        return $this->sessionId;
+    }
+
+    public function setSessionId(?string $sessionId): static
+    {
+        $this->sessionId = $sessionId;
 
         return $this;
     }

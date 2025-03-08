@@ -36,11 +36,11 @@
       {% endfor %}
 
       <div class="card-text text-{{ accent }} text-center fs-4 fw-bold my-3">
-        {{ price }} €
+        {{ price|number_format(2, '.', ' ') }} €
       </div>
 
       <div class="text-center">
-          <a href="{{ path }}" class="btn btn-{{ accent }}">
+          <a href="{{ path }}" class="btn btn-{{ accent }}" data-turbo="false">
             {{ fa.icon('circle-info') }}
             Choisir
           </a>

@@ -81,7 +81,7 @@
               <td>{{ user.company }}</td>
               <td>{{ user.jobTitle }}</td>
               <td>{{ user.createdAt|date('d/m/Y') }}</td>
-              <td>{{ user.lastTransaction ? user.lastTransaction.status : 'Aucune' }}</td>
+              <td>{{ user.lastTransaction ? user.lastTransaction.status.name : 'Aucune' }}</td>
               <td>
                 <span class="badge text-bg-{{ user.statusColor}}">{{ user.statusLabel }}</span>
               </td>

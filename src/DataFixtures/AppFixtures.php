@@ -13,6 +13,7 @@ use App\Entity\Subscription;
 use App\Entity\Transaction;
 use App\Entity\User;
 use App\Entity\Vote;
+use App\Enum\TransactionStatus;
 use App\Service\UserManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -474,7 +475,7 @@ class AppFixtures extends Fixture
         $transaction1
             ->setUser($userPerso)
             ->setSubscription($subscription1)
-            ->setStatus(1)
+            ->setStatus(TransactionStatus::Completed)
             ->setType(1)
             ->setAmount(5.00)
             ->setCreatedAt()
@@ -484,7 +485,7 @@ class AppFixtures extends Fixture
         $transaction2
             ->setUser($userAdmin)
             ->setSubscription($subscription2)
-            ->setStatus(1)
+            ->setStatus(TransactionStatus::Completed)
             ->setType(1)
             ->setAmount(15.00)
             ->setCreatedAt()
@@ -494,7 +495,7 @@ class AppFixtures extends Fixture
         $transaction3
             ->setUser($userCandidacy1)
             ->setSubscription($subscription3)
-            ->setStatus(1)
+            ->setStatus(TransactionStatus::Completed)
             ->setType(1)
             ->setAmount(60.00)
             ->setCreatedAt()

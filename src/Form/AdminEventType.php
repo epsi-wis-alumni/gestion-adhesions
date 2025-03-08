@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class AdminEventType extends AbstractType
 {
@@ -29,11 +30,11 @@ class AdminEventType extends AbstractType
                 'row_attr' => ['class' => 'mb-3'],
                 'label' => 'Lieu',
             ])
-            ->add('startAt', null, [
+            ->add('startAt', DateTimeType::class, [
                 'row_attr' => ['class' => 'mb-3'],
                 'label' => 'Date de début',
             ])
-            ->add('endAt', null, [
+            ->add('endAt', DateTimeType::class, [
                 'row_attr' => ['class' => 'mb-3'],
                 'label' => 'Date de fin',
             ])

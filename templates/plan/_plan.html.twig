@@ -16,7 +16,8 @@
                     features: plan.features,
                     price: plan.price,
                     highlight: plan.highlighted,
-                    current: current
+                    current: current,
+                    path: path('app_payment', {id: plan.id})
                 )}}
             </div>
         {% endfor %}

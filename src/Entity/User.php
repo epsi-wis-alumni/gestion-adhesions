@@ -385,7 +385,7 @@ class User implements UserInterface
 
         $sortedTransactions = $transactions->toArray();
         usort($sortedTransactions, function ($a, $b) {
-            return $b->getDate() <=> $a->getDate();
+            return $b->getCreatedAt() <=> $a->getCreatedAt();
         });
 
         return $sortedTransactions[0];

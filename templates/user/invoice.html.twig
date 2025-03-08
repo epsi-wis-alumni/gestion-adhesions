@@ -16,7 +16,7 @@
                 <thead class="table-bordered">
                     <tr>
                         <th>Nom</th>
-                        <th>Description</th>
+                        <th>Statut</th>
                         <th>Date</th>
                         <th>Montant</th>
                         <th>Action</th>
@@ -26,9 +26,9 @@
                     {% for invoice in invoices %}
                         <tr>
                             <td>{{ invoice.subscription.plan.name }}</td>
-                            <td>{{ invoice.transaction.status }}</td>
+                            <td>{{ invoice.transaction.status.name }}</td>
                             <td>{{ invoice.transaction.createdAt|date('d/m/Y') }}</td>
-                            <td>{{ invoice.transaction.amount }} €</td>
+                            <td>{{ invoice.transaction.amount|number_format(2, '.', ' ') }} €</td>
                             <td>
                                 <div class="d-flex align-items-center gap-2">
                                     <a class="link-primary" href="{{ path('app_user_invoice_show', { id: invoice.transaction.id }) }}" target="_blank">
