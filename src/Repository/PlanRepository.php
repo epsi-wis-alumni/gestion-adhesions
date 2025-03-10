@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Plan;
 use App\Entity\User;
+use App\Enum\TransactionStatus;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -51,9 +52,11 @@ class PlanRepository extends ServiceEntityRepository
             ->where('t.subscription = s')
             ->where('t.user = :user')
             ->andWhere('t.createdAt >= :date')
+            ->andWhere('t.status = :status')
             ->orderBy('t.createdAt', 'DESC')
             ->setParameter('user', $user)
             ->setParameter('date', new \DateTimeImmutable('-1 year'))
+            ->setParameter('status', TransactionStatus::Completed)
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult()
