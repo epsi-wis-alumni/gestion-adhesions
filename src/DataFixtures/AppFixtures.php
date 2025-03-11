@@ -480,8 +480,9 @@ class AppFixtures extends Fixture
             ->setSubscription($subscription1)
             ->setStatus(TransactionStatus::Completed)
             ->setType(1)
-            ->setAmount(5.00)
+            ->setAmount(15.00)
             ->setRenewal(false)
+            ->setSessionId('cs_test_a1I8X2WHH9k7ukfpHCfJI2AUNlzZLNKj9EQQsIChyBxJ7n9U9nGhJrPfFM')
             ->setCreatedAt()
         ;
 
@@ -491,7 +492,7 @@ class AppFixtures extends Fixture
             ->setSubscription($subscription2)
             ->setStatus(TransactionStatus::Completed)
             ->setType(1)
-            ->setAmount(15.00)
+            ->setAmount(5.00)
             ->setRenewal(false)
             ->setCreatedAt()
         ;
