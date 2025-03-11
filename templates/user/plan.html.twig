@@ -29,6 +29,12 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 {% endif %}
+                {% if renewalUpdated == "error" %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        Une erreur est survenue. Si le problème persiste, veuillez contacter le support.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endif %}
             </div>
 
             <div class="">Date de l'abonnement : <span class="fw-bold">{{ activeTransaction.createdAt|date(date_format) }}</span></div>
