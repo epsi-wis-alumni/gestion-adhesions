@@ -13,26 +13,28 @@
         {% endif %}
     </h1>
     {% include "/plan/_plan.html.twig" %}
-    <h2 class="fs-1 text-center my-2" id="activePlan">Plan actif</h2>
-    <div class="row d-flex justify-content-center">
-        <div class="col-6 d-flex flex-column align-items-center gap-3">
-            <div class="mt-2">
-                {% include '_flashes.html.twig' %}
+    {% if activeTransaction %}
+        <h2 class="fs-1 text-center my-2" id="activePlan">Plan actif</h2>
+        <div class="row d-flex justify-content-center">
+            <div class="col-6 d-flex flex-column align-items-center gap-3">
+                <div class="mt-2">
+                    {% include '_flashes.html.twig' %}
+                </div>
+
+                <div class="">Date de l'abonnement : <span class="fw-bold">{{ activeTransaction.createdAt|date(date_format) }}</span></div>
+                <div class="">Date renouvellement de l'abonnement : <span class="fw-bold">{{ activeTransaction.renewal ? activeTransaction.createdAt|date_modify('+1 year')|date(date_format) : "Inactif" }}</span></div>
+                <div class="">Tarif : <span class="fw-bold">{{ activeTransaction.amount|number_format(2, '.', ' ') }} €</span></div>
+
+                {{ form_start(renewalForm) }}
+                    {{ form_row(renewalForm.renewal) }}
+                    <button type="submit" class="btn btn-{{ activeTransaction.renewal ? "danger" : "success"}} mt-3">
+                        {{ fa.icon(activeTransaction.renewal ? "circle-pause" : "circle-play") }}
+                        <span class="ms-1">{{ activeTransaction.renewal ? "Désactiver" : "Activer"}} le renouvellement</span>
+                    </button>
+                {{ form_end(renewalForm) }}
             </div>
-
-            <div class="">Date de l'abonnement : <span class="fw-bold">{{ activeTransaction.createdAt|date(date_format) }}</span></div>
-            <div class="">Date renouvellement de l'abonnement : <span class="fw-bold">{{ activeTransaction.renewal ? activeTransaction.createdAt|date_modify('+1 year')|date(date_format) : "Inactif" }}</span></div>
-            <div class="">Tarif : <span class="fw-bold">{{ activeTransaction.amount|number_format(2, '.', ' ') }} €</span></div>
-
-            {{ form_start(renewalForm) }}
-                {{ form_row(renewalForm.renewal) }}
-                <button type="submit" class="btn btn-{{ activeTransaction.renewal ? "danger" : "success"}} mt-3">
-                    {{ fa.icon(activeTransaction.renewal ? "circle-pause" : "circle-play") }}
-                    <span class="ms-1">{{ activeTransaction.renewal ? "Désactiver" : "Activer"}} le renouvellement</span>
-                </button>
-            {{ form_end(renewalForm) }}
         </div>
-    </div>
+    {% endif %}
 </div>
 
 {% endblock %}
