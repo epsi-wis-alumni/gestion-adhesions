@@ -114,6 +114,7 @@ final class UserController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $price = $form->get('price')->getData();
                 $plan = $planRepository->findOneBy(["id" => $form->get('plan')->getData()]);
+                $subscription = $subscriptionManager->createSubscription($plan, $price);
                 return $this->redirectToRoute('app_payment', ["id" => $subscription->getId()], Response::HTTP_SEE_OTHER);
             }
         }
