@@ -6,6 +6,7 @@ use App\Repository\SubscriptionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: SubscriptionRepository::class)]
 class Subscription
@@ -26,6 +27,9 @@ class Subscription
 
     #[ORM\ManyToOne(inversedBy: 'subscriptions')]
     private ?Plan $plan = null;
+
+    #[ORM\Column(nullable: true, type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $price = null;
 
     public function __construct()
     {
@@ -87,6 +91,18 @@ class Subscription
     public function setPlan(?Plan $plan): static
     {
         $this->plan = $plan;
+
+        return $this;
+    }
+
+    public function getPrice(): ?string
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?string $price): static
+    {
+        $this->price = $price;
 
         return $this;
     }
