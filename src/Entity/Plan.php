@@ -43,6 +43,9 @@ class Plan
     #[ORM\OneToMany(targetEntity: Feature::class, mappedBy: 'plan', cascade: ['persist'])]
     private Collection $features;
 
+    #[ORM\Column(type: 'boolean', options: ['default' => true])]
+    private ?bool $priceVariable = null;
+
     public function __construct()
     {
         $this->subscriptions = new ArrayCollection();
@@ -158,6 +161,18 @@ class Plan
                 $feature->setPlan(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isPriceVariable(): ?bool
+    {
+        return $this->priceVariable;
+    }
+
+    public function setPriceVariable(bool $priceVariable): static
+    {
+        $this->priceVariable = $priceVariable;
 
         return $this;
     }
