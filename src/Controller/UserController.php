@@ -116,7 +116,6 @@ final class UserController extends AbstractController
             return $this->redirectToRoute('app_user_plan', [], Response::HTTP_SEE_OTHER);
         }
     
-        // Récupérer la variable depuis les flashs
         $flashMessages = $session->getFlashBag()->get('renewal_status', []);
         $renewalUpdated = $flashMessages[0] ?? '';
         
