@@ -70,7 +70,7 @@ final class PaymentManager
         ]);
     }
 
-    public function removeRenewal(Transaction $transaction): void
+    public function disableRenewal(Transaction $transaction): void
     {
         $subId = Session::retrieve($transaction->getSessionId())->subscription;
         try {
@@ -87,7 +87,7 @@ final class PaymentManager
         }
     }
 
-    public function addRenewal(Transaction $transaction): void
+    public function enableRenewal(Transaction $transaction): void
     {
         $subId = Session::retrieve($transaction->getSessionId())->subscription;
         try {

@@ -100,32 +100,28 @@ final class UserController extends AbstractController
 
         if ($renewalForm->isSubmitted() && $renewalForm->isValid()) {
             $renewal = $renewalForm->get('renewal')->getData();
-        
+
             try {
                 if ($renewal === "true") {
-                    $paymentManager->addRenewal($activeTransaction);
-                    $session->getFlashBag()->add('renewal_status', 'add');
+                    $paymentManager->enableRenewal($activeTransaction);
+                    $this->addFlash('success', 'Renouvellement <span class="fw-bolder">activé</span> avec succès.');
                 } else {
-                    $paymentManager->removeRenewal($activeTransaction);
-                    $session->getFlashBag()->add('renewal_status', 'remove');
+                    $paymentManager->disableRenewal($activeTransaction);
+                    $this->addFlash('danger', 'Renouvellement <span class="fw-bolder">désactivé</span> avec succès.');
                 }
             } catch (\Throwable $th) {
-                $session->getFlashBag()->add('renewal_status', 'error');
+                $this->addFlash('warning', 'Une erreur est survenue. Si le problème persiste, veuillez contacter le support.');
             }
-    
+
             return $this->redirectToRoute('app_user_plan', [], Response::HTTP_SEE_OTHER);
         }
-    
-        $flashMessages = $session->getFlashBag()->get('renewal_status', []);
-        $renewalUpdated = $flashMessages[0] ?? '';
-        
+
         return $this->render('user/plan.html.twig', [
             'currentUser' => $currentUser,
             'activePlan' => $activePlan,
             'plans' => $plans,
             'activeTransaction' => $activeTransaction,
             'renewalForm' => $renewalForm,
-            'renewalUpdated' => $renewalUpdated,
         ]);
     }
 

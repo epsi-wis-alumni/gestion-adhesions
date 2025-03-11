@@ -17,24 +17,7 @@
     <div class="row d-flex justify-content-center">
         <div class="col-6 d-flex flex-column align-items-center gap-3">
             <div class="mt-2">
-                {% if renewalUpdated == "add" %}
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        Renouvellement <span class="fw-bolder">activé</span> avec succès.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                {% endif %}
-                {% if renewalUpdated == "remove" %}
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        Renouvellement <span class="fw-bolder">désactivé</span> avec succès.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                {% endif %}
-                {% if renewalUpdated == "error" %}
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        Une erreur est survenue. Si le problème persiste, veuillez contacter le support.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                {% endif %}
+                {% include '_flashes.html.twig' %}
             </div>
 
             <div class="">Date de l'abonnement : <span class="fw-bold">{{ activeTransaction.createdAt|date(date_format) }}</span></div>
