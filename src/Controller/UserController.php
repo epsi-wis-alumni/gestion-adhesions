@@ -72,7 +72,7 @@ final class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($currentUser);
             $entityManager->flush();
-            $this->addFlash('success', 'Modifications <span class="fw-bolder">enregistrées</span>.');
+            $this->addFlash('success', 'Modifications enregistrées.');
             return $this->redirectToRoute('app_user_settings', [], Response::HTTP_SEE_OTHER);
         }
 
