@@ -134,10 +134,10 @@ final class UserController extends AbstractController
                 try {
                     if ($renewal === "true") {
                         $paymentManager->enableRenewal($activeTransaction);
-                        $this->addFlash('success', 'Renouvellement <span class="fw-bolder">activé</span> avec succès.');
+                        $this->addFlash('success', 'Renouvellement activé avec succès.');
                     } else {
                         $paymentManager->disableRenewal($activeTransaction);
-                        $this->addFlash('danger', 'Renouvellement <span class="fw-bolder">désactivé</span> avec succès.');
+                        $this->addFlash('danger', 'Renouvellement désactivé avec succès.');
                     }
                 } catch (\Throwable $th) {
                     $this->addFlash('warning', 'Une erreur est survenue. Si le problème persiste, veuillez contacter le support.');
