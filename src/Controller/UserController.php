@@ -72,6 +72,8 @@ final class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($currentUser);
             $entityManager->flush();
+            $this->addFlash('success', 'Modifications <span class="fw-bolder">enregistrées</span>.');
+            return $this->redirectToRoute('app_user_settings', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('user/settings.html.twig', [

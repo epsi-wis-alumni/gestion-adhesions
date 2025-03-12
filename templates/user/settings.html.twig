@@ -11,6 +11,9 @@
         {% endif %}
     </div>
     <div class="container-form my-5" {{ stimulus_controller('notifications') }}>
+        <div class="mt-2">
+            {% include '_flashes.html.twig' %}
+        </div>
         {{ form_start(form) }}
         
         {{ form_row(form.newsletterAllowed) }}
