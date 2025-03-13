@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% import "macros/fontawesome.html.twig" as fa %}
+{% import "macros/modal.html.twig" as modal %}
+
+{% set modalId = "modale_donation" %}
+
+{% block title %}
+    Donnations
+{% endblock %}
+
+{% block body %}
+  <div class="container my-5">
+    <h1 class="h1 text-center fw-bold lh-1 mb-5">Vous souhaitez aider l'association ?</h1>
+    <p class="lead text-center mb-4">Votre don nous permettra de continuer à soutenir les étudiants de l'EPSI Montpellier.</p>
+    <div class="text-center">
+      <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{ modalId }}">
+          {{ fa.icon('circle-dollar') }}
+          Faire un don
+      </a>
+      {{ modal.confirmPlan(
+      id: modalId,
+      title: 'Merci de choisir le montant du don',
+      continueButton: 'Donner',
+      formPlanPrice: form,
+      accent: 'primary',
+      type: "donation",
+      priceVariable: true,
+      ) }}
+    </div>
+  </div>
+{% endblock %}
