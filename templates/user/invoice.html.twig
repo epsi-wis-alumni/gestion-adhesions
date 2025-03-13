@@ -33,7 +33,10 @@
                     {% for invoice in invoices %}
                         {% if invoice.transaction.status.name in statusAccepted %}
                             <tr>
-                                <td>{{ invoice.subscription.plan.name }}</td>
+                                <td>
+                                    {{ invoice.subscription ? invoice.subscription.plan.name : "" }}
+                                    {{ invoice.donation ? "Donation" : "" }}
+                                </td>
                                 <td>{{ statusMapping[invoice.transaction.status.name] }}</td>
                                 <td>{{ invoice.transaction.createdAt|date('d/m/Y') }}</td>
                                 <td>{{ invoice.transaction.amount|number_format(2, '.', ' ') }} €</td>
