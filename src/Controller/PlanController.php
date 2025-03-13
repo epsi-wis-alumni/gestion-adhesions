@@ -57,11 +57,38 @@ final class PlanController extends AbstractController
             }
         }
 
+        $renewalForm = null;
+        if ($activeTransaction) {
+            $renewalForm = $this->createForm(PlanRenewalType::class, null, [
+                "renewal" => $activeTransaction->isRenewal(),
+            ]);
+            $renewalForm->handleRequest($request);
+
+            if ($renewalForm->isSubmitted() && $renewalForm->isValid()) {
+                $renewal = $renewalForm->get('renewal')->getData();
+
+                try {
+                    if ($renewal === "true") {
+                        $paymentManager->enableRenewal($activeTransaction);
+                        $this->addFlash('success', 'Renouvellement activé avec succès.');
+                    } else {
+                        $paymentManager->disableRenewal($activeTransaction);
+                        $this->addFlash('danger', 'Renouvellement désactivé avec succès.');
+                    }
+                } catch (\Throwable $th) {
+                    $this->addFlash('warning', 'Une erreur est survenue. Si le problème persiste, veuillez contacter le support.');
+                }
+
+                return $this->redirectToRoute('app_user_plan', [], Response::HTTP_SEE_OTHER);
+            }
+        }
+
         return $this->render('plan/plan.html.twig', [
             'currentUser' => $currentUser,
             'activePlan' => $activePlan,
             'plans' => $plans,
             'activeTransaction' => $activeTransaction,
+            'renewalForm' => $renewalForm,
             'plansWithForms' => $plansWithForms,
         ]);
     }
