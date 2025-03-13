@@ -30,6 +30,13 @@
             icon: fa.icon('calendar-star', size: 'lg'),
             check_path: 'app_event',
           ) }}
+          
+          {{ navigation.nav_item(
+            label: 'Donations',
+            path: path('app_donnation'),
+            icon: fa.icon('hand-holding-dollar', size: 'lg'),
+            check_path: 'app_donnation',
+          ) }}
 
           {% if not is_granted('ROLE_USER') %}
             {{ navigation.nav_item(
