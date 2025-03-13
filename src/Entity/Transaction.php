@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Trait\TimestampableTrait;
 use App\Enum\TransactionStatus;
+use App\Enum\TransactionType;
 use App\Repository\TransactionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -54,6 +55,9 @@ class Transaction
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $refundId = null;
+
+    #[ORM\ManyToOne(inversedBy: 'transactions')]
+    private ?Donation $donation = null;
 
     public function __construct()
     {
@@ -181,6 +185,18 @@ class Transaction
     public function setRefundId(?string $refundId): static
     {
         $this->refundId = $refundId;
+
+        return $this;
+    }
+
+    public function getDonation(): ?Donation
+    {
+        return $this->donation;
+    }
+
+    public function setDonation(?Donation $donation): static
+    {
+        $this->donation = $donation;
 
         return $this;
     }
