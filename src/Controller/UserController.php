@@ -161,19 +161,20 @@ final class UserController extends AbstractController
     public function invoice(
         #[CurrentUser] User $currentUser,
         TransactionRepository $transactionRepository,
-        SubscriptionRepository $subscriptionRepository,
     ): Response {
         $invoices = [];
 
         $transactions = $transactionRepository->findBy(['user' => $currentUser]);
 
         foreach ($transactions as $transaction) {
-            $subscription = $subscriptionRepository->findOneBy(['id' => $transaction->getSubscription()->getId()]);
+            $subscription = $transaction->getSubscription();
+            $donation = $transaction->getDonation();
 
-            if ($subscription) {
+            if ($subscription || $donation) {
                 $invoices[] = [
                     'transaction' => $transaction,
                     'subscription' => $subscription,
+                    'donation' => $donation,
                 ];
             }
         }
