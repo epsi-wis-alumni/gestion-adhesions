@@ -127,4 +127,19 @@ final class PaymentManager
         return $priceToRefund;
     }
 
+    public function getChargeBySessionId(string $sessionId): \Stripe\Charge
+    {
+        $session = Session::retrieve($sessionId);
+        $customerId = $session->customer;
+        $charges = \Stripe\Charge::all([
+            'customer' => $customerId,
+            'limit' => 1,
+            'status' => 'succeeded',
+        ]);
+
+        $charge = $charges['data'][0];
+
+        return $charge;
+    }
+
 }
