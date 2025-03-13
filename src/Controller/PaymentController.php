@@ -10,6 +10,7 @@ use App\Repository\TransactionRepository;
 use App\Service\InvoiceManager;
 use App\Service\PaymentManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Faker\Provider\ar_EG\Payment;
 use Psr\Log\LoggerInterface;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
@@ -37,7 +38,10 @@ class PaymentController extends AbstractController
         Subscription $subscription,
         PaymentManager $paymentManager,
         #[CurrentUser()] User $currentUser,
+        TransactionRepository $transactionRepository,
     ): Response {
+        $activeTransaction = $transactionRepository->findOneActivePlanTransactionByUser($currentUser);
+        
         $transaction = $paymentManager->createTransation($currentUser, $subscription);
 
         $this->entityManager->persist($transaction);
@@ -54,6 +58,11 @@ class PaymentController extends AbstractController
             $this->addFlash('error', 'Erreur lors de la création de la session Stripe.');
             
             return $this->redirectToRoute('app_payment_error', ['id' => $transaction->getId()]);
+        }
+
+        if ($activeTransaction) {
+            $activeTransaction->setStatus(TransactionStatus::PendingRefund);
+            $this->entityManager->flush();
         }
 
         return $this->redirect($session->url, Response::HTTP_SEE_OTHER);
@@ -102,6 +111,7 @@ class PaymentController extends AbstractController
         InvoiceManager $invoiceManager,
         TransactionRepository $transactionRepository,
         EntityManagerInterface $entityManager,
+        PaymentManager $paymentManager,
     ): Response {
         $payload = $request->getContent();
         $signature = $request->headers->get('Stripe-Signature');
@@ -124,6 +134,8 @@ class PaymentController extends AbstractController
         if ($event->type === 'checkout.session.completed') {
             $sessionId = $event->data->object->id;
             $transaction = $transactionRepository->findOneBy(['sessionId' => $sessionId]);
+            $activeTransactionPendingRefund = $transactionRepository->findOneActiveTransactionPendingRefundByUser($transaction->getUser());
+
             if ($event->data->object->payment_status === "paid") {
                 $transaction->setStatus(TransactionStatus::Completed);
                 $entityManager->flush();
@@ -135,6 +147,17 @@ class PaymentController extends AbstractController
                     html: $html,
                     transaction: $transaction
                 );
+
+                if ($activeTransactionPendingRefund) {
+                    $priceRender = $paymentManager->getPriceToRefund($activeTransactionPendingRefund);
+                    $refund = $paymentManager->createRefund($activeTransactionPendingRefund, $priceRender);
+
+                    $activeTransactionPendingRefund->setStatus(TransactionStatus::Refunded);
+                    $activeTransactionPendingRefund->setRefundAmount($priceRender);
+                    $activeTransactionPendingRefund->setRefundId($refund->id);
+
+                    $this->entityManager->flush();
+                }
             }
             if ($event->data->object->payment_status === "unpaid") {
                 $transaction->setStatus(TransactionStatus::Failed);
