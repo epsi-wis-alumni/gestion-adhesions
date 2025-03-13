@@ -2,10 +2,12 @@
 
 namespace App\Service;
 
+use App\Entity\Donation;
 use App\Entity\Subscription;
 use App\Entity\Transaction;
 use App\Entity\User;
 use App\Enum\TransactionStatus;
+use App\Enum\TransactionType;
 use Doctrine\ORM\EntityManagerInterface;
 use Dom\Entity;
 use Stripe\Checkout\Session;
@@ -22,19 +24,35 @@ final class PaymentManager
     ) {
         Stripe::setApiKey($this->params->get('stripe_api_private_key'));
     }
-    public function createTransation(User $currentUser, Subscription $subscription): Transaction
+    public function createTransation(User $currentUser, Subscription|Donation $entity): Transaction
     {
+        $amount = match ($entity::class) {
+            Subscription::class => $entity->getPrice() && $entity->getPrice() > $entity->getPlan()->getPrice() ?
+                $entity->getPrice() :
+                $entity->getPlan()->getPrice(),
+            Donation::class => $entity->getAmount(),
+        };
+        $type = match ($entity::class) {
+            Subscription::class => TransactionType::Subscription,
+            Donation::class => TransactionType::Donation,
+        };
+        $subscription = match ($entity::class) {
+            Subscription::class => $entity,
+            Donation::class => null,
+        };
+        $donation = match ($entity::class) {
+            Subscription::class => null,
+            Donation::class => $entity,
+        };
+        
         $transaction = new Transaction();
         $transaction->setStatus(TransactionStatus::Create);
-        $transaction->setType(0);
-        $transaction->setAmount(
-            $subscription->getPrice() && $subscription->getPrice() > $subscription->getPlan()->getPrice() ?
-            $subscription->getPrice() :
-            $subscription->getPlan()->getPrice()
-        );
+        $transaction->setType($type);
+        $transaction->setAmount($amount);
         $transaction->setCreatedAt();
         $transaction->setUser($currentUser);
         $transaction->setSubscription($subscription);
+        $transaction->setDonation($donation);
 
         return $transaction;
     }

@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Donation;
 use App\Entity\Subscription;
 use App\Entity\Transaction;
 use App\Entity\User;
 use App\Enum\TransactionStatus;
+use App\Enum\TransactionType;
 use App\Repository\TransactionRepository;
 use App\Service\InvoiceManager;
 use App\Service\PaymentManager;
@@ -48,7 +50,7 @@ class PaymentController extends AbstractController
         $this->entityManager->flush();
 
         try {
-            $session = $paymentManager->createSession($currentUser, $transaction);
+            $session = $paymentManager->createSession($currentUser, $transaction, TransactionType::Subscription);
 
             $transaction->setSessionId($session->id);
             $transaction->setStatus(TransactionStatus::Pending);
