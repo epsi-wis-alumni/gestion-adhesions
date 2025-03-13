@@ -107,4 +107,24 @@ final class PaymentManager
             throw new \Exception();
         }
     }
+
+    public function getPriceToRefund(Transaction $activeTransaction): float
+    {
+        $oldPrice = $activeTransaction->getAmount();
+        $createdAt = $activeTransaction->getCreatedAt();
+        $now = new \DateTimeImmutable();
+        $year = (new \DateTimeImmutable())->format('Y');
+        $isLeapYear = date('L', strtotime("$year-01-01"));
+        $daysInYear = $isLeapYear ? 366 : 365;
+        $secondsInYear = $daysInYear * 24 * 60 * 60;
+
+        $interval = $now->getTimestamp() - $createdAt->getTimestamp();
+
+        $ratio = $interval / $secondsInYear;
+
+        $priceToRefund = round($oldPrice * (1 - $ratio), 2);
+
+        return $priceToRefund;
+    }
+
 }
