@@ -142,4 +142,15 @@ final class PaymentManager
         return $charge;
     }
 
+    public function createRefund(Transaction $activeTransaction, float $priceRender)
+    {
+        $chargeId = $this->getChargeBySessionId($activeTransaction->getSessionId())->id;
+
+        $refund = \Stripe\Refund::create([
+            'charge' => $chargeId,
+            'amount' => $priceRender * 100,
+        ]);
+
+        return $refund;
+    }
 }
