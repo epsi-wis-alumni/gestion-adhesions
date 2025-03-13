@@ -169,4 +169,33 @@ class PaymentController extends AbstractController
 
         return new Response('Webhook handled', Response::HTTP_OK);
     }
+
+    #[Route('/donation/{id}', name: 'app_payment_donation', methods: ['GET'])]
+    public function stripeDonation(
+        Donation $donation,
+        #[CurrentUser()] User $currentUser,
+        PaymentManager $paymentManager,
+    ): Response
+    {
+        $transaction = $paymentManager->createTransation($currentUser, $donation);
+
+        $this->entityManager->persist($transaction);
+        $this->entityManager->flush();
+
+        try {
+            $session = $paymentManager->createSession($currentUser, $transaction, TransactionType::Donation);
+
+            $transaction->setSessionId($session->id);
+            $transaction->setStatus(TransactionStatus::Pending);
+
+            $this->entityManager->flush();
+        } catch (\Exception $e) {
+            $this->addFlash('error', 'Erreur lors de la création de la session Stripe.');
+            
+            return $this->redirectToRoute('app_payment_error', ['id' => $transaction->getId()]);
+        }
+
+        return $this->redirect($session->url, Response::HTTP_SEE_OTHER);
+    }
+
 }
