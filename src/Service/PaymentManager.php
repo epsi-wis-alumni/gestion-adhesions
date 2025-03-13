@@ -57,26 +57,43 @@ final class PaymentManager
         return $transaction;
     }
 
-    public function createSession(User $currentUser, Transaction $transaction): Session
+    public function createSession(User $currentUser, Transaction $transaction, TransactionType $type): Session
     {
+        if ($type == TransactionType::Subscription) {
+            $mode = 'subscription';
+            $lineItems = [
+                'quantity' => 1,
+                'price_data' => [
+                    'currency' => 'eur',
+                    'product_data' => [
+                        'name' => $transaction->getSubscription()->getPlan()->getName(),
+                    ],
+                    'recurring' => [
+                        'interval' => 'year',
+                        'interval_count' => 1,
+                    ],
+                    'unit_amount' => $transaction->getAmount() * 100, // en centimes !
+                ],
+            ];
+        } else if ($type == TransactionType::Donation) {
+            $mode = 'payment';
+            $lineItems = [
+                'quantity' => 1,
+                'price_data' => [
+                    'currency' => 'eur',
+                    'product_data' => [
+                        'name' => 'Donation',
+                    ],
+                    'unit_amount' => $transaction->getAmount() * 100,
+                ],
+            ];
+        }
+
         return Session::create([
             'line_items' => [
-                [
-                    'quantity' => 1,
-                    'price_data' => [
-                        'currency' => 'eur',
-                        'product_data' => [
-                            'name' => $transaction->getSubscription()->getPlan()->getName(),
-                        ],
-                        'recurring' => [
-                            'interval' => 'year',
-                            'interval_count' => 1,
-                        ],
-                        'unit_amount' => $transaction->getAmount() * 100, // en centimes !
-                    ],
-                ],
+                $lineItems,
             ],
-            'mode' => 'subscription',
+            'mode' => $mode,
             'client_reference_id' => $currentUser->getId(),
             'success_url' => $this->urlGenerator->generate(
                 'app_payment_success',
