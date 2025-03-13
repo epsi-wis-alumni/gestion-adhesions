@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Candidacy;
+use App\Entity\Donation;
 use App\Entity\Election;
 use App\Entity\Event;
 use App\Entity\Feature;
@@ -14,6 +15,7 @@ use App\Entity\Transaction;
 use App\Entity\User;
 use App\Entity\Vote;
 use App\Enum\TransactionStatus;
+use App\Enum\TransactionType;
 use App\Service\UserManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -472,6 +474,30 @@ class AppFixtures extends Fixture
 
         $manager->flush();
 
+        // DONATION
+
+        $donation1 = new Donation();
+        $donation1
+            ->setAmount(10.00)
+            ->setCreatedAt()
+        ;
+        $donation2 = new Donation();
+        $donation2
+            ->setAmount(20.00)
+            ->setCreatedAt()
+        ;
+        $donation3 = new Donation();
+        $donation3
+            ->setAmount(30.00)
+            ->setCreatedAt()
+        ;
+
+        $manager->persist($donation1);
+        $manager->persist($donation2);
+        $manager->persist($donation3);
+
+        $manager->flush();
+
         // TRANSACTION
 
         $transaction1 = new Transaction();
@@ -479,9 +505,9 @@ class AppFixtures extends Fixture
             ->setUser($userPerso)
             ->setSubscription($subscription1)
             ->setStatus(TransactionStatus::Completed)
-            ->setType(1)
+            ->setType(TransactionType::Subscription)
             ->setAmount(15.00)
-            ->setRenewal(false)
+            ->setRenewal(true)
             ->setSessionId('cs_test_a1I8X2WHH9k7ukfpHCfJI2AUNlzZLNKj9EQQsIChyBxJ7n9U9nGhJrPfFM')
             ->setCreatedAt()
         ;
@@ -491,9 +517,9 @@ class AppFixtures extends Fixture
             ->setUser($userAdmin)
             ->setSubscription($subscription2)
             ->setStatus(TransactionStatus::Completed)
-            ->setType(1)
+            ->setType(TransactionType::Subscription)
             ->setAmount(5.00)
-            ->setRenewal(false)
+            ->setRenewal(true)
             ->setCreatedAt()
         ;
 
@@ -502,8 +528,42 @@ class AppFixtures extends Fixture
             ->setUser($userCandidacy1)
             ->setSubscription($subscription3)
             ->setStatus(TransactionStatus::Completed)
-            ->setType(1)
+            ->setType(TransactionType::Subscription)
             ->setAmount(60.00)
+            ->setRenewal(true)
+            ->setCreatedAt()
+        ;
+
+        $transaction4 = new Transaction();
+        $transaction4
+            ->setUser($userPerso)
+            ->setDonation($donation1)
+            ->setStatus(TransactionStatus::Completed)
+            ->setType(TransactionType::Donation)
+            ->setAmount(12.50)
+            ->setRenewal(false)
+            ->setSessionId('cs_test_a1I8X2WHH9k7ukfpHCfJI2AUNlzZLNKj9EQQsIChyBxJ7n9U9nGhJrPfFM')
+            ->setCreatedAt()
+        ;
+
+        $transaction5 = new Transaction();
+        $transaction5
+            ->setUser($userAdmin)
+            ->setDonation($donation2)
+            ->setStatus(TransactionStatus::Completed)
+            ->setType(TransactionType::Donation)
+            ->setAmount(amount: 1500.00)
+            ->setRenewal(false)
+            ->setCreatedAt()
+        ;
+
+        $transaction6 = new Transaction();
+        $transaction6
+            ->setUser($userCandidacy1)
+            ->setDonation($donation3)
+            ->setStatus(TransactionStatus::Completed)
+            ->setType(TransactionType::Donation)
+            ->setAmount(18657.00)
             ->setRenewal(false)
             ->setCreatedAt()
         ;
@@ -511,6 +571,9 @@ class AppFixtures extends Fixture
         $manager->persist($transaction1);
         $manager->persist($transaction2);
         $manager->persist($transaction3);
+        $manager->persist($transaction4);
+        $manager->persist($transaction5);
+        $manager->persist($transaction6);
 
         $manager->flush();
     }
