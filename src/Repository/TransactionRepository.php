@@ -24,11 +24,30 @@ class TransactionRepository extends ServiceEntityRepository
             ->leftJoin('t.user', 'u')
             ->where('t.user = :user')
             ->andWhere('t.createdAt >= :date')
+            ->andWhere('t.status = :status1')
+            ->orWhere('t.status = :status2')
+            ->orderBy('t.createdAt', 'DESC')
+            ->setParameter('user', $user)
+            ->setParameter('date', new \DateTimeImmutable('-1 year'))
+            ->setParameter('status1', TransactionStatus::Completed)
+            ->setParameter('status2', TransactionStatus::PendingRefund)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    public function findOneActiveTransactionPendingRefundByUser(User $user): ?Transaction
+    {
+        return $this->createQueryBuilder('t')
+            ->leftJoin('t.user', 'u')
+            ->where('t.user = :user')
+            ->andWhere('t.createdAt >= :date')
             ->andWhere('t.status = :status')
             ->orderBy('t.createdAt', 'DESC')
             ->setParameter('user', $user)
             ->setParameter('date', new \DateTimeImmutable('-1 year'))
-            ->setParameter('status', TransactionStatus::Completed)
+            ->setParameter('status', TransactionStatus::PendingRefund)
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult()
