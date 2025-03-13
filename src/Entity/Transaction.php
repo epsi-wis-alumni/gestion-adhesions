@@ -27,8 +27,9 @@ class Transaction
     #[ORM\Column(enumType: TransactionStatus::class, options: ['default' => TransactionStatus::Create->value])]
     private ?TransactionStatus $status = TransactionStatus::Create;
 
-    #[ORM\Column]
-    private ?int $type = null;
+    #[Assert\NotBlank()]
+    #[ORM\Column(enumType: TransactionType::class, options: ['default' => TransactionType::Subscription->value])]
+    private ?TransactionType $type = TransactionType::Subscription;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $amount = null;
@@ -76,12 +77,12 @@ class Transaction
         return $this;
     }
 
-    public function getType(): ?int
+    public function getType(): ?TransactionType
     {
         return $this->type;
     }
 
-    public function setType(int $type): static
+    public function setType(TransactionType $type): static
     {
         $this->type = $type;
 
