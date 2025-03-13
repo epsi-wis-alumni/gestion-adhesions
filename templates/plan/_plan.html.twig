@@ -24,6 +24,7 @@
                     path: path('app_payment', {id: plan.id}),
                     priceVariable: plan.priceVariable,
                     formPlanPrice: formPlanPrice,
+                    haveActivePlan: activePlan ? true : false,
                 ) }}
             </div>
         {% endfor %}
