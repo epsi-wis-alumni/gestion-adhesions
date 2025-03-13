@@ -39,7 +39,7 @@
       </thead>
       <tbody>
         <tr>
-          <td>{{ transaction.subscription.plan.description }}</td>
+          <td>{{ transaction.subscription ? transaction.subscription.plan.description : "Donation" }}</td>
           <td>{{ transaction.amount|number_format(2, '.', ' ') }} €</td>
         </tr>
       </tbody>
