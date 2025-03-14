@@ -10,7 +10,7 @@
     <div class="row">
       <h1 class="text-center">
         Votre paiement de 
-        {{ session.amount_total / 100}} 
+        {{ (session.amount_total / 100)|number_format(2, '.', ' ') }} 
         {{ session.currency == "eur" ? "€" : session.curency }}
         à bien été accepté.
       </h1>
