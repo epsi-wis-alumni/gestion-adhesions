@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Transaction;
 use App\Entity\User;
+use App\Enum\TransactionType;
 use App\Form\CompleteProfileType;
 use App\Form\PlanRenewalType;
 use App\Form\PlanPriceType;
@@ -16,15 +17,25 @@ use App\Service\SubscriptionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Stripe\Stripe;
+use Stripe\Checkout\Session;
+use Stripe\Invoice;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 #[Route('/user')]
 final class UserController extends AbstractController
 {
+    public function __construct(
+        private ContainerBagInterface $params,
+    ) {
+        Stripe::setApiKey($this->params->get('stripe_api_private_key'));
+    }
+
     #[Route('/profile', name: 'app_user_profile', methods: ['POST', 'GET'])]
     public function index(
         Request $request,
@@ -188,27 +199,35 @@ final class UserController extends AbstractController
     #[Route('/invoice/{id}', name: 'app_user_invoice_show', methods: ['GET'])]
     public function showInvoice(
         Transaction $transaction,
-    ): Response {
-        $filePath = $transaction->getInvoice()->getFilePath();
+    ): Response|RedirectResponse {
+        
+        if($transaction->getType() == TransactionType::Donation) {
+            $filePath = $transaction->getInvoice()->getFilePath();
+    
+            $finder = new Finder();
+            $finder->files()->in(dirname($filePath))->name(basename($filePath));
+    
+            if (!$finder->hasResults()) {
+                throw $this->createNotFoundException('La facture demandée est introuvable.');
+            }
+    
+            foreach ($finder as $file) {
+                $contents = $file->getContents();
+            }
 
-        $finder = new Finder();
-        $finder->files()->in(dirname($filePath))->name(basename($filePath));
-
-        if (!$finder->hasResults()) {
-            throw $this->createNotFoundException('La facture demandée est introuvable.');
+            return new Response(
+                $contents,
+                200,
+                [
+                    'Content-Type' => 'application/pdf',
+                    'Content-Disposition' => 'inline; filename="invoice_'.$transaction->getInvoice()->getInvoiceId().'.pdf"',
+                ]
+            );
+        } else {
+            $session = Session::retrieve($transaction->getSessionId());
+            $invoice = Invoice::retrieve($session->invoice);
+            $invoice_url = $invoice->hosted_invoice_url;
+            return new RedirectResponse($invoice_url);
         }
-
-        foreach ($finder as $file) {
-            $contents = $file->getContents();
-        }
-
-        return new Response(
-            $contents,
-            200,
-            [
-                'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'inline; filename="invoice_'.$transaction->getId().'.pdf"',
-            ]
-        );
     }
 }

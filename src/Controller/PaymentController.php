@@ -140,15 +140,19 @@ class PaymentController extends AbstractController
 
             if ($event->data->object->payment_status === "paid") {
                 $transaction->setStatus(TransactionStatus::Completed);
-                $entityManager->flush();
-
-                $html = $this->render('invoice/invoice.html.twig', [
-                    'transaction' => $transaction,
-                ]);
-                $invoiceManager->create(
-                    html: $html,
-                    transaction: $transaction
-                );
+                
+                if($transaction->getType() === TransactionType::Donation) {
+                    $invoice_id = $invoiceManager->generateInvoiceId();
+                    $transaction->getInvoice()->setInvoiceId($invoice_id);
+                    
+                    $html = $this->render('invoice/invoice.html.twig', [
+                        'transaction' => $transaction,
+                    ]);
+                    $invoiceManager->create(
+                        html: $html,
+                        transaction: $transaction
+                    );
+                }
 
                 if ($activeTransactionPendingRefund) {
                     $priceRender = $paymentManager->getPriceToRefund($activeTransactionPendingRefund);
@@ -157,13 +161,10 @@ class PaymentController extends AbstractController
                     $activeTransactionPendingRefund->setStatus(TransactionStatus::Refunded);
                     $activeTransactionPendingRefund->setRefundAmount($priceRender);
                     $activeTransactionPendingRefund->setRefundId($refund->id);
-
-                    $this->entityManager->flush();
                 }
             }
             if ($event->data->object->payment_status === "unpaid") {
                 $transaction->setStatus(TransactionStatus::Failed);
-                $entityManager->flush();
             }
         }
 
