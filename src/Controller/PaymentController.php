@@ -153,6 +153,9 @@ class PaymentController extends AbstractController
                         transaction: $transaction
                     );
                 }
+                if($transaction->getType() === TransactionType::Subscription) {
+                    $invoiceManager->sendInvoiceLink($transaction);
+                }
 
                 if ($activeTransactionPendingRefund) {
                     $priceRender = $paymentManager->getPriceToRefund($activeTransactionPendingRefund);
