@@ -18,7 +18,7 @@
     <div class="invoice-info">
         <h2>Informations de la facture</h2>
         <p>
-            <strong>Numéro de facture :</strong> {{ transaction.id }}
+            <strong>Numéro de facture :</strong> {{ transaction.invoice.invoiceId }}
         </p>
         <p>
             <strong>Date :</strong> {{ transaction.createdAt|date('d/m/Y') }}

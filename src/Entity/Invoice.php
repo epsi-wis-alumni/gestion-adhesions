@@ -12,6 +12,10 @@ class Invoice
     #[Assert\NotBlank()]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $filePath = null;
+    
+    #[Assert\NotBlank()]
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $id = null;
 
     public function setFilePath(string $filePath): static
     {
@@ -23,5 +27,17 @@ class Invoice
     public function getFilePath(): ?string
     {
         return $this->filePath;
+    }
+
+    public function setInvoiceId(string $id): static
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    public function getInvoiceId(): ?string
+    {
+        return $this->id;
     }
 }
