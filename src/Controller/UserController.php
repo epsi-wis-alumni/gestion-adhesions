@@ -201,7 +201,7 @@ final class UserController extends AbstractController
         Transaction $transaction,
     ): Response|RedirectResponse {
         
-        if($transaction->getType() == TransactionType::Donation) {
+        if($transaction->getType() === TransactionType::Donation) {
             $filePath = $transaction->getInvoice()->getFilePath();
     
             $finder = new Finder();
