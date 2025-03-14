@@ -7,6 +7,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
+use Stripe\Checkout\Session;
+use Stripe\Invoice;
 
 final class InvoiceManager
 {
@@ -66,5 +68,16 @@ final class InvoiceManager
         $randomNumber = str_pad(random_int(0, 9999), 4, '0', STR_PAD_LEFT);
         $invoice_id = sprintf('%s-%s', $uniquePart, $randomNumber);
         return $invoice_id;
+    }
+
+    public function sendInvoiceLink(
+        Transaction $transaction,
+    ): void {
+        $session = Session::retrieve($transaction->getSessionId());
+        $invoice = Invoice::retrieve($session->invoice);
+        $invoice_url = $invoice->hosted_invoice_url;
+        $user = $transaction->getUser();
+
+        $this->notificationManager->sendInvoiceLink($invoice_url, $user);
     }
 }
