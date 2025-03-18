@@ -48,6 +48,12 @@ class Transaction
     #[ORM\Column(type: 'boolean', options: ['default' => true])]
     private ?bool $renewal = true;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $refundAmount = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $refundId = null;
+
     public function __construct()
     {
         $this->invoice = new Invoice();
@@ -150,6 +156,30 @@ class Transaction
     public function setRenewal(bool $renewal): static
     {
         $this->renewal = $renewal;
+
+        return $this;
+    }
+
+    public function getRefundAmount(): ?string
+    {
+        return $this->refundAmount;
+    }
+
+    public function setRefundAmount(?string $refundAmount): static
+    {
+        $this->refundAmount = $refundAmount;
+
+        return $this;
+    }
+
+    public function getRefundId(): ?string
+    {
+        return $this->refundId;
+    }
+
+    public function setRefundId(?string $refundId): static
+    {
+        $this->refundId = $refundId;
 
         return $this;
     }

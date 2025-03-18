@@ -1,4 +1,4 @@
-{% macro plan(id, title, description, features = [], price, path, highlight, current, priceVariable, formPlanPrice = "") %}
+{% macro plan(id, title, description, features = [], price, path, highlight, current, priceVariable, formPlanPrice = "", hasActivePlan) %}
   {% import "macros/fontawesome.html.twig" as fa %}
   {% import "macros/modal.html.twig" as modal %}
   {% set accent = highlight ? 'primary' : 'secondary' %}
@@ -8,7 +8,7 @@
   <div class="card mb-4 {{ border }}">
     <div class="card-body">
 
-      <h3 class="card-title text-center mb-3"   {% if current %} {{ stimulus_controller('tooltip')}} {% endif %}>
+      <h3 class="card-title text-center mb-3" {% if current %} {{ stimulus_controller('tooltip')}} {% endif %}>
         {{ title }} 
         
         {% if current %}
@@ -40,21 +40,44 @@
       </div>
 
       <div class="text-center">
-        {% if current %}
-          <a href="{{ path('app_user_plan') }}#activePlan" class="btn btn-{{ accent }}" data-turbo="false">
-            {{ fa.icon('gear') }}
-            Gérer
-          </a>
+        {% if current or hasActivePlan %}
+          {% if current %}
+            <a href="{{ path('app_user_plan') }}#activePlan" class="btn btn-{{ accent }}" data-turbo="false">
+              {{ fa.icon('gear') }}
+              Gérer
+            </a>
+          {% else %}
+            {% set modalId = 'plan-' ~ id %}
+            <a href="#" class="btn btn-{{ accent }}" data-bs-toggle="modal" data-bs-target="#{{ modalId }}">
+              {{ fa.icon('circle-info') }}
+              Choisir
+            </a>
+            {{ modal.confirmPlan(
+              id: modalId,
+              title: 'Changer d\'abonnement',
+              description: 'Si vous continuez, votre abonnement actuel sera annulé et vous serez facturé pour 
+                le nouvel abonnement. Vous recevrez un remboursement pour le montant restant de votre abonnement 
+                actuel sous 5 à 10 jours ouvrés.',
+              continueButton: 'Changer',
+              sub_description: "Merci de choisir un prix à partir de " ~ price ~ " €",
+              priceVariable: priceVariable,
+              formPlanPrice: formPlanPrice,
+              path: path,
+              price: price,
+              accent: 'primary',
+            ) }}
+          {% endif %}
         {% elseif priceVariable %}
-          {% set modalDeleteId = 'plan-' ~ id %}
-          <a href="#" class="btn btn-{{ accent }}" data-bs-toggle="modal" data-bs-target="#{{ modalDeleteId }}">
+          {% set modalId = 'planPrice-' ~ id %}
+          <a href="#" class="btn btn-{{ accent }}" data-bs-toggle="modal" data-bs-target="#{{ modalId }}">
             {{ fa.icon('circle-info') }}
             Choisir
           </a>
           {{ modal.confirmPlan(
-            id: modalDeleteId,
+            id: modalId,
             title: 'Merci de choisir un montant à partir de ' ~ price ~ ' €',
             continueButton: 'S\'abonner',
+            priceVariable: priceVariable,
             formPlanPrice: formPlanPrice,
             accent: 'primary',
           ) }}
