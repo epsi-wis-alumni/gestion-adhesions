@@ -24,7 +24,6 @@ final class DonationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $donation->setCreatedAt();
             $entityManager->persist($donation);
             $entityManager->flush();
 

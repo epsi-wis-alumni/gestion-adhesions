@@ -477,21 +477,14 @@ class AppFixtures extends Fixture
         // DONATION
 
         $donation1 = new Donation();
-        $donation1
-            ->setAmount(10.00)
-            ->setCreatedAt()
-        ;
+        $donation1->setAmount(10.00);
+        
         $donation2 = new Donation();
-        $donation2
-            ->setAmount(20.00)
-            ->setCreatedAt()
-        ;
+        $donation2->setAmount(20.00);
+        
         $donation3 = new Donation();
-        $donation3
-            ->setAmount(30.00)
-            ->setCreatedAt()
-        ;
-
+        $donation3->setAmount(30.00);
+        
         $manager->persist($donation1);
         $manager->persist($donation2);
         $manager->persist($donation3);
@@ -509,7 +502,6 @@ class AppFixtures extends Fixture
             ->setAmount(15.00)
             ->setRenewal(true)
             ->setSessionId('cs_test_a1I8X2WHH9k7ukfpHCfJI2AUNlzZLNKj9EQQsIChyBxJ7n9U9nGhJrPfFM')
-            ->setCreatedAt()
         ;
 
         $transaction2 = new Transaction();
@@ -520,7 +512,6 @@ class AppFixtures extends Fixture
             ->setType(TransactionType::Subscription)
             ->setAmount(5.00)
             ->setRenewal(true)
-            ->setCreatedAt()
         ;
 
         $transaction3 = new Transaction();
@@ -531,7 +522,6 @@ class AppFixtures extends Fixture
             ->setType(TransactionType::Subscription)
             ->setAmount(60.00)
             ->setRenewal(true)
-            ->setCreatedAt()
         ;
 
         $transaction4 = new Transaction();
@@ -543,7 +533,6 @@ class AppFixtures extends Fixture
             ->setAmount(12.50)
             ->setRenewal(false)
             ->setSessionId('cs_test_a1I8X2WHH9k7ukfpHCfJI2AUNlzZLNKj9EQQsIChyBxJ7n9U9nGhJrPfFM')
-            ->setCreatedAt()
         ;
 
         $transaction5 = new Transaction();
@@ -554,7 +543,6 @@ class AppFixtures extends Fixture
             ->setType(TransactionType::Donation)
             ->setAmount(amount: 1500.00)
             ->setRenewal(false)
-            ->setCreatedAt()
         ;
 
         $transaction6 = new Transaction();
@@ -565,7 +553,6 @@ class AppFixtures extends Fixture
             ->setType(TransactionType::Donation)
             ->setAmount(18657.00)
             ->setRenewal(false)
-            ->setCreatedAt()
         ;
 
         $manager->persist($transaction1);

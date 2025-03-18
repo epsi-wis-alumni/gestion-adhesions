@@ -49,7 +49,6 @@ final class PaymentManager
         $transaction->setStatus(TransactionStatus::Create);
         $transaction->setType($type);
         $transaction->setAmount($amount);
-        $transaction->setCreatedAt();
         $transaction->setUser($currentUser);
         $transaction->setSubscription($subscription);
         $transaction->setDonation($donation);
