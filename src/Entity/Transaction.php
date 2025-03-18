@@ -45,6 +45,9 @@ class Transaction
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $sessionId = null;
 
+    #[ORM\Column(type: 'boolean', options: ['default' => true])]
+    private ?bool $renewal = true;
+
     public function __construct()
     {
         $this->invoice = new Invoice();
@@ -135,6 +138,18 @@ class Transaction
     public function setSessionId(?string $sessionId): static
     {
         $this->sessionId = $sessionId;
+
+        return $this;
+    }
+
+    public function isRenewal(): ?bool
+    {
+        return $this->renewal;
+    }
+
+    public function setRenewal(bool $renewal): static
+    {
+        $this->renewal = $renewal;
 
         return $this;
     }

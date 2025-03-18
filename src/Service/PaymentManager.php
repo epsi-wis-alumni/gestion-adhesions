@@ -6,16 +6,22 @@ use App\Entity\Subscription;
 use App\Entity\Transaction;
 use App\Entity\User;
 use App\Enum\TransactionStatus;
+use Doctrine\ORM\EntityManagerInterface;
+use Dom\Entity;
 use Stripe\Checkout\Session;
+use Stripe\Stripe;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class PaymentManager
 {
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
+        private ContainerBagInterface $params,
+        private EntityManagerInterface $entityManager,
     ) {
+        Stripe::setApiKey($this->params->get('stripe_api_private_key'));
     }
-
     public function createTransation(User $currentUser, Subscription $subscription): Transaction
     {
         $transaction = new Transaction();
@@ -62,5 +68,39 @@ final class PaymentManager
             ),
             'customer_email' => $currentUser->getEmail(),
         ]);
+    }
+
+    public function disableRenewal(Transaction $transaction): void
+    {
+        $subId = Session::retrieve($transaction->getSessionId())->subscription;
+        try {
+            \Stripe\Subscription::update(
+                $subId,
+                [
+                    'cancel_at_period_end' => true,
+                ]
+            );
+            $transaction->setRenewal(false);
+            $this->entityManager->flush();
+        } catch (\Exception $e) {
+            throw new \Exception();
+        }
+    }
+
+    public function enableRenewal(Transaction $transaction): void
+    {
+        $subId = Session::retrieve($transaction->getSessionId())->subscription;
+        try {
+            \Stripe\Subscription::update(
+                $subId,
+                [
+                    'cancel_at_period_end' => false,
+                ]
+            );
+            $transaction->setRenewal(true);
+            $this->entityManager->flush();
+        } catch (\Exception $e) {
+            throw new \Exception();
+        }
     }
 }

@@ -478,6 +478,7 @@ class AppFixtures extends Fixture
             ->setStatus(TransactionStatus::Completed)
             ->setType(1)
             ->setAmount(5.00)
+            ->setRenewal(false)
             ->setCreatedAt()
         ;
 
@@ -488,6 +489,7 @@ class AppFixtures extends Fixture
             ->setStatus(TransactionStatus::Completed)
             ->setType(1)
             ->setAmount(15.00)
+            ->setRenewal(false)
             ->setCreatedAt()
         ;
 
@@ -498,6 +500,7 @@ class AppFixtures extends Fixture
             ->setStatus(TransactionStatus::Completed)
             ->setType(1)
             ->setAmount(60.00)
+            ->setRenewal(false)
             ->setCreatedAt()
         ;
 
