@@ -40,10 +40,17 @@
       </div>
 
       <div class="text-center">
-          <a href="{{ path }}" class="btn btn-{{ accent }}" data-turbo="false">
-            {{ fa.icon('circle-info') }}
-            Choisir
-          </a>
+          {% if current %}
+            <a href="{{ path('app_user_plan') }}#activePlan" class="btn btn-{{ accent }}" data-turbo="false">
+              {{ fa.icon('gear') }}
+              Gérer
+            </a>
+          {% else %}
+            <a href="{{ path }}" class="btn btn-{{ accent }}" data-turbo="false">
+              {{ fa.icon('circle-info') }}
+              Choisir
+            </a>
+          {% endif %}
       </div>
     </div>
   </div>
