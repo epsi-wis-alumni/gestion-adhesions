@@ -138,15 +138,22 @@ class PaymentController extends AbstractController
 
             if ($event->data->object->payment_status === "paid") {
                 $transaction->setStatus(TransactionStatus::Completed);
-                $entityManager->flush();
-
-                $html = $this->render('invoice/invoice.html.twig', [
-                    'transaction' => $transaction,
-                ]);
-                $invoiceManager->create(
-                    html: $html,
-                    transaction: $transaction
-                );
+                
+                if($transaction->getType() === TransactionType::Donation) {
+                    $invoice_id = $invoiceManager->generateInvoiceId();
+                    $transaction->getInvoice()->setInvoiceId($invoice_id);
+                    
+                    $html = $this->render('invoice/invoice.html.twig', [
+                        'transaction' => $transaction,
+                    ]);
+                    $invoiceManager->create(
+                        html: $html,
+                        transaction: $transaction
+                    );
+                }
+                if($transaction->getType() === TransactionType::Subscription) {
+                    $invoiceManager->sendInvoiceLink($transaction);
+                }
 
                 if ($activeTransactionRefundPending) {
                     $priceRender = $paymentManager->getPriceToRefund($activeTransactionRefundPending);
@@ -155,13 +162,10 @@ class PaymentController extends AbstractController
                     $activeTransactionRefundPending->setStatus(TransactionStatus::RefundCompleted);
                     $activeTransactionRefundPending->setRefundAmount($priceRender);
                     $activeTransactionRefundPending->setRefundId($refund->id);
-
-                    $this->entityManager->flush();
                 }
             }
             if ($event->data->object->payment_status === "unpaid") {
                 $transaction->setStatus(TransactionStatus::Failed);
-                $entityManager->flush();
             }
         }
 

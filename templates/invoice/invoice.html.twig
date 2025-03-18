@@ -18,7 +18,7 @@
     <div class="invoice-info">
         <h2>Informations de la facture</h2>
         <p>
-            <strong>Numéro de facture :</strong> {{ transaction.id }}
+            <strong>Numéro de facture :</strong> {{ transaction.invoice.invoiceId }}
         </p>
         <p>
             <strong>Date :</strong> {{ transaction.createdAt|date('d/m/Y') }}
@@ -49,7 +49,7 @@
     </div>
     <div class="footer">
       <p>
-        Merci pour votre confiance. <span style="color: red; font-weight: 600;">GROS BISOU</span>
+        Merci pour votre confiance.
       </p>
     </div>
   </div>

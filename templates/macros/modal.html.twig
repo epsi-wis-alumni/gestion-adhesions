@@ -42,6 +42,8 @@
 {% endmacro %}
 
 {% macro confirmPlan(id, title, continueButton, cancelButton = 'Annuler', accent = 'primary', formPlanPrice = "", path = "", price = 0, priceVariable = false, description, sub_description, type = "subscription") %}
+  {% import "macros/fontawesome.html.twig" as fa %}
+  
   <div class="modal fade" id="{{ id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="{{ id }}Label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
       <div class="modal-content">
@@ -68,6 +70,7 @@
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ cancelButton }}</button>
             {% if continueButton %}
               <button type="submit" class="btn btn-{{ accent }}" data-turbo="false">
+                {{ type == "donation" ? fa.icon('hand-holding-dollar') : ( description ? fa.icon('shuffle') : fa.icon('circle-info') ) }}
                 {{ continueButton }}
               </button>
             {% endif %}
@@ -89,6 +92,7 @@
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ cancelButton }}</button>
             {% if continueButton %}
               <a href="{{ path }}" class="btn btn-{{ accent }}" data-turbo="false">
+                {{ type == "donation" ? fa.icon('hand-holding-dollar') : fa.icon('shuffle') }}
                 {{ continueButton }}
               </a>
             {% endif %}
