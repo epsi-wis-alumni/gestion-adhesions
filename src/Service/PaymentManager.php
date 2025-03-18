@@ -27,7 +27,11 @@ final class PaymentManager
         $transaction = new Transaction();
         $transaction->setStatus(TransactionStatus::Create);
         $transaction->setType(0);
-        $transaction->setAmount($subscription->getPlan()->getPrice());
+        $transaction->setAmount(
+            $subscription->getPrice() && $subscription->getPrice() > $subscription->getPlan()->getPrice() ?
+            $subscription->getPrice() :
+            $subscription->getPlan()->getPrice()
+        );
         $transaction->setCreatedAt();
         $transaction->setUser($currentUser);
         $transaction->setSubscription($subscription);

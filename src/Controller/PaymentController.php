@@ -46,7 +46,6 @@ class PaymentController extends AbstractController
         try {
             $session = $paymentManager->createSession($currentUser, $transaction);
 
-            // dd($session);
             $transaction->setSessionId($session->id);
             $transaction->setStatus(TransactionStatus::Pending);
 

@@ -1,6 +1,6 @@
-{% macro plan(title, description, features = [], price, path, highlight, current) %}
+{% macro plan(id, title, description, features = [], price, path, highlight, current, priceVariable, formPlanPrice = "") %}
   {% import "macros/fontawesome.html.twig" as fa %}
-
+  {% import "macros/modal.html.twig" as modal %}
   {% set accent = highlight ? 'primary' : 'secondary' %}
   {% set border = highlight  ? 'highlight' : '' %}
   {% set badge = highlight  ? 'current badge text-bg-success' : 'd-none' %}
@@ -40,17 +40,30 @@
       </div>
 
       <div class="text-center">
-          {% if current %}
-            <a href="{{ path('app_user_plan') }}#activePlan" class="btn btn-{{ accent }}" data-turbo="false">
-              {{ fa.icon('gear') }}
-              Gérer
-            </a>
-          {% else %}
-            <a href="{{ path }}" class="btn btn-{{ accent }}" data-turbo="false">
-              {{ fa.icon('circle-info') }}
-              Choisir
-            </a>
-          {% endif %}
+        {% if current %}
+          <a href="{{ path('app_user_plan') }}#activePlan" class="btn btn-{{ accent }}" data-turbo="false">
+            {{ fa.icon('gear') }}
+            Gérer
+          </a>
+        {% elseif priceVariable %}
+          {% set modalDeleteId = 'plan-' ~ id %}
+          <a href="#" class="btn btn-{{ accent }}" data-bs-toggle="modal" data-bs-target="#{{ modalDeleteId }}">
+            {{ fa.icon('circle-info') }}
+            Choisir
+          </a>
+          {{ modal.confirmPlan(
+            id: modalDeleteId,
+            title: 'Merci de choisir un montant à partir de ' ~ price ~ ' €',
+            continueButton: 'S\'abonner',
+            formPlanPrice: formPlanPrice,
+            accent: 'primary',
+          ) }}
+        {% else %}
+          <a href="{{ path }}" class="btn btn-{{ accent }}" data-turbo="false">
+            {{ fa.icon('circle-info') }}
+            Choisir
+          </a>
+        {% endif %}
       </div>
     </div>
   </div>

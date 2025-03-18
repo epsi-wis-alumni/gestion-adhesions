@@ -204,14 +204,16 @@ class AppFixtures extends Fixture
             ->setName('Alumni')
             ->setDescription("L'abonnement spécial ancien élève")
             ->setPrice(15.00)
+            ->setpriceVariable(false)
         ;
 
         $plan2 = new Plan();
         $plan2
             ->setName('Grand Prince')
             ->setDescription("L'abonnement spécial donnateur")
-            ->setPrice(60.00)
+            ->setPrice(50.00)
             ->setHighlighted(true)
+            ->setpriceVariable(true)
         ;
 
         $plan3 = new Plan();
@@ -219,6 +221,7 @@ class AppFixtures extends Fixture
             ->setName('Grande Pince')
             ->setDescription("L'abonnement spécial étudiant")
             ->setPrice(5.00)
+            ->setpriceVariable(false)
         ;
 
         $manager->persist($plan1);
@@ -477,8 +480,9 @@ class AppFixtures extends Fixture
             ->setSubscription($subscription1)
             ->setStatus(TransactionStatus::Completed)
             ->setType(1)
-            ->setAmount(5.00)
+            ->setAmount(15.00)
             ->setRenewal(false)
+            ->setSessionId('cs_test_a1I8X2WHH9k7ukfpHCfJI2AUNlzZLNKj9EQQsIChyBxJ7n9U9nGhJrPfFM')
             ->setCreatedAt()
         ;
 
@@ -488,7 +492,7 @@ class AppFixtures extends Fixture
             ->setSubscription($subscription2)
             ->setStatus(TransactionStatus::Completed)
             ->setType(1)
-            ->setAmount(15.00)
+            ->setAmount(5.00)
             ->setRenewal(false)
             ->setCreatedAt()
         ;

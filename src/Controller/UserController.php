@@ -6,11 +6,13 @@ use App\Entity\Transaction;
 use App\Entity\User;
 use App\Form\CompleteProfileType;
 use App\Form\PlanRenewalType;
+use App\Form\PlanPriceType;
 use App\Form\SettingsType;
 use App\Repository\PlanRepository;
 use App\Repository\SubscriptionRepository;
 use App\Repository\TransactionRepository;
 use App\Service\PaymentManager;
+use App\Service\SubscriptionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Finder;
@@ -82,38 +84,65 @@ final class UserController extends AbstractController
     public function show(
         #[CurrentUser] User $currentUser,
         PlanRepository $planRepository,
-        TransactionRepository $transactionRepository,
         Request $request,
+        TransactionRepository $transactionRepository,
+        SubscriptionManager $subscriptionManager,
         PaymentManager $paymentManager,
-        Session $session,
     ): Response {
         $activePlan = $planRepository->findOneActivePlanByUser($currentUser);
         $activeTransaction = $transactionRepository->findOneActivePlanTransactionByUser($currentUser);
         $plans = $planRepository->findAllSorted();
 
-        $renewalUpdated = "";
+        $plansWithForms = [];
+        foreach ($plans as $plan) {
+            $form = $this->createForm(PlanPriceType::class, null, [
+                'price' => $plan->getPrice(),
+                'attr' => ['id' => 'form_plan_' . $plan->getId()],
+                'planId' => $plan->getId(),
+            ]);
+            $form->handleRequest($request);
 
-        $renewalForm = $this->createForm(PlanRenewalType::class, null, [
-            "renewal" => $activeTransaction->isRenewal(),
-        ]);
-        $renewalForm->handleRequest($request);
+            $plansWithForms[] = [
+                'plan' => $plan,
+                'formView' => $form->createView(),
+                'form' => $form,
+            ];
+        }
 
-        if ($renewalForm->isSubmitted() && $renewalForm->isValid()) {
-            $renewal = $renewalForm->get('renewal')->getData();
-
-            try {
-                if ($renewal === "true") {
-                    $paymentManager->enableRenewal($activeTransaction);
-                    $this->addFlash('success', 'Renouvellement activé avec succès.');
-                } else {
-                    $paymentManager->disableRenewal($activeTransaction);
-                    $this->addFlash('danger', 'Renouvellement désactivé avec succès.');
-                }
-            } catch (\Throwable $th) {
-                $this->addFlash('warning', 'Une erreur est survenue. Si le problème persiste, veuillez contacter le support.');
+        foreach ($plansWithForms as $planWithForm) {
+            $form = $planWithForm['form'];
+            if ($form->isSubmitted() && $form->isValid()) {
+                $price = $form->get('price')->getData();
+                $plan = $planRepository->findOneBy(["id" => $form->get('plan')->getData()]);
+                $subscription = $subscriptionManager->createSubscription($plan, $price);
+                return $this->redirectToRoute('app_payment', ["id" => $subscription->getId()], Response::HTTP_SEE_OTHER);
             }
+        }
 
-            return $this->redirectToRoute('app_user_plan', [], Response::HTTP_SEE_OTHER);
+        $renewalForm = null;
+        if ($activeTransaction) {
+            $renewalForm = $this->createForm(PlanRenewalType::class, null, [
+                "renewal" => $activeTransaction->isRenewal(),
+            ]);
+            $renewalForm->handleRequest($request);
+    
+            if ($renewalForm->isSubmitted() && $renewalForm->isValid()) {
+                $renewal = $renewalForm->get('renewal')->getData();
+    
+                try {
+                    if ($renewal === "true") {
+                        $paymentManager->enableRenewal($activeTransaction);
+                        $this->addFlash('success', 'Renouvellement activé avec succès.');
+                    } else {
+                        $paymentManager->disableRenewal($activeTransaction);
+                        $this->addFlash('danger', 'Renouvellement désactivé avec succès.');
+                    }
+                } catch (\Throwable $th) {
+                    $this->addFlash('warning', 'Une erreur est survenue. Si le problème persiste, veuillez contacter le support.');
+                }
+    
+                return $this->redirectToRoute('app_user_plan', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->render('user/plan.html.twig', [
@@ -122,6 +151,7 @@ final class UserController extends AbstractController
             'plans' => $plans,
             'activeTransaction' => $activeTransaction,
             'renewalForm' => $renewalForm,
+            'plansWithForms' => $plansWithForms,
         ]);
     }
 

@@ -5,6 +5,7 @@
     {{ form_row(form.description) }}
     {{ form_row(form.price) }}
     {{ form_row(form.highlighted) }}
+    {{ form_row(form.priceVariable) }}
 
     <div {{ stimulus_controller('form-collection') }} 
       data-form-collection-index-value="{{ (form.features|length) > 0 ? form.features|last.vars.name + 1 : 0 }}" 
