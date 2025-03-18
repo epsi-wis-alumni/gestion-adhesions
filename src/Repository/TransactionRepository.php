@@ -30,14 +30,14 @@ class TransactionRepository extends ServiceEntityRepository
             ->setParameter('user', $user)
             ->setParameter('date', new \DateTimeImmutable('-1 year'))
             ->setParameter('status1', TransactionStatus::Completed)
-            ->setParameter('status2', TransactionStatus::PendingRefund)
+            ->setParameter('status2', TransactionStatus::RefundPending)
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
 
-    public function findOneActiveTransactionPendingRefundByUser(User $user): ?Transaction
+    public function findOneActiveTransactionRefundPendingByUser(User $user): ?Transaction
     {
         return $this->createQueryBuilder('t')
             ->leftJoin('t.user', 'u')
@@ -47,7 +47,7 @@ class TransactionRepository extends ServiceEntityRepository
             ->orderBy('t.createdAt', 'DESC')
             ->setParameter('user', $user)
             ->setParameter('date', new \DateTimeImmutable('-1 year'))
-            ->setParameter('status', TransactionStatus::PendingRefund)
+            ->setParameter('status', TransactionStatus::RefundPending)
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult()

@@ -58,7 +58,7 @@ class PlanRepository extends ServiceEntityRepository
             ->setParameter('user', $user)
             ->setParameter('date', new \DateTimeImmutable('-1 year'))
             ->setParameter('status1', TransactionStatus::Completed)
-            ->setParameter('status2', TransactionStatus::PendingRefund)
+            ->setParameter('status2', TransactionStatus::RefundPending)
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult()
