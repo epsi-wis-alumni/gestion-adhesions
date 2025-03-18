@@ -10,8 +10,6 @@ use App\Repository\TransactionRepository;
 use App\Service\InvoiceManager;
 use App\Service\PaymentManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Faker\Provider\ar_EG\Payment;
-use Psr\Log\LoggerInterface;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
