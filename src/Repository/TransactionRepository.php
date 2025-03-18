@@ -25,14 +25,14 @@ class TransactionRepository extends ServiceEntityRepository
             ->leftJoin('t.user', 'u')
             ->where('t.user = :user')
             ->andWhere('t.createdAt >= :date')
-            ->andWhere('t.status = :status1')
-            ->orWhere('t.status = :status2')
+            ->andWhere('t.status = :completed')
+            ->orWhere('t.status = :refund_pending')
             ->andWhere('t.type = :type')
             ->orderBy('t.createdAt', 'DESC')
             ->setParameter('user', $user)
             ->setParameter('date', new \DateTimeImmutable('-1 year'))
-            ->setParameter('status1', TransactionStatus::Completed)
-            ->setParameter('status2', TransactionStatus::PendingRefund)
+            ->setParameter('completed', TransactionStatus::Completed)
+            ->setParameter('refund_pending', TransactionStatus::RefundPending)
             ->setParameter('type', TransactionType::Subscription)
             ->setMaxResults(1)
             ->getQuery()
@@ -40,7 +40,7 @@ class TransactionRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findOneActiveTransactionPendingRefundByUser(User $user): ?Transaction
+    public function findOneActiveTransactionRefundPendingByUser(User $user): ?Transaction
     {
         return $this->createQueryBuilder('t')
             ->leftJoin('t.user', 'u')
@@ -51,7 +51,7 @@ class TransactionRepository extends ServiceEntityRepository
             ->orderBy('t.createdAt', 'DESC')
             ->setParameter('user', $user)
             ->setParameter('date', new \DateTimeImmutable('-1 year'))
-            ->setParameter('status', TransactionStatus::PendingRefund)
+            ->setParameter('status', TransactionStatus::RefundPending)
             ->setParameter('type', TransactionType::Subscription)
             ->setMaxResults(1)
             ->getQuery()

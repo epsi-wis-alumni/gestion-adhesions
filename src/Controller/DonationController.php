@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/donation')]
-final class DonnationController extends AbstractController
+final class DonationController extends AbstractController
 {
     #[Route('/new', name: 'app_donnation', methods: ['GET', 'POST'])]
     public function index(
@@ -24,7 +24,6 @@ final class DonnationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $donation->setCreatedAt();
             $entityManager->persist($donation);
             $entityManager->flush();
 
