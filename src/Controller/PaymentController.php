@@ -12,8 +12,6 @@ use App\Repository\TransactionRepository;
 use App\Service\InvoiceManager;
 use App\Service\PaymentManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Faker\Provider\ar_EG\Payment;
-use Psr\Log\LoggerInterface;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -63,7 +61,7 @@ class PaymentController extends AbstractController
         }
 
         if ($activeTransaction) {
-            $activeTransaction->setStatus(TransactionStatus::PendingRefund);
+            $activeTransaction->setStatus(TransactionStatus::RefundPending);
             $this->entityManager->flush();
         }
 
@@ -136,7 +134,7 @@ class PaymentController extends AbstractController
         if ($event->type === 'checkout.session.completed') {
             $sessionId = $event->data->object->id;
             $transaction = $transactionRepository->findOneBy(['sessionId' => $sessionId]);
-            $activeTransactionPendingRefund = $transactionRepository->findOneActiveTransactionPendingRefundByUser($transaction->getUser());
+            $activeTransactionRefundPending = $transactionRepository->findOneActiveTransactionRefundPendingByUser($transaction->getUser());
 
             if ($event->data->object->payment_status === "paid") {
                 $transaction->setStatus(TransactionStatus::Completed);
@@ -150,13 +148,13 @@ class PaymentController extends AbstractController
                     transaction: $transaction
                 );
 
-                if ($activeTransactionPendingRefund) {
-                    $priceRender = $paymentManager->getPriceToRefund($activeTransactionPendingRefund);
-                    $refund = $paymentManager->createRefund($activeTransactionPendingRefund, $priceRender);
+                if ($activeTransactionRefundPending) {
+                    $priceRender = $paymentManager->getPriceToRefund($activeTransactionRefundPending);
+                    $refund = $paymentManager->createRefund($activeTransactionRefundPending, $priceRender);
 
-                    $activeTransactionPendingRefund->setStatus(TransactionStatus::Refunded);
-                    $activeTransactionPendingRefund->setRefundAmount($priceRender);
-                    $activeTransactionPendingRefund->setRefundId($refund->id);
+                    $activeTransactionRefundPending->setStatus(TransactionStatus::RefundCompleted);
+                    $activeTransactionRefundPending->setRefundAmount($priceRender);
+                    $activeTransactionRefundPending->setRefundId($refund->id);
 
                     $this->entityManager->flush();
                 }

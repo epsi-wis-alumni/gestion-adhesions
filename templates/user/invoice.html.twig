@@ -1,10 +1,10 @@
 {% extends 'user/base.html.twig' %}
 {% import "macros/fontawesome.html.twig" as fa %}
 
-{% set statusAccepted = ["PendingRefund", "Refunded", "Completed"] %}
+{% set statusAccepted = ["RefundPending", "RefundCompleted", "Completed"] %}
 {% set statusMapping = {
-    "PendingRefund": "En attente de remboursement",
-    "Refunded": "Remboursé",
+    "RefundPending": "En attente de remboursement",
+    "RefundCompleted": "Remboursé",
     "Completed": "Terminé"
 } %}
 

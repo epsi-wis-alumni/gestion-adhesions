@@ -8,6 +8,6 @@ enum TransactionStatus: int
     case Pending = 1;
     case Completed = 2;
     case Failed = 3;
-    case PendingRefund = 4;
-    case Refunded = 5;
+    case RefundPending = 4;
+    case RefundCompleted = 5;
 }

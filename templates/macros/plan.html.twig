@@ -1,4 +1,4 @@
-{% macro plan(id, title, description, features = [], price, path, highlight, current, priceVariable, formPlanPrice = "", haveActivePlan) %}
+{% macro plan(id, title, description, features = [], price, path, highlight, current, priceVariable, formPlanPrice = "", hasActivePlan) %}
   {% import "macros/fontawesome.html.twig" as fa %}
   {% import "macros/modal.html.twig" as modal %}
   {% set accent = highlight ? 'primary' : 'secondary' %}
@@ -40,7 +40,7 @@
       </div>
 
       <div class="text-center">
-        {% if current or haveActivePlan %}
+        {% if current or hasActivePlan %}
           {% if current %}
             <a href="{{ path('app_user_plan') }}#activePlan" class="btn btn-{{ accent }}" data-turbo="false">
               {{ fa.icon('gear') }}
