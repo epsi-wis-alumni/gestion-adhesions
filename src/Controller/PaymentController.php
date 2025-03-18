@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Donation;
 use App\Entity\Subscription;
 use App\Entity\Transaction;
 use App\Entity\User;
 use App\Enum\TransactionStatus;
+use App\Enum\TransactionType;
 use App\Repository\TransactionRepository;
 use App\Service\InvoiceManager;
 use App\Service\PaymentManager;
@@ -46,7 +48,7 @@ class PaymentController extends AbstractController
         $this->entityManager->flush();
 
         try {
-            $session = $paymentManager->createSession($currentUser, $transaction);
+            $session = $paymentManager->createSession($currentUser, $transaction, TransactionType::Subscription);
 
             $transaction->setSessionId($session->id);
             $transaction->setStatus(TransactionStatus::Pending);
@@ -167,4 +169,33 @@ class PaymentController extends AbstractController
 
         return new Response('Webhook handled', Response::HTTP_OK);
     }
+
+    #[Route('/donation/{id}', name: 'app_payment_donation', methods: ['GET'])]
+    public function stripeDonation(
+        Donation $donation,
+        #[CurrentUser()] User $currentUser,
+        PaymentManager $paymentManager,
+    ): Response
+    {
+        $transaction = $paymentManager->createTransation($currentUser, $donation);
+
+        $this->entityManager->persist($transaction);
+        $this->entityManager->flush();
+
+        try {
+            $session = $paymentManager->createSession($currentUser, $transaction, TransactionType::Donation);
+
+            $transaction->setSessionId($session->id);
+            $transaction->setStatus(TransactionStatus::Pending);
+
+            $this->entityManager->flush();
+        } catch (\Exception $e) {
+            $this->addFlash('error', 'Erreur lors de la création de la session Stripe.');
+            
+            return $this->redirectToRoute('app_payment_error', ['id' => $transaction->getId()]);
+        }
+
+        return $this->redirect($session->url, Response::HTTP_SEE_OTHER);
+    }
+
 }
