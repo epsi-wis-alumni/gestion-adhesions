@@ -80,7 +80,7 @@ jobs:
         shell: bash
         run: |
           ENDPOINT='frontend/o2switch/o2switch-ssh-whitelist/index.live.php'
-          OTP='$(oathtool -b --totp '${{ secrets.O2SWITCH_OTP_SECRET }}')'
+          OTP=$(oathtool -b --totp '${{ secrets.O2SWITCH_OTP_SECRET }}')
           AUTH_STR="Basic $(echo -n '${{ secrets.SSH_USER }}:${{ secrets.SSH_PASSWORD }}' | base64)"
           echo $OTP
           echo $AUTH_STR
