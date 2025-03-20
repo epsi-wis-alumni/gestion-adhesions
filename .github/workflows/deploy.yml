@@ -74,6 +74,10 @@ jobs:
         id: ip
         uses: haythem/public-ip@v1.3
 
+      - uses: tecolicom/actions-use-apt-tools@v1
+        with:
+          tools: oathtool gnupg2
+
       # Whitelist the public IP of the runner on the remote server by adding it 
       # to the SSH whitelist and wait 65 seconds for the IP to be whitelisted
       - name: Whitelist IP on hosting & delete github old ones (o2switch)
