@@ -77,6 +77,7 @@ jobs:
       - uses: tecolicom/actions-use-apt-tools@v1
         with:
           tools: oathtool gnupg2
+          method: timestamp
 
       # Whitelist the public IP of the runner on the remote server by adding it 
       # to the SSH whitelist and wait 65 seconds for the IP to be whitelisted
