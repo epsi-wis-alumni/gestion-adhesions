@@ -80,8 +80,10 @@ jobs:
         shell: bash
         run: |
           ENDPOINT='frontend/o2switch/o2switch-ssh-whitelist/index.live.php'
-          OTP=(oathtool -b --totp '${{ secrets.O2SWITCH_OTP_SECRET }}')
+          OTP='$(oathtool -b --totp '${{ secrets.O2SWITCH_OTP_SECRET }}')'
           AUTH_STR="Basic $(echo -n '${{ secrets.SSH_USER }}:${{ secrets.SSH_PASSWORD }}' | base64)"
+          echo $OTP
+          echo $AUTH_STR
 
           echo "Get actual whitelisted IPs..."
           UNIQUE_IPS=$(curl -H "Authorization: $AUTH_STR" -H "X-CPANEL-OTP: $OTP" -sX GET "https://${{ secrets.SSH_HOST }}:2083/$ENDPOINT?r=list" | jq -r '.data.list[] | .address' | sort -u)
