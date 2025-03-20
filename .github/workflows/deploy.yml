@@ -80,24 +80,26 @@ jobs:
         shell: bash
         run: |
           ENDPOINT='frontend/o2switch/o2switch-ssh-whitelist/index.live.php'
+          OTP=(oathtool -b --totp '${{ secrets.O2SWITCH_OTP_SECRET }}')
+          AUTH_STR="Basic $(echo -n '${{ secrets.SSH_USER }}:${{ secrets.SSH_PASSWORD }}' | base64)"
 
           echo "Get actual whitelisted IPs..."
-          UNIQUE_IPS=$(curl -sX GET "https://${{ secrets.SSH_USER }}:${{ secrets.URL_ENCODED_PASSWORD }}@${{ secrets.SSH_HOST }}:2083/$ENDPOINT?r=list" | jq -r '.data.list[] | .address' | sort -u)
+          UNIQUE_IPS=$(curl -H "Authorization: $AUTH_STR" -H "X-CPANEL-OTP: $OTP" -sX GET "https://${{ secrets.SSH_HOST }}:2083/$ENDPOINT?r=list" | jq -r '.data.list[] | .address' | sort -u)
           for address in $UNIQUE_IPS; do
             # if [[ $address == "$#{{ secrets.IP_TO_KEEP }}" ]]; then
             #     echo "Keep this IP, go to the next..."
             #     continue
             # fi
             echo "Delete this github IP: $address (in & out)"
-            curl -sX GET "https://${{ secrets.SSH_USER }}:${{ secrets.URL_ENCODED_PASSWORD }}@${{ secrets.SSH_HOST }}:2083/$ENDPOINT?r=remove&address=$address&direction=in&port=22" | jq
+            curl -H "Authorization: $AUTH_STR" -H "X-CPANEL-OTP: $OTP" -sX GET "https://${{ secrets.SSH_HOST }}:2083/$ENDPOINT?r=remove&address=$address&direction=in&port=22" | jq
             sleep 3
-            curl -sX GET "https://${{ secrets.SSH_USER }}:${{ secrets.URL_ENCODED_PASSWORD }}@${{ secrets.SSH_HOST }}:2083/$ENDPOINT?r=remove&address=$address&direction=out&port=22" | jq
+            curl -H "Authorization: $AUTH_STR" -H "X-CPANEL-OTP: $OTP" -sX GET "https://${{ secrets.SSH_HOST }}:2083/$ENDPOINT?r=remove&address=$address&direction=out&port=22" | jq
             sleep 3
           done
           echo "All non-whitelisted IPs deleted!"
 
           echo "Attempt to whitelist IP..."
-          curl -sX POST -d 'whitelist[address]=${{ steps.ip.outputs.ipv4 }}' -d 'whitelist[port]=22' "https://${{ secrets.SSH_USER }}:${{ secrets.URL_ENCODED_PASSWORD }}@${{ secrets.SSH_HOST }}:2083/$ENDPOINT?r=add" | jq
+          curl -H "Authorization: $AUTH_STR" -H "X-CPANEL-OTP: $OTP" -sX POST -d 'whitelist[address]=${{ steps.ip.outputs.ipv4 }}' -d 'whitelist[port]=22' "https://${{ secrets.SSH_HOST }}:2083/$ENDPOINT?r=add" | jq
 
       - name: Deploy with rsync
         uses: easingthemes/ssh-deploy@v5.1.0
