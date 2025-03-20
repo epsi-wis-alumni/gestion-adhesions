@@ -68,7 +68,37 @@ jobs:
 
           # Register custom public/php.ini in public/.htaccess
           echo "suPHP_ConfigPath ${{ secrets.APP_PATH }}/public/" >> public/.htaccess
-      
+
+      # Get the public IP of the runner
+      - name: Public IP
+        id: ip
+        uses: haythem/public-ip@v1.3
+
+      # Whitelist the public IP of the runner on the remote server by adding it 
+      # to the SSH whitelist and wait 65 seconds for the IP to be whitelisted
+      - name: Whitelist IP on hosting & delete github old ones (o2switch)
+        shell: bash
+        run: |
+          ENDPOINT='frontend/o2switch/o2switch-ssh-whitelist/index.live.php'
+
+          echo "Get actual whitelisted IPs..."
+          UNIQUE_IPS=$(curl -sX GET "https://${{ secrets.SSH_USER }}:${{ secrets.URL_ENCODED_PASSWORD }}@${{ secrets.SSH_HOST }}:2083/$ENDPOINT?r=list" | jq -r '.data.list[] | .address' | sort -u)
+          for address in $UNIQUE_IPS; do
+            # if [[ $address == "$#{{ secrets.IP_TO_KEEP }}" ]]; then
+            #     echo "Keep this IP, go to the next..."
+            #     continue
+            # fi
+            echo "Delete this github IP: $address (in & out)"
+            curl -sX GET "https://${{ secrets.SSH_USER }}:${{ secrets.URL_ENCODED_PASSWORD }}@${{ secrets.SSH_HOST }}:2083/$ENDPOINT?r=remove&address=$address&direction=in&port=22" | jq
+            sleep 3
+            curl -sX GET "https://${{ secrets.SSH_USER }}:${{ secrets.URL_ENCODED_PASSWORD }}@${{ secrets.SSH_HOST }}:2083/$ENDPOINT?r=remove&address=$address&direction=out&port=22" | jq
+            sleep 3
+          done
+          echo "All non-whitelisted IPs deleted!"
+
+          echo "Attempt to whitelist IP..."
+          curl -sX POST -d 'whitelist[address]=${{ steps.ip.outputs.ipv4 }}' -d 'whitelist[port]=22' "https://${{ secrets.SSH_USER }}:${{ secrets.URL_ENCODED_PASSWORD }}@${{ secrets.SSH_HOST }}:2083/$ENDPOINT?r=add" | jq
+
       - name: Deploy with rsync
         uses: easingthemes/ssh-deploy@v5.1.0
         with:
