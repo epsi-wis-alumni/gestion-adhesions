@@ -39,7 +39,7 @@ jobs:
           echo "LINKEDIN_CLIENT_ID=${{ secrets.OAUTH_LINKEDIN_CLIENT_ID }}" >> .env.prod.local
           echo "LINKEDIN_CLIENT_SECRET=${{ secrets.OAUTH_LINKEDIN_CLIENT_SECRET }}" >> .env.prod.local
           echo "STRIPE_API_PRIVATE_KEY=${{ secrets.STRIPE_API_PRIVATE_KEY }}" >> .env.prod.local
-          echo "STRIPE_WEBHOOK_SECRET=${{ secrets.STRIPE_API_PRIVATE_KEY }}" >> .env.prod.local
+          echo "STRIPE_WEBHOOK_SECRET=${{ secrets.STRIPE_WEBHOOK_SECRET }}" >> .env.prod.local
           
       - name: Install Composer dependencies
         uses: ramsey/composer-install@v2
