@@ -30,7 +30,7 @@ class Candidacy
     /**
      * @var Collection<int, Vote>
      */
-    #[ORM\OneToMany(targetEntity: Vote::class, mappedBy: 'candidacy')]
+    #[ORM\OneToMany(targetEntity: Vote::class, mappedBy: 'candidacy', cascade: ['persist', 'remove'])]
     private Collection $votes;
 
     #[Assert\NotBlank()]

@@ -89,7 +89,7 @@ class User implements UserInterface
     /**
      * @var Collection<int, Candidacy>
      */
-    #[ORM\OneToMany(targetEntity: Candidacy::class, mappedBy: 'candidate')]
+    #[ORM\OneToMany(targetEntity: Candidacy::class, mappedBy: 'candidate', cascade: ['persist', 'remove'])]
     private Collection $candidacies;
 
     /**

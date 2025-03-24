@@ -50,7 +50,7 @@ class Newsletter
     /**
      * @var Collection<int, UserNewsletter>
      */
-    #[ORM\OneToMany(targetEntity: UserNewsletter::class, mappedBy: 'newsletter')]
+    #[ORM\OneToMany(targetEntity: UserNewsletter::class, mappedBy: 'newsletter', cascade: ['persist', 'remove'])]
     private Collection $userNewsletters;
 
     public function __construct()

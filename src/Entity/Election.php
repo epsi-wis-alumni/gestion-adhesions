@@ -41,13 +41,13 @@ class Election
     /**
      * @var Collection<int, Candidacy>
      */
-    #[ORM\OneToMany(targetEntity: Candidacy::class, mappedBy: 'election')]
+    #[ORM\OneToMany(targetEntity: Candidacy::class, mappedBy: 'election', cascade: ['persist', 'remove'])]
     private Collection $candidacies;
 
     /**
      * @var Collection<int, Vote>
      */
-    #[ORM\OneToMany(targetEntity: Vote::class, mappedBy: 'election')]
+    #[ORM\OneToMany(targetEntity: Vote::class, mappedBy: 'election', cascade: ['persist', 'remove'])]
     private Collection $votes;
 
     public function __construct()

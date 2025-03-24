@@ -28,7 +28,7 @@ class Plan
     /**
      * @var Collection<int, Subscription>
      */
-    #[ORM\OneToMany(targetEntity: Subscription::class, mappedBy: 'plan')]
+    #[ORM\OneToMany(targetEntity: Subscription::class, mappedBy: 'plan', cascade: ['persist', 'remove'])]
     private Collection $subscriptions;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
@@ -40,7 +40,7 @@ class Plan
     /**
      * @var Collection<int, Feature>
      */
-    #[ORM\OneToMany(targetEntity: Feature::class, mappedBy: 'plan', cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: Feature::class, mappedBy: 'plan', cascade: ['persist', 'remove'])]
     private Collection $features;
 
     #[ORM\Column(type: 'boolean', options: ['default' => true])]
