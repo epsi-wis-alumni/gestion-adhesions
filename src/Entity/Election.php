@@ -33,9 +33,11 @@ class Election
     private ?\DateTimeImmutable $voteEndAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'createdElections')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?User $createdBy = null;
 
     #[ORM\ManyToOne(inversedBy: 'updatedElections')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?User $updatedBy = null;
 
     /**

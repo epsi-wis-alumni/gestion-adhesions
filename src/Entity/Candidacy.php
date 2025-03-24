@@ -25,6 +25,7 @@ class Candidacy
     private ?User $candidate = null;
 
     #[ORM\ManyToOne(inversedBy: 'candidacies')]
+    #[ORM\JoinColumn(nullable: true, onDelete: "SET NULL")]
     private ?Election $election = null;
 
     /**
