@@ -40,6 +40,11 @@ RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | s
     symfony server:ca:install && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
+RUN curl -s https://packages.stripe.dev/api/security/keypair/stripe-cli-gpg/public | gpg --dearmor | sudo tee /usr/share/keyrings/stripe.gpg && \
+    echo "deb [signed-by=/usr/share/keyrings/stripe.gpg] https://packages.stripe.dev/stripe-cli-debian-local stable main" | sudo tee -a /etc/apt/sources.list.d/stripe.list && \
+    apt update && \
+    apt install stripe
+
 RUN echo "alias sc='symfony console'" >> ~/.bashrc
 RUN echo "alias dfl='symfony console doctrine:database:drop --force && symfony console doctrine:database:create && symfony console d:s:u --force -n && symfony console doctrine:fixtures:load -n'" >> ~/.bashrc
 

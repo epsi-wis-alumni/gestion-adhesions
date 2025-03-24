@@ -2,22 +2,30 @@
 
 <div class="container">
     <div class="row align-items-center gap-5 my-5">
-        {% for plan in plans %}
+        {% for planWithForm in plansWithForms %}
+            {% set plan = planWithForm.plan %}
+            {% set formPlanPrice = planWithForm.formView %}
+
             {% if activePlan %}
                 {% set current = plan.name == activePlan.name ? true : false %}
             {% else %}
                 {% set current = false %}
             {% endif %}
-            
+
             <div class="col">
                 {{ plan_card.plan(
+                    id: plan.id,
                     title: plan.name,
                     description: plan.description,
                     features: plan.features,
                     price: plan.price,
                     highlight: plan.highlighted,
-                    current: current
-                )}}
+                    current: current,
+                    path: path('app_payment', {id: plan.id}),
+                    priceVariable: plan.priceVariable,
+                    formPlanPrice: formPlanPrice,
+                    hasActivePlan: activePlan ? true : false,
+                ) }}
             </div>
         {% endfor %}
     </div>

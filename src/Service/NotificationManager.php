@@ -6,6 +6,7 @@ use App\Entity\Election;
 use App\Entity\Event;
 use App\Entity\Invoice;
 use App\Entity\User;
+use App\Enum\TransactionType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -46,7 +47,10 @@ final class NotificationManager
         $context = match ($entity::class) {
             Election::class => ['election' => $entity],
             Event::class => ['event' => $entity],
-            Invoice::class => [],
+            Invoice::class => [
+                'type' => TransactionType::Donation,
+                'invoice_url' => "",
+            ],
         };
         $bcc = match ($entity::class) {
             Election::class => array_filter($users, fn (User $user) => $user->getSettings()->isElectionNotificationsAllowed()),
@@ -81,5 +85,24 @@ final class NotificationManager
     public function getMailFromUsers(array $users): array
     {
         return array_map(fn ($user) => $user->getEmail(), $users);
+    }
+
+    public function sendInvoiceLink(string $invoice_url, User $user) {
+        $sender = $this->params->get('mailer_sender');
+
+        if ($user) {
+            $email = (new TemplatedEmail())
+                ->from($sender)
+                ->to($user->getEmail())
+                ->subject('Nouvelle Facture disponible')
+                ->htmlTemplate('mails/invoice.html.twig')
+                ->context([
+                    'type' => TransactionType::Subscription,
+                    'invoice_url' => $invoice_url,
+                ])
+            ;
+
+            $this->mailerInterface->send($email);
+        }
     }
 }

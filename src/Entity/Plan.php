@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PlanRepository::class)]
 class Plan
@@ -16,9 +17,11 @@ class Plan
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank()]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
-
+    
+    #[Assert\NotBlank()]
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
@@ -39,6 +42,9 @@ class Plan
      */
     #[ORM\OneToMany(targetEntity: Feature::class, mappedBy: 'plan', cascade: ['persist'])]
     private Collection $features;
+
+    #[ORM\Column(type: 'boolean', options: ['default' => true])]
+    private ?bool $priceVariable = null;
 
     public function __construct()
     {
@@ -155,6 +161,18 @@ class Plan
                 $feature->setPlan(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isPriceVariable(): ?bool
+    {
+        return $this->priceVariable;
+    }
+
+    public function setPriceVariable(bool $priceVariable): static
+    {
+        $this->priceVariable = $priceVariable;
 
         return $this;
     }

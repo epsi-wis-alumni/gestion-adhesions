@@ -7,6 +7,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
+use Stripe\Checkout\Session;
+use Stripe\Invoice;
 
 final class InvoiceManager
 {
@@ -36,7 +38,9 @@ final class InvoiceManager
         Transaction $transaction,
     ): string {
         $directory = $this->params->get('invoice_base_path');
-        $filename = 'invoice_'.$transaction->getId().'.pdf';
+        $invoice_id = $transaction->getInvoice()->getInvoiceId();
+
+        $filename = "invoice_$invoice_id.pdf";
 
         if (!is_dir($directory)) {
             mkdir($directory, 0777, true);
@@ -56,5 +60,24 @@ final class InvoiceManager
         file_put_contents($filePath, $dompdf->output());
 
         return $filePath;
+    }
+
+    function generateInvoiceId(): string
+    {
+        $uniquePart = strtoupper(bin2hex(random_bytes(4)));
+        $randomNumber = str_pad(random_int(0, 9999), 4, '0', STR_PAD_LEFT);
+        $invoice_id = sprintf('%s-%s', $uniquePart, $randomNumber);
+        return $invoice_id;
+    }
+
+    public function sendInvoiceLink(
+        Transaction $transaction,
+    ): void {
+        $session = Session::retrieve($transaction->getSessionId());
+        $invoice = Invoice::retrieve($session->invoice);
+        $invoice_url = $invoice->hosted_invoice_url;
+        $user = $transaction->getUser();
+
+        $this->notificationManager->sendInvoiceLink($invoice_url, $user);
     }
 }

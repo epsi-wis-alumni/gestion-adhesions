@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Election;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,11 +21,11 @@ class AdminElectionType extends AbstractType
                 'row_attr' => ['class' => 'mb-3'],
                 'label' => 'Poste',
             ])
-            ->add('voteStartAt', null, [
+            ->add('voteStartAt', DateTimeType::class, [
                 'row_attr' => ['class' => 'mb-3'],
                 'label' => 'Date de début',
             ])
-            ->add('voteEndAt', null, [
+            ->add('voteEndAt', DateTimeType::class, [
                 'row_attr' => ['class' => 'mb-3'],
                 'label' => 'Date de fin',
             ])

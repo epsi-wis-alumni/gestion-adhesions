@@ -40,3 +40,65 @@
     </div>
   </div>
 {% endmacro %}
+
+{% macro confirmPlan(id, title, continueButton, cancelButton = 'Annuler', accent = 'primary', formPlanPrice = "", path = "", price = 0, priceVariable = false, description, sub_description, type = "subscription") %}
+  {% import "macros/fontawesome.html.twig" as fa %}
+  
+  <div class="modal fade" id="{{ id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="{{ id }}Label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+      <div class="modal-content">
+        {% if priceVariable %}
+          {{ form_start(formPlanPrice) }}
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="{{ id }}Label">{{ title }}</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <div class="modal-body">
+            {% if description %}
+              <div class="mb-4">{{ description }}</div>
+              <div class="mb-3">{{ sub_description }}</div>
+            {% endif %}
+            {% if type == "subscription" %}
+              {{ form_row(formPlanPrice.price) }}
+            {% elseif type == "donation" %}
+              {{ form_row(formPlanPrice.amount) }}
+            {% endif %}
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ cancelButton }}</button>
+            {% if continueButton %}
+              <button type="submit" class="btn btn-{{ accent }}" data-turbo="false">
+                {{ type == "donation" ? fa.icon('hand-holding-dollar') : ( description ? fa.icon('shuffle') : fa.icon('circle-info') ) }}
+                {{ continueButton }}
+              </button>
+            {% endif %}
+          </div>
+          {{ form_end(formPlanPrice) }}
+        {% else %}
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="{{ id }}Label">{{ title }}</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <div class="modal-body">
+            {% if description %}
+              <div class="mb-3">{{ description }}</div>
+            {% endif %}
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ cancelButton }}</button>
+            {% if continueButton %}
+              <a href="{{ path }}" class="btn btn-{{ accent }}" data-turbo="false">
+                {{ type == "donation" ? fa.icon('hand-holding-dollar') : fa.icon('shuffle') }}
+                {{ continueButton }}
+              </a>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endmacro %}

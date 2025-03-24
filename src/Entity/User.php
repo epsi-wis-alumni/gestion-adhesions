@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Embedded;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use function Symfony\Component\String\u;
 
@@ -24,6 +25,7 @@ class User implements UserInterface
 {
     use SoftDeletableTrait;
     use TimestampableTrait;
+    
     public const ROLE_USER = 'ROLE_USER';
     public const ROLE_APPROVED = 'ROLE_APPROVED';
     public const ROLE_MEMBER = 'ROLE_MEMBER';
@@ -44,15 +46,19 @@ class User implements UserInterface
     private array $roles = [];
     
 
+    #[Assert\NotBlank()]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $firstname = null;
 
+    #[Assert\NotBlank()]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $lastname = null;
 
+    #[Assert\NotBlank()]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $company = null;
 
+    #[Assert\NotBlank()]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $jobTitle = null;
 
@@ -158,6 +164,7 @@ class User implements UserInterface
     #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'updatedBy')]
     private Collection $updatedEvents;
 
+    #[Assert\NotBlank()]
     #[ORM\Column(enumType: MemberType::class, options: ['default' => MemberType::Undefined->value])]
     private ?MemberType $type = MemberType::Undefined;
 
@@ -378,7 +385,7 @@ class User implements UserInterface
 
         $sortedTransactions = $transactions->toArray();
         usort($sortedTransactions, function ($a, $b) {
-            return $b->getDate() <=> $a->getDate();
+            return $b->getCreatedAt() <=> $a->getCreatedAt();
         });
 
         return $sortedTransactions[0];

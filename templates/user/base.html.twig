@@ -11,7 +11,9 @@
             {% include "user/_sidebar.html.twig" %}
         </div>
         <div class="col">
-            {% block profile_content %}{% endblock %}
+            <div class="my-5">
+                {% block profile_content %}{% endblock %}
+            </div>
         </div>
     </div>
 {% endblock %}

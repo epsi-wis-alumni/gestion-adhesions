@@ -1,6 +1,13 @@
 {% extends 'user/base.html.twig' %}
 {% import "macros/fontawesome.html.twig" as fa %}
 
+{% set statusAccepted = ["RefundPending", "RefundCompleted", "Completed"] %}
+{% set statusMapping = {
+    "RefundPending": "En attente de remboursement",
+    "RefundCompleted": "Remboursé",
+    "Completed": "Terminé"
+} %}
+
 {% block profile_content %}
 <div class="container-fluid">
     <div class="h1 text-center mt-2">
@@ -16,7 +23,7 @@
                 <thead class="table-bordered">
                     <tr>
                         <th>Nom</th>
-                        <th>Description</th>
+                        <th>Statut</th>
                         <th>Date</th>
                         <th>Montant</th>
                         <th>Action</th>
@@ -24,19 +31,24 @@
                 </thead>
                 <tbody>
                     {% for invoice in invoices %}
-                        <tr>
-                            <td>{{ invoice.subscription.plan.name }}</td>
-                            <td>{{ invoice.transaction.status }}</td>
-                            <td>{{ invoice.transaction.createdAt|date('d/m/Y') }}</td>
-                            <td>{{ invoice.transaction.amount }} €</td>
-                            <td>
-                                <div class="d-flex align-items-center gap-2">
-                                    <a class="link-primary" href="{{ path('app_user_invoice_show', { id: invoice.transaction.id }) }}" target="_blank">
-                                        {{ fa.icon('eye') }}
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
+                        {% if invoice.transaction.status.name in statusAccepted %}
+                            <tr>
+                                <td>
+                                    {{ invoice.subscription ? invoice.subscription.plan.name : "" }}
+                                    {{ invoice.donation ? "Donation" : "" }}
+                                </td>
+                                <td>{{ statusMapping[invoice.transaction.status.name] }}</td>
+                                <td>{{ invoice.transaction.createdAt|date('d/m/Y') }}</td>
+                                <td>{{ invoice.transaction.amount|number_format(2, '.', ' ') }} €</td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <a class="link-primary" href="{{ path('app_user_invoice_show', { id: invoice.transaction.id }) }}" target="_blank">
+                                            {{ fa.icon('eye') }}
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endif %}
                     {% else %}
                         <tr>
                         <td colspan="5">Vous n'avez aucune factures disponibles</td>

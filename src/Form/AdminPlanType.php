@@ -54,6 +54,14 @@ class AdminPlanType extends AbstractType
                 ],
                 'required' => false,
             ])
+            ->add('priceVariable', CheckboxType::class, [
+                'label' => 'Prix variable',
+                'label_attr' => [
+                    'class' => 'checkbox-switch',
+                ],
+                'mapped' => true,
+                'required' => false,
+            ])
         ;
     }
 

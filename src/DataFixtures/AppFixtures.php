@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Candidacy;
+use App\Entity\Donation;
 use App\Entity\Election;
 use App\Entity\Event;
 use App\Entity\Feature;
@@ -13,6 +14,8 @@ use App\Entity\Subscription;
 use App\Entity\Transaction;
 use App\Entity\User;
 use App\Entity\Vote;
+use App\Enum\TransactionStatus;
+use App\Enum\TransactionType;
 use App\Service\UserManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -203,14 +206,16 @@ class AppFixtures extends Fixture
             ->setName('Alumni')
             ->setDescription("L'abonnement spécial ancien élève")
             ->setPrice(15.00)
+            ->setpriceVariable(false)
         ;
 
         $plan2 = new Plan();
         $plan2
             ->setName('Grand Prince')
             ->setDescription("L'abonnement spécial donnateur")
-            ->setPrice(60.00)
+            ->setPrice(50.00)
             ->setHighlighted(true)
+            ->setpriceVariable(true)
         ;
 
         $plan3 = new Plan();
@@ -218,6 +223,7 @@ class AppFixtures extends Fixture
             ->setName('Grande Pince')
             ->setDescription("L'abonnement spécial étudiant")
             ->setPrice(5.00)
+            ->setpriceVariable(false)
         ;
 
         $manager->persist($plan1);
@@ -547,41 +553,93 @@ idéale pour se lancer dans l’aventure entrepreneuriale."
 
         $manager->flush();
 
+        // DONATION
+
+        $donation1 = new Donation();
+        $donation1->setAmount(10.00);
+        
+        $donation2 = new Donation();
+        $donation2->setAmount(20.00);
+        
+        $donation3 = new Donation();
+        $donation3->setAmount(30.00);
+        
+        $manager->persist($donation1);
+        $manager->persist($donation2);
+        $manager->persist($donation3);
+
+        $manager->flush();
+
         // TRANSACTION
 
         $transaction1 = new Transaction();
         $transaction1
             ->setUser($userPerso)
             ->setSubscription($subscription1)
-            ->setStatus(1)
-            ->setType(1)
-            ->setAmount(5.00)
-            ->setCreatedAt()
+            ->setStatus(TransactionStatus::Completed)
+            ->setType(TransactionType::Subscription)
+            ->setAmount(15.00)
+            ->setRenewal(true)
+            ->setSessionId('cs_test_a1I8X2WHH9k7ukfpHCfJI2AUNlzZLNKj9EQQsIChyBxJ7n9U9nGhJrPfFM')
         ;
 
         $transaction2 = new Transaction();
         $transaction2
             ->setUser($userAdmin)
             ->setSubscription($subscription2)
-            ->setStatus(1)
-            ->setType(1)
-            ->setAmount(15.00)
-            ->setCreatedAt()
+            ->setStatus(TransactionStatus::Completed)
+            ->setType(TransactionType::Subscription)
+            ->setAmount(5.00)
+            ->setRenewal(true)
         ;
 
         $transaction3 = new Transaction();
         $transaction3
             ->setUser($userCandidacy1)
             ->setSubscription($subscription3)
-            ->setStatus(1)
-            ->setType(1)
+            ->setStatus(TransactionStatus::Completed)
+            ->setType(TransactionType::Subscription)
             ->setAmount(60.00)
-            ->setCreatedAt()
+            ->setRenewal(true)
+        ;
+
+        $transaction4 = new Transaction();
+        $transaction4
+            ->setUser($userPerso)
+            ->setDonation($donation1)
+            ->setStatus(TransactionStatus::Completed)
+            ->setType(TransactionType::Donation)
+            ->setAmount(12.50)
+            ->setRenewal(false)
+            ->setSessionId('cs_test_a1I8X2WHH9k7ukfpHCfJI2AUNlzZLNKj9EQQsIChyBxJ7n9U9nGhJrPfFM')
+        ;
+
+        $transaction5 = new Transaction();
+        $transaction5
+            ->setUser($userAdmin)
+            ->setDonation($donation2)
+            ->setStatus(TransactionStatus::Completed)
+            ->setType(TransactionType::Donation)
+            ->setAmount(amount: 1500.00)
+            ->setRenewal(false)
+        ;
+
+        $transaction6 = new Transaction();
+        $transaction6
+            ->setUser($userCandidacy1)
+            ->setDonation($donation3)
+            ->setStatus(TransactionStatus::Completed)
+            ->setType(TransactionType::Donation)
+            ->setAmount(18657.00)
+            ->setRenewal(false)
         ;
 
         $manager->persist($transaction1);
         $manager->persist($transaction2);
         $manager->persist($transaction3);
+        $manager->persist($transaction4);
+        $manager->persist($transaction5);
+        $manager->persist($transaction6);
 
         $manager->flush();
     }

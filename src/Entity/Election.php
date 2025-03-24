@@ -7,6 +7,7 @@ use App\Repository\ElectionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ElectionRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -18,12 +19,16 @@ class Election
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank()]
     #[ORM\Column(length: 255)]
     private ?string $jobTitle = null;
 
+    #[Assert\DateTime()]
     #[ORM\Column]
     private ?\DateTimeImmutable $voteStartAt = null;
 
+    #[Assert\DateTime()]
+    #[Assert\GreaterThan(propertyPath: 'voteStartAt')]
     #[ORM\Column]
     private ?\DateTimeImmutable $voteEndAt = null;
 

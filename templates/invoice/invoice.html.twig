@@ -9,15 +9,16 @@
     <div class="header">
       <h1>Facture</h1>
       <p>
-        {{ invoice_name }} <br>
-        {{ invoice_tel }} <br>
-        {{ invoice_address }}
+        {{ alumni_name }} <br>
+        {{ alumni_tel }} <br>
+        {{ alumni_mail }} <br>
+        {{ alumni_adress }}
       </p>
     </div>
     <div class="invoice-info">
         <h2>Informations de la facture</h2>
         <p>
-            <strong>Numéro de facture :</strong> {{ transaction.id }}
+            <strong>Numéro de facture :</strong> {{ transaction.invoice.invoiceId }}
         </p>
         <p>
             <strong>Date :</strong> {{ transaction.createdAt|date('d/m/Y') }}
@@ -38,17 +39,17 @@
       </thead>
       <tbody>
         <tr>
-          <td>{{ transaction.subscription.plan.description }}</td>
-          <td>{{ transaction.amount }} €</td>
+          <td>{{ transaction.subscription ? transaction.subscription.plan.description : "Donation" }}</td>
+          <td>{{ transaction.amount|number_format(2, '.', ' ') }} €</td>
         </tr>
       </tbody>
     </table>
     <div class="total">
-      <strong>Total payé : {{ transaction.amount }} €</strong>
+      <strong>Total payé : {{ transaction.amount|number_format(2, '.', ' ') }} €</strong>
     </div>
     <div class="footer">
       <p>
-        Merci pour votre confiance. <span style="color: red; font-weight: 600;">GROS BISOU</span>
+        Merci pour votre confiance.
       </p>
     </div>
   </div>
