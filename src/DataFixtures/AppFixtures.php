@@ -3,17 +3,22 @@
 namespace App\DataFixtures;
 
 use App\Entity\Candidacy;
+use App\Entity\Category;
 use App\Entity\Donation;
 use App\Entity\Election;
 use App\Entity\Event;
 use App\Entity\Feature;
+use App\Entity\JobOffer;
 use App\Entity\MailTemplate;
 use App\Entity\Newsletter;
 use App\Entity\Plan;
+use App\Entity\Skill;
 use App\Entity\Subscription;
 use App\Entity\Transaction;
 use App\Entity\User;
 use App\Entity\Vote;
+use App\Enum\JobOfferStatus;
+use App\Enum\JobOfferType;
 use App\Enum\TransactionStatus;
 use App\Enum\TransactionType;
 use App\Service\UserManager;
@@ -640,6 +645,185 @@ idéale pour se lancer dans l’aventure entrepreneuriale."
         $manager->persist($transaction4);
         $manager->persist($transaction5);
         $manager->persist($transaction6);
+
+        $manager->flush();
+
+
+        // Skill
+
+        $skill1 = new Skill();
+        $skill1
+            ->setName("PHP Symfony")
+        ;
+
+        $skill2 = new Skill();
+        $skill2
+            ->setName("MySQL")
+        ;
+
+        $skill3 = new Skill();
+        $skill3
+            ->setName("Angular.js")
+        ;
+        
+        $skill4 = new Skill();
+        $skill4
+            ->setName("Figma")
+        ;
+
+        $skill5 = new Skill();
+        $skill5
+            ->setName("PHP Symfony")
+        ;
+        
+        $manager->persist($skill1);
+        $manager->persist($skill2);
+        $manager->persist($skill3);
+        $manager->persist($skill4);
+        $manager->persist($skill5);
+
+        $manager->flush();
+
+        // Category
+
+        $category1 = new Category();
+        $category1
+            ->setName("Backend")
+        ;
+
+        $category2 = new Category();
+        $category2
+            ->setName("Gestion BDD")
+        ;
+
+        $category3 = new Category();
+        $category3
+            ->setName("Frontend")
+        ;
+        
+        $category4 = new Category();
+        $category4
+            ->setName("Design / UX / UI")
+        ;
+
+        $category5 = new Category();
+        $category5
+            ->setName("Testing")
+        ;
+        
+        $manager->persist($category1);
+        $manager->persist($category2);
+        $manager->persist($category3);
+        $manager->persist($category4);
+        $manager->persist($category5);
+
+        $manager->flush();
+
+        // JobOffer
+
+        $jobOffer1 = new JobOffer();
+        $jobOffer1
+            ->setTitle("Développeur Backend Symfony / MySQL")
+            ->setDescription("
+Nous recherchons un Développeur Backend expérimenté pour rejoindre notre équipe dynamique et travailler sur des projets innovants. Vous serez en charge de concevoir, développer et maintenir des applications web robustes et évolutives en utilisant le framework Symfony et la base de données MySQL.
+
+Vos missions :
+Développer de nouvelles fonctionnalités et améliorer les solutions existantes.
+
+Optimiser les performances des applications et des bases de données.
+
+Collaborer avec les équipes Frontend et DevOps pour garantir la qualité et la stabilité des livrables.
+
+Participer à la conception technique et au choix des architectures.
+
+Profil recherché :
+Maîtrise de Symfony et de MySQL.
+
+Bonne compréhension des concepts d’API REST et de sécurité des applications web.
+
+Capacité à travailler en équipe et à respecter les délais.
+
+Rejoignez-nous et participez à des projets stimulants dans un environnement collaboratif !")
+            ->setType(JobOfferType::CDI)
+            ->setStartAt(new \DateTimeImmutable())
+            ->setEndAt(null)
+            ->setImageFilePath("/var/www/public/assets/jobOffer/images/dev_back_symfo.jpg")
+            ->setStatus(JobOfferStatus::Online)
+            ->addSkill($skill1)
+            ->addSkill($skill2)
+            ->addCategory($category1)
+            ->addCategory($category2)
+        ;
+
+        $jobOffer2 = new JobOffer();
+        $jobOffer2
+            ->setTitle("Développeur Frontend Figma / Angular.js")
+            ->setDescription("
+Nous recherchons un Développeur Frontend talentueux et passionné pour transformer des maquettes Figma en interfaces web modernes et performantes en utilisant Angular.js. Vous jouerez un rôle clé dans la création d'expériences utilisateur intuitives et engageantes.
+
+Vos missions :
+Intégrer des maquettes Figma en composants dynamiques avec Angular.js.
+
+Collaborer étroitement avec les équipes UX/UI pour garantir une fidélité parfaite aux designs.
+
+Optimiser le code pour garantir des performances optimales et une compatibilité multi-navigateurs.
+
+Mettre en œuvre les bonnes pratiques de développement, notamment en termes de tests, accessibilité et SEO.
+
+Profil recherché :
+Excellente maîtrise d'Angular.js et bonne compréhension des frameworks modernes.
+
+Expérience avec Figma et la conversion de designs en code propre et maintenable.
+
+Sens aigu du détail et des performances.
+
+Rejoignez une équipe dynamique et contribuez à des projets innovants où vos idées feront la différence !")
+            ->setType(JobOfferType::Internship)
+            ->setStartAt(new \DateTimeImmutable())
+            ->setEndAt(new \DateTimeImmutable("+ 2 month"))
+            ->setImageFilePath("/var/www/public/assets/jobOffer/images/dev_front_angular.jpg")
+            ->setStatus(JobOfferStatus::Online)
+            ->addSkill($skill3)
+            ->addSkill($skill4)
+            ->addCategory($category3)
+            ->addCategory($category4)
+        ;
+
+        $jobOffer3 = new JobOffer();
+        $jobOffer3
+            ->setTitle("Testeur Backend Symfony")
+            ->setDescription("
+Nous recherchons un Testeur Backend spécialisé en Symfony pour garantir la qualité et la fiabilité de nos applications. En collaboration avec les développeurs, vous serez chargé de concevoir et d'exécuter des tests afin d'identifier les anomalies, de valider les nouvelles fonctionnalités, et d'assurer des performances optimales.
+
+Vos missions :
+Concevoir des scénarios de test pour les fonctionnalités backend développées sous Symfony.
+
+Mettre en œuvre des tests automatisés (unitaires, fonctionnels, API) et analyser les résultats.
+
+Collaborer avec les développeurs pour identifier et corriger les bugs.
+
+Documenter les processus de test et les résultats pour améliorer en continu la qualité du produit.
+
+Profil recherché :
+Bonne maîtrise de Symfony et des outils de test (PHPUnit, Behat, Postman).
+
+Connaissance des bases de données et des APIs REST.
+
+Sens du détail, rigueur et esprit critique.
+
+Rejoignez notre équipe et jouez un rôle clé dans la fiabilité de nos solutions !")
+            ->setType(JobOfferType::Apprenticeship)
+            ->setStartAt(new \DateTimeImmutable())
+            ->setEndAt(new \DateTimeImmutable("+ 1 year"))
+            ->setImageFilePath("/var/www/public/assets/jobOffer/images/testing_symfo.jpg")
+            ->setStatus(JobOfferStatus::Online)
+            ->addSkill($skill5)
+            ->addCategory($category5)
+        ;
+
+        $manager->persist($jobOffer1);
+        $manager->persist($jobOffer2);
+        $manager->persist($jobOffer3);
 
         $manager->flush();
     }
