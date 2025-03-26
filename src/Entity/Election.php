@@ -33,21 +33,23 @@ class Election
     private ?\DateTimeImmutable $voteEndAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'createdElections')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?User $createdBy = null;
 
     #[ORM\ManyToOne(inversedBy: 'updatedElections')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?User $updatedBy = null;
 
     /**
      * @var Collection<int, Candidacy>
      */
-    #[ORM\OneToMany(targetEntity: Candidacy::class, mappedBy: 'election')]
+    #[ORM\OneToMany(targetEntity: Candidacy::class, mappedBy: 'election', cascade: ['persist', 'remove'])]
     private Collection $candidacies;
 
     /**
      * @var Collection<int, Vote>
      */
-    #[ORM\OneToMany(targetEntity: Vote::class, mappedBy: 'election')]
+    #[ORM\OneToMany(targetEntity: Vote::class, mappedBy: 'election', cascade: ['persist', 'remove'])]
     private Collection $votes;
 
     public function __construct()

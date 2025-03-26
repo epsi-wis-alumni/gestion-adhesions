@@ -36,9 +36,11 @@ class Transaction
     private ?string $amount = null;
 
     #[ORM\ManyToOne(inversedBy: 'transactions')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'transactions')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Subscription $subscription = null;
 
     #[Embedded(class: Invoice::class)]
@@ -57,6 +59,7 @@ class Transaction
     private ?string $refundId = null;
 
     #[ORM\ManyToOne(inversedBy: 'transactions')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Donation $donation = null;
 
     public function __construct()
