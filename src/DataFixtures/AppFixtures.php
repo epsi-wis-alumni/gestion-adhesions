@@ -9,6 +9,7 @@ use App\Entity\Election;
 use App\Entity\Event;
 use App\Entity\Feature;
 use App\Entity\JobOffer;
+use App\Entity\JobQuestion;
 use App\Entity\MailTemplate;
 use App\Entity\Newsletter;
 use App\Entity\Plan;
@@ -753,6 +754,7 @@ Rejoignez-nous et participez à des projets stimulants dans un environnement col
             ->addSkill($skill2)
             ->addCategory($category1)
             ->addCategory($category2)
+            ->setCreatedBy($userPerso)
         ;
 
         $jobOffer2 = new JobOffer();
@@ -787,6 +789,7 @@ Rejoignez une équipe dynamique et contribuez à des projets innovants où vos i
             ->addSkill($skill4)
             ->addCategory($category3)
             ->addCategory($category4)
+            ->setCreatedBy($userAdmin)
         ;
 
         $jobOffer3 = new JobOffer();
@@ -819,11 +822,72 @@ Rejoignez notre équipe et jouez un rôle clé dans la fiabilité de nos solutio
             ->setStatus(JobOfferStatus::Online)
             ->addSkill($skill5)
             ->addCategory($category5)
+            ->setCreatedBy($userAdmin)
         ;
 
         $manager->persist($jobOffer1);
         $manager->persist($jobOffer2);
         $manager->persist($jobOffer3);
+
+        $manager->flush();
+
+        // Category
+
+        $jobQuestion1 = new JobQuestion();
+        $jobQuestion1
+            ->setDescription("Bonjour, pourriez-vous me préciser les horaires de travail pour ce poste ? Est-ce en journée ou en rotation (matin/soir/nuit) ?")
+            ->setCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(null)
+            ->setCreatedBy($userAdmin)
+            ->setAnswer(null)
+            ->setJobOffer($jobOffer1)
+        ;
+
+        $jobQuestion2 = new JobQuestion();
+        $jobQuestion2
+            ->setDescription("Est-il possible d'effectuer ce travail à distance ou un télétravail partiel est-il envisageable ?")
+            ->setCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(null)
+            ->setCreatedBy($userAdmin)
+            ->setAnswer(null)
+            ->setJobOffer($jobOffer1)
+        ;
+
+        $jobQuestion3 = new JobQuestion();
+        $jobQuestion3
+            ->setDescription("Ce poste offre-t-il des perspectives de carrière à moyen ou long terme ?")
+            ->setCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(null)
+            ->setCreatedBy($userAdmin)
+            ->setAnswer(null)
+            ->setJobOffer($jobOffer1)
+        ;
+        
+        $jobQuestion4 = new JobQuestion();
+        $jobQuestion4
+            ->setDescription("Pouvez-vous indiquer la fourchette salariale pour ce poste, ainsi que les avantages inclus ?")
+            ->setCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(null)
+            ->setCreatedBy($userAdmin)
+            ->setAnswer(null)
+            ->setJobOffer($jobOffer1)
+        ;
+
+        $jobQuestion5 = new JobQuestion();
+        $jobQuestion5
+            ->setDescription("Bonjour, les horaires de travail sont du lundi au vendredi, de 9h à 17h, avec une pause déjeuner de 1 heure. Si des heures supplémentaires sont nécessaires, elles seront communiquées à l'avance et rémunérées selon la loi.")
+            ->setCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(null)
+            ->setCreatedBy($userAdmin)
+            ->setAnswer($jobQuestion1)
+            ->setJobOffer($jobOffer1)
+        ;
+        
+        $manager->persist($jobQuestion1);
+        $manager->persist($jobQuestion2);
+        $manager->persist($jobQuestion3);
+        $manager->persist($jobQuestion4);
+        $manager->persist($jobQuestion5);
 
         $manager->flush();
     }
