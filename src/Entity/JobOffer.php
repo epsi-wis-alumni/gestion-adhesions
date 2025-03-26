@@ -51,10 +51,21 @@ class JobOffer
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'jobOffers')]
     private Collection $categories;
 
+    /**
+     * @var Collection<int, JobQuestion>
+     */
+    #[ORM\OneToMany(targetEntity: JobQuestion::class, mappedBy: 'jobOffer', cascade: ['remove', 'persist'])]
+    private Collection $jobQuestions;
+
+    #[ORM\ManyToOne(inversedBy: 'jobOffers')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $createdBy = null;
+
     public function __construct()
     {
         $this->skills = new ArrayCollection();
         $this->categories = new ArrayCollection();
+        $this->jobQuestions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -190,6 +201,48 @@ class JobOffer
     public function removeCategory(Category $category): static
     {
         $this->categories->removeElement($category);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, JobQuestion>
+     */
+    public function getJobQuestions(): Collection
+    {
+        return $this->jobQuestions;
+    }
+
+    public function addJobQuestion(JobQuestion $jobQuestion): static
+    {
+        if (!$this->jobQuestions->contains($jobQuestion)) {
+            $this->jobQuestions->add($jobQuestion);
+            $jobQuestion->setJobOffer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJobQuestion(JobQuestion $jobQuestion): static
+    {
+        if ($this->jobQuestions->removeElement($jobQuestion)) {
+            // set the owning side to null (unless already changed)
+            if ($jobQuestion->getJobOffer() === $this) {
+                $jobQuestion->setJobOffer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): static
+    {
+        $this->createdBy = $createdBy;
 
         return $this;
     }

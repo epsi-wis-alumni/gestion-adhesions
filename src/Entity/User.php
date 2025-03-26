@@ -171,6 +171,18 @@ class User implements UserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $linkedinId = null;
 
+    /**
+     * @var Collection<int, JobOffer>
+     */
+    #[ORM\OneToMany(targetEntity: JobOffer::class, mappedBy: 'createdBy', cascade: ['remove', 'persist'])]
+    private Collection $jobOffers;
+
+    /**
+     * @var Collection<int, JobQuestion>
+     */
+    #[ORM\OneToMany(targetEntity: JobQuestion::class, mappedBy: 'createdBy')]
+    private Collection $jobQuestions;
+
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
@@ -188,6 +200,8 @@ class User implements UserInterface
         $this->userNewsletters = new ArrayCollection();
         $this->createdEvents = new ArrayCollection();
         $this->updatedEvents = new ArrayCollection();
+        $this->jobOffers = new ArrayCollection();
+        $this->jobQuestions = new ArrayCollection();
     }
 
     public function loadUserByOAuthUserResponse(UserResponseInterface $response, string $resourceOwnerName): UserInterface
@@ -890,6 +904,66 @@ class User implements UserInterface
     public function setLinkedinId(?string $linkedinId): static
     {
         $this->linkedinId = $linkedinId;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, JobOffer>
+     */
+    public function getJobOffers(): Collection
+    {
+        return $this->jobOffers;
+    }
+
+    public function addJobOffer(JobOffer $jobOffer): static
+    {
+        if (!$this->jobOffers->contains($jobOffer)) {
+            $this->jobOffers->add($jobOffer);
+            $jobOffer->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJobOffer(JobOffer $jobOffer): static
+    {
+        if ($this->jobOffers->removeElement($jobOffer)) {
+            // set the owning side to null (unless already changed)
+            if ($jobOffer->getCreatedBy() === $this) {
+                $jobOffer->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, JobQuestion>
+     */
+    public function getJobQuestions(): Collection
+    {
+        return $this->jobQuestions;
+    }
+
+    public function addJobQuestion(JobQuestion $jobQuestion): static
+    {
+        if (!$this->jobQuestions->contains($jobQuestion)) {
+            $this->jobQuestions->add($jobQuestion);
+            $jobQuestion->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJobQuestion(JobQuestion $jobQuestion): static
+    {
+        if ($this->jobQuestions->removeElement($jobQuestion)) {
+            // set the owning side to null (unless already changed)
+            if ($jobQuestion->getCreatedBy() === $this) {
+                $jobQuestion->setCreatedBy(null);
+            }
+        }
 
         return $this;
     }
