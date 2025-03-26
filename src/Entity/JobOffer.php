@@ -64,6 +64,15 @@ class JobOffer
     #[ORM\Column(length: 255)]
     private ?string $company = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $city = null;
+
+    #[ORM\Column(length: 12)]
+    private ?string $zipCode = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $country = null;
+
     public function __construct()
     {
         $this->skills = new ArrayCollection();
@@ -258,6 +267,42 @@ class JobOffer
     public function setCompany(string $company): static
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): static
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getZipCode(): ?string
+    {
+        return $this->zipCode;
+    }
+
+    public function setZipCode(string $zipCode): static
+    {
+        $this->zipCode = $zipCode;
+
+        return $this;
+    }
+
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    public function setCountry(string $country): static
+    {
+        $this->country = $country;
 
         return $this;
     }

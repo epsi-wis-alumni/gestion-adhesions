@@ -756,6 +756,9 @@ Rejoignez-nous et participez à des projets stimulants dans un environnement col
             ->addCategory($category2)
             ->setCreatedBy($userPerso)
             ->setCompany("CGI")
+            ->setCountry("France")
+            ->setCity("Montpellier")
+            ->setZipCode("34000")
         ;
 
         $jobOffer2 = new JobOffer();
@@ -792,6 +795,9 @@ Rejoignez une équipe dynamique et contribuez à des projets innovants où vos i
             ->addCategory($category4)
             ->setCreatedBy($userAdmin)
             ->setCompany("3D Map")
+            ->setCountry("France")
+            ->setCity("Montpellier")
+            ->setZipCode("34000")
         ;
 
         $jobOffer3 = new JobOffer();
@@ -826,6 +832,9 @@ Rejoignez notre équipe et jouez un rôle clé dans la fiabilité de nos solutio
             ->addCategory($category5)
             ->setCreatedBy($userAdmin)
             ->setCompany("Septeo")
+            ->setCountry("France")
+            ->setCity("Montpellier")
+            ->setZipCode("34000")
         ;
 
         $manager->persist($jobOffer1);
