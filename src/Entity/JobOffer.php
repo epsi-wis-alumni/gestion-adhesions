@@ -61,6 +61,9 @@ class JobOffer
     #[ORM\JoinColumn(nullable: false)]
     private ?User $createdBy = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $company = null;
+
     public function __construct()
     {
         $this->skills = new ArrayCollection();
@@ -243,6 +246,18 @@ class JobOffer
     public function setCreatedBy(?User $createdBy): static
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getCompany(): ?string
+    {
+        return $this->company;
+    }
+
+    public function setCompany(string $company): static
+    {
+        $this->company = $company;
 
         return $this;
     }

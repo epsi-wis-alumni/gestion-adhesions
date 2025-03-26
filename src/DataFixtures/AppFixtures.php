@@ -755,6 +755,7 @@ Rejoignez-nous et participez à des projets stimulants dans un environnement col
             ->addCategory($category1)
             ->addCategory($category2)
             ->setCreatedBy($userPerso)
+            ->setCompany("CGI")
         ;
 
         $jobOffer2 = new JobOffer();
@@ -790,6 +791,7 @@ Rejoignez une équipe dynamique et contribuez à des projets innovants où vos i
             ->addCategory($category3)
             ->addCategory($category4)
             ->setCreatedBy($userAdmin)
+            ->setCompany("3D Map")
         ;
 
         $jobOffer3 = new JobOffer();
@@ -823,6 +825,7 @@ Rejoignez notre équipe et jouez un rôle clé dans la fiabilité de nos solutio
             ->addSkill($skill5)
             ->addCategory($category5)
             ->setCreatedBy($userAdmin)
+            ->setCompany("Septeo")
         ;
 
         $manager->persist($jobOffer1);
