@@ -19,10 +19,22 @@ final class JobOfferController extends AbstractController
     #[Route(name: 'app_job_offer_index', methods: ['GET', 'POST'])]
     public function index(
         JobOfferRepository $jobOfferRepository,
+        Request $request,
+        CategoryRepository $categoryRepository,  
     ): Response {
         $jobOffers= $jobOfferRepository->findAll();
+        $categories = $categoryRepository->findAll();
+        $form = $this->createForm(JobOfferSortingType::class, null, [
+            'job_offer_categories' => $categories,
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $jobOffers= $jobOfferRepository->findFilteredJobOffers($form->getData());
+        }
         return $this->render('job_offer/index.html.twig', [
             'job_offers' => $jobOffers,
+            'form' => $form,
         ]);
     }
 

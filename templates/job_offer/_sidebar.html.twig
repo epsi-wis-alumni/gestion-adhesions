@@ -1,0 +1,27 @@
+{% import "macros/navigation.html.twig" as navigation %}
+{% import "macros/fontawesome.html.twig" as fa %}
+
+<div class="d-flex flex-column flex-grow p-3 h-100 border rounded-3">
+    <div class="nav nav-pills flex-column mb-auto">
+        <div class="d-flex align-items-center px-2 justify-content-between">
+            <h2 class="">Filtres</h2>
+            <a href="{{ path('app_job_offer_index') }}" class="btn rounded-4" style="box-shadow: none;" >{{ fa.icon('arrows-rotate-reverse', size: 'xl') }}</a>
+        </div>
+        <hr>
+        {{ form_start(form, {'attr': {'id': 'myForm', 'data-form-reset-target': 'form'}}) }}
+            {{ form_row(form.types) }}
+            {{ form_row(form.categories) }}
+            {{ form_row(form.experience) }}
+            {{ form_row(form.languages) }}
+            {{ form_row(form.skills) }}
+            {{ form_row(form.location) }}
+            <div class="text-center mt-5">
+                <button type="submit" class="btn btn-primary" data-turbo="false">
+                    {# {{ fa.icon('arrow-down-wide-short', size: 'lg') }} #}
+                    {{ fa.icon('sliders-h', size: 'lg') }}
+                    Filtrer
+                </button>
+            </div>
+        {{ form_end(form) }}
+    </div>
+</div>

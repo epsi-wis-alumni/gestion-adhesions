@@ -1,4 +1,105 @@
 {% extends 'base.html.twig' %}
+{% import "macros/job_offer_card.html.twig" as joc %}
+{% import "macros/navigation.html.twig" as navigation %}
+{% import "macros/fontawesome.html.twig" as fa %}
+
 {% block title %}JobOffer index{% endblock %}
+
+{% set date_format = 'd/m/Y H:i' %}
+{% set job_offer_status = {
+    "Online": "En ligne",
+    "Archived": "Archivé"
+} %}
+{% set job_offer_type = {
+    "Undefined": "Indéfini",
+    "Internship": "Stage",
+    "Apprenticeship": "Alternance",
+    "CDD": "CDD",
+    "CDI": "CDI"
+} %}
+
 {% block body %}
+    <div class="container my-5">
+        <h1 class="fw-bold text-center mb-5">Offres D'emplois</h1>
+        <div class="row">
+            <div class="col-auto">
+                <div style="width: min(18rem, 100%);">
+                    {% include "job_offer/_sidebar.html.twig" %}
+                </div>
+            </div>
+            <div class="col">
+                <div class="d-flex flex-column align-items-center">
+                    {% for job_offer in job_offers %}
+                        {{ joc.card(
+                            id: job_offer.id,
+                            title: job_offer.title,
+                            description: job_offer.description,
+                            type: job_offer.type,
+                            status: job_offer.status,
+                            startAt: job_offer.startAt,
+                            endAt: job_offer.endAt,
+                            imageFilePath: job_offer.imageFilePath,
+                            skills: job_offer.skills,
+                            categories: job_offer.categories,
+                            compagny: job_offer.company,
+                            country: job_offer.country,
+                            city: job_offer.city,
+                            zip_code: job_offer.zipCode
+                        ) }}
+                    {% else %}
+                        <div class="card mb-2" style="width: 80%;">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4">Aucune offres a afficher. Actualisez la page ou modifiez les filtres.</h5>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Company</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>StartAt</th>
+                    <th>EndAt</th>
+                    <th>ImageFilePath</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for job_offer in job_offers %}
+                <tr>
+                    <td>{{ job_offer.id }}</td>
+                    <td>{{ job_offer.title }}</td>
+                    <td>{{ job_offer.description }}</td>
+                    <td>{{ job_offer.company }}</td>
+                    <td>{{ job_offer_type[job_offer.type.name] }}</td>
+                    <td>{{ job_offer_status[job_offer.status.name] }}</td>
+                    <td>{{ job_offer.startAt ? job_offer.startAt|date(date_format) : '' }}</td>
+                    <td>{{ job_offer.endAt ? job_offer.endAt|date(date_format) : '' }}</td>
+                    <td>{{ job_offer.imageFilePath }}</td>
+                    <td>
+                        <a href="{{ path('app_job_offer_show', {'id': job_offer.id}) }}">show</a>
+                        <a href="{{ path('app_job_offer_edit', {'id': job_offer.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="9">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_job_offer_new') }}">Create new</a>
+    </div> #}
 {% endblock %}
