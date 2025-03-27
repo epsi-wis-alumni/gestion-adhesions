@@ -909,6 +909,7 @@ Rejoignez-nous et participez à des projets stimulants dans un environnement col
             ->setRequiredExperience("0")
             ->addLanguage($language1)
             ->addLanguage($language2)
+            ->onPrePersist()
         ;
 
         $jobOffer2 = new JobOffer();
@@ -950,6 +951,7 @@ Rejoignez une équipe dynamique et contribuez à des projets innovants où vos i
             ->setZipCode("34000")
             ->setRequiredExperience("2")
             ->addLanguage($language1)
+            ->onPrePersist()
         ;
 
         $jobOffer3 = new JobOffer();
@@ -990,6 +992,7 @@ Rejoignez notre équipe et jouez un rôle clé dans la fiabilité de nos solutio
             ->setRequiredExperience("15")
             ->addLanguage($language1)
             ->addLanguage($language4)
+            ->onPrePersist()
         ;
 
         $manager->persist($jobOffer1);
