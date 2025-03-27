@@ -73,11 +73,21 @@ class JobOffer
     #[ORM\Column(length: 255)]
     private ?string $country = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $requiredExperience = null;
+
+    /**
+     * @var Collection<int, Language>
+     */
+    #[ORM\ManyToMany(targetEntity: Language::class, mappedBy: 'jobOffers')]
+    private Collection $languages;
+
     public function __construct()
     {
         $this->skills = new ArrayCollection();
         $this->categories = new ArrayCollection();
         $this->jobQuestions = new ArrayCollection();
+        $this->languages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -303,6 +313,45 @@ class JobOffer
     public function setCountry(string $country): static
     {
         $this->country = $country;
+
+        return $this;
+    }
+
+    public function getRequiredExperience(): ?int
+    {
+        return $this->requiredExperience;
+    }
+
+    public function setRequiredExperience(?int $requiredExperience): static
+    {
+        $this->requiredExperience = $requiredExperience;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Language>
+     */
+    public function getLanguages(): Collection
+    {
+        return $this->languages;
+    }
+
+    public function addLanguage(Language $language): static
+    {
+        if (!$this->languages->contains($language)) {
+            $this->languages->add($language);
+            $language->addJobOffer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLanguage(Language $language): static
+    {
+        if ($this->languages->removeElement($language)) {
+            $language->removeJobOffer($this);
+        }
 
         return $this;
     }
