@@ -24,6 +24,9 @@ class Language
     #[ORM\ManyToMany(targetEntity: JobOffer::class, inversedBy: 'languages')]
     private Collection $jobOffers;
 
+    #[ORM\Column(length: 10)]
+    private ?string $code = null;
+
     public function __construct()
     {
         $this->jobOffers = new ArrayCollection();
@@ -66,6 +69,18 @@ class Language
     public function removeJobOffer(JobOffer $jobOffer): static
     {
         $this->jobOffers->removeElement($jobOffer);
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): static
+    {
+        $this->code = $code;
 
         return $this;
     }

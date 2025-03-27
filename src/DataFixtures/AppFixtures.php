@@ -10,6 +10,7 @@ use App\Entity\Event;
 use App\Entity\Feature;
 use App\Entity\JobOffer;
 use App\Entity\JobQuestion;
+use App\Entity\Language;
 use App\Entity\MailTemplate;
 use App\Entity\Newsletter;
 use App\Entity\Plan;
@@ -720,6 +721,152 @@ idéale pour se lancer dans l’aventure entrepreneuriale."
 
         $manager->flush();
 
+        // Language
+
+        $language1 = new Language();
+        $language1
+            ->setName("francais")
+            ->setCode('fr')
+        ;
+
+        $language2 = new Language();
+        $language2
+            ->setName("anglais")
+            ->setCode('an')
+        ;
+
+        $language3 = new Language();
+        $language3
+            ->setName("allemand")
+            ->setCode('de')
+        ;
+
+        $language4 = new Language();
+        $language4
+            ->setName("espagnol")
+            ->setCode('es')
+        ;
+
+        $language5 = new Language();
+        $language5
+            ->setName("italien")
+            ->setCode('it')
+        ;
+
+        $language6 = new Language();
+        $language6
+            ->setName("russe")
+            ->setCode('ru')
+        ;
+
+        $language7 = new Language();
+        $language7
+            ->setName("japonais")
+            ->setCode('ja')
+        ;
+
+        $language8 = new Language();
+        $language8
+            ->setName("chinois")
+            ->setCode('zh')
+        ;
+
+        $language9 = new Language();
+        $language9
+            ->setName("portugais")
+            ->setCode('pt')
+        ;
+
+        $language10 = new Language();
+        $language10
+            ->setName("arabe")
+            ->setCode('ar')
+        ;
+
+        $language11 = new Language();
+        $language11
+            ->setName("hindi")
+            ->setCode('hi')
+        ;
+
+        $language12 = new Language();
+        $language12
+            ->setName("néerlandais")
+            ->setCode('nl')
+        ;
+
+        $language13 = new Language();
+        $language13
+            ->setName("suédois")
+            ->setCode('sv')
+        ;
+
+        $language14 = new Language();
+        $language14
+            ->setName("danois")
+            ->setCode('da')
+        ;
+
+        $language15 = new Language();
+        $language15
+            ->setName("norvégien")
+            ->setCode('no')
+        ;
+
+        $language16 = new Language();
+        $language16
+            ->setName("finnois")
+            ->setCode('fi')
+        ;
+
+        $language17 = new Language();
+        $language17
+            ->setName("coréen")
+            ->setCode('ko')
+        ;
+
+        $language18 = new Language();
+        $language18
+            ->setName("turc")
+            ->setCode('tr')
+        ;
+
+        $language19 = new Language();
+        $language19
+            ->setName("grec")
+            ->setCode('el')
+        ;
+
+        $language20 = new Language();
+        $language20
+            ->setName("vietnamien")
+            ->setCode('vi')
+        ;
+
+        $manager->persist($language1);
+        $manager->persist($language2);
+        $manager->persist($language3);
+        $manager->persist($language4);
+        $manager->persist($language5);
+        $manager->persist($language6);
+        $manager->persist($language7);
+        $manager->persist($language8);
+        $manager->persist($language9);
+        $manager->persist($language10);
+        $manager->persist($language11);
+        $manager->persist($language12);
+        $manager->persist($language13);
+        $manager->persist($language14);
+        $manager->persist($language15);
+        $manager->persist($language16);
+        $manager->persist($language17);
+        $manager->persist($language18);
+        $manager->persist($language19);
+        $manager->persist($language20);
+
+        $manager->flush();
+
+
         // JobOffer
 
         $jobOffer1 = new JobOffer();
@@ -759,6 +906,9 @@ Rejoignez-nous et participez à des projets stimulants dans un environnement col
             ->setCountry("France")
             ->setCity("Montpellier")
             ->setZipCode("34000")
+            ->setRequiredExperience("0")
+            ->addLanguage($language1)
+            ->addLanguage($language2)
         ;
 
         $jobOffer2 = new JobOffer();
@@ -798,6 +948,8 @@ Rejoignez une équipe dynamique et contribuez à des projets innovants où vos i
             ->setCountry("France")
             ->setCity("Montpellier")
             ->setZipCode("34000")
+            ->setRequiredExperience("2")
+            ->addLanguage($language1)
         ;
 
         $jobOffer3 = new JobOffer();
@@ -835,6 +987,9 @@ Rejoignez notre équipe et jouez un rôle clé dans la fiabilité de nos solutio
             ->setCountry("France")
             ->setCity("Montpellier")
             ->setZipCode("34000")
+            ->setRequiredExperience("15")
+            ->addLanguage($language1)
+            ->addLanguage($language4)
         ;
 
         $manager->persist($jobOffer1);
