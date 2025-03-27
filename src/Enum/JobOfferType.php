@@ -9,4 +9,16 @@ enum JobOfferType: int
     case Apprenticeship = 2;
     case CDD = 3;
     case CDI = 4;
+    case Freelance = 5;
+
+    public static function getChoices(): array
+    {
+        return [
+            'Stage' => self::Internship,
+            'Alternance' => self::Apprenticeship,
+            'CDD' => self::CDD,
+            'CDI' => self::CDI,
+            'Freelance' => self::Freelance,
+        ];
+    }
 }
