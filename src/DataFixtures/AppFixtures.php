@@ -984,6 +984,7 @@ Rejoignez notre équipe et jouez un rôle clé dans la fiabilité de nos solutio
             ->setStatus(JobOfferStatus::Online)
             ->addSkill($skill5)
             ->addCategory($category5)
+            ->addCategory($category1)
             ->setCreatedBy($userAdmin)
             ->setCompany("Septeo")
             ->setCountry("France")
