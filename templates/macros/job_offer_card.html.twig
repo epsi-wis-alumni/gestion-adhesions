@@ -1,0 +1,62 @@
+{% macro card(
+    id,
+    title,
+    description,
+    type,
+    status,
+    startAt,
+    endAt,
+    imageFilePath,
+    skills,
+    categories,
+    compagny,
+    country,
+    city,
+    zip_code
+) %}
+{% import "macros/fontawesome.html.twig" as fa %}
+{% import "macros/badge.html.twig" as badge %}
+
+{% set date_format = 'd/m/Y H:i' %}
+{% set job_offer_status = {
+    "Online": "En ligne",
+    "Archived": "Archivé"
+} %}
+{% set job_offer_type = {
+    "Undefined": "Indéfini",
+    "Internship": "Stage",
+    "Apprenticeship": "Alternance",
+    "CDD": "CDD",
+    "CDI": "CDI"
+} %}
+
+<div class="card mb-2 w-100">
+  <div class="card-body">
+    <h5 class="card-title mb-4">{{ title }}</h5>
+
+    <div><span class="me-2">{{ fa.icon('building') }}</span> {{ compagny }}</div>
+    <div><span class="me-2">{{ fa.icon('location-dot') }}</span> {{ zip_code|number_format(0, '.', ' ') }} {{ city }}, {{ country }}</div>
+
+    <div class="mt-4 mb-2 user-select-none">
+        {{ badge.emphasis(
+            label: job_offer_type[type.name],
+            variant: "info"
+        ) }}
+    </div>
+    <div class="d-flex flex-wrap">
+        {% for skill in skills %}
+            <div class="me-2 mb-2 user-select-none">
+                {{ badge.emphasis(
+                    label: skill.name,
+                    variant: "success"
+                ) }}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="mt-2">
+        <a href="{{ path('app_job_offer_show', {id: id}) }}" class="card-link">En savoir plus</a>
+    </div>
+  </div>
+</div>
+
+{% endmacro %}
