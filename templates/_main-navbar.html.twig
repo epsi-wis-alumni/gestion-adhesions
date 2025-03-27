@@ -22,6 +22,12 @@
               icon: fa.icon('check-to-slot', size: 'lg'),
               check_path: 'app_election',
             ) }}
+            {{ navigation.nav_item(
+              label: 'Offres d\'emplois',
+              path: path('app_job_offer_index'),
+              icon: fa.icon('briefcase', size: 'lg'),
+              check_path: 'app_job_offer',
+            ) }}
           {% endif %}
           
           {{ navigation.nav_item(
