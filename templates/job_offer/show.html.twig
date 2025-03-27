@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}JobOffer{% endblock %}
+
+{% block body %}
+    <h1>JobOffer</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ job_offer.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ job_offer.title }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ job_offer.description }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ job_offer.type }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ job_offer.status }}</td>
+            </tr>
+            <tr>
+                <th>StartAt</th>
+                <td>{{ job_offer.startAt ? job_offer.startAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>EndAt</th>
+                <td>{{ job_offer.endAt ? job_offer.endAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>ImageFilePath</th>
+                <td>{{ job_offer.imageFilePath }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_job_offer_index') }}">back to list</a>
+
+    <a href="{{ path('app_job_offer_edit', {'id': job_offer.id}) }}">edit</a>
+
+    {{ include('job_offer/_delete_form.html.twig') }}
+{% endblock %}
