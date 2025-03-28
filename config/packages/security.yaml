@@ -53,6 +53,7 @@ security:
         - { path: ^/(login|connect|event|$|cgu|plan), roles: PUBLIC_ACCESS }
         - { path: ^/(complete-profile|user|logout|donation), roles: ROLE_USER }
         - { path: ^/contribute, roles: ROLE_APPROVED }
+        - { path: ^/job-offer/.+/edit$, roles: ROLE_PARTNER }
         - { path: ^/admin, roles: ROLE_ADMIN }
 
         - { path: ^/, roles: ROLE_MEMBER } # catch-all
