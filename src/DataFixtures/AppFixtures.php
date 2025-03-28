@@ -873,25 +873,25 @@ idéale pour se lancer dans l’aventure entrepreneuriale."
         $jobOffer1
             ->setTitle("Développeur Backend Symfony / MySQL")
             ->setDescription("
-Nous recherchons un Développeur Backend expérimenté pour rejoindre notre équipe dynamique et travailler sur des projets innovants. Vous serez en charge de concevoir, développer et maintenir des applications web robustes et évolutives en utilisant le framework Symfony et la base de données MySQL.
+Nous recherchons un **Développeur Backend expérimenté** pour rejoindre notre équipe dynamique et travailler sur des projets innovants.
 
-Vos missions :
-Développer de nouvelles fonctionnalités et améliorer les solutions existantes.
+### Vos missions
+- Développer de nouvelles fonctionnalités et améliorer les solutions existantes.
+- Optimiser les performances des applications et des bases de données.
+- Collaborer avec les équipes **Frontend** et **DevOps** pour garantir la qualité et la stabilité des livrables.
+- Participer à la conception technique et au choix des architectures.
 
-Optimiser les performances des applications et des bases de données.
+### Profil recherché
+- **Maîtrise** de Symfony et de MySQL.
+- Bonne compréhension des concepts d’**API REST** et de la sécurité des applications web.
+- Capacité à travailler en équipe et à respecter les délais.
 
-Collaborer avec les équipes Frontend et DevOps pour garantir la qualité et la stabilité des livrables.
+### Pourquoi nous rejoindre ?
+- Des projets stimulants.
+- Un environnement collaboratif et bienveillant.
 
-Participer à la conception technique et au choix des architectures.
-
-Profil recherché :
-Maîtrise de Symfony et de MySQL.
-
-Bonne compréhension des concepts d’API REST et de sécurité des applications web.
-
-Capacité à travailler en équipe et à respecter les délais.
-
-Rejoignez-nous et participez à des projets stimulants dans un environnement collaboratif !")
+**Rejoignez-nous et contribuez à la création de solutions innovantes !**
+")
             ->addType(JobOfferType::CDI)
             ->addType(JobOfferType::Apprenticeship)
             ->setStartAt(new \DateTimeImmutable())
@@ -917,25 +917,25 @@ Rejoignez-nous et participez à des projets stimulants dans un environnement col
         $jobOffer2
             ->setTitle("Développeur Frontend Figma / Angular.js")
             ->setDescription("
-Nous recherchons un Développeur Frontend talentueux et passionné pour transformer des maquettes Figma en interfaces web modernes et performantes en utilisant Angular.js. Vous jouerez un rôle clé dans la création d'expériences utilisateur intuitives et engageantes.
+Nous recherchons un **Développeur Frontend talentueux et passionné** pour transformer des maquettes Figma en interfaces web modernes et performantes en utilisant **Angular.js**. Vous jouerez un rôle clé dans la création d'expériences utilisateur intuitives et engageantes.
 
-Vos missions :
-Intégrer des maquettes Figma en composants dynamiques avec Angular.js.
+### Vos missions
+- Intégrer des maquettes Figma en composants dynamiques avec **Angular.js**.
+- Collaborer étroitement avec les équipes **UX/UI** pour garantir une fidélité parfaite aux designs.
+- Optimiser le code pour garantir des **performances optimales** et une compatibilité multi-navigateurs.
+- Mettre en œuvre les bonnes pratiques de développement, notamment en termes de **tests**, **accessibilité** et **SEO**.
 
-Collaborer étroitement avec les équipes UX/UI pour garantir une fidélité parfaite aux designs.
+### Profil recherché
+- **Excellente maîtrise** d'Angular.js et bonne compréhension des frameworks modernes.
+- Expérience avec **Figma** et la conversion de designs en code propre et maintenable.
+- Sens aigu du détail et des performances.
 
-Optimiser le code pour garantir des performances optimales et une compatibilité multi-navigateurs.
+### Pourquoi nous rejoindre ?
+- Une équipe dynamique.
+- Des projets innovants où vos idées feront la différence.
 
-Mettre en œuvre les bonnes pratiques de développement, notamment en termes de tests, accessibilité et SEO.
-
-Profil recherché :
-Excellente maîtrise d'Angular.js et bonne compréhension des frameworks modernes.
-
-Expérience avec Figma et la conversion de designs en code propre et maintenable.
-
-Sens aigu du détail et des performances.
-
-Rejoignez une équipe dynamique et contribuez à des projets innovants où vos idées feront la différence !")
+**Rejoignez-nous et contribuez à façonner des expériences utilisateur exceptionnelles !**
+")
             ->addType(JobOfferType::Internship)
             ->addType(JobOfferType::Apprenticeship)
             ->setStartAt(new \DateTimeImmutable())
@@ -960,25 +960,25 @@ Rejoignez une équipe dynamique et contribuez à des projets innovants où vos i
         $jobOffer3
             ->setTitle("Testeur Backend Symfony")
             ->setDescription("
-Nous recherchons un Testeur Backend spécialisé en Symfony pour garantir la qualité et la fiabilité de nos applications. En collaboration avec les développeurs, vous serez chargé de concevoir et d'exécuter des tests afin d'identifier les anomalies, de valider les nouvelles fonctionnalités, et d'assurer des performances optimales.
+Nous recherchons un **Testeur Backend spécialisé en Symfony** pour garantir la qualité et la fiabilité de nos applications. En collaboration avec les développeurs, vous serez chargé de concevoir et d'exécuter des tests afin d'identifier les anomalies, de valider les nouvelles fonctionnalités, et d'assurer des performances optimales.
 
-Vos missions :
-Concevoir des scénarios de test pour les fonctionnalités backend développées sous Symfony.
+### Vos missions
+- Concevoir des scénarios de test pour les fonctionnalités backend développées sous **Symfony**.
+- Mettre en œuvre des **tests automatisés** (unitaires, fonctionnels, API) et analyser les résultats.
+- Collaborer avec les développeurs pour identifier et corriger les **bugs**.
+- Documenter les processus de test et les résultats pour améliorer en continu la qualité du produit.
 
-Mettre en œuvre des tests automatisés (unitaires, fonctionnels, API) et analyser les résultats.
+### Profil recherché
+- Bonne maîtrise de **Symfony** et des outils de test (**PHPUnit**, **Behat**, **Postman**).
+- Connaissance des bases de données et des **APIs REST**.
+- Sens du détail, rigueur et esprit critique.
 
-Collaborer avec les développeurs pour identifier et corriger les bugs.
+### Pourquoi nous rejoindre ?
+- Une équipe passionnée et dédiée.
+- L'opportunité de jouer un rôle clé dans la **fiabilité de nos solutions**.
 
-Documenter les processus de test et les résultats pour améliorer en continu la qualité du produit.
-
-Profil recherché :
-Bonne maîtrise de Symfony et des outils de test (PHPUnit, Behat, Postman).
-
-Connaissance des bases de données et des APIs REST.
-
-Sens du détail, rigueur et esprit critique.
-
-Rejoignez notre équipe et jouez un rôle clé dans la fiabilité de nos solutions !")
+**Rejoignez-nous et faites la différence dans la qualité de nos produits !**
+")
             ->addType(JobOfferType::Apprenticeship)
             ->setStartAt(new \DateTimeImmutable())
             ->setEndAt(new \DateTimeImmutable("+ 1 year"))
