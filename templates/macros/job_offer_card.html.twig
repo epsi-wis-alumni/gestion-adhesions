@@ -2,7 +2,7 @@
     id,
     title,
     description,
-    type,
+    types,
     status,
     startAt,
     endAt,
@@ -37,11 +37,15 @@
     <div><span class="me-2">{{ fa.icon('building') }}</span> {{ compagny }}</div>
     <div><span class="me-2">{{ fa.icon('location-dot') }}</span> {{ zip_code|number_format(0, '.', ' ') }} {{ city }}, {{ country }}</div>
 
-    <div class="mt-4 mb-2 user-select-none">
-        {{ badge.emphasis(
-            label: job_offer_type[type.name],
-            variant: "info"
-        ) }}
+    <div class="mt-4 d-flex flex-wrap">
+        {% for type in types %}
+            <div class="me-2 mb-2 user-select-none">
+                {{ badge.emphasis(
+                    label: job_offer_type[type.name],
+                    variant: "info"
+                ) }}
+            </div>
+        {% endfor %}
     </div>
     <div class="d-flex flex-wrap">
         {% for skill in skills %}
