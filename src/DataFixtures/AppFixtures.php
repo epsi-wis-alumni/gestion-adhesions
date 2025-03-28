@@ -892,7 +892,8 @@ Bonne compréhension des concepts d’API REST et de sécurité des applications
 Capacité à travailler en équipe et à respecter les délais.
 
 Rejoignez-nous et participez à des projets stimulants dans un environnement collaboratif !")
-            ->setType(JobOfferType::CDI)
+            ->addType(JobOfferType::CDI)
+            ->addType(JobOfferType::Apprenticeship)
             ->setStartAt(new \DateTimeImmutable())
             ->setEndAt(null)
             ->setImageFilePath("/var/www/public/assets/jobOffer/images/dev_back_symfo.jpg")
@@ -935,7 +936,8 @@ Expérience avec Figma et la conversion de designs en code propre et maintenable
 Sens aigu du détail et des performances.
 
 Rejoignez une équipe dynamique et contribuez à des projets innovants où vos idées feront la différence !")
-            ->setType(JobOfferType::Internship)
+            ->addType(JobOfferType::Internship)
+            ->addType(JobOfferType::Apprenticeship)
             ->setStartAt(new \DateTimeImmutable())
             ->setEndAt(new \DateTimeImmutable("+ 2 month"))
             ->setImageFilePath("/var/www/public/assets/jobOffer/images/dev_front_angular.jpg")
@@ -977,7 +979,7 @@ Connaissance des bases de données et des APIs REST.
 Sens du détail, rigueur et esprit critique.
 
 Rejoignez notre équipe et jouez un rôle clé dans la fiabilité de nos solutions !")
-            ->setType(JobOfferType::Apprenticeship)
+            ->addType(JobOfferType::Apprenticeship)
             ->setStartAt(new \DateTimeImmutable())
             ->setEndAt(new \DateTimeImmutable("+ 1 year"))
             ->setImageFilePath("/var/www/public/assets/jobOffer/images/testing_symfo.jpg")
