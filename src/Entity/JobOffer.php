@@ -39,7 +39,7 @@ class JobOffer
     private ?\DateTimeImmutable $endAt = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $imageFilePath = null;
+    private ?string $imageFileName = null;
 
     /**
      * @var Collection<int, Skill>
@@ -182,14 +182,14 @@ class JobOffer
         return $this;
     }
 
-    public function getImageFilePath(): ?string
+    public function getImageFileName(): ?string
     {
-        return $this->imageFilePath;
+        return $this->imageFileName;
     }
 
-    public function setImageFilePath(?string $imageFilePath): static
+    public function setImageFileName(?string $imageFileName): static
     {
-        $this->imageFilePath = $imageFilePath;
+        $this->imageFileName = $imageFileName;
 
         return $this;
     }
