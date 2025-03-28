@@ -75,7 +75,7 @@
                   <div class="card text-start">
                     <div class="card-body">
                       <div class="display-5 text-secondary fw-bold mb-3">
-                        {{ votecount ? winner.votes|length / voteCount * 100 : 0 }} %
+                        {{ voteCount ? winner.votes|length / voteCount * 100 : 0 }} %
                       </div>
                       <h5 class="card-title">{{ winner.candidate.displayName }}</h5>
                       <div 
@@ -86,7 +86,7 @@
                         aria-valuemin="0" 
                         aria-valuemax="{{ voteCount }}"
                       >
-                        <div class="progress-bar bg-success" style="width: {{ votecount ? winner.votes|length / voteCount * 100 : 0 }}%;">
+                        <div class="progress-bar bg-success" style="width: {{ voteCount ? winner.votes|length / voteCount * 100 : 0 }}%;">
                           {{ winner.votes|length }} / {{ voteCount }} votes
                         </div>
                       </div>
@@ -140,7 +140,7 @@
                   
                   {% if election.isClosed %}
                     <td {% if candidacy in winners %}class="text-success fw-bold"{% endif %}>
-                      {{ votecount ? (candidacy.votes|length / voteCount * 100)|round(2) : 0 }} %
+                      {{ voteCount ? (candidacy.votes|length / voteCount * 100)|round(2) : 0 }} %
                       <div 
                         class="progress" 
                         role="progressbar" 
@@ -149,7 +149,7 @@
                         aria-valuemin="0" 
                         aria-valuemax="{{ voteCount }}"
                       >
-                        <div class="progress-bar bg-{{ candidacy in winners ? 'success':'secondary' }}" style="width: {{ votecount ? candidacy.votes|length / voteCount * 100 : 0 }}%;">
+                        <div class="progress-bar bg-{{ candidacy in winners ? 'success':'secondary' }}" style="width: {{ voteCount ? candidacy.votes|length / voteCount * 100 : 0 }}%;">
                           {{ candidacy.votes|length }} / {{ voteCount }} votes
                         </div>
                       </div>
