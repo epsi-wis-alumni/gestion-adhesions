@@ -26,8 +26,8 @@ class JobOffer
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column(enumType: JobOfferType::class, options: ['default' => JobOfferType::Undefined->value])]
-    private ?JobOfferType $type = JobOfferType::Undefined;
+    #[ORM\Column(type: 'json', options: ['default' => '[]'])]
+    private array $types = [];
 
     #[ORM\Column(enumType: JobOfferStatus::class, options: ['default' => JobOfferStatus::Online->value])]
     private ?JobOfferStatus $status = JobOfferStatus::Online;
@@ -121,15 +121,28 @@ class JobOffer
         return $this;
     }
 
-    public function getType(): ?JobOfferType
+    public function getTypes(): array
     {
-        return $this->type;
+        return array_map(fn($type) => JobOfferType::from($type), $this->types);
     }
 
-    public function setType(JobOfferType $type): static
+    public function setTypes(array $types): self
     {
-        $this->type = $type;
+        $this->types = array_map(fn(JobOfferType $type) => $type->value, $types);
+        return $this;
+    }
 
+    public function addType(JobOfferType $type): self
+    {
+        if (!in_array($type->value, $this->types, true)) {
+            $this->types[] = $type->value;
+        }
+        return $this;
+    }
+
+    public function removeType(JobOfferType $type): self
+    {
+        $this->types = array_filter($this->types, fn($t) => $t !== $type->value);
         return $this;
     }
 
