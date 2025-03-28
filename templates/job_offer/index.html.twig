@@ -6,11 +6,11 @@
 {% block title %}JobOffer index{% endblock %}
 
 {% set date_format = 'd/m/Y H:i' %}
-{% set job_offer_status = {
+{% set jobOffer_status = {
     "Online": "En ligne",
     "Archived": "Archivé"
 } %}
-{% set job_offer_type = {
+{% set jobOffer_type = {
     "Undefined": "Indéfini",
     "Internship": "Stage",
     "Apprenticeship": "Alternance",
@@ -29,22 +29,22 @@
             </div>
             <div class="col">
                 <div class="d-flex flex-column align-items-center">
-                    {% for job_offer in job_offers %}
+                    {% for jobOffer in jobOffers %}
                         {{ joc.card(
-                            id: job_offer.id,
-                            title: job_offer.title,
-                            description: job_offer.description,
-                            type: job_offer.type,
-                            status: job_offer.status,
-                            startAt: job_offer.startAt,
-                            endAt: job_offer.endAt,
-                            imageFilePath: job_offer.imageFilePath,
-                            skills: job_offer.skills,
-                            categories: job_offer.categories,
-                            compagny: job_offer.company,
-                            country: job_offer.country,
-                            city: job_offer.city,
-                            zip_code: job_offer.zipCode
+                            id: jobOffer.id,
+                            title: jobOffer.title,
+                            description: jobOffer.description,
+                            types: jobOffer.types,
+                            status: jobOffer.status,
+                            startAt: jobOffer.startAt,
+                            endAt: jobOffer.endAt,
+                            imageFilePath: jobOffer.imageFileName,
+                            skills: jobOffer.skills,
+                            categories: jobOffer.categories,
+                            compagny: jobOffer.company,
+                            country: jobOffer.country,
+                            city: jobOffer.city,
+                            zip_code: jobOffer.zipCode
                         ) }}
                     {% else %}
                         <div class="card mb-2" style="width: 80%;">
@@ -76,20 +76,20 @@
                 </tr>
             </thead>
             <tbody>
-            {% for job_offer in job_offers %}
+            {% for jobOffer in jobOffers %}
                 <tr>
-                    <td>{{ job_offer.id }}</td>
-                    <td>{{ job_offer.title }}</td>
-                    <td>{{ job_offer.description }}</td>
-                    <td>{{ job_offer.company }}</td>
-                    <td>{{ job_offer_type[job_offer.type.name] }}</td>
-                    <td>{{ job_offer_status[job_offer.status.name] }}</td>
-                    <td>{{ job_offer.startAt ? job_offer.startAt|date(date_format) : '' }}</td>
-                    <td>{{ job_offer.endAt ? job_offer.endAt|date(date_format) : '' }}</td>
-                    <td>{{ job_offer.imageFilePath }}</td>
+                    <td>{{ jobOffer.id }}</td>
+                    <td>{{ jobOffer.title }}</td>
+                    <td>{{ jobOffer.description }}</td>
+                    <td>{{ jobOffer.company }}</td>
+                    <td>{{ jobOffer_type[jobOffer.type.name] }}</td>
+                    <td>{{ jobOffer_status[jobOffer.status.name] }}</td>
+                    <td>{{ jobOffer.startAt ? jobOffer.startAt|date(date_format) : '' }}</td>
+                    <td>{{ jobOffer.endAt ? jobOffer.endAt|date(date_format) : '' }}</td>
+                    <td>{{ jobOffer.imageFilePath }}</td>
                     <td>
-                        <a href="{{ path('app_job_offer_show', {'id': job_offer.id}) }}">show</a>
-                        <a href="{{ path('app_job_offer_edit', {'id': job_offer.id}) }}">edit</a>
+                        <a href="{{ path('app_jobOffer_show', {'id': jobOffer.id}) }}">show</a>
+                        <a href="{{ path('app_jobOffer_edit', {'id': jobOffer.id}) }}">edit</a>
                     </td>
                 </tr>
             {% else %}
@@ -100,6 +100,6 @@
             </tbody>
         </table>
 
-        <a href="{{ path('app_job_offer_new') }}">Create new</a>
+        <a href="{{ path('app_jobOffer_new') }}">Create new</a>
     </div> #}
 {% endblock %}

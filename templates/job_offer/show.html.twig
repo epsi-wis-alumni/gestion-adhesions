@@ -1,50 +1,175 @@
 {% extends 'base.html.twig' %}
+{% import "macros/fontawesome.html.twig" as fa %}
+{% import "macros/badge.html.twig" as badge %}
+
+{% set date_format = 'd/m/Y' %}
+{% set jobOffer_status = {
+    "Online": "En ligne",
+    "Archived": "Archivé"
+} %}
+{% set jobOffer_type = {
+    "Undefined": "Indéfini",
+    "Internship": "Stage",
+    "Apprenticeship": "Alternance",
+    "CDD": "CDD",
+    "CDI": "CDI"
+} %}
 
 {% block title %}JobOffer{% endblock %}
 
 {% block body %}
-    <h1>JobOffer</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ job_offer.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ job_offer.title }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ job_offer.description }}</td>
-            </tr>
-            <tr>
-                <th>Type</th>
-                <td>{{ job_offer.type }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ job_offer.status }}</td>
-            </tr>
-            <tr>
-                <th>StartAt</th>
-                <td>{{ job_offer.startAt ? job_offer.startAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>EndAt</th>
-                <td>{{ job_offer.endAt ? job_offer.endAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>ImageFilePath</th>
-                <td>{{ job_offer.imageFilePath }}</td>
-            </tr>
-        </tbody>
-    </table>
+{#
+{{ jobOffer.jobQuestions }} 
+#}
 
-    <a href="{{ path('app_job_offer_index') }}">back to list</a>
+<div class="container my-5">
+    <div class="w-100 row mb-5">
+        <div class="col-2">
+            <div class="d-flex h-100 align-items-center">
+                <img 
+                    class="rounded-5 img-fluid w-100" 
+                    src="{{ asset('assets/upload/jobOffer/images/' ~ jobOffer.imageFileName) }}" 
+                    alt="{{ jobOffer.imageFileName }}"
+                >
+            </div>
+        </div>
+        <div class="col">
+            <div class="d-flex flex-column justify-content-center align-items-start h-100">
+                <h1 class="fw-bold">{{ jobOffer.title }}</h1>
+                <div class="d-flex flex-wrap gap-2">
+                    <div><a href="{{ jobOffer.companyWebsite }}" target="_blanck">{{ jobOffer.company }} {{ fa.icon('up-right-from-square') }}</a></div>
+                    <div style="width: 1px; background-color: #ccc;" class="opacity-50 mx-2"></div>
+                    <div>{{ jobOffer.zipCode }} {{ jobOffer.city }} {{ jobOffer.country ? ', ' ~ jobOffer.country }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h2>Description de l'offre</h2>
+            <hr class="opacity-50">
+            <div style="text-align: justify">{{ jobOffer.description|markdown_to_html }}</div>
+        </div>
+        <div class="col-4 ms-4">
+            <h2>Détails de l'offre</h2>
+            <hr class="opacity-50">
+            <div>
+                <h4>
+                    {{ fa.icon('briefcase') }}
+                    Type d'emploi :
+                </h4>
+                <div class="ms-2 gap-2 d-flex flex-wrap">
+                    {% for type in jobOffer.types %}
+                        <div class="user-select-none">
+                            {{ badge.emphasis(
+                                label: jobOffer_type[type.name],
+                                variant: "info"
+                            ) }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <hr>
+            <div>
+                <h4>
+                    {{ fa.icon('calendar-days') }}
+                    Dates :
+                </h4>
+                <div class="ms-2">
+                    <div>
+                        Début souhaitée : 
+                        {{ jobOffer.startAt ? jobOffer.startAt|date(date_format) : '' }}
+                    </div>
+                    <div>
+                        Fin souhaitée : 
+                        {{ jobOffer.startAt ? jobOffer.endAt|date(date_format) : '' }}
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="d-flex flex-wrap align-items-center">
+                <h4>
+                    {{ fa.icon('graduation-cap') }}
+                    Expérience : 
+                </h4>
+                <div class="fs-4 ms-2 mb-2">{{ jobOffer.requiredExperience }} ans</div>
+            </div>
+            <hr>
+            <div>
+                <h4>
+                    {{ fa.icon('tools') }}
+                    Langues :
+                </h4>      
+                <div class="d-flex flex-wrap mb-2 ms-2 gap-2">
+                    {% for language in jobOffer.languages %}
+                        <div class="user-select-none">
+                            {{ badge.emphasis(
+                                label: language.name,
+                                variant: "primary"
+                            ) }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <hr>
+            <div>
+                <h4>
+                    {{ fa.icon('tools') }}
+                    Compétences :
+                </h4>      
+                <div class="d-flex flex-wrap mb-2 ms-2 gap-2">
+                    {% for skill in jobOffer.skills %}
+                        <div class="user-select-none">
+                            {{ badge.emphasis(
+                                label: skill.name,
+                                variant: "success"
+                            ) }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <hr>
+            <div>
+                <h4>
+                    Cette offre vous interresse ?
+                </h4>
+                <div class="m-2 text-center">
+                    <a href="#" class="mt-4 btn btn-warning">{{ fa.icon('person-sign') }} Postuler</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h2 class="text-center m-5">FAQ</h2>
+        <div>
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                    <button type="submit" class="btn btn-primary" data-turbo="false">
+                        {{ fa.icon('check', size: 'lg') }}
+                        Envoyer
+                    </button>
+            {{ form_end(form) }}
+        </div>
+            {% for jobQuestion in jobQuestions %}
+                <div>
+                    {{ jobQuestion.description }} {{ jobQuestion.createdAt|date(date_format) }}
+                </div>
+                {% if jobQuestion.createdBy == currentUser %}
+                    <div>
+                        <button class="btn shadow-none">{{ fa.icon('pen-to-square', size: 'lg') }}</button>
+                        <button class="btn shadow-none">{{ fa.icon('trash-can', size: 'lg') }}</button>
+                    </div>
+                {% endif %}
+                {% if jobOffer.createdBy == currentUser %}
+                    <div>
+                        <button class="btn shadow-none">{{ fa.icon('comment', size: 'lg') }}</button>
+                    </div>
+                {% endif %}
+                <hr>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 
-    <a href="{{ path('app_job_offer_edit', {'id': job_offer.id}) }}">edit</a>
-
-    {{ include('job_offer/_delete_form.html.twig') }}
 {% endblock %}
