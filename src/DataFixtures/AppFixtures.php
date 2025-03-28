@@ -910,6 +910,7 @@ Nous recherchons un **Développeur Backend expérimenté** pour rejoindre notre 
             ->setRequiredExperience("0")
             ->addLanguage($language1)
             ->addLanguage($language2)
+            ->setCompanyWebsite('https://www.cgi.com/france/fr-fr')
             ->onPrePersist()
         ;
 
@@ -953,6 +954,7 @@ Nous recherchons un **Développeur Frontend talentueux et passionné** pour tran
             ->setZipCode("34000")
             ->setRequiredExperience("2")
             ->addLanguage($language1)
+            ->setCompanyWebsite('https://www.3dmap.fr/')
             ->onPrePersist()
         ;
 
@@ -995,6 +997,7 @@ Nous recherchons un **Testeur Backend spécialisé en Symfony** pour garantir la
             ->setRequiredExperience("15")
             ->addLanguage($language1)
             ->addLanguage($language4)
+            ->setCompanyWebsite('https://www.septeo.com/fr')
             ->onPrePersist()
         ;
 

@@ -84,6 +84,9 @@ class JobOffer
     #[ORM\ManyToMany(targetEntity: Language::class, mappedBy: 'jobOffers')]
     private Collection $languages;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $companyWebsite = null;
+
     public function __construct()
     {
         $this->skills = new ArrayCollection();
@@ -367,6 +370,18 @@ class JobOffer
         if ($this->languages->removeElement($language)) {
             $language->removeJobOffer($this);
         }
+
+        return $this;
+    }
+
+    public function getCompanyWebsite(): ?string
+    {
+        return $this->companyWebsite;
+    }
+
+    public function setCompanyWebsite(?string $companyWebsite): static
+    {
+        $this->companyWebsite = $companyWebsite;
 
         return $this;
     }
