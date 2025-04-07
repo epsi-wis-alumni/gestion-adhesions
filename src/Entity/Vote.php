@@ -17,6 +17,7 @@ class Vote
     private ?\DateTimeImmutable $votedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'votes')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?User $voter = null;
 
     #[ORM\ManyToOne(inversedBy: 'votes')]

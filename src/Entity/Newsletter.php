@@ -33,24 +33,28 @@ class Newsletter
     private ?string $cta = null;
 
     #[ORM\ManyToOne(inversedBy: 'createdNewsletters')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?User $createdBy = null;
 
     #[ORM\ManyToOne(inversedBy: 'updatedNewsletters')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?User $updatedBy = null;
 
     #[ORM\ManyToOne(inversedBy: 'sentNewsletters')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?User $sentBy = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $sendAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'newsletters')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?MailTemplate $template = null;
 
     /**
      * @var Collection<int, UserNewsletter>
      */
-    #[ORM\OneToMany(targetEntity: UserNewsletter::class, mappedBy: 'newsletter')]
+    #[ORM\OneToMany(targetEntity: UserNewsletter::class, mappedBy: 'newsletter', cascade: ['persist', 'remove'])]
     private Collection $userNewsletters;
 
     public function __construct()
