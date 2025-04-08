@@ -82,6 +82,17 @@ class AppFixtures extends Fixture
         ;
         $this->userManager->approve($userVoter1, $userAdmin);
 
+        for ($i=0; $i < 100; $i++) { 
+            $userVoter15 = new User();
+            $userVoter15
+                ->setFirstname($faker->firstName())
+                ->setLastname($faker->lastName())
+                ->setEmail($faker->email())
+            ;
+            $this->userManager->approve($userVoter15, $userAdmin);
+            $manager->persist($userVoter15);
+        }
+
         $manager->persist($userPerso);
         $manager->persist($userAdmin);
         $manager->persist($userCandidacy1);
@@ -633,6 +644,19 @@ idéale pour se lancer dans l’aventure entrepreneuriale."
             ->setAmount(18657.00)
             ->setRenewal(false)
         ;
+
+        for ($i=0; $i < 100 ; $i++) { 
+            $transaction = new Transaction();
+            $transaction
+                ->setUser($userCandidacy1)
+                ->setDonation($donation3)
+                ->setStatus(TransactionStatus::Completed)
+                ->setType(TransactionType::Donation)
+                ->setAmount(rand(10, 20000))
+                ->setRenewal(false)
+            ;
+            $manager->persist($transaction);
+        }
 
         $manager->persist($transaction1);
         $manager->persist($transaction2);
