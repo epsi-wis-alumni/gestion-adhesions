@@ -41,7 +41,7 @@ final class AdminTransactionController extends AbstractController
             'transactions' => $transactions,
             'pages' => ceil($transactionMatchingSearchCount / $perPage),
             'page' => $page,
-            'transaction_count' => $request->get('search') ? $transactionCurrentPageCount.'/'.$transactionMatchingSearchCount : $transactionCurrentPageCount,
+            'transaction_count' => $request->get('search') ? $transactionCurrentPageCount.'/'.$transactionMatchingSearchCount : $transactionMatchingSearchCount,
         ]);
     }
 }
