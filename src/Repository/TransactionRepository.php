@@ -80,6 +80,7 @@ class TransactionRepository extends ServiceEntityRepository
         if (!in_array($sort, ['id', 'createdAt', 'status', 'type', 'amount', 'u.id', 'u.firstname', 'u.lastname', 'renewal', 'refundAmount'])) {
             $sort = 'createdAt';
         }
+
         if (!in_array($order, ['asc', 'desc'])) {
             $order = 'desc';
         }
@@ -102,5 +103,17 @@ class TransactionRepository extends ServiceEntityRepository
         }
     
         return $qb->getQuery()->getResult();
+    }
+
+    public function countBySearch(string $search): int
+    {
+        $qb = $this->createQueryBuilder('t');
+        $qb
+            ->select('COUNT(t.id)')
+            ->leftJoin('t.user', 'u')
+        ;
+        $this->search($qb, $search, self::SEARCH_FIELDS);
+
+        return $qb->getQuery()->getSingleScalarResult();
     }
 }

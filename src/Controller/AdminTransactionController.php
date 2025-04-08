@@ -19,10 +19,8 @@ final class AdminTransactionController extends AbstractController
     {
         $perPage = $request->get('perPage', 50);
         $page = $request->get('page', 1);
-        $totalTransactionCount = count($transactionRepository->findBySearchPaginated(
-            page: $page,
-            perPage: $perPage,
-        ));
+        
+        // Search for transactions
         $transactions = $transactionRepository->findBySearchPaginated(
             page: $page,
             perPage: $perPage,
@@ -30,13 +28,20 @@ final class AdminTransactionController extends AbstractController
             sort: $request->query->get('sort', 'createdAt'),
             order: $request->query->get('order', 'desc'),
         );
-        $transactionCount = count($transactions);
+        
+        // Count transactions
+        $transactionTotalCount = $transactionRepository->count();
+        $transactionMatchingSearchCount = $request->get('search') 
+            ? $transactionRepository->countBySearch($request->get('search', '')) 
+            : $transactionTotalCount
+        ;
+        $transactionCurrentPageCount = count($transactions);
 
         return $this->render('admin/transaction/index.html.twig', [
             'transactions' => $transactions,
-            'pages' => ceil($transactionCount / $perPage),
+            'pages' => ceil($transactionMatchingSearchCount / $perPage),
             'page' => $page,
-            'transaction_count' => $request->get('search') ? count($transactions).'/'.$totalTransactionCount : $totalTransactionCount,
+            'transaction_count' => $request->get('search') ? $transactionCurrentPageCount.'/'.$transactionMatchingSearchCount : $transactionCurrentPageCount,
         ]);
     }
 }
