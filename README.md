@@ -1,5 +1,7 @@
 # Docker AMP Symfony
 
+[![Deploy with rsync](https://github.com/epsi-wis-alumni/gestion-adhesions/actions/workflows/deploy.yml/badge.svg)](https://github.com/epsi-wis-alumni/gestion-adhesions/actions/workflows/deploy.yml)
+
 The purpose of this template project is to provide a quick and easy way to get 
 a Symfony project up and running with Docker. Ths project uses Apache, MySQL and
 PHP.
