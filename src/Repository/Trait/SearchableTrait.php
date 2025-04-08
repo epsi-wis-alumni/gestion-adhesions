@@ -8,13 +8,19 @@ trait SearchableTrait
 {
     public function search(QueryBuilder $qb, string $needle, array $haystack): QueryBuilder
     {
-        $alias = $qb->getRootAliases()[0];
-
         foreach ($haystack as $field) {
-            $paramName = $field.'_param';
+            $alias = $qb->getRootAliases()[0];
+            $paramName = str_replace('.', '_', $field) . '_param';
 
-            $qb->orWhere("$alias.$field LIKE :$paramName")
-                ->setParameter($paramName, '%'.$needle.'%');
+            // Gestion des champs imbriqués (relation.user.firstname)
+            if (strpos($field, '.') !== false) {
+                [$relationAlias, $relationField] = explode('.', $field);
+                $qb->orWhere("$relationAlias.$relationField LIKE :$paramName")
+                    ->setParameter($paramName, "%$needle%");
+            } else {
+                $qb->orWhere("$alias.$field LIKE :$paramName")
+                    ->setParameter($paramName, "%$needle%");
+            }
         }
 
         return $qb;

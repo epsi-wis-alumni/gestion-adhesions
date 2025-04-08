@@ -1,0 +1,18 @@
+{% macro th(path, sort, display, class = "", active_class = "") %}
+    {% import 'macros/fontawesome.html.twig' as fa %}
+    <th>
+        <a 
+            class="{{ app.request.get('sort') == sort ? (active_class is defined ? active_class : 'active') : (class is defined ? class : '') }}" 
+            href="{{ path(path, { 
+                search: app.request.get('search'), 
+                sort: sort, 
+                order: app.request.get('order') == 'asc' ? 'desc' : 'asc' 
+            }) }}"
+        >
+        {{ display }}
+        {% if app.request.get('sort') == sort %}
+            {{ app.request.get('order') == 'asc' ? fa.icon('arrow-up') : fa.icon('arrow-down') }}
+        {% endif %}
+        </a>
+    </th>
+{% endmacro %}
