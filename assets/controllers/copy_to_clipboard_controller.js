@@ -69,7 +69,7 @@ export default class extends Controller {
           }, 1000);
         });
     } else {
-      console.warn("Aucun texte à copier");test
+      console.warn("Aucun texte à copier");
     }
   }
 }
