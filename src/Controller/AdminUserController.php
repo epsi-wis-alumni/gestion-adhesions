@@ -21,22 +21,25 @@ class AdminUserController extends AbstractController
     {
         $perPage = $request->get('perPage', 50);
         $page = $request->get('page', 1);
-        $totalUserCount = count($userRepository->findBySearchPaginated(
-            page: $page,
-            perPage: $perPage,
-        ));
+        
         $users = $userRepository->findBySearchPaginated(
             page: $page,
             perPage: $perPage,
             search: $request->get('search'),
         );
-        $userCount = count($users);
+        
+        $usersTotalCount = $userRepository->count();
+        $usersCurrentPageCount = count($users);
+        $usersMatchingSearchCount = $request->get('search')
+            ? $userRepository->countBySearch($request->get('search'))
+            : $usersTotalCount
+        ;
 
         return $this->render('admin/user/index.html.twig', [
             'users' => $users,
-            'pages' => ceil($userCount / $perPage),
+            'pages' => ceil($usersMatchingSearchCount / $perPage),
             'page' => $page,
-            'user_count' => $request->get('search') ? count($users).'/'.$totalUserCount : $totalUserCount,
+            'user_count' => $request->get('search') ? $usersCurrentPageCount.'/'.$usersMatchingSearchCount : $usersMatchingSearchCount,
         ]);
     }
 

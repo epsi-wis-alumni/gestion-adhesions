@@ -67,6 +67,17 @@ class UserRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function countBySearch(string $search): int
+    {
+        $qb = $this
+            ->createQueryBuilder('u')
+            ->select('COUNT(u.id)')
+        ;
+        $this->search($qb, $search, self::SEARCH_FIELDS);
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
     /**
      * @return User[] Returns an array of User objects
      */
