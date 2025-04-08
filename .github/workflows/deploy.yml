@@ -1,12 +1,6 @@
 name: Deploy with rsync
 
-on:
-  workflow_dispatch:
-    inputs:
-      sync:
-        description: "File synchronization"
-        required: true
-        default: "delta"
+on: workflow_dispatch
 
 permissions: write-all
 
