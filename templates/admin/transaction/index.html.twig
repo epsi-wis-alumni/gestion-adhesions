@@ -1,0 +1,212 @@
+{% extends 'admin_base.html.twig' %}
+{% import "macros/dropdown.html.twig" as dropdown %}
+{% import "macros/fontawesome.html.twig" as fa %}
+{% import "macros/image.html.twig" as image %}
+{% import "macros/navigation.html.twig" as nav %}
+{% import "macros/badge.html.twig" as badge %}
+{% import "macros/table_order.html.twig" as table_order %}
+
+{% set page_title = 'Liste des transactions' %}
+
+{% set date_format = 'd/m/Y H:i' %}
+
+{% set transaction_status = {
+    "Create": "Créée",
+    "Pending": "En cours",
+    "Completed": "Complétée",
+    "Failed": "Echouée",
+    "RefundPending": "En cours de remboursement",
+    "RefundCompleted": "Rémboursée"
+} %}
+
+{% set transaction_status_variant = {
+    "Create": "secondary",
+    "Pending": "primary",
+    "Completed": "success",
+    "Failed": "danger",
+    "RefundPending": "primary",
+    "RefundCompleted": "success"
+} %}
+
+{% set transaction_type = {
+    "Subscription": "Souscription",
+    "Donation": "Donation"
+} %}
+
+{% set transaction_type_variant = {
+    "Subscription": "info",
+    "Donation": "warning"
+} %}
+
+{% block title_admin %}
+  {{ page_title }}
+{% endblock %}
+
+{% block admin_content %}
+    <div class="row gap-2 justify-content-end align-items-end mb-3">
+      <div class="col-auto me-auto">
+        <h2 class="h4 mb-0">
+          {{ page_title }}
+          <small><span class="badge text-bg-secondary rounded-pill">{{ transaction_count }}</span></small>
+        </h2>
+      </div>
+      
+      <div class="col-auto">
+        <form action="" method="get">
+          <div class="input-group">
+            <input
+              type="text"
+              name="search"
+              id="search"
+              class="form-control"
+              placeholder="Rechercher..."
+              value="{{ app.request.get('search') }}"
+            >
+            <button type="submit" class="btn btn-primary">
+              {{ fa.icon('magnifying-glass') }}
+            </button>
+          </div>
+        </form>
+      </div>
+      
+      <div class="col-auto">
+        {{ nav.paginator(pages, page, 'app_admin_transaction_index') }}
+      </div>
+    </div>
+    <div class="table-responsive text-nowrap border rounded">
+    <table class="table table-striped mb-0">
+        <thead class="table-bordered">
+          <tr>
+            {{ table_order.th(
+              path: 'app_admin_transaction_index', 
+              sort: 'id',
+              display: 'Id',
+              class: 'text-body',
+              active_class: 'text-primary'
+            ) }}
+            {{ table_order.th(
+              path: 'app_admin_transaction_index', 
+              sort: 'id',
+              display: 'Id Session',
+              class: 'text-body',
+              active_class: 'text-primary'
+            ) }}
+            {{ table_order.th(
+              path: 'app_admin_transaction_index', 
+              sort: 'createdAt',
+              display: 'Date de création',
+              class: 'text-body',
+              active_class: 'text-primary'
+            ) }}
+            {{ table_order.th(
+              path: 'app_admin_transaction_index', 
+              sort: 'status',
+              display: 'Statut',
+              class: 'text-body',
+              active_class: 'text-primary'
+            ) }}
+            {{ table_order.th(
+              path: 'app_admin_transaction_index', 
+              sort: 'type',
+              display: 'Type',
+              class: 'text-body',
+              active_class: 'text-primary'
+            ) }}
+            {{ table_order.th(
+              path: 'app_admin_transaction_index', 
+              sort: 'amount',
+              display: 'Montant',
+              class: 'text-body',
+              active_class: 'text-primary'
+            ) }}
+            {{ table_order.th(
+              path: 'app_admin_transaction_index', 
+              sort: 'u.id',
+              display: 'Id utilisateur',
+              class: 'text-body',
+              active_class: 'text-primary'
+            ) }}
+            {{ table_order.th(
+              path: 'app_admin_transaction_index', 
+              sort: 'u.firstname',
+              display: 'Prénom',
+              class: 'text-body',
+              active_class: 'text-primary'
+            ) }}
+            {{ table_order.th(
+              path: 'app_admin_transaction_index', 
+              sort: 'u.lastname',
+              display: 'Nom',
+              class: 'text-body',
+              active_class: 'text-primary'
+            ) }}
+            {{ table_order.th(
+              path: 'app_admin_transaction_index', 
+              sort: 'renewal',
+              display: 'Renouvellement',
+              class: 'text-body',
+              active_class: 'text-primary'
+            ) }}
+            {{ table_order.th(
+              path: 'app_admin_transaction_index', 
+              sort: 'renewalId',
+              display: 'Id Renouvellement',
+              class: 'text-body',
+              active_class: 'text-primary'
+            ) }}
+            {{ table_order.th(
+              path: 'app_admin_transaction_index', 
+              sort: 'refundAmount',
+              display: 'Montant du remboursement',
+              class: 'text-body',
+              active_class: 'text-primary'
+            ) }}
+          </tr>
+        </thead>
+        <tbody class="align-middle">
+          {% for transaction in transactions %}
+            <tr>
+              <td>
+                <div class="d-flex align-items-center gap-2">
+                    {# <div data-controller="copy-to-clipboard" data-copy-to-clipboard-text-value="Une erreur s'est produite lors de la copie">
+                        <button class="btn btn-outline-secondary shadow-none position-relative" style="transition: .2s;" data-action="click->copy-to-clipboard#copyToClipboard" data-clipboard-text="{{ transaction.id }}">
+                            <div id="copyIcon" class="opacity-100 position-absolute" style="transition: .2s;">{{ fa.icon('copy') }}</div>
+                            <div id="successIcon" class="opacity-0 position-absolute" style="transition: .2s;">{{ fa.icon('check') }}</div>
+                            <div class="opacity-0 position-relative">{{ fa.icon('check') }}</div>
+                        </button>
+                    </div> #}
+                    <div data-bs-toggle="tooltip" data-bs-title="{{ transaction.id|default('No ID') }}" title="{{ transaction.id|default('No ID') }}">
+                        {{ transaction.id|slice(0, 6) ~ '...' }}
+                    </div>
+                </div>
+              </td>
+              <td title="{{ transaction.sessionId|default('No ID') }}">{{ transaction.sessionId ? transaction.sessionId|slice(0, 6) ~ '...' : fa.icon('xmark') }}</td>
+              <td>{{ transaction.createdAt|date(date_format) }}</td>
+              <td>
+                {{ badge.emphasis(
+                    label: transaction_status[transaction.status.name],
+                    variant: transaction_status_variant[transaction.status.name]
+                ) }}
+              </td>
+              <td>
+                {{ badge.emphasis(
+                    label: transaction_type[transaction.type.name],
+                    variant: transaction_type_variant[transaction.type.name]
+                ) }}
+              </td>
+              <td>{{ transaction.amount|number_format(2, '.', ' ') }} €</td>
+              <td>{{ transaction.user.id }}</td>
+              <td>{{ transaction.user.firstname }}</td>
+              <td>{{ transaction.user.lastname }}</td>
+              <td>{{ transaction.type.name == 'Subscription' ? (transaction.renewal ? fa.icon('check') : fa.icon('xmark')) : fa.icon('ban') }}</td>
+              <td title="{{ transaction.refundId|default('No ID') }}">{{ transaction.refundId ? transaction.refundId|slice(0, 6) ~ '...' : fa.icon('xmark') }}</td>
+              <td>{{ transaction.refundAmount ? transaction.refundAmount : fa.icon('ban') }}</td>
+            </tr>
+          {% else %}
+            <tr>
+              <td colspan="9" class="text-center">Aucun utilisateur</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

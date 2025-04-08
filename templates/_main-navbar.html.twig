@@ -127,6 +127,12 @@
                   ) }}
 
                   {{ dropdown.item(
+                    label: 'Transactions',
+                    path: path('app_admin_transaction_index'),
+                    icon: fa.icon('sack-dollar', fixed_width: true),
+                  ) }}
+
+                  {{ dropdown.item(
                     label: 'Paramètres',
                     path: path('app_admin_settings'),
                     icon: fa.icon('cog', fixed_width: true),
