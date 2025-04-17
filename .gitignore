@@ -33,3 +33,6 @@
 ###> sensiolabs/minify-bundle ###
 /var/minify/
 ###< sensiolabs/minify-bundle ###
+
+/.idea/
+/.vscode/
