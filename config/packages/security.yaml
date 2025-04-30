@@ -51,7 +51,7 @@ security:
         - { path: ^/order/webhook, roles: PUBLIC_ACCESS }
 
         - { path: ^/(login|connect|event|$|cgu|plan), roles: PUBLIC_ACCESS }
-        - { path: ^/(complete-profile|user|logout|donation), roles: ROLE_USER }
+        - { path: ^/(complete-profile|user|logout|donation|order), roles: ROLE_USER }
         - { path: ^/contribute, roles: ROLE_APPROVED }
         - { path: ^/admin, roles: ROLE_ADMIN }
 
