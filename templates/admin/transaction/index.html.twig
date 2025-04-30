@@ -121,6 +121,13 @@
             ) }}
             {{ table_order.th(
               path: 'app_admin_transaction_index', 
+              sort: 'invoiceLink',
+              display: 'Facture',
+              class: 'text-body',
+              active_class: 'text-primary'
+            ) }}
+            {{ table_order.th(
+              path: 'app_admin_transaction_index', 
               sort: 'u.id',
               display: 'Id utilisateur',
               class: 'text-body',
@@ -195,6 +202,9 @@
                 ) }}
               </td>
               <td>{{ transaction.amount|number_format(2, '.', ' ') }} €</td>
+              <td>
+                <a class="link-primary" href="{{ path('app_user_invoice_show', { id: transaction.id }) }}" target="_blank">Facture</a>
+              </td>
               <td>{{ transaction.user.id }}</td>
               <td>{{ transaction.user.firstname }}</td>
               <td>{{ transaction.user.lastname }}</td>
