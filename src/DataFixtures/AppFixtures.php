@@ -3,17 +3,24 @@
 namespace App\DataFixtures;
 
 use App\Entity\Candidacy;
+use App\Entity\Category;
 use App\Entity\Donation;
 use App\Entity\Election;
 use App\Entity\Event;
 use App\Entity\Feature;
+use App\Entity\JobOffer;
+use App\Entity\JobQuestion;
+use App\Entity\Language;
 use App\Entity\MailTemplate;
 use App\Entity\Newsletter;
 use App\Entity\Plan;
+use App\Entity\Skill;
 use App\Entity\Subscription;
 use App\Entity\Transaction;
 use App\Entity\User;
 use App\Entity\Vote;
+use App\Enum\JobOfferStatus;
+use App\Enum\JobOfferType;
 use App\Enum\TransactionStatus;
 use App\Enum\TransactionType;
 use App\Service\UserManager;
@@ -664,6 +671,423 @@ idéale pour se lancer dans l’aventure entrepreneuriale."
         $manager->persist($transaction4);
         $manager->persist($transaction5);
         $manager->persist($transaction6);
+
+        $manager->flush();
+
+
+        // Skill
+
+        $skill1 = new Skill();
+        $skill1
+            ->setName("PHP Symfony")
+        ;
+
+        $skill2 = new Skill();
+        $skill2
+            ->setName("MySQL")
+        ;
+
+        $skill3 = new Skill();
+        $skill3
+            ->setName("Angular.js")
+        ;
+        
+        $skill4 = new Skill();
+        $skill4
+            ->setName("Figma")
+        ;
+
+        $skill5 = new Skill();
+        $skill5
+            ->setName("PHP Symfony")
+        ;
+        
+        $manager->persist($skill1);
+        $manager->persist($skill2);
+        $manager->persist($skill3);
+        $manager->persist($skill4);
+        $manager->persist($skill5);
+
+        $manager->flush();
+
+        // Category
+
+        $category1 = new Category();
+        $category1
+            ->setName("Backend")
+        ;
+
+        $category2 = new Category();
+        $category2
+            ->setName("Gestion BDD")
+        ;
+
+        $category3 = new Category();
+        $category3
+            ->setName("Frontend")
+        ;
+        
+        $category4 = new Category();
+        $category4
+            ->setName("Design / UX / UI")
+        ;
+
+        $category5 = new Category();
+        $category5
+            ->setName("Testing")
+        ;
+        
+        $manager->persist($category1);
+        $manager->persist($category2);
+        $manager->persist($category3);
+        $manager->persist($category4);
+        $manager->persist($category5);
+
+        $manager->flush();
+
+        // Language
+
+        $language1 = new Language();
+        $language1
+            ->setName("francais")
+            ->setCode('fr')
+        ;
+
+        $language2 = new Language();
+        $language2
+            ->setName("anglais")
+            ->setCode('an')
+        ;
+
+        $language3 = new Language();
+        $language3
+            ->setName("allemand")
+            ->setCode('de')
+        ;
+
+        $language4 = new Language();
+        $language4
+            ->setName("espagnol")
+            ->setCode('es')
+        ;
+
+        $language5 = new Language();
+        $language5
+            ->setName("italien")
+            ->setCode('it')
+        ;
+
+        $language6 = new Language();
+        $language6
+            ->setName("russe")
+            ->setCode('ru')
+        ;
+
+        $language7 = new Language();
+        $language7
+            ->setName("japonais")
+            ->setCode('ja')
+        ;
+
+        $language8 = new Language();
+        $language8
+            ->setName("chinois")
+            ->setCode('zh')
+        ;
+
+        $language9 = new Language();
+        $language9
+            ->setName("portugais")
+            ->setCode('pt')
+        ;
+
+        $language10 = new Language();
+        $language10
+            ->setName("arabe")
+            ->setCode('ar')
+        ;
+
+        $language11 = new Language();
+        $language11
+            ->setName("hindi")
+            ->setCode('hi')
+        ;
+
+        $language12 = new Language();
+        $language12
+            ->setName("néerlandais")
+            ->setCode('nl')
+        ;
+
+        $language13 = new Language();
+        $language13
+            ->setName("suédois")
+            ->setCode('sv')
+        ;
+
+        $language14 = new Language();
+        $language14
+            ->setName("danois")
+            ->setCode('da')
+        ;
+
+        $language15 = new Language();
+        $language15
+            ->setName("norvégien")
+            ->setCode('no')
+        ;
+
+        $language16 = new Language();
+        $language16
+            ->setName("finnois")
+            ->setCode('fi')
+        ;
+
+        $language17 = new Language();
+        $language17
+            ->setName("coréen")
+            ->setCode('ko')
+        ;
+
+        $language18 = new Language();
+        $language18
+            ->setName("turc")
+            ->setCode('tr')
+        ;
+
+        $language19 = new Language();
+        $language19
+            ->setName("grec")
+            ->setCode('el')
+        ;
+
+        $language20 = new Language();
+        $language20
+            ->setName("vietnamien")
+            ->setCode('vi')
+        ;
+
+        $manager->persist($language1);
+        $manager->persist($language2);
+        $manager->persist($language3);
+        $manager->persist($language4);
+        $manager->persist($language5);
+        $manager->persist($language6);
+        $manager->persist($language7);
+        $manager->persist($language8);
+        $manager->persist($language9);
+        $manager->persist($language10);
+        $manager->persist($language11);
+        $manager->persist($language12);
+        $manager->persist($language13);
+        $manager->persist($language14);
+        $manager->persist($language15);
+        $manager->persist($language16);
+        $manager->persist($language17);
+        $manager->persist($language18);
+        $manager->persist($language19);
+        $manager->persist($language20);
+
+        $manager->flush();
+
+
+        // JobOffer
+
+        $jobOffer1 = new JobOffer();
+        $jobOffer1
+            ->setTitle("Développeur Backend Symfony / MySQL")
+            ->setDescription("
+Nous recherchons un **Développeur Backend expérimenté** pour rejoindre notre équipe dynamique et travailler sur des projets innovants.
+
+### Vos missions
+- Développer de nouvelles fonctionnalités et améliorer les solutions existantes.
+- Optimiser les performances des applications et des bases de données.
+- Collaborer avec les équipes **Frontend** et **DevOps** pour garantir la qualité et la stabilité des livrables.
+- Participer à la conception technique et au choix des architectures.
+
+### Profil recherché
+- **Maîtrise** de Symfony et de MySQL.
+- Bonne compréhension des concepts d’**API REST** et de la sécurité des applications web.
+- Capacité à travailler en équipe et à respecter les délais.
+
+### Pourquoi nous rejoindre ?
+- Des projets stimulants.
+- Un environnement collaboratif et bienveillant.
+
+**Rejoignez-nous et contribuez à la création de solutions innovantes !**
+")
+            ->addType(JobOfferType::CDI)
+            ->addType(JobOfferType::Apprenticeship)
+            ->setStartAt(new \DateTimeImmutable())
+            ->setEndAt(null)
+            ->setImageFileName("cgi-3hCOD5F-67c72fc669aca.png")
+            ->setStatus(JobOfferStatus::Online)
+            ->addSkill($skill1)
+            ->addSkill($skill2)
+            ->addCategory($category1)
+            ->addCategory($category2)
+            ->setCreatedBy($userPerso)
+            ->setCompany("CGI")
+            ->setCountry("France")
+            ->setCity("Montpellier")
+            ->setZipCode("34000")
+            ->setRequiredExperience("0")
+            ->addLanguage($language1)
+            ->addLanguage($language2)
+            ->setCompanyWebsite('https://www.cgi.com/france/fr-fr')
+            ->onPrePersist()
+        ;
+
+        $jobOffer2 = new JobOffer();
+        $jobOffer2
+            ->setTitle("Développeur Frontend Figma / Angular.js")
+            ->setDescription("
+Nous recherchons un **Développeur Frontend talentueux et passionné** pour transformer des maquettes Figma en interfaces web modernes et performantes en utilisant **Angular.js**. Vous jouerez un rôle clé dans la création d'expériences utilisateur intuitives et engageantes.
+
+### Vos missions
+- Intégrer des maquettes Figma en composants dynamiques avec **Angular.js**.
+- Collaborer étroitement avec les équipes **UX/UI** pour garantir une fidélité parfaite aux designs.
+- Optimiser le code pour garantir des **performances optimales** et une compatibilité multi-navigateurs.
+- Mettre en œuvre les bonnes pratiques de développement, notamment en termes de **tests**, **accessibilité** et **SEO**.
+
+### Profil recherché
+- **Excellente maîtrise** d'Angular.js et bonne compréhension des frameworks modernes.
+- Expérience avec **Figma** et la conversion de designs en code propre et maintenable.
+- Sens aigu du détail et des performances.
+
+### Pourquoi nous rejoindre ?
+- Une équipe dynamique.
+- Des projets innovants où vos idées feront la différence.
+
+**Rejoignez-nous et contribuez à façonner des expériences utilisateur exceptionnelles !**
+")
+            ->addType(JobOfferType::Internship)
+            ->addType(JobOfferType::Apprenticeship)
+            ->setStartAt(new \DateTimeImmutable())
+            ->setEndAt(new \DateTimeImmutable("+ 2 month"))
+            ->setImageFileName("3d-map-3hCOD5F-67c72ffeed0e8.png")
+            ->setStatus(JobOfferStatus::Online)
+            ->addSkill($skill3)
+            ->addSkill($skill4)
+            ->addCategory($category3)
+            ->addCategory($category4)
+            ->setCreatedBy($userAdmin)
+            ->setCompany("3D Map")
+            ->setCountry("France")
+            ->setCity("Montpellier")
+            ->setZipCode("34000")
+            ->setRequiredExperience("2")
+            ->addLanguage($language1)
+            ->setCompanyWebsite('https://www.3dmap.fr/')
+            ->onPrePersist()
+        ;
+
+        $jobOffer3 = new JobOffer();
+        $jobOffer3
+            ->setTitle("Testeur Backend Symfony")
+            ->setDescription("
+Nous recherchons un **Testeur Backend spécialisé en Symfony** pour garantir la qualité et la fiabilité de nos applications. En collaboration avec les développeurs, vous serez chargé de concevoir et d'exécuter des tests afin d'identifier les anomalies, de valider les nouvelles fonctionnalités, et d'assurer des performances optimales.
+
+### Vos missions
+- Concevoir des scénarios de test pour les fonctionnalités backend développées sous **Symfony**.
+- Mettre en œuvre des **tests automatisés** (unitaires, fonctionnels, API) et analyser les résultats.
+- Collaborer avec les développeurs pour identifier et corriger les **bugs**.
+- Documenter les processus de test et les résultats pour améliorer en continu la qualité du produit.
+
+### Profil recherché
+- Bonne maîtrise de **Symfony** et des outils de test (**PHPUnit**, **Behat**, **Postman**).
+- Connaissance des bases de données et des **APIs REST**.
+- Sens du détail, rigueur et esprit critique.
+
+### Pourquoi nous rejoindre ?
+- Une équipe passionnée et dédiée.
+- L'opportunité de jouer un rôle clé dans la **fiabilité de nos solutions**.
+
+**Rejoignez-nous et faites la différence dans la qualité de nos produits !**
+")
+            ->addType(JobOfferType::Apprenticeship)
+            ->setStartAt(new \DateTimeImmutable())
+            ->setEndAt(new \DateTimeImmutable("+ 1 year"))
+            ->setImageFileName("septeo-3hCOD5F-67c723c2ef08c.png")
+            ->setStatus(JobOfferStatus::Online)
+            ->addSkill($skill5)
+            ->addCategory($category5)
+            ->addCategory($category1)
+            ->setCreatedBy($userAdmin)
+            ->setCompany("Septeo")
+            ->setCountry("France")
+            ->setCity("Montpellier")
+            ->setZipCode("34000")
+            ->setRequiredExperience("15")
+            ->addLanguage($language1)
+            ->addLanguage($language4)
+            ->setCompanyWebsite('https://www.septeo.com/fr')
+            ->onPrePersist()
+        ;
+
+        $manager->persist($jobOffer1);
+        $manager->persist($jobOffer2);
+        $manager->persist($jobOffer3);
+
+        $manager->flush();
+
+        // Category
+
+        $jobQuestion1 = new JobQuestion();
+        $jobQuestion1
+            ->setDescription("Bonjour, pourriez-vous me préciser les horaires de travail pour ce poste ? Est-ce en journée ou en rotation (matin/soir/nuit) ?")
+            ->setCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(null)
+            ->setCreatedBy($userAdmin)
+            ->setAnswer(null)
+            ->setJobOffer($jobOffer1)
+        ;
+
+        $jobQuestion2 = new JobQuestion();
+        $jobQuestion2
+            ->setDescription("Est-il possible d'effectuer ce travail à distance ou un télétravail partiel est-il envisageable ?")
+            ->setCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(null)
+            ->setCreatedBy($userAdmin)
+            ->setAnswer(null)
+            ->setJobOffer($jobOffer1)
+        ;
+
+        $jobQuestion3 = new JobQuestion();
+        $jobQuestion3
+            ->setDescription("Ce poste offre-t-il des perspectives de carrière à moyen ou long terme ?")
+            ->setCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(null)
+            ->setCreatedBy($userAdmin)
+            ->setAnswer(null)
+            ->setJobOffer($jobOffer1)
+        ;
+        
+        $jobQuestion4 = new JobQuestion();
+        $jobQuestion4
+            ->setDescription("Pouvez-vous indiquer la fourchette salariale pour ce poste, ainsi que les avantages inclus ?")
+            ->setCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(null)
+            ->setCreatedBy($userAdmin)
+            ->setAnswer(null)
+            ->setJobOffer($jobOffer1)
+        ;
+
+        $jobQuestion5 = new JobQuestion();
+        $jobQuestion5
+            ->setDescription("Bonjour, les horaires de travail sont du lundi au vendredi, de 9h à 17h, avec une pause déjeuner de 1 heure. Si des heures supplémentaires sont nécessaires, elles seront communiquées à l'avance et rémunérées selon la loi.")
+            ->setCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(null)
+            ->setCreatedBy($userAdmin)
+            ->setAnswer($jobQuestion1)
+            ->setJobOffer($jobOffer1)
+        ;
+        
+        $manager->persist($jobQuestion1);
+        $manager->persist($jobQuestion2);
+        $manager->persist($jobQuestion3);
+        $manager->persist($jobQuestion4);
+        $manager->persist($jobQuestion5);
 
         $manager->flush();
     }
