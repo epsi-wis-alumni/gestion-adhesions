@@ -35,8 +35,6 @@ class LoginController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            $notificationManager->sendNotification($currentUser, [$currentUser], true);
-
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         }
 
