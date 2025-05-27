@@ -1,3 +1,5 @@
+{% import "macros/alert.html.twig" as alert %}
+
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -22,6 +24,17 @@
         {% include "_main-navbar.html.twig" %}
         
         <main>
+            <div>
+                {% if app.user %}
+                    {% if not is_granted('ROLE_APPROVED') %}
+                        <div class="container my-3">
+                            {{ alert.alert(variant: 'warning', content: 'Votre demande de création de compte a bien été enregistrée. Un mail vous sera adressé lorsque votre demande aura été traitée par un administrateur.', dismissible: true) }}
+                        </div>
+                    {% endif %}
+                    
+                {% endif %}
+
+            </div>
             {% block body %}{% endblock %}
         </main>
 
