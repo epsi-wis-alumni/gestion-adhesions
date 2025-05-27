@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\AdminUserType;
 use App\Repository\UserRepository;
+use App\Service\NotificationManager;
 use App\Service\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -77,11 +78,18 @@ class AdminUserController extends AbstractController
     }
 
     #[Route('/{id}/approve', name: 'app_admin_user_approve', methods: ['GET'])]
-    public function approve(EntityManagerInterface $entityManager, #[CurrentUser()] User $currentUser, User $user, UserManager $userManager): Response
-    {
+    public function approve(
+        EntityManagerInterface $entityManager, 
+        #[CurrentUser()] User $currentUser, 
+        User $user, 
+        UserManager $userManager,
+        NotificationManager $notificationManager,
+    ): Response {
         $userManager->approve(who: $user, by: $currentUser);
         $userManager->addRole(to: $user, role: $user::ROLE_APPROVED);
         $entityManager->flush();
+
+        $notificationManager->sendNotification(entity: $user, users: [$user]);
 
         return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
     }
