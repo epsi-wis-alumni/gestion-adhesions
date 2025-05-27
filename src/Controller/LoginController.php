@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\CompleteProfileType;
+use App\Service\NotificationManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,8 +21,12 @@ class LoginController extends AbstractController
     }
 
     #[Route('/complete-profile', name: 'app_complete_profile', methods: ['GET', 'POST'])]
-    public function complete(Request $request, #[CurrentUser()] User $currentUser, EntityManagerInterface $entityManager): Response
-    {
+    public function complete(
+        Request $request, 
+        #[CurrentUser()] User $currentUser, 
+        EntityManagerInterface $entityManager,
+        NotificationManager $notificationManager,
+    ): Response {
         $form = $this->createForm(CompleteProfileType::class, $currentUser, [
             'attr' => ['id' => 'login-information-form'],
         ]);
@@ -29,6 +34,8 @@ class LoginController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+
+            $notificationManager->sendNotification($currentUser, [$currentUser], true);
 
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         }
