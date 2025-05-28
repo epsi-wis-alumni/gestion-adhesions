@@ -8,7 +8,6 @@ use App\Repository\EventRepository;
 use App\Repository\PlanRepository;
 use App\Repository\UserRepository;
 use App\Service\Manager;
-use App\Service\NotificationManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -24,7 +23,6 @@ class HomeController extends AbstractController
         EventRepository $eventRepository,
         UserRepository $userRepository,
         Manager $manager,
-        NotificationManager $notificationManager,
     ): Response {
         if ($currentUser && !$currentUser->hasCompleteInfo()) {
             return $this->redirectToRoute('app_complete_profile', [], Response::HTTP_SEE_OTHER);
