@@ -171,6 +171,9 @@ class User implements UserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $linkedinId = null;
 
+    #[ORM\Column]
+    private ?bool $accountCreationEmailSent = null;
+
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
@@ -188,6 +191,7 @@ class User implements UserInterface
         $this->userNewsletters = new ArrayCollection();
         $this->createdEvents = new ArrayCollection();
         $this->updatedEvents = new ArrayCollection();
+        $this->accountCreationEmailSent = false;
     }
 
     public function loadUserByOAuthUserResponse(UserResponseInterface $response, string $resourceOwnerName): UserInterface
@@ -890,6 +894,18 @@ class User implements UserInterface
     public function setLinkedinId(?string $linkedinId): static
     {
         $this->linkedinId = $linkedinId;
+
+        return $this;
+    }
+
+    public function isAccountCreationEmailSent(): ?bool
+    {
+        return $this->accountCreationEmailSent;
+    }
+
+    public function setAccountCreationEmailSent(bool $accountCreationEmailSent): static
+    {
+        $this->accountCreationEmailSent = $accountCreationEmailSent;
 
         return $this;
     }

@@ -25,6 +25,11 @@ class HomeController extends AbstractController
         Manager $manager,
     ): Response {
         if ($currentUser && !$currentUser->hasCompleteInfo()) {
+            if (!$currentUser->isAccountCreationEmailSent()) {
+                $notificationManager->sendNotification($currentUser, [$currentUser], true);
+                $currentUser->setAccountCreationEmailSent(true);
+            }
+            
             return $this->redirectToRoute('app_complete_profile', [], Response::HTTP_SEE_OTHER);
         }
 
