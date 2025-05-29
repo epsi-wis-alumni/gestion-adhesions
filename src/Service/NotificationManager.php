@@ -32,19 +32,19 @@ final class NotificationManager
         $this->sendNotification($entity, $users);
     }
 
-    public function sendNotification(Election|Event|Invoice|User $entity, array $users): void
+    public function sendNotification(Election|Event|Invoice|User $entity, array $users, bool $newAccount = false): void
     {
         $templateName = match ($entity::class) {
             Election::class => 'mails/election.html.twig',
             Event::class => 'mails/event.html.twig',
             Invoice::class => 'mails/invoice.html.twig',
-            User::class => 'mails/updateAccount.html.twig',
+            User::class => $newAccount ? 'mails/newAccount.html.twig' : 'mails/updateAccount.html.twig',
         };
         $subject = match ($entity::class) {
             Election::class => 'Élection pour '.$entity->getJobTitle(),
             Event::class => 'Nouvel Évènement : '.$entity->getTitle(),
             Invoice::class => 'Nouvelle Facture disponible',
-            User::class => 'Mise à jour du compte',
+            User::class => $newAccount ? 'Création de compte' : 'Mise à jour du compte',
         };
         $context = match ($entity::class) {
             Election::class => ['election' => $entity],
