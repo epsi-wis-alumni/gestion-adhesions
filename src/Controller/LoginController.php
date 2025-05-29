@@ -20,7 +20,7 @@ class LoginController extends AbstractController
     }
 
     #[Route('/complete-profile', name: 'app_complete_profile', methods: ['GET', 'POST'])]
-    public function complete(Request $request, #[CurrentUser()] User $currentUser, EntityManagerInterface $entityManager,): Response
+    public function complete(Request $request, #[CurrentUser()] User $currentUser, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CompleteProfileType::class, $currentUser, [
             'attr' => ['id' => 'login-information-form'],
