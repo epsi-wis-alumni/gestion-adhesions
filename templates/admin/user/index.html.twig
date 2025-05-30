@@ -3,6 +3,7 @@
 {% import "macros/fontawesome.html.twig" as fa %}
 {% import "macros/image.html.twig" as image %}
 {% import "macros/navigation.html.twig" as nav %}
+{% import "macros/modal.html.twig" as modal %}
 
 {% set page_title = 'Liste des utilisateurs' %}
 
@@ -107,20 +108,52 @@
                   {% include 'admin/user/_delete.html.twig' %}
 
                   <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                    <a class="btn btn-sm btn-primary" href="{{ path('app_admin_user_approve', { id: user.id }) }}">
-                      {{ fa.icon('check') }}
-                      Accepter
-                    </a>
+                    {% if user.type.value == 1 or user.type.value == 2 %}
+                      <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#{{ user.id }}">
+                        {{ fa.icon('check') }}
+                        Accepter
+                      </a>
+                      {{ modal.confirm(
+                        id: user.id,
+                        title: 'Êtes-vous sûr ?',
+                        description: 'Cet utilisateur est potentiellement un ' ~ user.type.name ~'. <br>Avez-vous vérifié son document justificatif ?',
+                        continueButton: 'Oui, je l\'ai vérifié',
+                        cancelButton: 'Non, je ne l\'ai pas vérifié',
+                        path: path('app_admin_user_approve', { id: user.id }),
+                      ) }}
+                    {% else %}
+                      <a class="btn btn-sm btn-primary" href="{{ path('app_admin_user_approve', { id: user.id }) }}">
+                        {{ fa.icon('check') }}
+                        Accepter
+                      </a>
+                    {% endif %}
                     <div class="btn-group" role="group">
                       <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></button>
                       <ul class="dropdown-menu">
                         {{ dropdown.header('Actions') }}
                       
-                        {{ dropdown.item(
-                          label: 'Accepter',
-                          path: path('app_admin_user_approve', { id: user.id }),
-                          icon: fa.icon('check', fixed_width: true),
-                        ) }}
+                        {% if user.type.value == 1 or user.type.value == 2 %}
+                          <li>
+                            <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#{{ user.id }}">
+                              {{ fa.icon('check', fixed_width: true) }}
+                              Accepter
+                            </a>
+                            {{ modal.confirm(
+                              id: user.id,
+                              title: 'Êtes-vous sûr ?',
+                              description: 'Cet utilisateur est potentiellement un ' ~ user.type.name ~'. <br>Avez-vous vérifié son document justificatif ?',
+                              continueButton: 'Oui, je l\'ai vérifié',
+                              cancelButton: 'Non, je ne l\'ai pas vérifié',
+                              path: path('app_admin_user_approve', { id: user.id }),
+                            ) }}
+                          </li>
+                        {% else %}
+                          {{ dropdown.item(
+                            label: 'Accepter',
+                            path: path('app_admin_user_approve', { id: user.id }),
+                            icon: fa.icon('check', fixed_width: true),
+                          ) }}
+                        {% endif %}
 
                         {{ dropdown.item(
                           label: 'Rejeter',

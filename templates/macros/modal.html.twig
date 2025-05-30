@@ -10,15 +10,17 @@
 
         {% if description %}
           <div class="modal-body">
-          {% if avatar %}
-            <div class="d-flex justify-content-center">
-              {{ image.avatar(
-                path: avatar,
-                alt: 'Photo de profile utilisateur'
-              ) }}
+            {% if avatar %}
+              <div class="d-flex justify-content-center">
+                {{ image.avatar(
+                  path: avatar,
+                  alt: 'Photo de profile utilisateur'
+                ) }}
+              </div>
+            {% endif %}
+            <div>
+              {{ description|raw }}
             </div>
-          {% endif %}
-            {{ description }}
           </div>
         {% endif %}
         
