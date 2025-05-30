@@ -645,19 +645,6 @@ idéale pour se lancer dans l’aventure entrepreneuriale."
             ->setRenewal(false)
         ;
 
-        for ($i=0; $i < 100 ; $i++) { 
-            $transaction = new Transaction();
-            $transaction
-                ->setUser($userCandidacy1)
-                ->setDonation($donation3)
-                ->setStatus(TransactionStatus::Completed)
-                ->setType(TransactionType::Donation)
-                ->setAmount(rand(10, 20000))
-                ->setRenewal(false)
-            ;
-            $manager->persist($transaction);
-        }
-
         $manager->persist($transaction1);
         $manager->persist($transaction2);
         $manager->persist($transaction3);
