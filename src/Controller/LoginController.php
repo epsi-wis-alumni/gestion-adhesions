@@ -39,13 +39,40 @@ class LoginController extends AbstractController
 
             $studentCard = $form->get('studentCard')->getData();
             $degree = $form->get('degree')->getData();
+            
+            $allowedMimeTypes = [
+                'application/pdf',
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/vnd.oasis.opendocument.text',
+                'image/jpeg',
+                'image/png',
+                'image/gif',
+                'image/webp',
+            ];
 
-            if ($type === MemberType::Student && !$studentCard) {
-                $form->get('studentCard')->addError(new FormError('Veuillez fournir une carte étudiante.'));
+            $allowedExtensions = ['pdf', 'doc', 'docx', 'odt', 'jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+            if ($type === MemberType::Student) {
+                if (!$studentCard) {
+                    $form->get('studentCard')->addError(new FormError('Veuillez fournir une carte étudiante.'));
+                } elseif (!in_array($studentCard->getMimeType(), $allowedMimeTypes)) {
+                    $form->get('studentCard')->addError(new FormError('Format de fichier non autorisé (PDF, image, Word ou ODT uniquement).'));
+                } elseif (!in_array($studentCard->guessExtension(), $allowedExtensions)) {
+                    $form->get('studentCard')->addError(new FormError('Extension de fichier non autorisée (PDF, image, Word ou ODT uniquement).'));
+                }
             }
 
-            if ($type === MemberType::Alumni && !$degree) {
-                $form->get('degree')->addError(new FormError('Veuillez fournir un diplôme.'));
+            if ($type === MemberType::Alumni) {
+                if ($type === MemberType::Alumni) {
+                    if (!$degree) {
+                        $form->get('degree')->addError(new FormError('Veuillez fournir un diplôme.'));
+                    } elseif (!in_array($degree->getMimeType(), $allowedMimeTypes)) {
+                        $form->get('degree')->addError(new FormError('Format de fichier non autorisé (PDF, image, Word ou ODT uniquement).'));
+                    } elseif (!in_array($degree->guessExtension(), $allowedExtensions)) {
+                        $form->get('degree')->addError(new FormError('Extension de fichier non autorisée (PDF, image, Word ou ODT uniquement).'));
+                    }
+                }
             }
 
             if ($form->isValid()) {

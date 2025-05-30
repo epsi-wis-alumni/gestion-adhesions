@@ -61,12 +61,18 @@ class CompleteProfileType extends AbstractType
                 'label' => 'Carte étudiante',
                 'mapped' => false,
                 'required' => false,
+                'attr' => [
+                    'accept' => '.pdf, image/*, .doc, .docx, .odt',
+                ],
             ])
             ->add('degree', FileType::class, [
                 'row_attr' => ['class' => 'mb-3'],
                 'label' => 'Diplôme',
                 'mapped' => false,
                 'required' => false,
+                'attr' => [
+                    'accept' => '.pdf, image/*, .doc, .docx, .odt',
+                ],
             ])
         ;
     }
