@@ -171,6 +171,9 @@ class User implements UserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $linkedinId = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $justificationFilePath = null;
+
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
@@ -890,6 +893,18 @@ class User implements UserInterface
     public function setLinkedinId(?string $linkedinId): static
     {
         $this->linkedinId = $linkedinId;
+
+        return $this;
+    }
+
+    public function getJustificationFilePath(): ?string
+    {
+        return $this->justificationFilePath;
+    }
+
+    public function setJustificationFilePath(?string $justificationFilePath): static
+    {
+        $this->justificationFilePath = $justificationFilePath;
 
         return $this;
     }

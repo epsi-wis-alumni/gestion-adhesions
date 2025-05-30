@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Enum\MemberType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -54,6 +55,18 @@ class CompleteProfileType extends AbstractType
                     MemberType::Alumni => 'Alumni',
                     MemberType::Partner => 'Partenaire',
                 },
+            ])
+            ->add('studentCard', FileType::class, [
+                'row_attr' => ['class' => 'mb-3'],
+                'label' => 'Carte étudiante',
+                'mapped' => false,
+                'required' => false,
+            ])
+            ->add('degree', FileType::class, [
+                'row_attr' => ['class' => 'mb-3'],
+                'label' => 'Diplôme',
+                'mapped' => false,
+                'required' => false,
             ])
         ;
     }
