@@ -9,6 +9,8 @@ use App\Service\NotificationManager;
 use App\Service\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -101,5 +103,33 @@ class AdminUserController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/justification-File', name: 'app_admin_user_justification_File', methods: ['GET'])]
+    public function showInvoice(
+        User $user,
+    ): Response|RedirectResponse {
+        
+        $filePath = $user->getJustificationFilePath();
+
+        $finder = new Finder();
+        $finder->files()->in(dirname($filePath))->name(basename($filePath));
+
+        if (!$finder->hasResults()) {
+            throw $this->createNotFoundException('Le document demandée est introuvable.');
+        }
+
+        foreach ($finder as $file) {
+            $contents = $file->getContents();
+        }
+
+        return new Response(
+            $contents,
+            200,
+            [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'inline; filename='.pathinfo($filePath)['filename'].'.pdf',
+            ]
+        );
     }
 }

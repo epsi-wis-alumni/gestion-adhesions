@@ -53,6 +53,7 @@
             <th>Inscription</th>
             <th>Paiement</th>
             <th>Statut</th>
+            <th>PJ</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -84,6 +85,19 @@
               <td>{{ user.lastTransaction ? user.lastTransaction.status.name : 'Aucune' }}</td>
               <td>
                 <span class="badge text-bg-{{ user.statusColor}}">{{ user.statusLabel }}</span>
+              </td>
+              <td>
+                <div class="d-flex align-items-center gap-2">
+                  {% if user.type.value == 1 or user.type.value == 2 %}
+                    <a class="link-primary text-warning" href="{{ path('app_admin_user_justification_File', { id: user.id }) }}" target="_blank">
+                      {{ fa.icon('eye') }}
+                    </a>
+                  {% else %}
+                    <div class="text-secondary">
+                      {{ fa.icon('ban') }}
+                    </div>
+                  {% endif %}
+                </div>
               </td>
               <td>
                 <div class="d-flex align-items-center gap-2">
