@@ -10,16 +10,18 @@
       <table role="presentation" class="content">
         <tr>
           <td class="header">
-            <h1> Crétion de compte</h1>
+            <h1>Votre compte est approuvé !</h1>
           </td>
         </tr>
         <tr>
           <td class="body">
             <p>
                 Bonjour {{ user.firstName|default('') }} {{ user.lastName|default('') }},<br>
-                Votre compte a été créé avec succès. Il est actuellement en attente de validation par un administrateur.<br>
-                Vous recevrez un email de confirmation une fois que votre compte sera activé. Vous pourrez alors profiter de toutes les fonctionnalités du site.
+                Votre compte a été approuvé par un administrateur.<br>
+                Vous pouvez desormais profiter de toutes les fonctionnalités du site.
             </p>
+
+            <a class="btn btn-secondary" href="{{ absolute_url(path('app_user_profile')) }}">Accéder à mon espace</a>
           </td>
         </tr>
       </table>
