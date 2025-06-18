@@ -7,6 +7,7 @@
 namespace App\Security;
 
 use App\Entity\User;
+use App\Service\NotificationManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Persistence\ObjectRepository;
@@ -40,7 +41,12 @@ final class EntityUserProvider implements UserProviderInterface, OAuthAwareUserP
      * @param string                $class      User entity class to load
      * @param array<string, string> $properties Mapping of resource owners to properties
      */
-    public function __construct(ManagerRegistry $registry, string $class, array $properties, ?string $managerName = null)
+    public function __construct(
+        ManagerRegistry $registry, 
+        string $class, 
+        array $properties, 
+        private NotificationManager $notificationManager,
+        ?string $managerName = null)
     {
         $this->em = $registry->getManager($managerName);
         $this->class = $class;
@@ -70,8 +76,7 @@ final class EntityUserProvider implements UserProviderInterface, OAuthAwareUserP
         return $this->loadUserByIdentifier($username);
     }
 
-    public function loadUserByOAuthUserResponse(UserResponseInterface $response): ?UserInterface
-    {
+    public function loadUserByOAuthUserResponse(UserResponseInterface $response): ?UserInterface {
         $resourceOwnerName = $response->getResourceOwner()->getName();
 
         if (!isset($this->properties[$resourceOwnerName])) {
@@ -81,6 +86,9 @@ final class EntityUserProvider implements UserProviderInterface, OAuthAwareUserP
         $username = method_exists($response, 'getUserIdentifier') ? $response->getUserIdentifier() : $response->getUserIdentifier();
         if (null === $user = $this->findUser([$this->properties[$resourceOwnerName] => $username])) {
             $user = $this->registerUser($response, $resourceOwnerName);
+
+            $this->notificationManager->sendNotification($user, [$user], true);
+
             // throw $this->createUserNotFoundException($username, sprintf("User '%s' not found.", $username));
         }
 
