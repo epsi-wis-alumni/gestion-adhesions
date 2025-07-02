@@ -54,8 +54,6 @@ final class CandidacyVoter extends Voter
         return match($attribute) {
             self::DELETE => $this->canDelete($candidacy, $user),
         };
-
-        return true;
     }
 
     private function canDelete(Candidacy $candidacy, User $user): bool

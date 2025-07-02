@@ -23,7 +23,6 @@ final readonly class NewsletterManager
         private UserNewsletterRepository $userNewsletterRepository,
         private MailerInterface $mailerInterface,
         private Security $security,
-        private LoggerInterface $logger,
         private ContainerBagInterface $params,
     ) {
     }

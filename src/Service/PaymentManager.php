@@ -11,6 +11,7 @@ use App\Enum\TransactionType;
 use Doctrine\ORM\EntityManagerInterface;
 use Dom\Entity;
 use Stripe\Checkout\Session;
+use Stripe\Refund;
 use Stripe\Stripe;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -76,7 +77,7 @@ final readonly class PaymentManager
                     'unit_amount' => $transaction->getAmount() * 100, // en centimes !
                 ],
             ];
-        } else if ($type == TransactionType::Donation) {
+        } else {
             $mode = 'payment';
             $lineItems = [
                 'quantity' => 1,
@@ -158,9 +159,7 @@ final readonly class PaymentManager
 
         $ratio = $interval / $secondsInYear;
 
-        $priceToRefund = round($oldPrice * (1 - $ratio), 2);
-
-        return $priceToRefund;
+        return round($oldPrice * (1 - $ratio), 2);
     }
 
     public function getChargeBySessionId(string $sessionId): \Stripe\Charge
@@ -173,20 +172,16 @@ final readonly class PaymentManager
             'status' => 'succeeded',
         ]);
 
-        $charge = $charges['data'][0];
-
-        return $charge;
+        return $charges['data'][0];
     }
 
     public function createRefund(Transaction $activeTransaction, float $priceRender)
     {
         $chargeId = $this->getChargeBySessionId($activeTransaction->getSessionId())->id;
 
-        $refund = \Stripe\Refund::create([
+        return Refund::create([
             'charge' => $chargeId,
             'amount' => $priceRender * 100,
         ]);
-
-        return $refund;
     }
 }

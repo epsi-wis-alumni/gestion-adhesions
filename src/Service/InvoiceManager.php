@@ -66,8 +66,7 @@ final readonly class InvoiceManager
     {
         $uniquePart = strtoupper(bin2hex(random_bytes(4)));
         $randomNumber = str_pad(random_int(0, 9999), 4, '0', STR_PAD_LEFT);
-        $invoice_id = sprintf('%s-%s', $uniquePart, $randomNumber);
-        return $invoice_id;
+        return sprintf('%s-%s', $uniquePart, $randomNumber);
     }
 
     public function sendInvoiceLink(

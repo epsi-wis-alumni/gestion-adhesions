@@ -18,7 +18,6 @@ use Symfony\Component\Mime\Part\File;
 final readonly class NotificationManager
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
         private UserRepository $userRepository,
         private MailerInterface $mailerInterface,
         private ContainerBagInterface $params,

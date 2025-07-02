@@ -64,14 +64,12 @@ class LoginController extends AbstractController
             }
 
             if ($type === MemberType::Alumni) {
-                if ($type === MemberType::Alumni) {
-                    if (!$degree) {
-                        $form->get('degree')->addError(new FormError('Veuillez fournir un diplôme.'));
-                    } elseif (!in_array($degree->getMimeType(), $allowedMimeTypes)) {
-                        $form->get('degree')->addError(new FormError('Format de fichier non autorisé (PDF, image, Word ou ODT uniquement).'));
-                    } elseif (!in_array($degree->guessExtension(), $allowedExtensions)) {
-                        $form->get('degree')->addError(new FormError('Extension de fichier non autorisée (PDF, image, Word ou ODT uniquement).'));
-                    }
+                if (!$degree) {
+                    $form->get('degree')->addError(new FormError('Veuillez fournir un diplôme.'));
+                } elseif (!in_array($degree->getMimeType(), $allowedMimeTypes)) {
+                    $form->get('degree')->addError(new FormError('Format de fichier non autorisé (PDF, image, Word ou ODT uniquement).'));
+                } elseif (!in_array($degree->guessExtension(), $allowedExtensions)) {
+                    $form->get('degree')->addError(new FormError('Extension de fichier non autorisée (PDF, image, Word ou ODT uniquement).'));
                 }
             }
 

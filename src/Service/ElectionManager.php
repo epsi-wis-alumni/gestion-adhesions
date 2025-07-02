@@ -50,10 +50,7 @@ final class ElectionManager
 
     public function getWinners(Election $election): array
     {
-        $votes = $election->getVotes();
-        $voteCount = $votes->count();
         $results = $this->candidacyRepository->findByVoteCount($election);
-
         $maxVoteCount = $this->getMaxVoteCount($results);
 
         return array_filter(
