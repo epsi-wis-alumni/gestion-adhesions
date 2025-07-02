@@ -46,12 +46,14 @@ final class PaymentManager
         };
         
         $transaction = new Transaction();
-        $transaction->setStatus(TransactionStatus::Create);
-        $transaction->setType($type);
-        $transaction->setAmount($amount);
-        $transaction->setUser($currentUser);
-        $transaction->setSubscription($subscription);
-        $transaction->setDonation($donation);
+        $transaction
+            ->setStatus(TransactionStatus::Create)
+            ->setType($type)
+            ->setAmount($amount)
+            ->setUser($currentUser)
+            ->setSubscription($subscription)
+            ->setDonation($donation)
+        ;
 
         return $transaction;
     }
