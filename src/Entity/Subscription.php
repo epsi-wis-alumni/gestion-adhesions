@@ -5,8 +5,8 @@ namespace App\Entity;
 use App\Repository\SubscriptionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SubscriptionRepository::class)]
 class Subscription
@@ -73,11 +73,9 @@ class Subscription
 
     public function removeTransaction(Transaction $transaction): static
     {
-        if ($this->transactions->removeElement($transaction)) {
-            // set the owning side to null (unless already changed)
-            if ($transaction->getSubscription() === $this) {
-                $transaction->setSubscription(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->transactions->removeElement($transaction) && $transaction->getSubscription() === $this) {
+            $transaction->setSubscription(null);
         }
 
         return $this;

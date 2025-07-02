@@ -20,7 +20,7 @@ class MailTemplate
     #[Assert\Length(max: 255)]
     #[ORM\Column(length: 255)]
     private ?string $label = null;
-    
+
     #[Assert\NotBlank()]
     #[Assert\Length(max: 255)]
     #[ORM\Column(length: 255)]
@@ -33,12 +33,11 @@ class MailTemplate
     private Collection $newsletters;
 
     #[ORM\Column(options: ['default' => 0])]
-    private ?bool $deleted = null;
+    private ?bool $deleted = false;
 
     public function __construct()
     {
         $this->newsletters = new ArrayCollection();
-        $this->deleted = false;
     }
 
     public function getId(): ?int
@@ -90,11 +89,9 @@ class MailTemplate
 
     public function removeNewsletter(Newsletter $newsletter): static
     {
-        if ($this->newsletters->removeElement($newsletter)) {
-            // set the owning side to null (unless already changed)
-            if ($newsletter->getTemplate() === $this) {
-                $newsletter->setTemplate(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->newsletters->removeElement($newsletter) && $newsletter->getTemplate() === $this) {
+            $newsletter->setTemplate(null);
         }
 
         return $this;

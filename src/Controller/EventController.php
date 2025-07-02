@@ -37,6 +37,7 @@ final class EventController extends AbstractController
         ContainerBagInterface $params,
     ): Response {
         $event_image_base_path = $params->get('event_image_base_path');
+
         return $this->render('event/show.html.twig', [
             'event_image_base_path' => $event_image_base_path,
             'event' => $event,

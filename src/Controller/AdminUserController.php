@@ -24,13 +24,13 @@ class AdminUserController extends AbstractController
     {
         $perPage = $request->get('perPage', 50);
         $page = $request->get('page', 1);
-        
+
         $users = $userRepository->findBySearchPaginated(
             page: $page,
             perPage: $perPage,
             search: $request->get('search'),
         );
-        
+
         $usersTotalCount = $userRepository->count();
         $usersCurrentPageCount = count($users);
         $usersMatchingSearchCount = $request->get('search')
@@ -81,9 +81,9 @@ class AdminUserController extends AbstractController
 
     #[Route('/{id}/approve', name: 'app_admin_user_approve', methods: ['GET'])]
     public function approve(
-        EntityManagerInterface $entityManager, 
-        #[CurrentUser()] User $currentUser, 
-        User $user, 
+        EntityManagerInterface $entityManager,
+        #[CurrentUser()] User $currentUser,
+        User $user,
         UserManager $userManager,
         NotificationManager $notificationManager,
     ): Response {
@@ -109,7 +109,6 @@ class AdminUserController extends AbstractController
     public function showInvoice(
         User $user,
     ): Response|RedirectResponse {
-        
         $filePath = $user->getJustificationFilePath();
 
         $finder = new Finder();

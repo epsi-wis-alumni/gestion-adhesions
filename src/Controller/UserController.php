@@ -6,26 +6,25 @@ use App\Entity\Transaction;
 use App\Entity\User;
 use App\Enum\TransactionType;
 use App\Form\CompleteProfileType;
-use App\Form\PlanRenewalType;
 use App\Form\PlanPriceType;
+use App\Form\PlanRenewalType;
 use App\Form\SettingsType;
 use App\Repository\PlanRepository;
-use App\Repository\SubscriptionRepository;
 use App\Repository\TransactionRepository;
 use App\Service\PaymentManager;
 use App\Service\SubscriptionManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Stripe\Checkout\Session;
+use Stripe\Invoice;
+use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
-use Stripe\Stripe;
-use Stripe\Checkout\Session;
-use Stripe\Invoice;
-use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 #[Route('/user')]
 final class UserController extends AbstractController
@@ -84,6 +83,7 @@ final class UserController extends AbstractController
             $entityManager->persist($currentUser);
             $entityManager->flush();
             $this->addFlash('success', 'Modifications enregistrées.');
+
             return $this->redirectToRoute('app_user_settings', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -110,7 +110,7 @@ final class UserController extends AbstractController
         foreach ($plans as $plan) {
             $form = $this->createForm(PlanPriceType::class, null, [
                 'price' => $plan->getPrice(),
-                'attr' => ['id' => 'form_plan_' . $plan->getId()],
+                'attr' => ['id' => 'form_plan_'.$plan->getId()],
                 'planId' => $plan->getId(),
             ]);
             $form->handleRequest($request);
@@ -126,24 +126,25 @@ final class UserController extends AbstractController
             $form = $planWithForm['form'];
             if ($form->isSubmitted() && $form->isValid()) {
                 $price = $form->get('price')->getData();
-                $plan = $planRepository->findOneBy(["id" => $form->get('plan')->getData()]);
+                $plan = $planRepository->findOneBy(['id' => $form->get('plan')->getData()]);
                 $subscription = $subscriptionManager->createSubscription($plan, $price);
-                return $this->redirectToRoute('app_payment', ["id" => $subscription->getId()], Response::HTTP_SEE_OTHER);
+
+                return $this->redirectToRoute('app_payment', ['id' => $subscription->getId()], Response::HTTP_SEE_OTHER);
             }
         }
 
         $renewalForm = null;
-        if ($activeTransaction) {
+        if ($activeTransaction instanceof Transaction) {
             $renewalForm = $this->createForm(PlanRenewalType::class, null, [
-                "renewal" => $activeTransaction->isRenewal(),
+                'renewal' => $activeTransaction->isRenewal(),
             ]);
             $renewalForm->handleRequest($request);
-    
+
             if ($renewalForm->isSubmitted() && $renewalForm->isValid()) {
                 $renewal = $renewalForm->get('renewal')->getData();
-    
+
                 try {
-                    if ($renewal === "true") {
+                    if ('true' === $renewal) {
                         $paymentManager->enableRenewal($activeTransaction);
                         $this->addFlash('success', 'Renouvellement activé avec succès.');
                     } else {
@@ -153,7 +154,7 @@ final class UserController extends AbstractController
                 } catch (\Throwable) {
                     $this->addFlash('warning', 'Une erreur est survenue. Si le problème persiste, veuillez contacter le support.');
                 }
-    
+
                 return $this->redirectToRoute('app_user_plan', [], Response::HTTP_SEE_OTHER);
             }
         }
@@ -200,17 +201,16 @@ final class UserController extends AbstractController
     public function showInvoice(
         Transaction $transaction,
     ): Response|RedirectResponse {
-        
-        if($transaction->getType() === TransactionType::Donation) {
+        if (TransactionType::Donation === $transaction->getType()) {
             $filePath = $transaction->getInvoice()->getFilePath();
-    
+
             $finder = new Finder();
             $finder->files()->in(dirname((string) $filePath))->name(basename((string) $filePath));
-    
+
             if (!$finder->hasResults()) {
                 throw $this->createNotFoundException('La facture demandée est introuvable.');
             }
-    
+
             foreach ($finder as $file) {
                 $contents = $file->getContents();
             }
@@ -227,6 +227,7 @@ final class UserController extends AbstractController
             $session = Session::retrieve($transaction->getSessionId());
             $invoice = Invoice::retrieve($session->invoice);
             $invoice_url = $invoice->hosted_invoice_url;
+
             return new RedirectResponse($invoice_url);
         }
     }

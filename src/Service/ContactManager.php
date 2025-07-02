@@ -14,7 +14,7 @@ final readonly class ContactManager
     ) {
     }
 
-    public function sendMail($form): void 
+    public function sendMail($form): void
     {
         $sender = $this->params->get('mailer_sender');
         $contactAddress = $this->params->get('mailer_contact');
@@ -24,7 +24,7 @@ final readonly class ContactManager
         $email = (new TemplatedEmail())
             ->from($sender)
             ->to($contactAddress)
-            ->subject("Prise de contact depuis le site")
+            ->subject('Prise de contact depuis le site')
             ->htmlTemplate($templatePath)
             ->context([
                 'form' => $form,

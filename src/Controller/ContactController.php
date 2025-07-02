@@ -7,8 +7,6 @@ use App\Service\ContactManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class ContactController extends AbstractController
@@ -22,7 +20,6 @@ final class ContactController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $contactManager->sendMail($form->getData());
 
             return $this->redirectToRoute('app_contact', [], Response::HTTP_SEE_OTHER);

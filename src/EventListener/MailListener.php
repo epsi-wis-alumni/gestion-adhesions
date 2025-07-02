@@ -25,9 +25,9 @@ final readonly class MailListener
             $bcc = $message->getBcc();
 
             $addresses = array_merge(
-                array_map(fn($address): string => $address->getAddress(), $to),
-                array_map(fn($address): string => $address->getAddress(), $cc),
-                array_map(fn($address): string => $address->getAddress(), $bcc)
+                array_map(fn ($address): string => $address->getAddress(), $to),
+                array_map(fn ($address): string => $address->getAddress(), $cc),
+                array_map(fn ($address): string => $address->getAddress(), $bcc)
             );
 
             $this->logger->info('Un e-mail a été envoyé à : '.implode(', ', $addresses));

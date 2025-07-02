@@ -17,8 +17,7 @@ final class DonationController extends AbstractController
     public function index(
         Request $request,
         EntityManagerInterface $entityManager,
-    ): Response
-    {
+    ): Response {
         $donation = new Donation();
         $form = $this->createForm(DonationType::class, $donation);
         $form->handleRequest($request);
@@ -27,8 +26,8 @@ final class DonationController extends AbstractController
             $entityManager->persist($donation);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_payment_donation', ["id" => $donation->getId()], Response::HTTP_SEE_OTHER);
-    }
+            return $this->redirectToRoute('app_payment_donation', ['id' => $donation->getId()], Response::HTTP_SEE_OTHER);
+        }
 
         return $this->render('donnation/index.html.twig', [
             'form' => $form,

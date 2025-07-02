@@ -24,8 +24,8 @@ class LoginController extends AbstractController
 
     #[Route('/complete-profile', name: 'app_complete_profile', methods: ['GET', 'POST'])]
     public function complete(
-        Request $request, 
-        #[CurrentUser()] User $currentUser, 
+        Request $request,
+        #[CurrentUser()] User $currentUser,
         EntityManagerInterface $entityManager,
         ContainerBagInterface $params,
     ): Response {
@@ -39,7 +39,7 @@ class LoginController extends AbstractController
 
             $studentCard = $form->get('studentCard')->getData();
             $degree = $form->get('degree')->getData();
-            
+
             $allowedMimeTypes = [
                 'application/pdf',
                 'application/msword',
@@ -53,7 +53,7 @@ class LoginController extends AbstractController
 
             $allowedExtensions = ['pdf', 'doc', 'docx', 'odt', 'jpg', 'jpeg', 'png', 'gif', 'webp'];
 
-            if ($type === MemberType::Student) {
+            if (MemberType::Student === $type) {
                 if (!$studentCard) {
                     $form->get('studentCard')->addError(new FormError('Veuillez fournir une carte étudiante.'));
                 } elseif (!in_array($studentCard->getMimeType(), $allowedMimeTypes)) {
@@ -63,7 +63,7 @@ class LoginController extends AbstractController
                 }
             }
 
-            if ($type === MemberType::Alumni) {
+            if (MemberType::Alumni === $type) {
                 if (!$degree) {
                     $form->get('degree')->addError(new FormError('Veuillez fournir un diplôme.'));
                 } elseif (!in_array($degree->getMimeType(), $allowedMimeTypes)) {
@@ -76,19 +76,19 @@ class LoginController extends AbstractController
             if ($form->isValid()) {
                 $justificationFile = null;
 
-                if ($type === MemberType::Student) {
+                if (MemberType::Student === $type) {
                     $justificationFile = $studentCard;
-                } elseif ($type === MemberType::Alumni) {
+                } elseif (MemberType::Alumni === $type) {
                     $justificationFile = $degree;
                 }
 
                 if ($justificationFile) {
                     $uploadsDir = $params->get('justification_file_path');
-                    $filename = strtolower((string) $type->name) . '_' . $currentUser->getLastname() . '_' . uniqid() . '.' . $justificationFile->guessExtension();
+                    $filename = strtolower((string) $type->name).'_'.$currentUser->getLastname().'_'.uniqid().'.'.$justificationFile->guessExtension();
 
                     $justificationFile->move($uploadsDir, $filename);
 
-                    $currentUser->setJustificationFilePath($uploadsDir . '/' . $filename);
+                    $currentUser->setJustificationFilePath($uploadsDir.'/'.$filename);
                 }
 
                 $entityManager->flush();
@@ -96,7 +96,7 @@ class LoginController extends AbstractController
                 return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
             }
         }
-        
+
         return $this->render('login/complete.html.twig', [
             'form' => $form,
         ]);

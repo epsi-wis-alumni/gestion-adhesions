@@ -15,10 +15,10 @@ class DonationType extends AbstractType
         $builder
         ->add('amount', NumberType::class, [
             'attr' => [
-                "type" => "number",
+                'type' => 'number',
                 'step' => '0.01',
-                "min" => '0.50',
-                "max" => '999999.99',
+                'min' => '0.50',
+                'max' => '999999.99',
             ],
             'row_attr' => ['class' => 'mb-3'],
             'label' => 'Prix',

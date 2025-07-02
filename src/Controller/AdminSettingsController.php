@@ -8,7 +8,6 @@ use App\Repository\MailTemplateRepository;
 use App\Service\MailTemplateManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -29,7 +28,7 @@ final class AdminSettingsController extends AbstractController
     public function emptyCache(): Response
     {
         opcache_reset();
-        
+
         $this->addFlash('success', 'Le cache a bien été vidé.');
 
         return $this->redirectToRoute('app_admin_settings');

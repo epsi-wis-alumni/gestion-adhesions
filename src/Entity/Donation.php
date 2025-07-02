@@ -70,11 +70,9 @@ class Donation
 
     public function removeTransaction(Transaction $transaction): static
     {
-        if ($this->transactions->removeElement($transaction)) {
-            // set the owning side to null (unless already changed)
-            if ($transaction->getDonation() === $this) {
-                $transaction->setDonation(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->transactions->removeElement($transaction) && $transaction->getDonation() === $this) {
+            $transaction->setDonation(null);
         }
 
         return $this;

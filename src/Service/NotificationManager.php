@@ -8,7 +8,6 @@ use App\Entity\Invoice;
 use App\Entity\User;
 use App\Enum\TransactionType;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\Mailer\MailerInterface;
@@ -50,7 +49,7 @@ final readonly class NotificationManager
             Event::class => ['event' => $entity],
             Invoice::class => [
                 'type' => TransactionType::Donation,
-                'invoice_url' => "",
+                'invoice_url' => '',
             ],
             User::class => ['user' => $entity],
         };
@@ -91,7 +90,8 @@ final readonly class NotificationManager
         return array_map(fn ($user) => $user->getEmail(), $users);
     }
 
-    public function sendInvoiceLink(string $invoice_url, User $user): void {
+    public function sendInvoiceLink(string $invoice_url, User $user): void
+    {
         $sender = $this->params->get('mailer_sender');
 
         if ($user) {

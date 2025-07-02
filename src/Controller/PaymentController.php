@@ -12,8 +12,8 @@ use App\Repository\TransactionRepository;
 use App\Service\InvoiceManager;
 use App\Service\PaymentManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Stripe\Stripe;
 use Stripe\Checkout\Session;
+use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,7 +41,7 @@ class PaymentController extends AbstractController
         TransactionRepository $transactionRepository,
     ): Response {
         $activeTransaction = $transactionRepository->findOneActivePlanTransactionByUser($currentUser);
-        
+
         $transaction = $paymentManager->createTransaction($currentUser, $subscription);
 
         $this->entityManager->persist($transaction);
@@ -56,18 +56,18 @@ class PaymentController extends AbstractController
             $this->entityManager->flush();
         } catch (\Exception) {
             $this->addFlash('error', 'Erreur lors de la création de la session Stripe.');
-            
+
             return $this->redirectToRoute('app_payment_error', ['id' => $transaction->getId()]);
         }
 
-        if ($activeTransaction) {
+        if ($activeTransaction instanceof Transaction) {
             $activeTransaction->setStatus(TransactionStatus::RefundPending);
             $this->entityManager->flush();
         }
 
         return $this->redirect($session->url, Response::HTTP_SEE_OTHER);
     }
-    
+
     #[Route('/success/{id}', name: 'app_payment_success')]
     public function stripeSuccess(
         Transaction $transaction,
@@ -88,7 +88,7 @@ class PaymentController extends AbstractController
 
     #[Route('/error/{id}', name: 'app_payment_error')]
     public function stripeError(
-        Transaction $transaction
+        Transaction $transaction,
     ): Response {
         try {
             $session = Session::retrieve($transaction->getSessionId());
@@ -107,7 +107,7 @@ class PaymentController extends AbstractController
 
     #[Route('/webhook', name: 'app_payment_webhook', methods: ['POST'])]
     public function stripeWebhook(
-        Request $request, 
+        Request $request,
         InvoiceManager $invoiceManager,
         TransactionRepository $transactionRepository,
         EntityManagerInterface $entityManager,
@@ -117,7 +117,7 @@ class PaymentController extends AbstractController
         $signature = $request->headers->get('Stripe-Signature');
         $endpointSecret = $this->params->get('stripe_webhook_secret');
 
-        $sessionId = "";
+        $sessionId = '';
 
         try {
             $event = \Stripe\Webhook::constructEvent(
@@ -131,18 +131,18 @@ class PaymentController extends AbstractController
             return new Response('Invalid signature', Response::HTTP_BAD_REQUEST);
         }
 
-        if ($event->type === 'checkout.session.completed') {
+        if ('checkout.session.completed' === $event->type) {
             $sessionId = $event->data->object->id;
             $transaction = $transactionRepository->findOneBy(['sessionId' => $sessionId]);
             $activeTransactionRefundPending = $transactionRepository->findOneActiveTransactionRefundPendingByUser($transaction->getUser());
 
-            if ($event->data->object->payment_status === "paid") {
+            if ('paid' === $event->data->object->payment_status) {
                 $transaction->setStatus(TransactionStatus::Completed);
-                
-                if($transaction->getType() === TransactionType::Donation) {
+
+                if (TransactionType::Donation === $transaction->getType()) {
                     $invoice_id = $invoiceManager->generateInvoiceId();
                     $transaction->getInvoice()->setInvoiceId($invoice_id);
-                    
+
                     $html = $this->render('invoice/invoice.html.twig', [
                         'transaction' => $transaction,
                     ]);
@@ -151,11 +151,11 @@ class PaymentController extends AbstractController
                         transaction: $transaction
                     );
                 }
-                if($transaction->getType() === TransactionType::Subscription) {
+                if (TransactionType::Subscription === $transaction->getType()) {
                     $invoiceManager->sendInvoiceLink($transaction);
                 }
 
-                if ($activeTransactionRefundPending) {
+                if ($activeTransactionRefundPending instanceof Transaction) {
                     $priceRender = $paymentManager->getPriceToRefund($activeTransactionRefundPending);
                     $refund = $paymentManager->createRefund($activeTransactionRefundPending, $priceRender);
 
@@ -164,7 +164,7 @@ class PaymentController extends AbstractController
                     $activeTransactionRefundPending->setRefundId($refund->id);
                 }
             }
-            if ($event->data->object->payment_status === "unpaid") {
+            if ('unpaid' === $event->data->object->payment_status) {
                 $transaction->setStatus(TransactionStatus::Failed);
             }
         }
@@ -179,8 +179,7 @@ class PaymentController extends AbstractController
         Donation $donation,
         #[CurrentUser()] User $currentUser,
         PaymentManager $paymentManager,
-    ): Response
-    {
+    ): Response {
         $transaction = $paymentManager->createTransaction($currentUser, $donation);
 
         $this->entityManager->persist($transaction);
@@ -195,11 +194,10 @@ class PaymentController extends AbstractController
             $this->entityManager->flush();
         } catch (\Exception) {
             $this->addFlash('error', 'Erreur lors de la création de la session Stripe.');
-            
+
             return $this->redirectToRoute('app_payment_error', ['id' => $transaction->getId()]);
         }
 
         return $this->redirect($session->url, Response::HTTP_SEE_OTHER);
     }
-
 }

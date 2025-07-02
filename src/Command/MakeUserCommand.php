@@ -33,7 +33,7 @@ class MakeUserCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $firstname = $io->ask('What is the user\'s first name?', null, function (string $answer): string {
-            if (empty($answer)) {
+            if ('' === $answer || '0' === $answer) {
                 throw new \RuntimeException('The first name cannot be empty.');
             }
 
@@ -41,7 +41,7 @@ class MakeUserCommand extends Command
         });
 
         $lastname = $io->ask('What is the user\'s last name?', null, function (string $answer): string {
-            if (empty($answer)) {
+            if ('' === $answer || '0' === $answer) {
                 throw new \RuntimeException('The last name cannot be empty.');
             }
 
@@ -49,7 +49,7 @@ class MakeUserCommand extends Command
         });
 
         $email = $io->ask('What is the user\'s email?', null, function (string $answer): string {
-            if (empty($answer)) {
+            if ('' === $answer || '0' === $answer) {
                 throw new \RuntimeException('The email cannot be empty.');
             }
 

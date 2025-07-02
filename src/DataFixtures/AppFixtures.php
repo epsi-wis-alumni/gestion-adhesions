@@ -82,7 +82,7 @@ class AppFixtures extends Fixture
         ;
         $this->userManager->approve($userVoter1, $userAdmin);
 
-        for ($i=0; $i < 100; $i++) { 
+        for ($i = 0; $i < 100; ++$i) {
             $userVoter15 = new User();
             $userVoter15
                 ->setFirstname($faker->firstName())
@@ -433,9 +433,9 @@ class AppFixtures extends Fixture
             ->setStartAt(new \DateTimeImmutable('2025-03-15 10:00:00'))
             ->setEndAt(new \DateTimeImmutable('2025-03-17 18:00:00'))
             ->setPrivate(false)
-            ->setImageFileName("")
+            ->setImageFileName('')
             ->setDescription(
-"La conférence \"L'Intelligence Artificielle et l'Éthique\" explore 
+                "La conférence \"L'Intelligence Artificielle et l'Éthique\" explore 
 les enjeux fondamentaux de l'IA dans notre société. Elle réunit 
 des experts de renommée mondiale, chercheurs, philosophes, et 
 professionnels pour débattre des dilemmes éthiques liés au 
@@ -470,9 +470,9 @@ les valeurs fondamentales et en assurant un avenir responsable et
             ->setStartAt(new \DateTimeImmutable('2025-04-23 09:30:00'))
             ->setEndAt(new \DateTimeImmutable('2025-04-23 17:00:00'))
             ->setPrivate(false)
-            ->setImageFileName("")
+            ->setImageFileName('')
             ->setDescription(
-"La conférence \"L'Intelligence Artificielle et l'Éthique\" explore 
+                "La conférence \"L'Intelligence Artificielle et l'Éthique\" explore 
 les enjeux fondamentaux de l'IA dans notre société. Elle réunit 
 des experts de renommée mondiale, chercheurs, philosophes, et 
 professionnels pour débattre des dilemmes éthiques liés au 
@@ -507,9 +507,9 @@ les valeurs fondamentales et en assurant un avenir responsable et
             ->setStartAt(new \DateTimeImmutable('2025-06-01 08:30:00'))
             ->setEndAt(new \DateTimeImmutable('2025-06-01 16:00:00'))
             ->setPrivate(true)
-            ->setImageFileName("")
+            ->setImageFileName('')
             ->setDescription(
-"L'Atelier de Création de Startups est une expérience immersive 
+                "L'Atelier de Création de Startups est une expérience immersive 
 conçue pour transformer des idées en entreprises concrètes. Cet 
 atelier s’adresse aux aspirants entrepreneurs, étudiants, 
 professionnels et passionnés souhaitant découvrir les bases de 
@@ -568,13 +568,13 @@ idéale pour se lancer dans l’aventure entrepreneuriale."
 
         $donation1 = new Donation();
         $donation1->setAmount(10.00);
-        
+
         $donation2 = new Donation();
         $donation2->setAmount(20.00);
-        
+
         $donation3 = new Donation();
         $donation3->setAmount(30.00);
-        
+
         $manager->persist($donation1);
         $manager->persist($donation2);
         $manager->persist($donation3);

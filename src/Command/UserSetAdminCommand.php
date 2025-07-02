@@ -7,9 +7,7 @@ use App\Repository\UserRepository;
 use App\Service\UserManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -33,12 +31,11 @@ class UserSetAdminCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        
+
         $email = $io->ask(
-            "What is the email of the user you to make admin?",
-            validator: fn (string $answer): string => empty($answer) ? 
-                throw new \RuntimeException('The email cannot be empty.')
-                : $answer
+            'What is the email of the user you to make admin?',
+            validator: fn (string $answer): string => '' === $answer || '0' === $answer ?
+                throw new \RuntimeException('The email cannot be empty.') : $answer
         );
 
         /** @var User */
@@ -46,6 +43,7 @@ class UserSetAdminCommand extends Command
 
         if (!$user) {
             $io->error('User not found.');
+
             return Command::FAILURE;
         }
 

@@ -10,7 +10,7 @@ trait SearchableTrait
     {
         foreach ($haystack as $field) {
             $alias = $qb->getRootAliases()[0];
-            $paramName = str_replace('.', '_', $field) . '_param';
+            $paramName = str_replace('.', '_', $field).'_param';
 
             // Gestion des champs imbriqués (relation.user.firstname)
             if (str_contains((string) $field, '.')) {

@@ -23,12 +23,12 @@ class VoteRepository extends ServiceEntityRepository
      */
     public function hasVoted(User $user, Election $election): bool
     {
-        return $this->createQueryBuilder('v')
+        return (bool) $this->createQueryBuilder('v')
             ->andWhere('v.voter = :user')
             ->andWhere('v.election = :election')
             ->setParameter('user', $user)
             ->setParameter('election', $election)
             ->getQuery()
-            ->getOneOrNullResult() ? true : false;
+            ->getOneOrNullResult();
     }
 }

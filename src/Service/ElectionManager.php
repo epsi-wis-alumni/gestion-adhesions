@@ -48,6 +48,9 @@ final class ElectionManager
         ;
     }
 
+    /**
+     * @return list<Candidacy>
+     */
     public function getWinners(Election $election): array
     {
         $results = $this->candidacyRepository->findByVoteCount($election);
@@ -59,6 +62,9 @@ final class ElectionManager
         );
     }
 
+    /**
+     * @param list<Candidacy> $candidacies
+     */
     protected function getMaxVoteCount(array $candidacies): int
     {
         return count($candidacies) > 0 ? max(

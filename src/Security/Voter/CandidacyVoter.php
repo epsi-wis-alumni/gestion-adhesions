@@ -4,7 +4,6 @@ namespace App\Security\Voter;
 
 use App\Entity\Candidacy;
 use App\Entity\User;
-use COM;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -21,16 +20,12 @@ final class CandidacyVoter extends Voter
     protected function supports(string $attribute, mixed $subject): bool
     {
         // if the attribute isn't one we support, return false
-        if (!in_array($attribute, [self::DELETE])) {
+        if (self::DELETE !== $attribute) {
             return false;
         }
 
         // only on `Candidacy` objects
-        if (!$subject instanceof Candidacy) {
-            return false;
-        }
-
-        return true;   
+        return $subject instanceof Candidacy;
     }
 
     /**
@@ -51,7 +46,7 @@ final class CandidacyVoter extends Voter
 
         $candidacy = $subject;
 
-        return match($attribute) {
+        return match ($attribute) {
             self::DELETE => $this->canDelete($candidacy, $user),
         };
     }
@@ -61,10 +56,6 @@ final class CandidacyVoter extends Voter
         $candidate = $candidacy->getCandidate();
         $election = $candidacy->getElection();
 
-        if ($candidate === $user and $election->getVoteStartAt() > new \DateTimeImmutable()) {
-            return true;
-        }
-
-        return false;
+        return $candidate === $user && $election->getVoteStartAt() > new \DateTimeImmutable();
     }
 }

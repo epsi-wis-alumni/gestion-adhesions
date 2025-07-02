@@ -5,6 +5,7 @@ namespace App\Security\Voter;
 use App\Entity\Event;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 final class EventVoter extends Voter
 {
@@ -12,7 +13,7 @@ final class EventVoter extends Voter
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return in_array($attribute, [self::VIEW])
+        return self::VIEW === $attribute
             && $subject instanceof Event;
     }
 
@@ -26,10 +27,7 @@ final class EventVoter extends Voter
         }
 
         $user = $token->getUser();
-        if (!$user) {
-            return false;
-        }
 
-        return true;
+        return $user instanceof UserInterface;
     }
 }

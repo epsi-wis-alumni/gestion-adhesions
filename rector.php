@@ -16,4 +16,5 @@ return RectorConfig::configure()
     ->withPreparedSets(
         typeDeclarations: true,
         deadCode: true,
+        codeQuality: true,
     );

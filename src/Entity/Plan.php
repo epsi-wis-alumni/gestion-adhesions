@@ -20,7 +20,7 @@ class Plan
     #[Assert\NotBlank()]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
-    
+
     #[Assert\NotBlank()]
     #[ORM\Column(length: 255)]
     private ?string $description = null;
@@ -35,7 +35,7 @@ class Plan
     private ?string $price = null;
 
     #[ORM\Column(type: 'boolean', options: ['default' => false])]
-    private ?bool $highlighted = null;
+    private ?bool $highlighted = false;
 
     /**
      * @var Collection<int, Feature>
@@ -49,7 +49,6 @@ class Plan
     public function __construct()
     {
         $this->subscriptions = new ArrayCollection();
-        $this->highlighted = false;
         $this->features = new ArrayCollection();
     }
 
@@ -102,11 +101,9 @@ class Plan
 
     public function removeSubscription(Subscription $subscription): static
     {
-        if ($this->subscriptions->removeElement($subscription)) {
-            // set the owning side to null (unless already changed)
-            if ($subscription->getPlan() === $this) {
-                $subscription->setPlan(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->subscriptions->removeElement($subscription) && $subscription->getPlan() === $this) {
+            $subscription->setPlan(null);
         }
 
         return $this;
@@ -156,10 +153,8 @@ class Plan
 
     public function removeFeature(Feature $feature): static
     {
-        if ($this->features->removeElement($feature)) {
-            if ($feature->getPlan() === $this) {
-                $feature->setPlan(null);
-            }
+        if ($this->features->removeElement($feature) && $feature->getPlan() === $this) {
+            $feature->setPlan(null);
         }
 
         return $this;

@@ -35,7 +35,7 @@ class PlanRenewalType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            "renewal" => true,
+            'renewal' => true,
         ]);
     }
 }

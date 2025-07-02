@@ -23,11 +23,11 @@ class Newsletter
     #[Assert\NotBlank()]
     #[ORM\Column(length: 255)]
     private ?string $object = null;
-    
+
     #[Assert\NotBlank()]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $body = null;
-    
+
     #[Assert\NotBlank()]
     #[ORM\Column(length: 255)]
     private ?string $cta = null;
@@ -183,11 +183,9 @@ class Newsletter
 
     public function removeUserNewsletter(UserNewsletter $userNewsletter): static
     {
-        if ($this->userNewsletters->removeElement($userNewsletter)) {
-            // set the owning side to null (unless already changed)
-            if ($userNewsletter->getNewsletter() === $this) {
-                $userNewsletter->setNewsletter(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->userNewsletters->removeElement($userNewsletter) && $userNewsletter->getNewsletter() === $this) {
+            $userNewsletter->setNewsletter(null);
         }
 
         return $this;

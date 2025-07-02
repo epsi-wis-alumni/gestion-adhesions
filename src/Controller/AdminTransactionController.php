@@ -15,11 +15,10 @@ final class AdminTransactionController extends AbstractController
     public function index(
         Request $request,
         TransactionRepository $transactionRepository,
-    ): Response
-    {
+    ): Response {
         $perPage = $request->get('perPage', 50);
         $page = $request->get('page', 1);
-        
+
         // Search for transactions
         $transactions = $transactionRepository->findBySearchPaginated(
             page: $page,
@@ -28,11 +27,11 @@ final class AdminTransactionController extends AbstractController
             sort: $request->query->get('sort', 'createdAt'),
             order: $request->query->get('order', 'desc'),
         );
-        
+
         // Count transactions
         $transactionTotalCount = $transactionRepository->count();
-        $transactionMatchingSearchCount = $request->get('search') 
-            ? $transactionRepository->countBySearch($request->get('search', '')) 
+        $transactionMatchingSearchCount = $request->get('search')
+            ? $transactionRepository->countBySearch($request->get('search', ''))
             : $transactionTotalCount
         ;
         $transactionCurrentPageCount = count($transactions);

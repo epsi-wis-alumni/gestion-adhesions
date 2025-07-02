@@ -30,7 +30,7 @@ class PlanRepository extends ServiceEntityRepository
             ->setParameter('highlighted', false)
         ;
 
-        if ($ignored) {
+        if ($ignored instanceof Plan) {
             $qb
                 ->where('p.id <> :planId')
                 ->setParameter('planId', $ignored->getId())

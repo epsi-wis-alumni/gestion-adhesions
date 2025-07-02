@@ -84,7 +84,7 @@ final class AdminEventController extends AbstractController
 
             $uploadedFile = $form->get('image')->getData();
             $eventManager->setImage($uploadedFile, $event);
-            
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_admin_event_index', [], Response::HTTP_SEE_OTHER);

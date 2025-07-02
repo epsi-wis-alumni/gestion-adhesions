@@ -9,7 +9,6 @@ use App\Entity\User;
 use App\Enum\TransactionStatus;
 use App\Enum\TransactionType;
 use Doctrine\ORM\EntityManagerInterface;
-use Dom\Entity;
 use Stripe\Checkout\Session;
 use Stripe\Refund;
 use Stripe\Stripe;
@@ -25,6 +24,7 @@ final readonly class PaymentManager
     ) {
         Stripe::setApiKey($this->params->get('stripe_api_private_key'));
     }
+
     public function createTransaction(User $currentUser, Subscription|Donation $entity): Transaction
     {
         $amount = match ($entity::class) {
@@ -45,7 +45,7 @@ final readonly class PaymentManager
             Subscription::class => null,
             Donation::class => $entity,
         };
-        
+
         $transaction = new Transaction();
         $transaction
             ->setStatus(TransactionStatus::Create)
@@ -61,7 +61,7 @@ final readonly class PaymentManager
 
     public function createSession(User $currentUser, Transaction $transaction, TransactionType $type): Session
     {
-        if ($type == TransactionType::Subscription) {
+        if (TransactionType::Subscription == $type) {
             $mode = 'subscription';
             $lineItems = [
                 'quantity' => 1,
@@ -99,12 +99,12 @@ final readonly class PaymentManager
             'client_reference_id' => $currentUser->getId(),
             'success_url' => $this->urlGenerator->generate(
                 'app_payment_success',
-                ['id' => $transaction->getId()], 
+                ['id' => $transaction->getId()],
                 UrlGeneratorInterface::ABSOLUTE_URL
             ),
             'cancel_url' => $this->urlGenerator->generate(
                 'app_payment_error',
-                ['id' => $transaction->getId()], 
+                ['id' => $transaction->getId()],
                 UrlGeneratorInterface::ABSOLUTE_URL
             ),
             'customer_email' => $currentUser->getEmail(),
@@ -152,7 +152,7 @@ final readonly class PaymentManager
         $now = new \DateTimeImmutable();
         $year = (new \DateTimeImmutable())->format('Y');
         $isLeapYear = date('L', strtotime("$year-01-01"));
-        $daysInYear = $isLeapYear ? 366 : 365;
+        $daysInYear = '' !== $isLeapYear && '0' !== $isLeapYear ? 366 : 365;
         $secondsInYear = $daysInYear * 24 * 60 * 60;
 
         $interval = $now->getTimestamp() - $createdAt->getTimestamp();

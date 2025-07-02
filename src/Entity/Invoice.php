@@ -12,7 +12,7 @@ class Invoice
     #[Assert\NotBlank()]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $filePath = null;
-    
+
     #[Assert\NotBlank()]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $id = null;

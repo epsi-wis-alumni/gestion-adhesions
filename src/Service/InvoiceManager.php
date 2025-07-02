@@ -6,9 +6,9 @@ use App\Entity\Transaction;
 use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
-use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Stripe\Checkout\Session;
 use Stripe\Invoice;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 
 final readonly class InvoiceManager
 {
@@ -62,10 +62,11 @@ final readonly class InvoiceManager
         return $filePath;
     }
 
-    function generateInvoiceId(): string
+    public function generateInvoiceId(): string
     {
         $uniquePart = strtoupper(bin2hex(random_bytes(4)));
         $randomNumber = str_pad(random_int(0, 9999), 4, '0', STR_PAD_LEFT);
+
         return sprintf('%s-%s', $uniquePart, $randomNumber);
     }
 

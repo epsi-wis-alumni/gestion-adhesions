@@ -13,7 +13,9 @@ final readonly class EventManager
     public function __construct(
         private ContainerBagInterface $params,
         private SluggerInterface $slugger,
-    ) { }
+    ) {
+    }
+
     public function create(User $user, Event $event): void
     {
         $event
@@ -38,7 +40,7 @@ final readonly class EventManager
     }
 
     public function setImage(
-        $uploadedFile, 
+        $uploadedFile,
         Event $event,
     ): void {
         $event_image_base_path = $this->params->get('event_image_base_path');

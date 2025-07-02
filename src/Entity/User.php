@@ -25,7 +25,7 @@ class User implements UserInterface
 {
     use SoftDeletableTrait;
     use TimestampableTrait;
-    
+
     public const ROLE_USER = 'ROLE_USER';
     public const ROLE_APPROVED = 'ROLE_APPROVED';
     public const ROLE_MEMBER = 'ROLE_MEMBER';
@@ -44,7 +44,6 @@ class User implements UserInterface
      */
     #[ORM\Column(type: 'json')]
     private array $roles = [];
-    
 
     #[Assert\NotBlank()]
     #[ORM\Column(length: 255, nullable: true)]
@@ -387,18 +386,16 @@ class User implements UserInterface
         }
 
         $sortedTransactions = $transactions->toArray();
-        usort($sortedTransactions, fn($a, $b): int => $b->getCreatedAt() <=> $a->getCreatedAt());
+        usort($sortedTransactions, fn ($a, $b): int => $b->getCreatedAt() <=> $a->getCreatedAt());
 
         return $sortedTransactions[0];
     }
 
     public function removeTransaction(Transaction $transaction): static
     {
-        if ($this->transactions->removeElement($transaction)) {
-            // set the owning side to null (unless already changed)
-            if ($transaction->getUser() === $this) {
-                $transaction->setUser(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->transactions->removeElement($transaction) && $transaction->getUser() === $this) {
+            $transaction->setUser(null);
         }
 
         return $this;
@@ -424,11 +421,9 @@ class User implements UserInterface
 
     public function removeCreatedElection(Election $election): static
     {
-        if ($this->createdElections->removeElement($election)) {
-            // set the owning side to null (unless already changed)
-            if ($election->getCreatedBy() === $this) {
-                $election->setCreatedBy(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->createdElections->removeElement($election) && $election->getCreatedBy() === $this) {
+            $election->setCreatedBy(null);
         }
 
         return $this;
@@ -454,11 +449,9 @@ class User implements UserInterface
 
     public function removeUpdatedElection(Election $election): static
     {
-        if ($this->updatedElections->removeElement($election)) {
-            // set the owning side to null (unless already changed)
-            if ($election->getUpdatedBy() === $this) {
-                $election->setUpdatedBy(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->updatedElections->removeElement($election) && $election->getUpdatedBy() === $this) {
+            $election->setUpdatedBy(null);
         }
 
         return $this;
@@ -484,11 +477,9 @@ class User implements UserInterface
 
     public function removeCandidacy(Candidacy $candidacy): static
     {
-        if ($this->candidacies->removeElement($candidacy)) {
-            // set the owning side to null (unless already changed)
-            if ($candidacy->getCandidate() === $this) {
-                $candidacy->setCandidate(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->candidacies->removeElement($candidacy) && $candidacy->getCandidate() === $this) {
+            $candidacy->setCandidate(null);
         }
 
         return $this;
@@ -514,11 +505,9 @@ class User implements UserInterface
 
     public function removeVote(Vote $vote): static
     {
-        if ($this->votes->removeElement($vote)) {
-            // set the owning side to null (unless already changed)
-            if ($vote->getVoter() === $this) {
-                $vote->setVoter(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->votes->removeElement($vote) && $vote->getVoter() === $this) {
+            $vote->setVoter(null);
         }
 
         return $this;
@@ -544,11 +533,9 @@ class User implements UserInterface
 
     public function removeCreatedNewsletter(Newsletter $newsletter): static
     {
-        if ($this->createdNewsletters->removeElement($newsletter)) {
-            // set the owning side to null (unless already changed)
-            if ($newsletter->getCreatedBy() === $this) {
-                $newsletter->setCreatedBy(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->createdNewsletters->removeElement($newsletter) && $newsletter->getCreatedBy() === $this) {
+            $newsletter->setCreatedBy(null);
         }
 
         return $this;
@@ -574,11 +561,9 @@ class User implements UserInterface
 
     public function removeUpdatedNewsletter(Newsletter $newsletter): static
     {
-        if ($this->updatedNewsletters->removeElement($newsletter)) {
-            // set the owning side to null (unless already changed)
-            if ($newsletter->getCreatedBy() === $this) {
-                $newsletter->setCreatedBy(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->updatedNewsletters->removeElement($newsletter) && $newsletter->getCreatedBy() === $this) {
+            $newsletter->setCreatedBy(null);
         }
 
         return $this;
@@ -604,11 +589,9 @@ class User implements UserInterface
 
     public function removeSentNewsletter(Newsletter $newsletter): static
     {
-        if ($this->sentNewsletters->removeElement($newsletter)) {
-            // set the owning side to null (unless already changed)
-            if ($newsletter->getSentBy() === $this) {
-                $newsletter->setSentBy(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->sentNewsletters->removeElement($newsletter) && $newsletter->getSentBy() === $this) {
+            $newsletter->setSentBy(null);
         }
 
         return $this;
@@ -658,11 +641,9 @@ class User implements UserInterface
 
     public function removeApprovedUser(self $approvedUser): static
     {
-        if ($this->approvedUsers->removeElement($approvedUser)) {
-            // set the owning side to null (unless already changed)
-            if ($approvedUser->getApprovedBy() === $this) {
-                $approvedUser->setApprovedBy(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->approvedUsers->removeElement($approvedUser) && $approvedUser->getApprovedBy() === $this) {
+            $approvedUser->setApprovedBy(null);
         }
 
         return $this;
@@ -736,11 +717,9 @@ class User implements UserInterface
 
     public function removeRejectedUser(self $rejectedUser): static
     {
-        if ($this->rejectedUsers->removeElement($rejectedUser)) {
-            // set the owning side to null (unless already changed)
-            if ($rejectedUser->getRejectedBy() === $this) {
-                $rejectedUser->setRejectedBy(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->rejectedUsers->removeElement($rejectedUser) && $rejectedUser->getRejectedBy() === $this) {
+            $rejectedUser->setRejectedBy(null);
         }
 
         return $this;
@@ -748,10 +727,10 @@ class User implements UserInterface
 
     public function getStatus(): MembershipStatus
     {
-        if ($this->getRejectedAt()) {
+        if ($this->getRejectedAt() instanceof \DateTimeImmutable) {
             return MembershipStatus::Rejected;
         }
-        if ($this->getApprovedAt()) {
+        if ($this->getApprovedAt() instanceof \DateTimeImmutable) {
             return MembershipStatus::Approved;
         }
 
@@ -801,11 +780,9 @@ class User implements UserInterface
 
     public function removeUserNewsletter(UserNewsletter $userNewsletter): static
     {
-        if ($this->userNewsletters->removeElement($userNewsletter)) {
-            // set the owning side to null (unless already changed)
-            if ($userNewsletter->getUser() === $this) {
-                $userNewsletter->setUser(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->userNewsletters->removeElement($userNewsletter) && $userNewsletter->getUser() === $this) {
+            $userNewsletter->setUser(null);
         }
 
         return $this;
@@ -831,11 +808,9 @@ class User implements UserInterface
 
     public function removeCreatedEvent(Event $event): static
     {
-        if ($this->createdEvents->removeElement($event)) {
-            // set the owning side to null (unless already changed)
-            if ($event->getCreatedBy() === $this) {
-                $event->setCreatedBy(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->createdEvents->removeElement($event) && $event->getCreatedBy() === $this) {
+            $event->setCreatedBy(null);
         }
 
         return $this;
@@ -861,11 +836,9 @@ class User implements UserInterface
 
     public function removeUpdatedEvent(Event $event): static
     {
-        if ($this->updatedEvents->removeElement($event)) {
-            // set the owning side to null (unless already changed)
-            if ($event->getUpdatedBy() === $this) {
-                $event->setUpdatedBy(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->updatedEvents->removeElement($event) && $event->getUpdatedBy() === $this) {
+            $event->setUpdatedBy(null);
         }
 
         return $this;

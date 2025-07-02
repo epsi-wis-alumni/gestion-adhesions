@@ -12,6 +12,7 @@ final readonly class SubscriptionManager
         private EntityManagerInterface $entityManager,
     ) {
     }
+
     public function createSubscription(Plan $plan, string $price): Subscription
     {
         $subscription = new Subscription();

@@ -15,11 +15,11 @@ class PlanPriceType extends AbstractType
         $builder
             ->add('price', NumberType::class, [
                 'attr' => [
-                    "type" => "number",
+                    'type' => 'number',
                     'step' => '0.01',
-                    "value" => $options["price"],
-                    "min" => $options["price"],
-                    "max" => 10000,
+                    'value' => $options['price'],
+                    'min' => $options['price'],
+                    'max' => 10000,
                 ],
                 'row_attr' => ['class' => 'mb-3'],
                 'label' => 'Prix',
@@ -29,7 +29,7 @@ class PlanPriceType extends AbstractType
             ])
             ->add('plan', HiddenType::class, [
                 'attr' => [
-                    "value" => $options["planId"],
+                    'value' => $options['planId'],
                 ],
                 'label' => null,
             ])

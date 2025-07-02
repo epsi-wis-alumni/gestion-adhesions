@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Transaction;
 use App\Entity\User;
 use App\Form\PlanPriceType;
 use App\Form\PlanRenewalType;
@@ -35,7 +36,7 @@ final class PlanController extends AbstractController
         foreach ($plans as $plan) {
             $form = $this->createForm(PlanPriceType::class, null, [
                 'price' => $plan->getPrice(),
-                'attr' => ['id' => 'form_plan_' . $plan->getId()],
+                'attr' => ['id' => 'form_plan_'.$plan->getId()],
                 'planId' => $plan->getId(),
             ]);
             $form->handleRequest($request);
@@ -51,16 +52,17 @@ final class PlanController extends AbstractController
             $form = $planWithForm['form'];
             if ($form->isSubmitted() && $form->isValid()) {
                 $price = $form->get('price')->getData();
-                $plan = $planRepository->findOneBy(["id" => $form->get('plan')->getData()]);
+                $plan = $planRepository->findOneBy(['id' => $form->get('plan')->getData()]);
                 $subscription = $subscriptionManager->createSubscription($plan, $price);
-                return $this->redirectToRoute('app_payment', ["id" => $subscription->getId()], Response::HTTP_SEE_OTHER);
+
+                return $this->redirectToRoute('app_payment', ['id' => $subscription->getId()], Response::HTTP_SEE_OTHER);
             }
         }
 
         $renewalForm = null;
-        if ($activeTransaction) {
+        if ($activeTransaction instanceof Transaction) {
             $renewalForm = $this->createForm(PlanRenewalType::class, null, [
-                "renewal" => $activeTransaction->isRenewal(),
+                'renewal' => $activeTransaction->isRenewal(),
             ]);
             $renewalForm->handleRequest($request);
 
@@ -68,7 +70,7 @@ final class PlanController extends AbstractController
                 $renewal = $renewalForm->get('renewal')->getData();
 
                 try {
-                    if ($renewal === "true") {
+                    if ('true' === $renewal) {
                         $paymentManager->enableRenewal($activeTransaction);
                         $this->addFlash('success', 'Renouvellement activé avec succès.');
                     } else {

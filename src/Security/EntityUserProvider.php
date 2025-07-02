@@ -23,7 +23,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 /**
  * User provider for the ORM that loads users given a mapping between resource
  * owner names and the properties of the entities.
- * 
+ *
  * @implements UserProviderInterface<User>
  */
 final class EntityUserProvider implements UserProviderInterface, OAuthAwareUserProviderInterface
@@ -43,9 +43,9 @@ final class EntityUserProvider implements UserProviderInterface, OAuthAwareUserP
      * @param array<string, string> $properties Mapping of resource owners to properties
      */
     public function __construct(
-        ManagerRegistry $registry, 
-        private readonly string $class, 
-        array $properties, 
+        ManagerRegistry $registry,
+        private readonly string $class,
+        array $properties,
         private readonly NotificationManager $notificationManager,
         ?string $managerName = null)
     {
@@ -57,7 +57,7 @@ final class EntityUserProvider implements UserProviderInterface, OAuthAwareUserP
     {
         $user = $this->findUser(['username' => $identifier]);
 
-        if (!$user) {
+        if (!$user instanceof UserInterface) {
             throw $this->createUserNotFoundException($identifier, sprintf("User '%s' not found.", $identifier));
         }
 
@@ -66,15 +66,14 @@ final class EntityUserProvider implements UserProviderInterface, OAuthAwareUserP
 
     /**
      * Symfony <5.4 BC layer.
-     *
-     *
      */
     public function loadUserByUsername(string $username): UserInterface
     {
         return $this->loadUserByIdentifier($username);
     }
 
-    public function loadUserByOAuthUserResponse(UserResponseInterface $response): ?UserInterface {
+    public function loadUserByOAuthUserResponse(UserResponseInterface $response): ?UserInterface
+    {
         $resourceOwnerName = $response->getResourceOwner()->getName();
 
         if (!isset($this->properties[$resourceOwnerName])) {
@@ -82,7 +81,7 @@ final class EntityUserProvider implements UserProviderInterface, OAuthAwareUserP
         }
 
         $username = method_exists($response, 'getUserIdentifier') ? $response->getUserIdentifier() : $response->getUserIdentifier();
-        if (null === $user = $this->findUser([$this->properties[$resourceOwnerName] => $username])) {
+        if (!($user = $this->findUser([$this->properties[$resourceOwnerName] => $username])) instanceof UserInterface) {
             $user = $this->registerUser($response, $resourceOwnerName);
 
             $this->notificationManager->sendNotification($user, [$user], true);
@@ -105,7 +104,7 @@ final class EntityUserProvider implements UserProviderInterface, OAuthAwareUserP
 
         $username = $user->getUserIdentifier();
 
-        if (null === $user = $this->findUser([$identifier => $userId])) {
+        if (!($user = $this->findUser([$identifier => $userId])) instanceof UserInterface) {
             throw $this->createUserNotFoundException($username, sprintf('User with ID "%d" could not be reloaded.', $userId));
         }
 
@@ -119,7 +118,7 @@ final class EntityUserProvider implements UserProviderInterface, OAuthAwareUserP
 
     private function findUser(array $criteria): ?UserInterface
     {
-        if (null === $this->repository) {
+        if (!$this->repository instanceof ObjectRepository) {
             $this->repository = $this->em->getRepository($this->class);
         }
 

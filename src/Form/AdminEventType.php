@@ -5,11 +5,11 @@ namespace App\Form;
 use App\Entity\Event;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class AdminEventType extends AbstractType
 {
@@ -47,7 +47,7 @@ class AdminEventType extends AbstractType
             ])
             ->add('image', FileType::class, [
                 'attr' => [
-                    'accept' => ".webp,.jpg,.jpeg,.png,.svg,.WEBP,.JPG,.JPEG,.PNG,.SVG"
+                    'accept' => '.webp,.jpg,.jpeg,.png,.svg,.WEBP,.JPG,.JPEG,.PNG,.SVG',
                 ],
                 'row_attr' => ['class' => 'mb-3'],
                 'label' => 'Image',
@@ -56,7 +56,7 @@ class AdminEventType extends AbstractType
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
-                    ])
+                    ]),
                 ],
             ])
             ->add('private', CheckboxType::class, [

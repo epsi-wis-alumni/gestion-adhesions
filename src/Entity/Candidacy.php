@@ -25,7 +25,7 @@ class Candidacy
     private ?User $candidate = null;
 
     #[ORM\ManyToOne(inversedBy: 'candidacies')]
-    #[ORM\JoinColumn(nullable: true, onDelete: "SET NULL")]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Election $election = null;
 
     /**
@@ -105,11 +105,9 @@ class Candidacy
 
     public function removeVote(Vote $vote): static
     {
-        if ($this->votes->removeElement($vote)) {
-            // set the owning side to null (unless already changed)
-            if ($vote->getCandidacy() === $this) {
-                $vote->setCandidacy(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->votes->removeElement($vote) && $vote->getCandidacy() === $this) {
+            $vote->setCandidacy(null);
         }
 
         return $this;

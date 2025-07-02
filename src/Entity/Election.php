@@ -143,11 +143,9 @@ class Election
 
     public function removeCandidacy(Candidacy $candidacy): static
     {
-        if ($this->candidacies->removeElement($candidacy)) {
-            // set the owning side to null (unless already changed)
-            if ($candidacy->getElection() === $this) {
-                $candidacy->setElection(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->candidacies->removeElement($candidacy) && $candidacy->getElection() === $this) {
+            $candidacy->setElection(null);
         }
 
         return $this;
@@ -173,11 +171,9 @@ class Election
 
     public function removeVote(Vote $vote): static
     {
-        if ($this->votes->removeElement($vote)) {
-            // set the owning side to null (unless already changed)
-            if ($vote->getElection() === $this) {
-                $vote->setElection(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->votes->removeElement($vote) && $vote->getElection() === $this) {
+            $vote->setElection(null);
         }
 
         return $this;

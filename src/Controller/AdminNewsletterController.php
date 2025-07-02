@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Newsletter;
 use App\Entity\User;
 use App\Form\AdminNewsletterType;
-use App\Repository\MailTemplateRepository;
 use App\Repository\NewsletterRepository;
 use App\Service\NewsletterManager;
 use Doctrine\ORM\EntityManagerInterface;

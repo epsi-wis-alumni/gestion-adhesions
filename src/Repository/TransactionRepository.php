@@ -20,7 +20,7 @@ class TransactionRepository extends ServiceEntityRepository
     use PaginableTrait;
     use OrderableTrait;
     use SearchableTrait;
-    
+
     public const SEARCH_FIELDS = [
         'amount',
         'refundAmount',
@@ -75,7 +75,7 @@ class TransactionRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findBySearchPaginated(int $page = 1, int $perPage = 50, string $sort = "", string $order = "", ?string $search = null): array
+    public function findBySearchPaginated(int $page = 1, int $perPage = 50, string $sort = '', string $order = '', ?string $search = null): array
     {
         if (!in_array($sort, ['id', 'createdAt', 'status', 'type', 'amount', 'u.id', 'u.firstname', 'u.lastname', 'renewal', 'refundAmount'])) {
             $sort = 'createdAt';
@@ -89,9 +89,9 @@ class TransactionRepository extends ServiceEntityRepository
             ->createQueryBuilder('t')
             ->leftJoin('t.user', 'u')
         ;
-    
+
         $this->paginate($qb, $page, $perPage);
-    
+
         if ($search) {
             $this->search($qb, $search, self::SEARCH_FIELDS);
         }
@@ -99,9 +99,9 @@ class TransactionRepository extends ServiceEntityRepository
         if (str_starts_with($sort, 'u.')) {
             $qb->addOrderBy($sort, $order);
         } else {
-            $qb->addOrderBy('t.' . $sort, $order);
+            $qb->addOrderBy('t.'.$sort, $order);
         }
-    
+
         return $qb->getQuery()->getResult();
     }
 

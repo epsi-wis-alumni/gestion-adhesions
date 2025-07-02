@@ -34,7 +34,7 @@ class HomeController extends AbstractController
 
         $elections = $manager->orderByStep($electionRepository->findLastest(3));
 
-        $activePlan = $currentUser ? $planRepository->findOneActivePlanByUser($currentUser) : null;
+        $activePlan = $currentUser instanceof User ? $planRepository->findOneActivePlanByUser($currentUser) : null;
         $plans = $planRepository->findAllSorted();
 
         return $this->render('home/index.html.twig', [
