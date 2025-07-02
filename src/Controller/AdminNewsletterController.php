@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
-#[Route('/admin/newsletter')]
 final class AdminNewsletterController extends AbstractController
 {
     #[Route(name: 'app_admin_newsletter_index', methods: ['GET'])]
@@ -25,7 +24,7 @@ final class AdminNewsletterController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_admin_newsletter_new', methods: ['GET', 'POST'])]
+    #[Route('/admin/newsletter/new', name: 'app_admin_newsletter_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
         EntityManagerInterface $entityManager,
@@ -50,7 +49,7 @@ final class AdminNewsletterController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/show', name: 'app_admin_newsletter_show', methods: ['GET'])]
+    #[Route('/admin/newsletter/{id}/show', name: 'app_admin_newsletter_show', methods: ['GET'])]
     public function show(Newsletter $newsletter): Response
     {
         return $this->render('admin/newsletter/show.html.twig', [
@@ -58,7 +57,7 @@ final class AdminNewsletterController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_admin_newsletter_edit', methods: ['GET', 'POST'])]
+    #[Route('/admin/newsletter/{id}/edit', name: 'app_admin_newsletter_edit', methods: ['GET', 'POST'])]
     public function edit(
         Request $request,
         Newsletter $newsletter,
@@ -82,7 +81,7 @@ final class AdminNewsletterController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/delete', name: 'app_admin_newsletter_delete', methods: ['POST'])]
+    #[Route('/admin/newsletter/{id}/delete', name: 'app_admin_newsletter_delete', methods: ['POST'])]
     public function delete(Request $request, Newsletter $newsletter, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$newsletter->getId(), $request->getPayload()->getString('_token'))) {
@@ -93,7 +92,7 @@ final class AdminNewsletterController extends AbstractController
         return $this->redirectToRoute('app_admin_newsletter_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}/send', name: 'app_admin_newsletter_send', methods: ['GET'])]
+    #[Route('/admin/newsletter/{id}/send', name: 'app_admin_newsletter_send', methods: ['GET'])]
     public function send(
         NewsletterManager $newsletterManager,
         Newsletter $newsletter,
@@ -103,7 +102,7 @@ final class AdminNewsletterController extends AbstractController
         return $this->redirectToRoute('app_admin_newsletter_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/documentation', name: 'app_admin_newsletter_documentation', methods: ['GET'])]
+    #[Route('/admin/newsletter/documentation', name: 'app_admin_newsletter_documentation', methods: ['GET'])]
     public function documentation(
         #[CurrentUser()] User $currentUser,
     ): Response {

@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/admin/transaction')]
 final class AdminTransactionController extends AbstractController
 {
     #[Route(name: 'app_admin_transaction_index')]

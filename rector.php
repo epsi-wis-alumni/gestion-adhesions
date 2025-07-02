@@ -17,4 +17,5 @@ return RectorConfig::configure()
         typeDeclarations: true,
         deadCode: true,
         codeQuality: true,
+        symfonyCodeQuality: true,
     );

@@ -19,21 +19,18 @@ use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
-#[Route('/order')]
 class PaymentController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly UrlGeneratorInterface $urlGenerator,
         private readonly ContainerBagInterface $params,
     ) {
         Stripe::setApiKey($this->params->get('stripe_api_private_key'));
     }
 
-    #[Route('/subscription/{id}', name: 'app_payment', methods: ['GET'])]
+    #[Route('/order/subscription/{id}', name: 'app_payment', methods: ['GET'])]
     public function create(
         Subscription $subscription,
         PaymentManager $paymentManager,
@@ -68,7 +65,7 @@ class PaymentController extends AbstractController
         return $this->redirect($session->url, Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/success/{id}', name: 'app_payment_success')]
+    #[Route('/order/success/{id}', name: 'app_payment_success')]
     public function stripeSuccess(
         Transaction $transaction,
         InvoiceManager $invoiceManager,
@@ -86,7 +83,7 @@ class PaymentController extends AbstractController
         }
     }
 
-    #[Route('/error/{id}', name: 'app_payment_error')]
+    #[Route('/order/error/{id}', name: 'app_payment_error')]
     public function stripeError(
         Transaction $transaction,
     ): Response {
@@ -105,7 +102,7 @@ class PaymentController extends AbstractController
         ]);
     }
 
-    #[Route('/webhook', name: 'app_payment_webhook', methods: ['POST'])]
+    #[Route('/order/webhook', name: 'app_payment_webhook', methods: ['POST'])]
     public function stripeWebhook(
         Request $request,
         InvoiceManager $invoiceManager,
@@ -174,7 +171,7 @@ class PaymentController extends AbstractController
         return new Response('Webhook handled', Response::HTTP_OK);
     }
 
-    #[Route('/donation/{id}', name: 'app_payment_donation', methods: ['GET'])]
+    #[Route('/order/donation/{id}', name: 'app_payment_donation', methods: ['GET'])]
     public function stripeDonation(
         Donation $donation,
         #[CurrentUser()] User $currentUser,

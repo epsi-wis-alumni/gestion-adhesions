@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
-#[Route('/admin/election')]
 final class AdminElectionController extends AbstractController
 {
     #[Route(name: 'app_admin_election_index', methods: ['GET'])]
@@ -26,7 +25,7 @@ final class AdminElectionController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_admin_election_new', methods: ['GET', 'POST'])]
+    #[Route('/admin/election/new', name: 'app_admin_election_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
         EntityManagerInterface $entityManager,
@@ -56,7 +55,7 @@ final class AdminElectionController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/show', name: 'app_admin_election_show', methods: ['GET'])]
+    #[Route('/admin/election/{id}/show', name: 'app_admin_election_show', methods: ['GET'])]
     public function show(Election $election): Response
     {
         return $this->render('admin/election/show.html.twig', [
@@ -64,7 +63,7 @@ final class AdminElectionController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_admin_election_edit', methods: ['GET', 'POST'])]
+    #[Route('/admin/election/{id}/edit', name: 'app_admin_election_edit', methods: ['GET', 'POST'])]
     public function edit(
         Request $request,
         Election $election,
@@ -88,7 +87,7 @@ final class AdminElectionController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/delete', name: 'app_admin_election_delete', methods: ['POST'])]
+    #[Route('/admin/election/{id}/delete', name: 'app_admin_election_delete', methods: ['POST'])]
     public function delete(Request $request, Election $election, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$election->getId(), $request->getPayload()->getString('_token'))) {

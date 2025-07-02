@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/event')]
 final class EventController extends AbstractController
 {
     #[Route(name: 'app_event_index', methods: ['GET'])]
@@ -30,7 +29,7 @@ final class EventController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_event_show', methods: ['GET'])]
+    #[Route('/event/{id}', name: 'app_event_show', methods: ['GET'])]
     #[IsGranted(EventVoter::VIEW, 'event')]
     public function show(
         Event $event,

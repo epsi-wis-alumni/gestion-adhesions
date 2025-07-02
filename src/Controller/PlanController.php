@@ -16,10 +16,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
-#[Route('/plan')]
 final class PlanController extends AbstractController
 {
-    #[Route(name: 'app_plan', methods: ['GET'])]
+    #[Route('/plan', name: 'app_plan', methods: ['GET'])]
     public function plan(
         #[CurrentUser] User $currentUser,
         PlanRepository $planRepository,

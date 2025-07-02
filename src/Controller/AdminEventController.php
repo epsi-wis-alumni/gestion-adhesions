@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
-#[Route('/admin/event')]
 final class AdminEventController extends AbstractController
 {
     #[Route(name: 'app_admin_event_index', methods: ['GET'])]
@@ -26,7 +25,7 @@ final class AdminEventController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_admin_event_new', methods: ['GET', 'POST'])]
+    #[Route('/admin/event/new', name: 'app_admin_event_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
         EventManager $eventManager,
@@ -60,7 +59,7 @@ final class AdminEventController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_admin_event_show', methods: ['GET'])]
+    #[Route('/admin/event/{id}', name: 'app_admin_event_show', methods: ['GET'])]
     public function show(Event $event): Response
     {
         return $this->render('admin/event/show.html.twig', [
@@ -68,7 +67,7 @@ final class AdminEventController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_admin_event_edit', methods: ['GET', 'POST'])]
+    #[Route('/admin/event/{id}/edit', name: 'app_admin_event_edit', methods: ['GET', 'POST'])]
     public function edit(
         Request $request,
         Event $event,
@@ -96,7 +95,7 @@ final class AdminEventController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_admin_event_delete', methods: ['POST'])]
+    #[Route('/admin/event/{id}', name: 'app_admin_event_delete', methods: ['POST'])]
     public function delete(Request $request, Event $event, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$event->getId(), $request->getPayload()->getString('_token'))) {

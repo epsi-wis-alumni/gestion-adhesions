@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/admin/plan')]
 final class AdminPlanController extends AbstractController
 {
     #[Route(name: 'app_admin_plan_index', methods: ['GET'])]
@@ -23,7 +22,7 @@ final class AdminPlanController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_admin_plan_new', methods: ['GET', 'POST'])]
+    #[Route('/admin/plan/new', name: 'app_admin_plan_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
         EntityManagerInterface $entityManager,
@@ -50,7 +49,7 @@ final class AdminPlanController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_admin_plan_show', methods: ['GET'])]
+    #[Route('/admin/plan/{id}', name: 'app_admin_plan_show', methods: ['GET'])]
     public function show(Plan $plan): Response
     {
         return $this->render('admin/plan/show.html.twig', [
@@ -58,7 +57,7 @@ final class AdminPlanController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_admin_plan_edit', methods: ['GET', 'POST'])]
+    #[Route('/admin/plan/{id}/edit', name: 'app_admin_plan_edit', methods: ['GET', 'POST'])]
     public function edit(
         Plan $plan,
         Request $request,
@@ -94,7 +93,7 @@ final class AdminPlanController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_admin_plan_delete', methods: ['POST'])]
+    #[Route('/admin/plan/{id}', name: 'app_admin_plan_delete', methods: ['POST'])]
     public function delete(Request $request, Plan $plan, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$plan->getId(), $request->getPayload()->getString('_token'))) {

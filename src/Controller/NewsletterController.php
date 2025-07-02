@@ -9,10 +9,9 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/newsletter')]
 class NewsletterController extends AbstractController
 {
-    #[Route('/{id}', name: 'app_newsletter_show', methods: ['GET'])]
+    #[Route('/newsletter/{id}', name: 'app_newsletter_show', methods: ['GET'])]
     public function index(
         UserNewsletter $userNewsletter,
         ContainerBagInterface $params,

@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
-#[Route('/admin/user')]
 class AdminUserController extends AbstractController
 {
     #[Route(name: 'app_admin_user_index', methods: ['GET'])]
@@ -46,7 +45,7 @@ class AdminUserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_admin_user_edit', methods: ['POST', 'GET'])]
+    #[Route('/admin/user/{id}/edit', name: 'app_admin_user_edit', methods: ['POST', 'GET'])]
     public function edit(Request $request, EntityManagerInterface $entityManager, User $user, UserManager $userManager): Response
     {
         $form = $this->createForm(AdminUserType::class, $user, [
@@ -68,7 +67,7 @@ class AdminUserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/delete', name: 'app_admin_user_delete', methods: ['POST'])]
+    #[Route('/admin/user/{id}/delete', name: 'app_admin_user_delete', methods: ['POST'])]
     public function delete(Request $request, #[CurrentUser()] User $currentUser, EntityManagerInterface $entityManager, User $user, UserManager $userManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
@@ -79,7 +78,7 @@ class AdminUserController extends AbstractController
         return $this->redirectToRoute('app_admin_user_index');
     }
 
-    #[Route('/{id}/approve', name: 'app_admin_user_approve', methods: ['GET'])]
+    #[Route('/admin/user/{id}/approve', name: 'app_admin_user_approve', methods: ['GET'])]
     public function approve(
         EntityManagerInterface $entityManager,
         #[CurrentUser()] User $currentUser,
@@ -96,7 +95,7 @@ class AdminUserController extends AbstractController
         return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}/reject', name: 'app_admin_user_reject', methods: ['GET'])]
+    #[Route('/admin/user/{id}/reject', name: 'app_admin_user_reject', methods: ['GET'])]
     public function reject(EntityManagerInterface $entityManager, #[CurrentUser()] User $currentUser, User $user, UserManager $userManager): Response
     {
         $userManager->reject(who: $user, by: $currentUser);
@@ -105,7 +104,7 @@ class AdminUserController extends AbstractController
         return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}/justification-File', name: 'app_admin_user_justification_File', methods: ['GET'])]
+    #[Route('/admin/user/{id}/justification-File', name: 'app_admin_user_justification_File', methods: ['GET'])]
     public function showInvoice(
         User $user,
     ): Response|RedirectResponse {
@@ -124,7 +123,7 @@ class AdminUserController extends AbstractController
 
         return new Response(
             $contents,
-            200,
+            Response::HTTP_OK,
             [
                 'Content-Type' => 'application/pdf',
                 'Content-Disposition' => 'inline; filename='.pathinfo((string) $filePath)['filename'].'.pdf',

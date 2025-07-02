@@ -26,7 +26,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
-#[Route('/user')]
 final class UserController extends AbstractController
 {
     public function __construct(
@@ -35,7 +34,7 @@ final class UserController extends AbstractController
         Stripe::setApiKey($this->params->get('stripe_api_private_key'));
     }
 
-    #[Route('/profile', name: 'app_user_profile', methods: ['POST', 'GET'])]
+    #[Route('/user/profile', name: 'app_user_profile', methods: ['POST', 'GET'])]
     public function index(
         Request $request,
         EntityManagerInterface $entityManager,
@@ -56,7 +55,7 @@ final class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/delete/{id}', name: 'app_user_delete', methods: ['POST'])]
+    #[Route('/user/delete/{id}', name: 'app_user_delete', methods: ['POST'])]
     public function delete(
         Request $request,
         EntityManagerInterface $entityManager,
@@ -70,7 +69,7 @@ final class UserController extends AbstractController
         return $this->redirectToRoute('app_user_index');
     }
 
-    #[Route('/settings', name: 'app_user_settings', methods: ['POST', 'GET'])]
+    #[Route('/user/settings', name: 'app_user_settings', methods: ['POST', 'GET'])]
     public function settings(
         Request $request,
         EntityManagerInterface $entityManager,
@@ -93,7 +92,7 @@ final class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/plan', name: 'app_user_plan', methods: ['GET', 'POST'])]
+    #[Route('/user/plan', name: 'app_user_plan', methods: ['GET', 'POST'])]
     public function show(
         #[CurrentUser] User $currentUser,
         PlanRepository $planRepository,
@@ -169,7 +168,7 @@ final class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/invoice', name: 'app_user_invoice', methods: ['GET'])]
+    #[Route('/user/invoice', name: 'app_user_invoice', methods: ['GET'])]
     public function invoice(
         #[CurrentUser] User $currentUser,
         TransactionRepository $transactionRepository,
@@ -197,7 +196,7 @@ final class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/invoice/{id}', name: 'app_user_invoice_show', methods: ['GET'])]
+    #[Route('/user/invoice/{id}', name: 'app_user_invoice_show', methods: ['GET'])]
     public function showInvoice(
         Transaction $transaction,
     ): Response|RedirectResponse {
@@ -217,7 +216,7 @@ final class UserController extends AbstractController
 
             return new Response(
                 $contents,
-                200,
+                Response::HTTP_OK,
                 [
                     'Content-Type' => 'application/pdf',
                     'Content-Disposition' => 'inline; filename="invoice_'.$transaction->getInvoice()->getInvoiceId().'.pdf"',

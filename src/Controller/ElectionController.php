@@ -21,7 +21,6 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/election')]
 class ElectionController extends AbstractController
 {
     #[Route(name: 'app_election_index', methods: ['GET'])]
@@ -39,7 +38,7 @@ class ElectionController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/show', name: 'app_election_show', methods: ['GET'])]
+    #[Route('/election/{id}/show', name: 'app_election_show', methods: ['GET'])]
     public function show(
         Election $election,
         CandidacyRepository $candidacyRepository,
@@ -65,7 +64,7 @@ class ElectionController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/candidate', name: 'app_election_candidate', methods: ['GET', 'POST'])]
+    #[Route('/election/{id}/candidate', name: 'app_election_candidate', methods: ['GET', 'POST'])]
     public function candidacy(
         Request $request,
         EntityManagerInterface $entityManager,
@@ -99,7 +98,7 @@ class ElectionController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/vote/{candidacyId}', name: 'app_election_vote', methods: ['GET'])]
+    #[Route('/election/{id}/vote/{candidacyId}', name: 'app_election_vote', methods: ['GET'])]
     public function vote(
         EntityManagerInterface $entityManager,
         #[CurrentUser()] User $currentUser,
@@ -118,7 +117,7 @@ class ElectionController extends AbstractController
         return $this->redirectToRoute('app_election_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}/candidacy/delete', name: 'app_election_candidacy_delete', methods: ['POST'])]
+    #[Route('/election/{id}/candidacy/delete', name: 'app_election_candidacy_delete', methods: ['POST'])]
     #[IsGranted(CandidacyVoter::DELETE, 'candidacy')]
     public function delete(Request $request, Candidacy $candidacy, EntityManagerInterface $entityManager): Response
     {

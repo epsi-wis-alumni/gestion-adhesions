@@ -10,10 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/donation')]
 final class DonationController extends AbstractController
 {
-    #[Route('/new', name: 'app_donnation', methods: ['GET', 'POST'])]
+    #[Route('/donation/new', name: 'app_donnation', methods: ['GET', 'POST'])]
     public function index(
         Request $request,
         EntityManagerInterface $entityManager,
