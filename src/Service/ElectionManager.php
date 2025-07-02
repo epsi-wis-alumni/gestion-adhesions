@@ -58,7 +58,7 @@ final class ElectionManager
 
         return array_filter(
             $results,
-            fn (Candidacy $candidacy) => $candidacy->getVotes()->count() === $maxVoteCount
+            fn (Candidacy $candidacy): bool => $candidacy->getVotes()->count() === $maxVoteCount
         );
     }
 

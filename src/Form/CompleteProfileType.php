@@ -49,8 +49,8 @@ class CompleteProfileType extends AbstractType
                 'label' => 'Qui êtes-vous ?',
                 'row_attr' => ['class' => 'mb-3'],
                 'label_attr' => ['class' => 'radio-inline'],
-                'choice_filter' => fn (MemberType $type) => MemberType::Undefined !== $type,
-                'choice_label' => fn (MemberType $type) => match ($type) {
+                'choice_filter' => fn (MemberType $type): bool => MemberType::Undefined !== $type,
+                'choice_label' => fn (MemberType $type): string => match ($type) {
                     MemberType::Student => 'Étudiant',
                     MemberType::Alumni => 'Alumni',
                     MemberType::Partner => 'Partenaire',

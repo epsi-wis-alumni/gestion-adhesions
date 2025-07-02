@@ -51,7 +51,7 @@ class AdminNewsletterType extends AbstractType
                 'choice_label' => 'label',
                 'choice_loader' => new CallbackChoiceLoader(static function () use ($mailTemplateRepository): array {
                     $templates = $mailTemplateRepository->findAll();
-                    usort($templates, fn (MailTemplate $a, MailTemplate $b) => $a->getLabel() <=> $b->getLabel());
+                    usort($templates, fn (MailTemplate $a, MailTemplate $b): int => $a->getLabel() <=> $b->getLabel());
 
                     return $templates;
                 }),

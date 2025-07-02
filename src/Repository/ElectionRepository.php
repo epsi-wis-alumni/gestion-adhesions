@@ -82,7 +82,7 @@ class ElectionRepository extends ServiceEntityRepository
     /**
      * @return Election[] latest elections
      */
-    public function findLastest($quantity): array
+    public function findLastest(?int $quantity): array
     {
         return $this->createQueryBuilder('e')
             ->orderBy('e.createdAt', 'DESC')

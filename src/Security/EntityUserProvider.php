@@ -23,6 +23,8 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 /**
  * User provider for the ORM that loads users given a mapping between resource
  * owner names and the properties of the entities.
+ * 
+ * @implements UserProviderInterface<User>
  */
 final class EntityUserProvider implements UserProviderInterface, OAuthAwareUserProviderInterface
 {
@@ -69,7 +71,7 @@ final class EntityUserProvider implements UserProviderInterface, OAuthAwareUserP
      *
      * @return UserInterface
      */
-    public function loadUserByUsername($username)
+    public function loadUserByUsername(string $username): UserInterface
     {
         return $this->loadUserByIdentifier($username);
     }

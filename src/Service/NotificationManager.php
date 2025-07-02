@@ -56,8 +56,8 @@ final readonly class NotificationManager
             User::class => ['user' => $entity],
         };
         $bcc = match ($entity::class) {
-            Election::class => array_filter($users, fn (User $user) => $user->getSettings()->isElectionNotificationsAllowed()),
-            Event::class => array_filter($users, fn (User $user) => $user->getSettings()->isEventNotificationsAllowed()),
+            Election::class => array_filter($users, fn (User $user): ?bool => $user->getSettings()->isElectionNotificationsAllowed()),
+            Event::class => array_filter($users, fn (User $user): ?bool => $user->getSettings()->isEventNotificationsAllowed()),
             Invoice::class => $users,
             User::class => $users,
         };
@@ -69,7 +69,7 @@ final readonly class NotificationManager
         };
         $sender = $this->params->get('mailer_sender');
 
-        $bcc = array_map(fn (User $user) => $user->getEmail(), $bcc);
+        $bcc = array_map(fn (User $user): ?string => $user->getEmail(), $bcc);
 
         if (count($bcc)) {
             $email = (new TemplatedEmail())
@@ -92,7 +92,7 @@ final readonly class NotificationManager
         return array_map(fn ($user) => $user->getEmail(), $users);
     }
 
-    public function sendInvoiceLink(string $invoice_url, User $user) {
+    public function sendInvoiceLink(string $invoice_url, User $user): void {
         $sender = $this->params->get('mailer_sender');
 
         if ($user) {

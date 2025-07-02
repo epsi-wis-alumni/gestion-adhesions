@@ -36,7 +36,7 @@ final class AdminSettingsController extends AbstractController
     }
 
     #[Route('/mail-template/new', name: 'app_admin_settings_mailtemplate_new', methods: ['GET', 'POST'])]
-    public function newMailTemplate(Request $request, EntityManagerInterface $entityManager, MailTemplateManager $mailTemplateManager)
+    public function newMailTemplate(Request $request, EntityManagerInterface $entityManager, MailTemplateManager $mailTemplateManager): Response
     {
         $mailTemplate = new MailTemplate();
         $form = $this->createForm(MailTemplateType::class, $mailTemplate);
@@ -59,7 +59,7 @@ final class AdminSettingsController extends AbstractController
     }
 
     #[Route('/mail-template/{id}/edit', name: 'app_admin_settings_mailtemplate_edit', methods: ['GET', 'POST'])]
-    public function editMailTemplate(MailTemplate $mailTemplate, Request $request, EntityManagerInterface $entityManager)
+    public function editMailTemplate(MailTemplate $mailTemplate, Request $request, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(MailTemplateType::class, $mailTemplate);
 
@@ -79,7 +79,7 @@ final class AdminSettingsController extends AbstractController
     }
 
     #[Route('/mail-template/{id}/delete', name: 'app_admin_settings_mailtemplate_delete', methods: ['POST'])]
-    public function deleteMailTemplate(MailTemplate $mailTemplate, Request $request, EntityManagerInterface $entityManager)
+    public function deleteMailTemplate(MailTemplate $mailTemplate, Request $request, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$mailTemplate->getId(), $request->getPayload()->getString('_token'))) {
             $mailTemplate->setDeleted(true);

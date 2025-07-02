@@ -40,7 +40,7 @@ class ElectionResultsCommand extends Command
         if (!$electionId) {
             $elections = $this->electionRepository->findDone();
             $choices = array_map(
-                fn (Election $election) => implode(' ', ['#'.$election->getId(), $election->getVoteEndAt()->format('Y-m-d'), $election->getJobTitle()]),
+                fn (Election $election): string => implode(' ', ['#'.$election->getId(), $election->getVoteEndAt()->format('Y-m-d'), $election->getJobTitle()]),
                 $elections
             );
             $selected = $io->choice('Which election do you wish to display results?', $choices);
@@ -54,7 +54,7 @@ class ElectionResultsCommand extends Command
         $io->title('Results by candiate');
         $io->table(
             ['ID', 'Name', 'Votes', '%'],
-            $election->getCandidacies()->map(fn (Candidacy $candidacy) => [
+            $election->getCandidacies()->map(fn (Candidacy $candidacy): array => [
                 $candidacy->getId(),
                 $candidacy->getCandidate()->getDisplayName(),
                 $candidacy->getVotes()->count(),
@@ -68,7 +68,7 @@ class ElectionResultsCommand extends Command
         $io->title('Winner\'s votes');
         $io->table(
             ['ID', 'Name', 'Voted At'],
-            $candidacy->getVotes()->map(fn (Vote $vote) => [
+            $candidacy->getVotes()->map(fn (Vote $vote): array => [
                 $vote->getVoter()->getId(),
                 $vote->getVoter()->getDisplayName(),
                 $vote->getVotedAt()->format(\DateTimeImmutable::ATOM),

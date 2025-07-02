@@ -36,7 +36,7 @@ class UserSetAdminCommand extends Command
         
         $email = $io->ask(
             "What is the email of the user you to make admin?",
-            validator: fn (string $answer) => empty($answer) ? 
+            validator: fn (string $answer): string => empty($answer) ? 
                 throw new \RuntimeException('The email cannot be empty.')
                 : $answer
         );

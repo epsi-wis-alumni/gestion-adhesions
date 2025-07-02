@@ -34,7 +34,7 @@ class MailTemplateManager
 
         return array_diff(
             array_map(fn (SplFileInfo $file) => $file->getBasename(), $templateFileNames),
-            array_map(fn (MailTemplate $mailTemplate) => $mailTemplate->getFileName(), $mailTemplates),
+            array_map(fn (MailTemplate $mailTemplate): ?string => $mailTemplate->getFileName(), $mailTemplates),
         );
     }
 }
