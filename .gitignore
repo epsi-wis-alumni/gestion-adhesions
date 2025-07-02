@@ -33,3 +33,7 @@
 ###> sensiolabs/minify-bundle ###
 /var/minify/
 ###< sensiolabs/minify-bundle ###
+
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###
