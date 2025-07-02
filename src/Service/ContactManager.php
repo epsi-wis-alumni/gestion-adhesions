@@ -6,7 +6,7 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\Mailer\MailerInterface;
 
-final class ContactManager
+final readonly class ContactManager
 {
     public function __construct(
         private MailerInterface $mailerInterface,

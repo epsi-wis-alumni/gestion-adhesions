@@ -75,7 +75,7 @@ final class PlanController extends AbstractController
                         $paymentManager->disableRenewal($activeTransaction);
                         $this->addFlash('danger', 'Renouvellement désactivé avec succès.');
                     }
-                } catch (\Throwable $th) {
+                } catch (\Throwable) {
                     $this->addFlash('warning', 'Une erreur est survenue. Si le problème persiste, veuillez contacter le support.');
                 }
 

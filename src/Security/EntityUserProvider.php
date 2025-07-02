@@ -26,8 +26,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  */
 final class EntityUserProvider implements UserProviderInterface, OAuthAwareUserProviderInterface
 {
-    private ObjectManager $em;
-    private string $class;
+    private readonly ObjectManager $em;
     private ?ObjectRepository $repository = null;
 
     /**
@@ -43,13 +42,12 @@ final class EntityUserProvider implements UserProviderInterface, OAuthAwareUserP
      */
     public function __construct(
         ManagerRegistry $registry, 
-        string $class, 
+        private readonly string $class, 
         array $properties, 
-        private NotificationManager $notificationManager,
+        private readonly NotificationManager $notificationManager,
         ?string $managerName = null)
     {
         $this->em = $registry->getManager($managerName);
-        $this->class = $class;
         $this->properties = array_merge($this->properties, $properties);
     }
 

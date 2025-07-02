@@ -86,7 +86,7 @@ class LoginController extends AbstractController
 
                 if ($justificationFile) {
                     $uploadsDir = $params->get('justification_file_path');
-                    $filename = strtolower($type->name) . '_' . $currentUser->getLastname() . '_' . uniqid() . '.' . $justificationFile->guessExtension();
+                    $filename = strtolower((string) $type->name) . '_' . $currentUser->getLastname() . '_' . uniqid() . '.' . $justificationFile->guessExtension();
 
                     $justificationFile->move($uploadsDir, $filename);
 

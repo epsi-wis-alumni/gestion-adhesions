@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-final class EventManager
+final readonly class EventManager
 {
     public function __construct(
         private ContainerBagInterface $params,
@@ -44,7 +44,7 @@ final class EventManager
         $event_image_base_path = $this->params->get('event_image_base_path');
 
         if ($uploadedFile) {
-            $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+            $originalFilename = pathinfo((string) $uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
             $safeFilename = $this->slugger->slug($originalFilename);
             $newFilename = $safeFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
 
@@ -54,7 +54,7 @@ final class EventManager
 
             try {
                 $uploadedFile->move($event_image_base_path, $newFilename);
-            } catch (FileException $e) {
+            } catch (FileException) {
             }
 
             $event->setImageFileName($newFilename);

@@ -113,7 +113,7 @@ class AdminUserController extends AbstractController
         $filePath = $user->getJustificationFilePath();
 
         $finder = new Finder();
-        $finder->files()->in(dirname($filePath))->name(basename($filePath));
+        $finder->files()->in(dirname((string) $filePath))->name(basename((string) $filePath));
 
         if (!$finder->hasResults()) {
             throw $this->createNotFoundException('Le document demandée est introuvable.');
@@ -128,7 +128,7 @@ class AdminUserController extends AbstractController
             200,
             [
                 'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'inline; filename='.pathinfo($filePath)['filename'].'.pdf',
+                'Content-Disposition' => 'inline; filename='.pathinfo((string) $filePath)['filename'].'.pdf',
             ]
         );
     }

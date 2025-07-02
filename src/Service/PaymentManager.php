@@ -15,7 +15,7 @@ use Stripe\Stripe;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final class PaymentManager
+final readonly class PaymentManager
 {
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
@@ -122,7 +122,7 @@ final class PaymentManager
             );
             $transaction->setRenewal(false);
             $this->entityManager->flush();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             throw new \Exception();
         }
     }
@@ -139,7 +139,7 @@ final class PaymentManager
             );
             $transaction->setRenewal(true);
             $this->entityManager->flush();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             throw new \Exception();
         }
     }

@@ -15,7 +15,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\File;
 
-final class NotificationManager
+final readonly class NotificationManager
 {
     public function __construct(
         private EntityManagerInterface $entityManager,

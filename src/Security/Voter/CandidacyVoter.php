@@ -14,7 +14,7 @@ final class CandidacyVoter extends Voter
     public const DELETE = 'CANDIDACY_DELETE';
 
     public function __construct(
-        private AccessDecisionManagerInterface $accessDecisionManager,
+        private readonly AccessDecisionManagerInterface $accessDecisionManager,
     ) {
     }
 

@@ -6,7 +6,7 @@ use App\Entity\Plan;
 use App\Entity\Subscription;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class SubscriptionManager
+final readonly class SubscriptionManager
 {
     public function __construct(
         private EntityManagerInterface $entityManager,

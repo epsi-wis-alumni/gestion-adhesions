@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Stripe\Checkout\Session;
 use Stripe\Invoice;
 
-final class InvoiceManager
+final readonly class InvoiceManager
 {
     public function __construct(
         private EntityManagerInterface $entityManager,

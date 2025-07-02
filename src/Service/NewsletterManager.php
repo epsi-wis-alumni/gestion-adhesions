@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Mailer\MailerInterface;
 
-final class NewsletterManager
+final readonly class NewsletterManager
 {
     public function __construct(
         private EntityManagerInterface $entityManager,

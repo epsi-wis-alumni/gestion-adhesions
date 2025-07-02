@@ -26,9 +26,9 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 class PaymentController extends AbstractController
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private UrlGeneratorInterface $urlGenerator,
-        private ContainerBagInterface $params,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly ContainerBagInterface $params,
     ) {
         Stripe::setApiKey($this->params->get('stripe_api_private_key'));
     }
@@ -54,7 +54,7 @@ class PaymentController extends AbstractController
             $transaction->setStatus(TransactionStatus::Pending);
 
             $this->entityManager->flush();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $this->addFlash('error', 'Erreur lors de la création de la session Stripe.');
             
             return $this->redirectToRoute('app_payment_error', ['id' => $transaction->getId()]);
@@ -125,9 +125,9 @@ class PaymentController extends AbstractController
                 $signature,
                 $endpointSecret
             );
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             return new Response('Invalid payload', Response::HTTP_BAD_REQUEST);
-        } catch (\Stripe\Exception\SignatureVerificationException $e) {
+        } catch (\Stripe\Exception\SignatureVerificationException) {
             return new Response('Invalid signature', Response::HTTP_BAD_REQUEST);
         }
 
@@ -193,7 +193,7 @@ class PaymentController extends AbstractController
             $transaction->setStatus(TransactionStatus::Pending);
 
             $this->entityManager->flush();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $this->addFlash('error', 'Erreur lors de la création de la session Stripe.');
             
             return $this->redirectToRoute('app_payment_error', ['id' => $transaction->getId()]);

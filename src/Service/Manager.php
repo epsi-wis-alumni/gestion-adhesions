@@ -5,7 +5,7 @@ namespace App\Service;
 use App\Entity\Election;
 use App\Entity\Event;
 
-final class Manager
+final readonly class Manager
 {
     public function __construct(
         private ElectionManager $electionManager,

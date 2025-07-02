@@ -15,7 +15,7 @@ class PlanRepository extends ServiceEntityRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        private UserRepository $userRepository,
+        private readonly UserRepository $userRepository,
     ) {
         parent::__construct($registry, Plan::class);
     }

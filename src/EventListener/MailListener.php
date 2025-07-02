@@ -8,7 +8,7 @@ use Symfony\Component\Mailer\Event\FailedMessageEvent;
 use Symfony\Component\Mailer\Event\MessageEvent;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
-final class MailListener
+final readonly class MailListener
 {
     public function __construct(private LoggerInterface $logger)
     {
@@ -25,15 +25,9 @@ final class MailListener
             $bcc = $message->getBcc();
 
             $addresses = array_merge(
-                array_map(function ($address) {
-                    return $address->getAddress();
-                }, $to),
-                array_map(function ($address) {
-                    return $address->getAddress();
-                }, $cc),
-                array_map(function ($address) {
-                    return $address->getAddress();
-                }, $bcc)
+                array_map(fn($address) => $address->getAddress(), $to),
+                array_map(fn($address) => $address->getAddress(), $cc),
+                array_map(fn($address) => $address->getAddress(), $bcc)
             );
 
             $this->logger->info('Un e-mail a été envoyé à : '.implode(', ', $addresses));

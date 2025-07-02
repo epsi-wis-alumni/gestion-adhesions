@@ -13,8 +13,8 @@ trait SearchableTrait
             $paramName = str_replace('.', '_', $field) . '_param';
 
             // Gestion des champs imbriqués (relation.user.firstname)
-            if (strpos($field, '.') !== false) {
-                [$relationAlias, $relationField] = explode('.', $field);
+            if (str_contains((string) $field, '.')) {
+                [$relationAlias, $relationField] = explode('.', (string) $field);
                 $qb->orWhere("$relationAlias.$relationField LIKE :$paramName")
                     ->setParameter($paramName, "%$needle%");
             } else {

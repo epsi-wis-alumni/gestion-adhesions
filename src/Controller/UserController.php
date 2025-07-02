@@ -31,7 +31,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 final class UserController extends AbstractController
 {
     public function __construct(
-        private ContainerBagInterface $params,
+        private readonly ContainerBagInterface $params,
     ) {
         Stripe::setApiKey($this->params->get('stripe_api_private_key'));
     }
@@ -150,7 +150,7 @@ final class UserController extends AbstractController
                         $paymentManager->disableRenewal($activeTransaction);
                         $this->addFlash('danger', 'Renouvellement désactivé avec succès.');
                     }
-                } catch (\Throwable $th) {
+                } catch (\Throwable) {
                     $this->addFlash('warning', 'Une erreur est survenue. Si le problème persiste, veuillez contacter le support.');
                 }
     
@@ -205,7 +205,7 @@ final class UserController extends AbstractController
             $filePath = $transaction->getInvoice()->getFilePath();
     
             $finder = new Finder();
-            $finder->files()->in(dirname($filePath))->name(basename($filePath));
+            $finder->files()->in(dirname((string) $filePath))->name(basename((string) $filePath));
     
             if (!$finder->hasResults()) {
                 throw $this->createNotFoundException('La facture demandée est introuvable.');
