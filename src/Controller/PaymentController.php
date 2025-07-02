@@ -42,7 +42,7 @@ class PaymentController extends AbstractController
     ): Response {
         $activeTransaction = $transactionRepository->findOneActivePlanTransactionByUser($currentUser);
         
-        $transaction = $paymentManager->createTransation($currentUser, $subscription);
+        $transaction = $paymentManager->createTransaction($currentUser, $subscription);
 
         $this->entityManager->persist($transaction);
         $this->entityManager->flush();
@@ -181,7 +181,7 @@ class PaymentController extends AbstractController
         PaymentManager $paymentManager,
     ): Response
     {
-        $transaction = $paymentManager->createTransation($currentUser, $donation);
+        $transaction = $paymentManager->createTransaction($currentUser, $donation);
 
         $this->entityManager->persist($transaction);
         $this->entityManager->flush();

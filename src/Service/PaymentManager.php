@@ -24,7 +24,7 @@ final class PaymentManager
     ) {
         Stripe::setApiKey($this->params->get('stripe_api_private_key'));
     }
-    public function createTransation(User $currentUser, Subscription|Donation $entity): Transaction
+    public function createTransaction(User $currentUser, Subscription|Donation $entity): Transaction
     {
         $amount = match ($entity::class) {
             Subscription::class => $entity->getPrice() && $entity->getPrice() > $entity->getPlan()->getPrice() ?
