@@ -48,7 +48,7 @@ final class NewsletterManager
 
         $userNewsletters = $this->userNewsletterRepository->findByNewsletter($newsletter);
 
-        foreach ($userNewsletters as $key => $userNewsletter) {
+        foreach ($userNewsletters as $userNewsletter) {
             $this->sendMail($userNewsletter);
         }
 

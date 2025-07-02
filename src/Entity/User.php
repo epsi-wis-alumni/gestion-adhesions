@@ -309,7 +309,7 @@ class User implements UserInterface
             $names = array_reverse($names);
         }
 
-        return join(' ', $names);
+        return implode(' ', $names);
     }
 
     public function getCompany(): ?string
