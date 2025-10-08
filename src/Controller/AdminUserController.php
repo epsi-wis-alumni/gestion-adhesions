@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class AdminUserController extends AbstractController
 {
-    #[Route(name: 'app_admin_user_index', methods: ['GET'])]
+    #[Route('/admin/user', name: 'app_admin_user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository, Request $request): Response
     {
         $perPage = $request->get('perPage', 50);

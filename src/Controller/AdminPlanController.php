@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class AdminPlanController extends AbstractController
 {
-    #[Route(name: 'app_admin_plan_index', methods: ['GET'])]
+    #[Route('/admin/plan', name: 'app_admin_plan_index', methods: ['GET'])]
     public function index(PlanRepository $planRepository): Response
     {
         return $this->render('admin/plan/index.html.twig', [

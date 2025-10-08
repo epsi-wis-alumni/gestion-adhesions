@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class AdminSettingsController extends AbstractController
 {
-    #[Route('/admin/settings/', name: 'app_admin_settings')]
+    #[Route('/admin/settings', name: 'app_admin_settings')]
     public function index(MailTemplateRepository $mailTemplateRepository, MailTemplateManager $mailTemplateManager): Response
     {
         return $this->render('admin/settings/index.html.twig', [

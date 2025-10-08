@@ -17,7 +17,7 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 final class AdminEventController extends AbstractController
 {
-    #[Route(name: 'app_admin_event_index', methods: ['GET'])]
+    #[Route('/admin/event', name: 'app_admin_event_index', methods: ['GET'])]
     public function index(EventRepository $eventRepository): Response
     {
         return $this->render('admin/event/index.html.twig', [

@@ -17,7 +17,7 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 final class AdminElectionController extends AbstractController
 {
-    #[Route(name: 'app_admin_election_index', methods: ['GET'])]
+    #[Route('/admin/election', name: 'app_admin_election_index', methods: ['GET'])]
     public function index(ElectionRepository $electionRepository): Response
     {
         return $this->render('admin/election/index.html.twig', [

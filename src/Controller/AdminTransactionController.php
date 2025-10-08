@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class AdminTransactionController extends AbstractController
 {
-    #[Route(name: 'app_admin_transaction_index')]
+    #[Route('/admin/transaction', name: 'app_admin_transaction_index')]
     public function index(
         Request $request,
         TransactionRepository $transactionRepository,

@@ -16,7 +16,7 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 final class AdminNewsletterController extends AbstractController
 {
-    #[Route(name: 'app_admin_newsletter_index', methods: ['GET'])]
+    #[Route('/admin/newsletter', name: 'app_admin_newsletter_index', methods: ['GET'])]
     public function index(NewsletterRepository $newsletterRepository): Response
     {
         return $this->render('admin/newsletter/index.html.twig', [

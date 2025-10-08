@@ -23,7 +23,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class ElectionController extends AbstractController
 {
-    #[Route(name: 'app_election_index', methods: ['GET'])]
+    #[Route('/election', name: 'app_election_index', methods: ['GET'])]
     public function index(ElectionRepository $electionRepository): Response
     {
         $pendingElections = $electionRepository->findPending();

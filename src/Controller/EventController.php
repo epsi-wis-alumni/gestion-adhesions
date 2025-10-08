@@ -13,7 +13,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class EventController extends AbstractController
 {
-    #[Route(name: 'app_event_index', methods: ['GET'])]
+    #[Route('/event', name: 'app_event_index', methods: ['GET'])]
     public function index(
         EventRepository $eventRepository,
     ): Response {
